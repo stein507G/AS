@@ -29,8 +29,8 @@
   31              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150529 (release) [ARM/embedded-4_9-br
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\jiryu\AppData\Local\Temp\ccC3Ye1x.s:16     .text.startup.main:00000000 $t
-C:\Users\jiryu\AppData\Local\Temp\ccC3Ye1x.s:21     .text.startup.main:00000000 main
+C:\Users\stein\AppData\Local\Temp\ccNxFtLn.s:16     .text.startup.main:00000000 $t
+C:\Users\stein\AppData\Local\Temp\ccNxFtLn.s:21     .text.startup.main:00000000 main
 
 UNDEFINED SYMBOLS
 init_system

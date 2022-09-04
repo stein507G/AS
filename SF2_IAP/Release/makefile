@@ -44,7 +44,7 @@ all: SF2_IAP.elf secondary-outputs
 SF2_IAP.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross ARM C Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -O2 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -T "J:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_IAP\src\production-execute-in-place-Remap.ld" -Xlinker --gc-sections -L"J:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release" -Xlinker -gc-sections -Wl,-Map,"SF2_IAP.map" -o "SF2_IAP.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -O2 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -T "J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_IAP\src\production-execute-in-place-Remap.ld" -Xlinker --gc-sections -L"J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release" -Xlinker -gc-sections -Wl,-Map,"SF2_IAP.map" -o "SF2_IAP.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

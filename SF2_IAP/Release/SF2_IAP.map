@@ -1,15 +1,15 @@
 Archive member included because of file (symbol)
 
-D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
                               ./src/system.o (g_mss_uart0)
-D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
                               ./src/procotol.o (NVM_write)
-D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
-                              D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o (SystemInit)
+J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                              J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o (SystemInit)
 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
                               ./src/util.o (__ctype_ptr__)
 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-errno.o)
-                              D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o (__errno)
+                              J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o (__errno)
 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-exit.o)
                               c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/crt0.o (exit)
 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
@@ -46,8 +46,8 @@ Common symbol       size              file
 
 g_tStorageInfo      0x100             ./src/storage.o
 errno               0x4               c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-reent.o)
-g_mss_uart1         0x40              D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
-g_mss_uart0         0x40              D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+g_mss_uart1         0x40              J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+g_mss_uart0         0x40              J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
 
 Discarded input sections
 
@@ -167,121 +167,121 @@ Discarded input sections
                 0x00000000       0x1c ./src/util.o
  .text.HexStringToShort
                 0x00000000       0x1c ./src/util.o
- .text          0x00000000        0x0 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .data          0x00000000        0x0 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .bss           0x00000000        0x0 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._close   0x00000000        0x8 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._execve  0x00000000       0x10 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._exit    0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._fork    0x00000000       0x10 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._fstat   0x00000000        0xc D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._getpid  0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._isatty  0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._kill    0x00000000       0x10 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._link    0x00000000       0x10 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._lseek   0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._open    0x00000000        0x8 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._read    0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text          0x00000000        0x0 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .data          0x00000000        0x0 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .bss           0x00000000        0x0 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._close   0x00000000        0x8 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._execve  0x00000000       0x10 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._exit    0x00000000        0x4 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._fork    0x00000000       0x10 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._fstat   0x00000000        0xc J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._getpid  0x00000000        0x4 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._isatty  0x00000000        0x4 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._kill    0x00000000       0x10 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._link    0x00000000       0x10 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._lseek   0x00000000        0x4 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._open    0x00000000        0x8 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._read    0x00000000        0x4 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
  .text._write_r
-                0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._stat    0x00000000        0xc D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._times   0x00000000        0x8 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._unlink  0x00000000       0x10 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text._wait    0x00000000       0x10 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .data.environ  0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .bss.__env     0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .text          0x00000000        0x0 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
- .data          0x00000000        0x0 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
- .bss           0x00000000        0x0 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
- .text          0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
- .data          0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
- .bss           0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000        0x4 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._stat    0x00000000        0xc J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._times   0x00000000        0x8 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._unlink  0x00000000       0x10 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._wait    0x00000000       0x10 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .data.environ  0x00000000        0x4 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .bss.__env     0x00000000        0x4 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text          0x00000000        0x0 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
+ .data          0x00000000        0x0 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
+ .bss           0x00000000        0x0 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
+ .text          0x00000000        0x0 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .data          0x00000000        0x0 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .bss           0x00000000        0x0 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_lin_init
-                0x00000000       0x50 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x50 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_irda_init
-                0x00000000       0x7c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x7c J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_smartcard_init
-                0x00000000       0x5c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x5c J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_polled_tx_string
-                0x00000000       0x50 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x50 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_irq_tx
-                0x00000000       0x70 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x70 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_tx_complete
-                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x30 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_enable_irq
-                0x00000000       0x6c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x6c J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_disable_irq
-                0x00000000       0x68 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x68 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_loopback
-                0x00000000       0x6c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x6c J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_rxstatus_handler
-                0x00000000       0x60 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x60 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_tx_handler
-                0x00000000       0x64 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x64 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_modemstatus_handler
-                0x00000000       0x60 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x60 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_fill_tx_fifo
-                0x00000000       0x58 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x58 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_get_rx_status
-                0x00000000       0x2c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x2c J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_get_modem_status
-                0x00000000       0x20 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x20 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_get_tx_status
-                0x00000000       0x2c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x2c J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_break
-                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x30 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_clear_break
-                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x30 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_pidpei_handler
-                0x00000000       0x60 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x60 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_linbreak_handler
-                0x00000000       0x60 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x60 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_linsync_handler
-                0x00000000       0x60 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x60 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_nack_handler
-                0x00000000       0x60 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x60 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_rx_timeout_handler
-                0x00000000       0x5c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x5c J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_enable_half_duplex
-                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x30 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_disable_half_duplex
-                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x30 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_rx_endian
-                0x00000000       0x34 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x34 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_tx_endian
-                0x00000000       0x38 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x38 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_filter_length
-                0x00000000       0x24 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x24 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_enable_afm
-                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x30 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_disable_afm
-                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x30 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_enable_afclear
-                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x30 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_disable_afclear
-                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x30 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_enable_rx_timeout
-                0x00000000       0x40 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x40 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_disable_rx_timeout
-                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x30 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_enable_tx_time_guard
-                0x00000000       0x40 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x40 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_disable_tx_time_guard
-                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x30 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_address
-                0x00000000       0x20 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x20 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_ready_mode
-                0x00000000       0x38 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000000       0x38 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_usart_mode
-                0x00000000       0x38 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
- .text          0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
- .data          0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
- .bss           0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x00000000       0x38 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text          0x00000000        0x0 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .data          0x00000000        0x0 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .bss           0x00000000        0x0 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
  .text.NVM_read_page_write_count
-                0x00000000       0xc0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
- .text          0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
- .data          0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
- .bss           0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00000000       0xc0 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .text          0x00000000        0x0 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+ .data          0x00000000        0x0 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+ .bss           0x00000000        0x0 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
  .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
  .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
  .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
@@ -372,9 +372,9 @@ LOAD ./src/storage.o
 LOAD ./src/system.o
 LOAD ./src/timer.o
 LOAD ./src/util.o
-LOAD D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
-LOAD D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
-LOAD D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a
+LOAD J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+LOAD J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
+LOAD J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a
 START GROUP
 LOAD c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m\libgcc.a
 LOAD c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a
@@ -402,7 +402,7 @@ END GROUP
                 0x00000000                __vector_table_start = .
                 0x00000000                __vector_table_vma_base_address = .
  *(.isr_vector)
- .isr_vector    0x00000000      0x2e4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
+ .isr_vector    0x00000000      0x2e4 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
                 0x00000000                g_pfnVectors
                 0x00000188                Reset_Handler
                 0x00000202                SVC_Handler
@@ -634,61 +634,61 @@ END GROUP
  .text.delay_ms
                 0x00000d48       0x1c ./src/util.o
                 0x00000d48                delay_ms
- .text._sbrk    0x00000d64       0x2c D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._sbrk    0x00000d64       0x2c J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
                 0x00000d64                _sbrk
  .text.global_init
-                0x00000d90      0x260 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000d90      0x260 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_isr.part.0
-                0x00000ff0       0xf4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000ff0       0xf4 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.default_tx_handler
-                0x000010e4       0x84 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x000010e4       0x84 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .text.MSS_UART_init
-                0x00001168       0x5c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00001168       0x5c J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
                 0x00001168                MSS_UART_init
  .text.MSS_UART_polled_tx
-                0x000011c4       0x60 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x000011c4       0x60 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
                 0x000011c4                MSS_UART_polled_tx
  .text.MSS_UART_get_rx
-                0x00001224       0x5c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00001224       0x5c J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
                 0x00001224                MSS_UART_get_rx
  .text.MSS_UART_set_rx_handler
-                0x00001280       0x70 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00001280       0x70 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
                 0x00001280                MSS_UART_set_rx_handler
  .text.UART0_IRQHandler
-                0x000012f0       0x1c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x000012f0       0x1c J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
                 0x000012f0                UART0_IRQHandler
  .text.UART1_IRQHandler
-                0x0000130c       0x1c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x0000130c       0x1c J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
                 0x0000130c                UART1_IRQHandler
  .text.request_nvm_access
-                0x00001328       0x58 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x00001328       0x58 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
  .text.release_ctrl_access
-                0x00001380       0x38 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x00001380       0x38 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
  .text.fill_wd_buffer
-                0x000013b8       0xbc D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x000013b8       0xbc J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
  .text.check_protection_reserved_nvm
-                0x00001474      0x2d4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x00001474      0x2d4 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
  .text.get_error_code
-                0x00001748       0x28 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x00001748       0x28 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
  .text.get_ctrl_access
-                0x00001770       0x48 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x00001770       0x48 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
  .text.NVM_write
-                0x000017b8      0x228 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x000017b8      0x228 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
                 0x000017b8                NVM_write
  .text.NVM_unlock
-                0x000019e0      0x12c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x000019e0      0x12c J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
                 0x000019e0                NVM_unlock
  .text.MSS_NVM_read
-                0x00001b0c       0x3c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x00001b0c       0x3c J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
                 0x00001b0c                MSS_NVM_read
  .text.NVM_verify
-                0x00001b48       0xd8 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x00001b48       0xd8 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
                 0x00001b48                NVM_verify
  .text.SystemInit
-                0x00001c20       0x40 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00001c20       0x40 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
                 0x00001c20                SystemInit
  .text.SystemCoreClockUpdate
-                0x00001c60       0xf8 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00001c60       0xf8 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
                 0x00001c60                SystemCoreClockUpdate
  .text.__libc_init_array
                 0x00001d58       0x50 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-init.o)
@@ -743,10 +743,10 @@ END GROUP
  *(SORT(.dtors.*))
  *crtend.o(.dtors)
  *(.rodata .rodata.* .gnu.linkonce.r.*)
- .rodata.g_nvm  0x000027b4        0x8 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .rodata.g_nvm  0x000027b4        0x8 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
  .rodata.g_nvm32
-                0x000027bc        0x8 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
- .rodata        0x000027c4        0x8 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x000027bc        0x8 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .rodata        0x000027c4        0x8 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
  .rodata.str1.4
                 0x000027cc        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
                                   0x2 (size before relaxing)
@@ -814,25 +814,25 @@ END GROUP
  .data.baseAddress.8433
                 0x000027fc        0x4 ./src/procotol.o
  .data.g_FrequencyFIC64
-                0x00002800        0x4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00002800        0x4 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
                 0x00002800                g_FrequencyFIC64
  .data.g_FrequencyPCLK2
-                0x00002804        0x4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00002804        0x4 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
                 0x00002804                g_FrequencyPCLK2
  .data.g_FrequencyFIC0
-                0x00002808        0x4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00002808        0x4 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
                 0x00002808                g_FrequencyFIC0
  .data.g_FrequencyFIC1
-                0x0000280c        0x4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x0000280c        0x4 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
                 0x0000280c                g_FrequencyFIC1
  .data.g_FrequencyPCLK0
-                0x00002810        0x4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00002810        0x4 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
                 0x00002810                g_FrequencyPCLK0
  .data.g_FrequencyPCLK1
-                0x00002814        0x4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00002814        0x4 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
                 0x00002814                g_FrequencyPCLK1
  .data.SystemCoreClock
-                0x00002818        0x4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00002818        0x4 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
                 0x00002818                SystemCoreClock
  *fill*         0x0000281c        0x4 
  .data.impure_data
@@ -869,11 +869,11 @@ END GROUP
  .bss.Time1mS   0x0000308c        0x4 ./src/timer.o
                 0x0000308c                Time1mS
  .bss.heap_end.5162
-                0x00003090        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+                0x00003090        0x4 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
  .bss.g_do_not_lock_page
-                0x00003094        0x1 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x00003094        0x1 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
  .bss.g_envm_ctrl_locks
-                0x00003095        0x1 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x00003095        0x1 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
  *fill*         0x00003096        0x2 
  .bss.__malloc_max_total_mem
                 0x00003098        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o)
@@ -890,7 +890,7 @@ END GROUP
  *(COMMON)
  COMMON         0x000030cc      0x100 ./src/storage.o
                 0x000030cc                g_tStorageInfo
- COMMON         0x000031cc       0x80 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ COMMON         0x000031cc       0x80 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
                 0x000031cc                g_mss_uart1
                 0x0000320c                g_mss_uart0
  COMMON         0x0000324c        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-reent.o)
@@ -976,10 +976,10 @@ END GROUP
  .comment       0x00000000       0x71 ./src/system.o
  .comment       0x00000000       0x71 ./src/timer.o
  .comment       0x00000000       0x71 ./src/util.o
- .comment       0x00000000       0x71 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
- .comment       0x00000000       0x71 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
- .comment       0x00000000       0x71 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
- .comment       0x00000000       0x71 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+ .comment       0x00000000       0x71 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .comment       0x00000000       0x71 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .comment       0x00000000       0x71 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .comment       0x00000000       0x71 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
 
 .debug_str
  *(.debug_str)
@@ -1031,15 +1031,15 @@ END GROUP
  .ARM.attributes
                 0x000001ca       0x33 ./src/util.o
  .ARM.attributes
-                0x000001fd       0x33 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+                0x000001fd       0x33 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
  .ARM.attributes
-                0x00000230       0x21 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
+                0x00000230       0x21 J:/Ryu2022/ChrozenLC/AS/SoC/Ch_AS_SF2_FW/ChAS-git-S/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
  .ARM.attributes
-                0x00000251       0x33 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00000251       0x33 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
  .ARM.attributes
-                0x00000284       0x33 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x00000284       0x33 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
  .ARM.attributes
-                0x000002b7       0x33 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x000002b7       0x33 J:\Ryu2022\ChrozenLC\AS\SoC\Ch_AS_SF2_FW\ChAS-git-S\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
  .ARM.attributes
                 0x000002ea       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
  .ARM.attributes
