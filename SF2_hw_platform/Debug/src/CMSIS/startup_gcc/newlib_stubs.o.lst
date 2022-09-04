@@ -1,0 +1,907 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"newlib_stubs.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text._close,"ax",%progbits
+  19              		.align	1
+  20              		.global	_close
+  21              		.thumb
+  22              		.thumb_func
+  24              	_close:
+  25              	.LFB63:
+  26              		.file 1 "../src/CMSIS/startup_gcc/newlib_stubs.c"
+   1:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*******************************************************************************
+   2:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * (c) Copyright 2009-2013 Microsemi SoC Products Group.  All rights reserved.
+   3:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * 
+   4:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Stubs for Newlib system calls.
+   5:../src/CMSIS/startup_gcc/newlib_stubs.c ****  *  
+   6:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * SVN $Revision: 5269 $
+   7:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * SVN $Date: 2013-03-21 20:53:38 +0000 (Thu, 21 Mar 2013) $
+   8:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+   9:../src/CMSIS/startup_gcc/newlib_stubs.c **** #include <stdlib.h>
+  10:../src/CMSIS/startup_gcc/newlib_stubs.c **** #include <sys/unistd.h>
+  11:../src/CMSIS/startup_gcc/newlib_stubs.c **** #include <sys/stat.h>
+  12:../src/CMSIS/startup_gcc/newlib_stubs.c **** #include <sys/times.h>
+  13:../src/CMSIS/startup_gcc/newlib_stubs.c **** #include <errno.h>
+  14:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+  15:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+  16:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Redirection of standard output to a SmartFusion2 MSS UART.
+  17:../src/CMSIS/startup_gcc/newlib_stubs.c ****  *------------------------------------------------------------------------------
+  18:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * A default implementation for the redirection of the output of printf() to a
+  19:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * UART is provided at the bottom of this file. This redirection is enabled by
+  20:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * adding the symbol/define MICROSEMI_STDIO_THRU_MMUART0 or
+  21:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * MICROSEMI_STDIO_THRU_MMUART0 to your project settings and specifying the baud
+  22:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * rate using the MICROSEMI_STDIO_BAUD_RATE define.
+  23:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+  24:../src/CMSIS/startup_gcc/newlib_stubs.c **** #ifdef MICROSEMI_STDIO_THRU_MMUART0
+  25:../src/CMSIS/startup_gcc/newlib_stubs.c **** #ifndef MICROSEMI_STDIO_THRU_UART
+  26:../src/CMSIS/startup_gcc/newlib_stubs.c **** #define MICROSEMI_STDIO_THRU_UART
+  27:../src/CMSIS/startup_gcc/newlib_stubs.c **** #endif
+  28:../src/CMSIS/startup_gcc/newlib_stubs.c **** #endif  /* MICROSEMI_STDIO_THRU_MMUART0 */
+  29:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+  30:../src/CMSIS/startup_gcc/newlib_stubs.c **** #ifdef MICROSEMI_STDIO_THRU_MMUART1
+  31:../src/CMSIS/startup_gcc/newlib_stubs.c **** #ifndef MICROSEMI_STDIO_THRU_UART
+  32:../src/CMSIS/startup_gcc/newlib_stubs.c **** #define MICROSEMI_STDIO_THRU_UART
+  33:../src/CMSIS/startup_gcc/newlib_stubs.c **** #endif
+  34:../src/CMSIS/startup_gcc/newlib_stubs.c **** #endif  /* MICROSEMI_STDIO_THRU_MMUART1 */
+  35:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+  36:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*
+  37:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Select which MMUART will be used for stdio and what baud rate will be used.
+  38:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Default to 57600 baud if no baud rate is specified using the
+  39:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * MICROSEMI_STDIO_BAUD_RATE #define.
+  40:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */ 
+  41:../src/CMSIS/startup_gcc/newlib_stubs.c **** #ifdef MICROSEMI_STDIO_THRU_UART
+  42:../src/CMSIS/startup_gcc/newlib_stubs.c **** #include "../../drivers/mss_uart/mss_uart.h"
+  43:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+  44:../src/CMSIS/startup_gcc/newlib_stubs.c **** #ifndef MICROSEMI_STDIO_BAUD_RATE
+  45:../src/CMSIS/startup_gcc/newlib_stubs.c **** #define MICROSEMI_STDIO_BAUD_RATE  MSS_UART_460800_BAUD
+  46:../src/CMSIS/startup_gcc/newlib_stubs.c **** #endif
+  47:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+  48:../src/CMSIS/startup_gcc/newlib_stubs.c **** #ifdef MICROSEMI_STDIO_THRU_MMUART0
+  49:../src/CMSIS/startup_gcc/newlib_stubs.c **** static mss_uart_instance_t * const gp_my_uart = &g_mss_uart0;
+  50:../src/CMSIS/startup_gcc/newlib_stubs.c **** #else
+  51:../src/CMSIS/startup_gcc/newlib_stubs.c **** static mss_uart_instance_t * const gp_my_uart = &g_mss_uart1;
+  52:../src/CMSIS/startup_gcc/newlib_stubs.c **** #endif
+  53:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+  54:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*------------------------------------------------------------------------------
+  55:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Global flag used to indicate if the UART driver needs to be initialized.
+  56:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+  57:../src/CMSIS/startup_gcc/newlib_stubs.c **** static int g_stdio_uart_init_done = 0;
+  58:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+  59:../src/CMSIS/startup_gcc/newlib_stubs.c **** #endif /* MICROSEMI_STDIO_THRU_UART */
+  60:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+  61:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+  62:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Environment variables.
+  63:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * A pointer to a list of environment variables and their values. For a minimal
+  64:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * environment, this empty list is adequate:
+  65:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+  66:../src/CMSIS/startup_gcc/newlib_stubs.c **** char *__env[1] = { 0 };
+  67:../src/CMSIS/startup_gcc/newlib_stubs.c **** char **environ = __env;
+  68:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+  69:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+  70:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Close a file.
+  71:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+  72:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _close(int file)
+  73:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+  27              		.loc 1 73 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32              	.LVL0:
+  74:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return -1;
+  75:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+  33              		.loc 1 75 0
+  34 0000 4FF0FF30 		mov	r0, #-1
+  35              	.LVL1:
+  36 0004 7047     		bx	lr
+  37              		.cfi_endproc
+  38              	.LFE63:
+  40              		.section	.text._execve,"ax",%progbits
+  41              		.align	1
+  42              		.global	_execve
+  43              		.thumb
+  44              		.thumb_func
+  46              	_execve:
+  47              	.LFB64:
+  76:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+  77:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+  78:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Transfer control to a new process.
+  79:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+  80:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _execve(char *name, char **argv, char **env)
+  81:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+  48              		.loc 1 81 0
+  49              		.cfi_startproc
+  50              		@ args = 0, pretend = 0, frame = 0
+  51              		@ frame_needed = 0, uses_anonymous_args = 0
+  52              	.LVL2:
+  53 0000 08B5     		push	{r3, lr}
+  54              		.cfi_def_cfa_offset 8
+  55              		.cfi_offset 3, -8
+  56              		.cfi_offset 14, -4
+  82:../src/CMSIS/startup_gcc/newlib_stubs.c ****     errno = ENOMEM;
+  57              		.loc 1 82 0
+  58 0002 FFF7FEFF 		bl	__errno
+  59              	.LVL3:
+  60 0006 0C23     		movs	r3, #12
+  61 0008 0360     		str	r3, [r0]
+  83:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return -1;
+  84:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+  62              		.loc 1 84 0
+  63 000a 4FF0FF30 		mov	r0, #-1
+  64 000e 08BD     		pop	{r3, pc}
+  65              		.cfi_endproc
+  66              	.LFE64:
+  68              		.section	.text._exit,"ax",%progbits
+  69              		.align	1
+  70              		.global	_exit
+  71              		.thumb
+  72              		.thumb_func
+  74              	_exit:
+  75              	.LFB65:
+  85:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+  86:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+  87:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Exit a program without cleaning up files.
+  88:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+  89:../src/CMSIS/startup_gcc/newlib_stubs.c **** void _exit( int code )
+  90:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+  76              		.loc 1 90 0
+  77              		.cfi_startproc
+  78              		@ Volatile: function does not return.
+  79              		@ args = 0, pretend = 0, frame = 0
+  80              		@ frame_needed = 0, uses_anonymous_args = 0
+  81              		@ link register save eliminated.
+  82              	.LVL4:
+  83              	.L4:
+  91:../src/CMSIS/startup_gcc/newlib_stubs.c ****     /* Should we force a system reset? */
+  92:../src/CMSIS/startup_gcc/newlib_stubs.c ****     while( 1 )
+  93:../src/CMSIS/startup_gcc/newlib_stubs.c ****     {
+  94:../src/CMSIS/startup_gcc/newlib_stubs.c ****         ;
+  95:../src/CMSIS/startup_gcc/newlib_stubs.c ****     }
+  84              		.loc 1 95 0 discriminator 1
+  85 0000 FEE7     		b	.L4
+  86              		.cfi_endproc
+  87              	.LFE65:
+  89              		.section	.text._fork,"ax",%progbits
+  90              		.align	1
+  91              		.global	_fork
+  92              		.thumb
+  93              		.thumb_func
+  95              	_fork:
+  96              	.LFB66:
+  96:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+  97:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+  98:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+  99:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Create a new process.
+ 100:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+ 101:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _fork(void)
+ 102:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+  97              		.loc 1 102 0
+  98              		.cfi_startproc
+  99              		@ args = 0, pretend = 0, frame = 0
+ 100              		@ frame_needed = 0, uses_anonymous_args = 0
+ 101 0000 08B5     		push	{r3, lr}
+ 102              		.cfi_def_cfa_offset 8
+ 103              		.cfi_offset 3, -8
+ 104              		.cfi_offset 14, -4
+ 103:../src/CMSIS/startup_gcc/newlib_stubs.c ****     errno = EAGAIN;
+ 105              		.loc 1 103 0
+ 106 0002 FFF7FEFF 		bl	__errno
+ 107              	.LVL5:
+ 108 0006 0B23     		movs	r3, #11
+ 109 0008 0360     		str	r3, [r0]
+ 104:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return -1;
+ 105:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+ 110              		.loc 1 105 0
+ 111 000a 4FF0FF30 		mov	r0, #-1
+ 112 000e 08BD     		pop	{r3, pc}
+ 113              		.cfi_endproc
+ 114              	.LFE66:
+ 116              		.section	.text._fstat,"ax",%progbits
+ 117              		.align	1
+ 118              		.global	_fstat
+ 119              		.thumb
+ 120              		.thumb_func
+ 122              	_fstat:
+ 123              	.LFB67:
+ 106:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+ 107:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+ 108:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Status of an open file.
+ 109:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+ 110:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _fstat(int file, struct stat *st)
+ 111:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+ 124              		.loc 1 111 0
+ 125              		.cfi_startproc
+ 126              		@ args = 0, pretend = 0, frame = 0
+ 127              		@ frame_needed = 0, uses_anonymous_args = 0
+ 128              		@ link register save eliminated.
+ 129              	.LVL6:
+ 112:../src/CMSIS/startup_gcc/newlib_stubs.c ****     st->st_mode = S_IFCHR;
+ 130              		.loc 1 112 0
+ 131 0000 4FF40053 		mov	r3, #8192
+ 132 0004 4B60     		str	r3, [r1, #4]
+ 113:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return 0;
+ 114:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+ 133              		.loc 1 114 0
+ 134 0006 0020     		movs	r0, #0
+ 135              	.LVL7:
+ 136 0008 7047     		bx	lr
+ 137              		.cfi_endproc
+ 138              	.LFE67:
+ 140              		.section	.text._getpid,"ax",%progbits
+ 141              		.align	1
+ 142              		.global	_getpid
+ 143              		.thumb
+ 144              		.thumb_func
+ 146              	_getpid:
+ 147              	.LFB68:
+ 115:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+ 116:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+ 117:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Process-ID
+ 118:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+ 119:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _getpid(void)
+ 120:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+ 148              		.loc 1 120 0
+ 149              		.cfi_startproc
+ 150              		@ args = 0, pretend = 0, frame = 0
+ 151              		@ frame_needed = 0, uses_anonymous_args = 0
+ 152              		@ link register save eliminated.
+ 121:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return 1;
+ 122:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+ 153              		.loc 1 122 0
+ 154 0000 0120     		movs	r0, #1
+ 155 0002 7047     		bx	lr
+ 156              		.cfi_endproc
+ 157              	.LFE68:
+ 159              		.section	.text._isatty,"ax",%progbits
+ 160              		.align	1
+ 161              		.global	_isatty
+ 162              		.thumb
+ 163              		.thumb_func
+ 165              	_isatty:
+ 166              	.LFB69:
+ 123:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+ 124:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+ 125:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Query whether output stream is a terminal.
+ 126:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+ 127:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _isatty(int file)
+ 128:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+ 167              		.loc 1 128 0
+ 168              		.cfi_startproc
+ 169              		@ args = 0, pretend = 0, frame = 0
+ 170              		@ frame_needed = 0, uses_anonymous_args = 0
+ 171              		@ link register save eliminated.
+ 172              	.LVL8:
+ 129:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return 1;
+ 130:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+ 173              		.loc 1 130 0
+ 174 0000 0120     		movs	r0, #1
+ 175              	.LVL9:
+ 176 0002 7047     		bx	lr
+ 177              		.cfi_endproc
+ 178              	.LFE69:
+ 180              		.section	.text._kill,"ax",%progbits
+ 181              		.align	1
+ 182              		.global	_kill
+ 183              		.thumb
+ 184              		.thumb_func
+ 186              	_kill:
+ 187              	.LFB70:
+ 131:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+ 132:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+ 133:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Send a signal.
+ 134:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+ 135:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _kill(int pid, int sig)
+ 136:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+ 188              		.loc 1 136 0
+ 189              		.cfi_startproc
+ 190              		@ args = 0, pretend = 0, frame = 0
+ 191              		@ frame_needed = 0, uses_anonymous_args = 0
+ 192              	.LVL10:
+ 193 0000 08B5     		push	{r3, lr}
+ 194              		.cfi_def_cfa_offset 8
+ 195              		.cfi_offset 3, -8
+ 196              		.cfi_offset 14, -4
+ 137:../src/CMSIS/startup_gcc/newlib_stubs.c ****     errno = EINVAL;
+ 197              		.loc 1 137 0
+ 198 0002 FFF7FEFF 		bl	__errno
+ 199              	.LVL11:
+ 200 0006 1623     		movs	r3, #22
+ 201 0008 0360     		str	r3, [r0]
+ 138:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return -1;
+ 139:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+ 202              		.loc 1 139 0
+ 203 000a 4FF0FF30 		mov	r0, #-1
+ 204 000e 08BD     		pop	{r3, pc}
+ 205              		.cfi_endproc
+ 206              	.LFE70:
+ 208              		.section	.text._link,"ax",%progbits
+ 209              		.align	1
+ 210              		.global	_link
+ 211              		.thumb
+ 212              		.thumb_func
+ 214              	_link:
+ 215              	.LFB71:
+ 140:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+ 141:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+ 142:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Establish a new name for an existing file.
+ 143:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+ 144:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _link(char *old, char *new)
+ 145:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+ 216              		.loc 1 145 0
+ 217              		.cfi_startproc
+ 218              		@ args = 0, pretend = 0, frame = 0
+ 219              		@ frame_needed = 0, uses_anonymous_args = 0
+ 220              	.LVL12:
+ 221 0000 08B5     		push	{r3, lr}
+ 222              		.cfi_def_cfa_offset 8
+ 223              		.cfi_offset 3, -8
+ 224              		.cfi_offset 14, -4
+ 146:../src/CMSIS/startup_gcc/newlib_stubs.c ****     errno = EMLINK;
+ 225              		.loc 1 146 0
+ 226 0002 FFF7FEFF 		bl	__errno
+ 227              	.LVL13:
+ 228 0006 1F23     		movs	r3, #31
+ 229 0008 0360     		str	r3, [r0]
+ 147:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return -1;
+ 148:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+ 230              		.loc 1 148 0
+ 231 000a 4FF0FF30 		mov	r0, #-1
+ 232 000e 08BD     		pop	{r3, pc}
+ 233              		.cfi_endproc
+ 234              	.LFE71:
+ 236              		.section	.text._lseek,"ax",%progbits
+ 237              		.align	1
+ 238              		.global	_lseek
+ 239              		.thumb
+ 240              		.thumb_func
+ 242              	_lseek:
+ 243              	.LFB72:
+ 149:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+ 150:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+ 151:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Set position in a file.
+ 152:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+ 153:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _lseek(int file, int ptr, int dir)
+ 154:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+ 244              		.loc 1 154 0
+ 245              		.cfi_startproc
+ 246              		@ args = 0, pretend = 0, frame = 0
+ 247              		@ frame_needed = 0, uses_anonymous_args = 0
+ 248              		@ link register save eliminated.
+ 249              	.LVL14:
+ 155:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return 0;
+ 156:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+ 250              		.loc 1 156 0
+ 251 0000 0020     		movs	r0, #0
+ 252              	.LVL15:
+ 253 0002 7047     		bx	lr
+ 254              		.cfi_endproc
+ 255              	.LFE72:
+ 257              		.section	.text._open,"ax",%progbits
+ 258              		.align	1
+ 259              		.global	_open
+ 260              		.thumb
+ 261              		.thumb_func
+ 263              	_open:
+ 264              	.LFB73:
+ 157:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+ 158:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+ 159:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Open a file.
+ 160:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+ 161:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _open(const char *name, int flags, int mode)
+ 162:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+ 265              		.loc 1 162 0
+ 266              		.cfi_startproc
+ 267              		@ args = 0, pretend = 0, frame = 0
+ 268              		@ frame_needed = 0, uses_anonymous_args = 0
+ 269              		@ link register save eliminated.
+ 270              	.LVL16:
+ 163:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return -1;
+ 164:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+ 271              		.loc 1 164 0
+ 272 0000 4FF0FF30 		mov	r0, #-1
+ 273              	.LVL17:
+ 274 0004 7047     		bx	lr
+ 275              		.cfi_endproc
+ 276              	.LFE73:
+ 278              		.section	.text._read,"ax",%progbits
+ 279              		.align	1
+ 280              		.global	_read
+ 281              		.thumb
+ 282              		.thumb_func
+ 284              	_read:
+ 285              	.LFB74:
+ 165:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+ 166:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+ 167:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Read from a file.
+ 168:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+ 169:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _read(int file, char *ptr, int len)
+ 170:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+ 286              		.loc 1 170 0
+ 287              		.cfi_startproc
+ 288              		@ args = 0, pretend = 0, frame = 0
+ 289              		@ frame_needed = 0, uses_anonymous_args = 0
+ 290              		@ link register save eliminated.
+ 291              	.LVL18:
+ 171:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return 0;
+ 172:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+ 292              		.loc 1 172 0
+ 293 0000 0020     		movs	r0, #0
+ 294              	.LVL19:
+ 295 0002 7047     		bx	lr
+ 296              		.cfi_endproc
+ 297              	.LFE74:
+ 299              		.section	.text._write_r,"ax",%progbits
+ 300              		.align	1
+ 301              		.global	_write_r
+ 302              		.thumb
+ 303              		.thumb_func
+ 305              	_write_r:
+ 306              	.LFB75:
+ 173:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+ 174:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+ 175:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Write to a file. libc subroutines will use this system routine for output to
+ 176:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * all files, including stdout—so if you need to generate any output, for
+ 177:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * example to a serial port for debugging, you should make your minimal write
+ 178:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * capable of doing this.
+ 179:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+ 180:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _write_r( void * reent, int file, char * ptr, int len )
+ 181:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+ 307              		.loc 1 181 0
+ 308              		.cfi_startproc
+ 309              		@ args = 0, pretend = 0, frame = 0
+ 310              		@ frame_needed = 0, uses_anonymous_args = 0
+ 311              	.LVL20:
+ 312 0000 70B5     		push	{r4, r5, r6, lr}
+ 313              		.cfi_def_cfa_offset 16
+ 314              		.cfi_offset 4, -16
+ 315              		.cfi_offset 5, -12
+ 316              		.cfi_offset 6, -8
+ 317              		.cfi_offset 14, -4
+ 182:../src/CMSIS/startup_gcc/newlib_stubs.c **** #ifdef MICROSEMI_STDIO_THRU_UART
+ 183:../src/CMSIS/startup_gcc/newlib_stubs.c ****     /*--------------------------------------------------------------------------
+ 184:../src/CMSIS/startup_gcc/newlib_stubs.c ****      * Initialize the UART driver if it is the first time this function is
+ 185:../src/CMSIS/startup_gcc/newlib_stubs.c ****      * called.
+ 186:../src/CMSIS/startup_gcc/newlib_stubs.c ****      */
+ 187:../src/CMSIS/startup_gcc/newlib_stubs.c ****     if(!g_stdio_uart_init_done)
+ 318              		.loc 1 187 0
+ 319 0002 094D     		ldr	r5, .L17
+ 181:../src/CMSIS/startup_gcc/newlib_stubs.c **** #ifdef MICROSEMI_STDIO_THRU_UART
+ 320              		.loc 1 181 0
+ 321 0004 1C46     		mov	r4, r3
+ 322              		.loc 1 187 0
+ 323 0006 2B68     		ldr	r3, [r5]
+ 324              	.LVL21:
+ 181:../src/CMSIS/startup_gcc/newlib_stubs.c **** #ifdef MICROSEMI_STDIO_THRU_UART
+ 325              		.loc 1 181 0
+ 326 0008 1646     		mov	r6, r2
+ 327              		.loc 1 187 0
+ 328 000a 33B9     		cbnz	r3, .L15
+ 188:../src/CMSIS/startup_gcc/newlib_stubs.c ****     {
+ 189:../src/CMSIS/startup_gcc/newlib_stubs.c **** #if 0
+ 190:../src/CMSIS/startup_gcc/newlib_stubs.c ****         MSS_UART_init(gp_my_uart,
+ 191:../src/CMSIS/startup_gcc/newlib_stubs.c ****                       MICROSEMI_STDIO_BAUD_RATE,
+ 192:../src/CMSIS/startup_gcc/newlib_stubs.c ****                       MSS_UART_DATA_8_BITS | MSS_UART_NO_PARITY);
+ 193:../src/CMSIS/startup_gcc/newlib_stubs.c **** #else	//(+)210806 CJKIM, modified
+ 194:../src/CMSIS/startup_gcc/newlib_stubs.c ****         MSS_UART_init(gp_my_uart,
+ 329              		.loc 1 194 0
+ 330 000c 0748     		ldr	r0, .L17+4
+ 331              	.LVL22:
+ 332 000e 8168     		ldr	r1, [r0, #8]
+ 333              	.LVL23:
+ 334 0010 027B     		ldrb	r2, [r0, #12]	@ zero_extendqisi2
+ 335              	.LVL24:
+ 336 0012 FFF7FEFF 		bl	MSS_UART_init
+ 337              	.LVL25:
+ 195:../src/CMSIS/startup_gcc/newlib_stubs.c ****                       gp_my_uart->baudrate,
+ 196:../src/CMSIS/startup_gcc/newlib_stubs.c ****                       gp_my_uart->lineconfig);
+ 197:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+ 198:../src/CMSIS/startup_gcc/newlib_stubs.c **** #endif
+ 199:../src/CMSIS/startup_gcc/newlib_stubs.c ****         g_stdio_uart_init_done = 1;
+ 338              		.loc 1 199 0
+ 339 0016 0123     		movs	r3, #1
+ 340 0018 2B60     		str	r3, [r5]
+ 341              	.L15:
+ 200:../src/CMSIS/startup_gcc/newlib_stubs.c ****     }
+ 201:../src/CMSIS/startup_gcc/newlib_stubs.c ****     
+ 202:../src/CMSIS/startup_gcc/newlib_stubs.c ****     /*--------------------------------------------------------------------------
+ 203:../src/CMSIS/startup_gcc/newlib_stubs.c ****      * Output text to the UART.
+ 204:../src/CMSIS/startup_gcc/newlib_stubs.c ****      */
+ 205:../src/CMSIS/startup_gcc/newlib_stubs.c ****     MSS_UART_polled_tx(gp_my_uart, (uint8_t *)ptr, len);
+ 342              		.loc 1 205 0
+ 343 001a 0448     		ldr	r0, .L17+4
+ 344 001c 3146     		mov	r1, r6
+ 345 001e 2246     		mov	r2, r4
+ 346 0020 FFF7FEFF 		bl	MSS_UART_polled_tx
+ 347              	.LVL26:
+ 206:../src/CMSIS/startup_gcc/newlib_stubs.c ****     
+ 207:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return len;
+ 208:../src/CMSIS/startup_gcc/newlib_stubs.c **** #else   /* MICROSEMI_STDIO_THRU_UART */
+ 209:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return 0;
+ 210:../src/CMSIS/startup_gcc/newlib_stubs.c **** #endif  /* MICROSEMI_STDIO_THRU_UART */
+ 211:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+ 348              		.loc 1 211 0
+ 349 0024 2046     		mov	r0, r4
+ 350 0026 70BD     		pop	{r4, r5, r6, pc}
+ 351              	.LVL27:
+ 352              	.L18:
+ 353              		.align	2
+ 354              	.L17:
+ 355 0028 00000000 		.word	.LANCHOR0
+ 356 002c 00000000 		.word	g_mss_uart0
+ 357              		.cfi_endproc
+ 358              	.LFE75:
+ 360              		.section	.text._sbrk,"ax",%progbits
+ 361              		.align	1
+ 362              		.global	_sbrk
+ 363              		.thumb
+ 364              		.thumb_func
+ 366              	_sbrk:
+ 367              	.LFB76:
+ 212:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+ 213:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+ 214:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Increase program data space. As malloc and related functions depend on this,
+ 215:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * it is useful to have a working implementation. The following suffices for a
+ 216:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * standalone system; it exploits the symbol _end automatically defined by the
+ 217:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * GNU linker. 
+ 218:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+ 219:../src/CMSIS/startup_gcc/newlib_stubs.c **** caddr_t _sbrk(int incr)
+ 220:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+ 368              		.loc 1 220 0
+ 369              		.cfi_startproc
+ 370              		@ args = 0, pretend = 0, frame = 0
+ 371              		@ frame_needed = 0, uses_anonymous_args = 0
+ 372              	.LVL28:
+ 373 0000 08B5     		push	{r3, lr}
+ 374              		.cfi_def_cfa_offset 8
+ 375              		.cfi_offset 3, -8
+ 376              		.cfi_offset 14, -4
+ 221:../src/CMSIS/startup_gcc/newlib_stubs.c ****     extern char _end;       /* Defined by the linker */
+ 222:../src/CMSIS/startup_gcc/newlib_stubs.c ****     static char *heap_end;
+ 223:../src/CMSIS/startup_gcc/newlib_stubs.c ****     char *prev_heap_end;
+ 224:../src/CMSIS/startup_gcc/newlib_stubs.c ****     char * stack_ptr;
+ 225:../src/CMSIS/startup_gcc/newlib_stubs.c ****     
+ 226:../src/CMSIS/startup_gcc/newlib_stubs.c ****     if (heap_end == 0)
+ 377              		.loc 1 226 0
+ 378 0002 0B4B     		ldr	r3, .L23
+ 379 0004 1A68     		ldr	r2, [r3]
+ 380 0006 0AB9     		cbnz	r2, .L20
+ 227:../src/CMSIS/startup_gcc/newlib_stubs.c ****     {
+ 228:../src/CMSIS/startup_gcc/newlib_stubs.c ****       heap_end = &_end;
+ 381              		.loc 1 228 0
+ 382 0008 0A4A     		ldr	r2, .L23+4
+ 383 000a 1A60     		str	r2, [r3]
+ 384              	.L20:
+ 229:../src/CMSIS/startup_gcc/newlib_stubs.c ****     }
+ 230:../src/CMSIS/startup_gcc/newlib_stubs.c ****     
+ 231:../src/CMSIS/startup_gcc/newlib_stubs.c ****     prev_heap_end = heap_end;
+ 385              		.loc 1 231 0
+ 386 000c 1968     		ldr	r1, [r3]
+ 387              	.LVL29:
+ 232:../src/CMSIS/startup_gcc/newlib_stubs.c ****     
+ 233:../src/CMSIS/startup_gcc/newlib_stubs.c ****     asm volatile ("MRS %0, msp" : "=r" (stack_ptr) );
+ 388              		.loc 1 233 0
+ 389              	@ 233 "../src/CMSIS/startup_gcc/newlib_stubs.c" 1
+ 390 000e EFF30882 		MRS r2, msp
+ 391              	@ 0 "" 2
+ 234:../src/CMSIS/startup_gcc/newlib_stubs.c ****     if (heap_end + incr > stack_ptr)
+ 392              		.loc 1 234 0
+ 393              		.thumb
+ 394 0012 0B18     		adds	r3, r1, r0
+ 395 0014 9342     		cmp	r3, r2
+ 396 0016 06D9     		bls	.L21
+ 235:../src/CMSIS/startup_gcc/newlib_stubs.c ****     {
+ 236:../src/CMSIS/startup_gcc/newlib_stubs.c ****       _write_r ((void *)0, 1, "Heap and stack collision\n", 25);
+ 397              		.loc 1 236 0
+ 398 0018 0020     		movs	r0, #0
+ 399              	.LVL30:
+ 400 001a 0121     		movs	r1, #1
+ 401              	.LVL31:
+ 402 001c 064A     		ldr	r2, .L23+8
+ 403 001e 1923     		movs	r3, #25
+ 404 0020 FFF7FEFF 		bl	_write_r
+ 405              	.LVL32:
+ 406              	.L22:
+ 407 0024 FEE7     		b	.L22
+ 408              	.LVL33:
+ 409              	.L21:
+ 237:../src/CMSIS/startup_gcc/newlib_stubs.c ****       _exit (1);
+ 238:../src/CMSIS/startup_gcc/newlib_stubs.c ****     }
+ 239:../src/CMSIS/startup_gcc/newlib_stubs.c ****   
+ 240:../src/CMSIS/startup_gcc/newlib_stubs.c ****     heap_end += incr;
+ 410              		.loc 1 240 0
+ 411 0026 024A     		ldr	r2, .L23
+ 241:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return (caddr_t) prev_heap_end;
+ 242:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+ 412              		.loc 1 242 0
+ 413 0028 0846     		mov	r0, r1
+ 414              	.LVL34:
+ 240:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return (caddr_t) prev_heap_end;
+ 415              		.loc 1 240 0
+ 416 002a 1360     		str	r3, [r2]
+ 417              		.loc 1 242 0
+ 418 002c 08BD     		pop	{r3, pc}
+ 419              	.L24:
+ 420 002e 00BF     		.align	2
+ 421              	.L23:
+ 422 0030 00000000 		.word	.LANCHOR1
+ 423 0034 00000000 		.word	_end
+ 424 0038 00000000 		.word	.LC0
+ 425              		.cfi_endproc
+ 426              	.LFE76:
+ 428              		.section	.text._stat,"ax",%progbits
+ 429              		.align	1
+ 430              		.global	_stat
+ 431              		.thumb
+ 432              		.thumb_func
+ 434              	_stat:
+ 435              	.LFB77:
+ 243:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+ 244:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+ 245:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Status of a file (by name).
+ 246:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+ 247:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _stat(char *file, struct stat *st)
+ 248:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+ 436              		.loc 1 248 0
+ 437              		.cfi_startproc
+ 438              		@ args = 0, pretend = 0, frame = 0
+ 439              		@ frame_needed = 0, uses_anonymous_args = 0
+ 440              		@ link register save eliminated.
+ 441              	.LVL35:
+ 249:../src/CMSIS/startup_gcc/newlib_stubs.c ****     st->st_mode = S_IFCHR;
+ 442              		.loc 1 249 0
+ 443 0000 4FF40053 		mov	r3, #8192
+ 444 0004 4B60     		str	r3, [r1, #4]
+ 250:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return 0;
+ 251:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+ 445              		.loc 1 251 0
+ 446 0006 0020     		movs	r0, #0
+ 447              	.LVL36:
+ 448 0008 7047     		bx	lr
+ 449              		.cfi_endproc
+ 450              	.LFE77:
+ 452              		.section	.text._times,"ax",%progbits
+ 453              		.align	1
+ 454              		.global	_times
+ 455              		.thumb
+ 456              		.thumb_func
+ 458              	_times:
+ 459              	.LFB78:
+ 252:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+ 253:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+ 254:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Timing information for current process.
+ 255:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+ 256:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _times(struct tms *buf)
+ 257:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+ 460              		.loc 1 257 0
+ 461              		.cfi_startproc
+ 462              		@ args = 0, pretend = 0, frame = 0
+ 463              		@ frame_needed = 0, uses_anonymous_args = 0
+ 464              		@ link register save eliminated.
+ 465              	.LVL37:
+ 258:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return -1;
+ 259:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+ 466              		.loc 1 259 0
+ 467 0000 4FF0FF30 		mov	r0, #-1
+ 468              	.LVL38:
+ 469 0004 7047     		bx	lr
+ 470              		.cfi_endproc
+ 471              	.LFE78:
+ 473              		.section	.text._unlink,"ax",%progbits
+ 474              		.align	1
+ 475              		.global	_unlink
+ 476              		.thumb
+ 477              		.thumb_func
+ 479              	_unlink:
+ 480              	.LFB79:
+ 260:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+ 261:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+ 262:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Remove a file's directory entry.
+ 263:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+ 264:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _unlink(char *name)
+ 265:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+ 481              		.loc 1 265 0
+ 482              		.cfi_startproc
+ 483              		@ args = 0, pretend = 0, frame = 0
+ 484              		@ frame_needed = 0, uses_anonymous_args = 0
+ 485              	.LVL39:
+ 486 0000 08B5     		push	{r3, lr}
+ 487              		.cfi_def_cfa_offset 8
+ 488              		.cfi_offset 3, -8
+ 489              		.cfi_offset 14, -4
+ 266:../src/CMSIS/startup_gcc/newlib_stubs.c ****     errno = ENOENT;
+ 490              		.loc 1 266 0
+ 491 0002 FFF7FEFF 		bl	__errno
+ 492              	.LVL40:
+ 493 0006 0223     		movs	r3, #2
+ 494 0008 0360     		str	r3, [r0]
+ 267:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return -1;
+ 268:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+ 495              		.loc 1 268 0
+ 496 000a 4FF0FF30 		mov	r0, #-1
+ 497 000e 08BD     		pop	{r3, pc}
+ 498              		.cfi_endproc
+ 499              	.LFE79:
+ 501              		.section	.text._wait,"ax",%progbits
+ 502              		.align	1
+ 503              		.global	_wait
+ 504              		.thumb
+ 505              		.thumb_func
+ 507              	_wait:
+ 508              	.LFB80:
+ 269:../src/CMSIS/startup_gcc/newlib_stubs.c **** 
+ 270:../src/CMSIS/startup_gcc/newlib_stubs.c **** /*==============================================================================
+ 271:../src/CMSIS/startup_gcc/newlib_stubs.c ****  * Wait for a child process.
+ 272:../src/CMSIS/startup_gcc/newlib_stubs.c ****  */
+ 273:../src/CMSIS/startup_gcc/newlib_stubs.c **** int _wait(int *status)
+ 274:../src/CMSIS/startup_gcc/newlib_stubs.c **** {
+ 509              		.loc 1 274 0
+ 510              		.cfi_startproc
+ 511              		@ args = 0, pretend = 0, frame = 0
+ 512              		@ frame_needed = 0, uses_anonymous_args = 0
+ 513              	.LVL41:
+ 514 0000 08B5     		push	{r3, lr}
+ 515              		.cfi_def_cfa_offset 8
+ 516              		.cfi_offset 3, -8
+ 517              		.cfi_offset 14, -4
+ 275:../src/CMSIS/startup_gcc/newlib_stubs.c ****     errno = ECHILD;
+ 518              		.loc 1 275 0
+ 519 0002 FFF7FEFF 		bl	__errno
+ 520              	.LVL42:
+ 521 0006 0A23     		movs	r3, #10
+ 522 0008 0360     		str	r3, [r0]
+ 276:../src/CMSIS/startup_gcc/newlib_stubs.c ****     return -1;
+ 277:../src/CMSIS/startup_gcc/newlib_stubs.c **** }
+ 523              		.loc 1 277 0
+ 524 000a 4FF0FF30 		mov	r0, #-1
+ 525 000e 08BD     		pop	{r3, pc}
+ 526              		.cfi_endproc
+ 527              	.LFE80:
+ 529              		.global	environ
+ 530              		.global	__env
+ 531              		.section	.data.environ,"aw",%progbits
+ 532              		.align	2
+ 535              	environ:
+ 536 0000 00000000 		.word	__env
+ 537              		.section	.bss.__env,"aw",%nobits
+ 538              		.align	2
+ 541              	__env:
+ 542 0000 00000000 		.space	4
+ 543              		.section	.bss.g_stdio_uart_init_done,"aw",%nobits
+ 544              		.align	2
+ 545              		.set	.LANCHOR0,. + 0
+ 548              	g_stdio_uart_init_done:
+ 549 0000 00000000 		.space	4
+ 550              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 551              	.LC0:
+ 552 0000 48656170 		.ascii	"Heap and stack collision\012\000"
+ 552      20616E64 
+ 552      20737461 
+ 552      636B2063 
+ 552      6F6C6C69 
+ 553              		.section	.bss.heap_end.7280,"aw",%nobits
+ 554              		.align	2
+ 555              		.set	.LANCHOR1,. + 0
+ 558              	heap_end.7280:
+ 559 0000 00000000 		.space	4
+ 560              		.text
+ 561              	.Letext0:
+ 562              		.file 2 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\machine\\_def
+ 563              		.file 3 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\sys\\_types.h
+ 564              		.file 4 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\sys\\_stdint.
+ 565              		.file 5 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\sys\\types.h"
+ 566              		.file 6 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\sys\\stat.h"
+ 567              		.file 7 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\sys\\times.h"
+ 568              		.file 8 "../src/CMSIS/startup_gcc/../../drivers/mss_uart/../../CMSIS/m2sxxx.h"
+ 569              		.file 9 "../src/CMSIS/startup_gcc/../../drivers/mss_uart/mss_uart.h"
+ 570              		.file 10 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\sys\\unistd.
+ 571              		.file 11 "C:\\Microsemi\\SoftConsole_v4.0\\CMSIS\\V4.3\\Include/core_cm3.h"
+ 572              		.file 12 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\sys\\errno.h
+DEFINED SYMBOLS
+                            *ABS*:00000000 newlib_stubs.c
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:19     .text._close:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:24     .text._close:00000000 _close
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:41     .text._execve:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:46     .text._execve:00000000 _execve
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:69     .text._exit:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:74     .text._exit:00000000 _exit
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:90     .text._fork:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:95     .text._fork:00000000 _fork
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:117    .text._fstat:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:122    .text._fstat:00000000 _fstat
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:141    .text._getpid:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:146    .text._getpid:00000000 _getpid
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:160    .text._isatty:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:165    .text._isatty:00000000 _isatty
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:181    .text._kill:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:186    .text._kill:00000000 _kill
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:209    .text._link:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:214    .text._link:00000000 _link
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:237    .text._lseek:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:242    .text._lseek:00000000 _lseek
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:258    .text._open:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:263    .text._open:00000000 _open
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:279    .text._read:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:284    .text._read:00000000 _read
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:300    .text._write_r:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:305    .text._write_r:00000000 _write_r
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:355    .text._write_r:00000028 $d
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:361    .text._sbrk:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:366    .text._sbrk:00000000 _sbrk
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:422    .text._sbrk:00000030 $d
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:429    .text._stat:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:434    .text._stat:00000000 _stat
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:453    .text._times:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:458    .text._times:00000000 _times
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:474    .text._unlink:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:479    .text._unlink:00000000 _unlink
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:502    .text._wait:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:507    .text._wait:00000000 _wait
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:535    .data.environ:00000000 environ
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:541    .bss.__env:00000000 __env
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:532    .data.environ:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:538    .bss.__env:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:544    .bss.g_stdio_uart_init_done:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:548    .bss.g_stdio_uart_init_done:00000000 g_stdio_uart_init_done
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:554    .bss.heap_end.7280:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccfk6RLf.s:558    .bss.heap_end.7280:00000000 heap_end.7280
+                     .debug_frame:00000010 $d
+                           .group:00000000 wm4.0.dc60c94ad21b0a47fa3b55ee8062ac89
+                           .group:00000000 wm4.newlib.h.8.2702bca278809460f0af6fba1d84eb68
+                           .group:00000000 wm4.features.h.22.2e382148a0560adabf236cddd4e880f4
+                           .group:00000000 wm4.config.h.220.a09b0b0de3c25be3f39d71990e617bff
+                           .group:00000000 wm4._ansi.h.23.9f8fcfa20193763fcf364fb91705c94b
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.stddef.h.184.aa65fb7281d578229bbad41b91862635
+                           .group:00000000 wm4.stddef.h.39.dc09cac7e3f758f23d559f6b28ebbb0d
+                           .group:00000000 wm4._default_types.h.6.35ee9e747940367bf2a634907d1c2382
+                           .group:00000000 wm4.lock.h.2.9bc98482741e5e2a9450b12934a684ea
+                           .group:00000000 wm4._types.h.54.d3d34a3b7f3cc230cd159baf022b4b08
+                           .group:00000000 wm4.stddef.h.158.61317cdbfb4026324507d123a50b0fd6
+                           .group:00000000 wm4.reent.h.17.8bd9e4098e0428508c282cad794fae43
+                           .group:00000000 wm4.cdefs.h.47.a14b68a47d722a767cc4688ffe478d81
+                           .group:00000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:00000000 wm4.stdlib.h.54.cd3744e0b066087ec8fbb1bdc22d1043
+                           .group:00000000 wm4.unistd.h.2.39165d5b7784d1815ef4b0c4be6df560
+                           .group:00000000 wm4.types.h.23.0d949686bbcadd1621462d4fa1f884f9
+                           .group:00000000 wm4._stdint.h.10.f76354baea1c7088202064e6f3d4f5e3
+                           .group:00000000 wm4.stddef.h.158.a7efb00f6cbc6f43213b50e183c9830c
+                           .group:00000000 wm4.types.h.2.e9cec8c90ab35f77d9f499e06ae02400
+                           .group:00000000 wm4.types.h.81.ded4e8fbe2d299b79c956dc834e43661
+                           .group:00000000 wm4.unistd.h.270.7b7863bdcf31a79e761f5fb801553f2d
+                           .group:00000000 wm4.time.h.8.2930fe070f4a8096b07db9159698c8e3
+                           .group:00000000 wm4.time.h.2.4581ce0ffb6627cfc02162c94bf846c9
+                           .group:00000000 wm4.time.h.24.3660bbb2d0a4c7457ff52ba3ada4c166
+                           .group:00000000 wm4.timespec.h.41.d855182eb0e690443ab8651bcedca6e1
+                           .group:00000000 wm4.time.h.136.f6cb9fdc0f8d6b2c758fb8ba4ba5c27f
+                           .group:00000000 wm4.stat.h.71.d65ac61ff88c651e198008cfb38bda9c
+                           .group:00000000 wm4.errno.h.2.ba016d646105af6cad23be83630b6a3f
+                           .group:00000000 wm4.errno.h.9.1ecd7b1049497a0ab61da0f6cbd4b0c6
+                           .group:00000000 wm4.m2sxxx.h.14.987ea2aeaafde240411e8c56d47721f7
+                           .group:00000000 wm4.core_cm3.h.43.614605f47657df9251f3b3f57590a49a
+                           .group:00000000 wm4._intsup.h.10.b2832a532eae49c14d45880be6d4ca65
+                           .group:00000000 wm4.stdint.h.23.373a9d32a9e4c2e88fd347156532d281
+                           .group:00000000 wm4.core_cmInstr.h.39.addda81f1f3453ba31dd54fc5b6fcee8
+                           .group:00000000 wm4.core_cm3.h.160.4f087d7d2b17fc46469486aedc40cf5c
+                           .group:00000000 wm4.m2sxxx.h.2709.9eef8620912489dbc5c26e98701cdac3
+                           .group:00000000 wm4.mss_uart.h.258.ed2d082f8e6703bd440653ce1fa4b528
+
+UNDEFINED SYMBOLS
+__errno
+MSS_UART_init
+MSS_UART_polled_tx
+g_mss_uart0
+_end

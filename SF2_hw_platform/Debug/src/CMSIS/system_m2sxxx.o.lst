@@ -1,0 +1,1395 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"system_m2sxxx.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.set_clock_frequency_globals,"ax",%progbits
+  19              		.align	1
+  20              		.thumb
+  21              		.thumb_func
+  23              	set_clock_frequency_globals:
+  24              	.LFB66:
+  25              		.file 1 "../src/CMSIS/system_m2sxxx.c"
+   1:../src/CMSIS/system_m2sxxx.c **** /*******************************************************************************
+   2:../src/CMSIS/system_m2sxxx.c ****  * (c) Copyright 2012-2013 Microsemi SoC Products Group. All rights reserved.
+   3:../src/CMSIS/system_m2sxxx.c ****  *
+   4:../src/CMSIS/system_m2sxxx.c ****  *  SmartFusion2 CMSIS system initialization.
+   5:../src/CMSIS/system_m2sxxx.c ****  *
+   6:../src/CMSIS/system_m2sxxx.c ****  * SVN $Revision: 7375 $
+   7:../src/CMSIS/system_m2sxxx.c ****  * SVN $Date: 2015-05-01 14:57:40 +0100 (Fri, 01 May 2015) $
+   8:../src/CMSIS/system_m2sxxx.c ****  */
+   9:../src/CMSIS/system_m2sxxx.c **** #include "m2sxxx.h"
+  10:../src/CMSIS/system_m2sxxx.c **** #if MSCC_NO_RELATIVE_PATHS
+  11:../src/CMSIS/system_m2sxxx.c **** #include "sys_config.h"
+  12:../src/CMSIS/system_m2sxxx.c **** #else
+  13:../src/CMSIS/system_m2sxxx.c **** #include "../drivers_config/sys_config/sys_config.h"
+  14:../src/CMSIS/system_m2sxxx.c **** #endif
+  15:../src/CMSIS/system_m2sxxx.c **** #include "sys_init_cfg_types.h"
+  16:../src/CMSIS/system_m2sxxx.c **** 
+  17:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+  18:../src/CMSIS/system_m2sxxx.c ****   Silicon revisions.
+  19:../src/CMSIS/system_m2sxxx.c ****  */
+  20:../src/CMSIS/system_m2sxxx.c **** #define UNKNOWN_SILICON_REV     0
+  21:../src/CMSIS/system_m2sxxx.c **** #define M2S050_REV_A_SILICON    1
+  22:../src/CMSIS/system_m2sxxx.c **** #define M2S050_REV_B_SILICON    2
+  23:../src/CMSIS/system_m2sxxx.c **** 
+  24:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+  25:../src/CMSIS/system_m2sxxx.c ****  * CoreConfigP IP block version.
+  26:../src/CMSIS/system_m2sxxx.c ****  */
+  27:../src/CMSIS/system_m2sxxx.c **** #define CORE_CONFIGP_V7_0   0x00070000u
+  28:../src/CMSIS/system_m2sxxx.c **** 
+  29:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+  30:../src/CMSIS/system_m2sxxx.c ****  *
+  31:../src/CMSIS/system_m2sxxx.c ****  */
+  32:../src/CMSIS/system_m2sxxx.c **** void mscc_post_hw_cfg_init(void);
+  33:../src/CMSIS/system_m2sxxx.c **** 
+  34:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+  35:../src/CMSIS/system_m2sxxx.c ****  * CoreConfigP/CoreConfigP register bits
+  36:../src/CMSIS/system_m2sxxx.c ****  */
+  37:../src/CMSIS/system_m2sxxx.c **** #define CONFIG_1_DONE   1u
+  38:../src/CMSIS/system_m2sxxx.c **** #define CONFIG_2_DONE   2u
+  39:../src/CMSIS/system_m2sxxx.c **** 
+  40:../src/CMSIS/system_m2sxxx.c **** #define INIT_DONE_MASK      0x00000001u
+  41:../src/CMSIS/system_m2sxxx.c **** #define SDIF_RELEASED_MASK  0x00000002u
+  42:../src/CMSIS/system_m2sxxx.c **** 
+  43:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+  44:../src/CMSIS/system_m2sxxx.c ****  * System registers of interest.
+  45:../src/CMSIS/system_m2sxxx.c ****  */
+  46:../src/CMSIS/system_m2sxxx.c **** /*
+  47:../src/CMSIS/system_m2sxxx.c ****  * MSSDDR_FACC1_CR register masks:
+  48:../src/CMSIS/system_m2sxxx.c ****  */
+  49:../src/CMSIS/system_m2sxxx.c **** #define DDR_CLK_EN_SHIFT    8u
+  50:../src/CMSIS/system_m2sxxx.c **** #define FACC_GLMUX_SEL_MASK         0x00001000u
+  51:../src/CMSIS/system_m2sxxx.c **** #define CONTROLLER_PLL_INIT_MASK    0x04000000u
+  52:../src/CMSIS/system_m2sxxx.c **** #define RCOSC_DIV2_MASK             0x00000004u
+  53:../src/CMSIS/system_m2sxxx.c **** 
+  54:../src/CMSIS/system_m2sxxx.c **** /*
+  55:../src/CMSIS/system_m2sxxx.c ****  * MSSDDR_PLL_STATUS register masks:
+  56:../src/CMSIS/system_m2sxxx.c ****  */
+  57:../src/CMSIS/system_m2sxxx.c **** #define FAB_PLL_LOCK_MASK   0x00000001u
+  58:../src/CMSIS/system_m2sxxx.c **** #define MPLL_LOCK_MASK      0x00000002u
+  59:../src/CMSIS/system_m2sxxx.c **** 
+  60:../src/CMSIS/system_m2sxxx.c **** /*
+  61:../src/CMSIS/system_m2sxxx.c ****  * MSSDDR_PLL_STATUS_HIGH_CR register masks:
+  62:../src/CMSIS/system_m2sxxx.c ****  */
+  63:../src/CMSIS/system_m2sxxx.c **** #define FACC_PLL_BYPASS_MASK    0x00000001u
+  64:../src/CMSIS/system_m2sxxx.c **** 
+  65:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+  66:../src/CMSIS/system_m2sxxx.c ****  * Standard CMSIS global variables.
+  67:../src/CMSIS/system_m2sxxx.c ****  */
+  68:../src/CMSIS/system_m2sxxx.c **** uint32_t SystemCoreClock = MSS_SYS_M3_CLK_FREQ;         /*!< System Clock Frequency (Core Clock) */
+  69:../src/CMSIS/system_m2sxxx.c **** 
+  70:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+  71:../src/CMSIS/system_m2sxxx.c ****  * SmartFusion2 specific clocks.
+  72:../src/CMSIS/system_m2sxxx.c ****  */
+  73:../src/CMSIS/system_m2sxxx.c **** uint32_t g_FrequencyPCLK0 = MSS_SYS_APB_0_CLK_FREQ;     /*!< Clock frequency of APB bus 0. */
+  74:../src/CMSIS/system_m2sxxx.c **** uint32_t g_FrequencyPCLK1 = MSS_SYS_APB_1_CLK_FREQ;     /*!< Clock frequency of APB bus 1. */
+  75:../src/CMSIS/system_m2sxxx.c **** uint32_t g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;     /*!< Clock frequency of APB bus 2. */
+  76:../src/CMSIS/system_m2sxxx.c **** uint32_t g_FrequencyFIC0 = MSS_SYS_FIC_0_CLK_FREQ;      /*!< Clock frequecny of FPGA fabric interfa
+  77:../src/CMSIS/system_m2sxxx.c **** uint32_t g_FrequencyFIC1 = MSS_SYS_FIC_1_CLK_FREQ;      /*!< Clock frequecny of FPGA fabric intefac
+  78:../src/CMSIS/system_m2sxxx.c **** uint32_t g_FrequencyFIC64 = MSS_SYS_FIC64_CLK_FREQ;     /*!< Clock frequecny of 64-bit FPGA fabric 
+  79:../src/CMSIS/system_m2sxxx.c **** 
+  80:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+  81:../src/CMSIS/system_m2sxxx.c ****  * System configuration tables generated by Libero.
+  82:../src/CMSIS/system_m2sxxx.c ****  */
+  83:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_MDDR_CONFIG_BY_CORTEX
+  84:../src/CMSIS/system_m2sxxx.c **** extern MDDR_TypeDef * const g_m2s_mddr_addr;
+  85:../src/CMSIS/system_m2sxxx.c **** extern const ddr_subsys_cfg_t g_m2s_mddr_subsys_config;
+  86:../src/CMSIS/system_m2sxxx.c **** #endif
+  87:../src/CMSIS/system_m2sxxx.c **** 
+  88:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_FDDR_CONFIG_BY_CORTEX
+  89:../src/CMSIS/system_m2sxxx.c **** extern FDDR_TypeDef * const g_m2s_fddr_addr;
+  90:../src/CMSIS/system_m2sxxx.c **** extern const ddr_subsys_cfg_t g_m2s_fddr_subsys_config;
+  91:../src/CMSIS/system_m2sxxx.c **** #endif
+  92:../src/CMSIS/system_m2sxxx.c **** 
+  93:../src/CMSIS/system_m2sxxx.c **** #define MSS_SYS_SERDES_CONFIG_BY_CORTEX     (MSS_SYS_SERDES_0_CONFIG_BY_CORTEX || MSS_SYS_SERDES_1_
+  94:../src/CMSIS/system_m2sxxx.c **** 
+  95:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_SERDES_0_CONFIG_BY_CORTEX
+  96:../src/CMSIS/system_m2sxxx.c **** extern const cfg_addr_value_pair_t g_m2s_serdes_0_config[SERDES_0_CFG_NB_OF_PAIRS];
+  97:../src/CMSIS/system_m2sxxx.c **** #endif
+  98:../src/CMSIS/system_m2sxxx.c **** 
+  99:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_SERDES_1_CONFIG_BY_CORTEX
+ 100:../src/CMSIS/system_m2sxxx.c **** extern const cfg_addr_value_pair_t g_m2s_serdes_1_config[SERDES_1_CFG_NB_OF_PAIRS];
+ 101:../src/CMSIS/system_m2sxxx.c **** #endif
+ 102:../src/CMSIS/system_m2sxxx.c **** 
+ 103:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_SERDES_2_CONFIG_BY_CORTEX
+ 104:../src/CMSIS/system_m2sxxx.c **** extern const cfg_addr_value_pair_t g_m2s_serdes_2_config[SERDES_2_CFG_NB_OF_PAIRS];
+ 105:../src/CMSIS/system_m2sxxx.c **** #endif
+ 106:../src/CMSIS/system_m2sxxx.c **** 
+ 107:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_SERDES_3_CONFIG_BY_CORTEX
+ 108:../src/CMSIS/system_m2sxxx.c **** extern const cfg_addr_value_pair_t g_m2s_serdes_3_config[SERDES_3_CFG_NB_OF_PAIRS];
+ 109:../src/CMSIS/system_m2sxxx.c **** #endif
+ 110:../src/CMSIS/system_m2sxxx.c **** 
+ 111:../src/CMSIS/system_m2sxxx.c **** #define MSS_SYS_CORESF2RESET_USED  (MSS_SYS_MDDR_CONFIG_BY_CORTEX || MSS_SYS_FDDR_CONFIG_BY_CORTEX 
+ 112:../src/CMSIS/system_m2sxxx.c **** 
+ 113:../src/CMSIS/system_m2sxxx.c **** /*==============================================================================
+ 114:../src/CMSIS/system_m2sxxx.c ****  * List of PCIe lanes on which PMA_READY must be polled. Allows only polling PMA
+ 115:../src/CMSIS/system_m2sxxx.c ****  * READY on the first lane of a PCIe link regardless of the number of lanes used
+ 116:../src/CMSIS/system_m2sxxx.c ****  * or whether lane reversal is used.
+ 117:../src/CMSIS/system_m2sxxx.c ****  */
+ 118:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_SERDES_CONFIG_BY_CORTEX
+ 119:../src/CMSIS/system_m2sxxx.c **** 
+ 120:../src/CMSIS/system_m2sxxx.c **** #define CONFIG_REG_LANE_SEL_LANE_0      0x00000100U
+ 121:../src/CMSIS/system_m2sxxx.c **** #define CONFIG_REG_LANE_SEL_LANE_1      0x00000200U
+ 122:../src/CMSIS/system_m2sxxx.c **** #define CONFIG_REG_LANE_SEL_LANE_2      0x00000400U
+ 123:../src/CMSIS/system_m2sxxx.c **** #define CONFIG_REG_LANE_SEL_LANE_3      0x00000800U
+ 124:../src/CMSIS/system_m2sxxx.c **** 
+ 125:../src/CMSIS/system_m2sxxx.c **** #define CONFIG_REG_LANE_SEL_MASK    (CONFIG_REG_LANE_SEL_LANE_0 | \
+ 126:../src/CMSIS/system_m2sxxx.c ****                                      CONFIG_REG_LANE_SEL_LANE_1 | \
+ 127:../src/CMSIS/system_m2sxxx.c ****                                      CONFIG_REG_LANE_SEL_LANE_2 | \
+ 128:../src/CMSIS/system_m2sxxx.c ****                                      CONFIG_REG_LANE_SEL_LANE_3)
+ 129:../src/CMSIS/system_m2sxxx.c **** 
+ 130:../src/CMSIS/system_m2sxxx.c **** #define FIRST_PCIE_CTRL             1U
+ 131:../src/CMSIS/system_m2sxxx.c **** #define SECOND_PCIE_CTRL            2U
+ 132:../src/CMSIS/system_m2sxxx.c **** 
+ 133:../src/CMSIS/system_m2sxxx.c **** typedef struct pma_poll_info
+ 134:../src/CMSIS/system_m2sxxx.c **** {
+ 135:../src/CMSIS/system_m2sxxx.c ****     SERDESIF_TypeDef *      serdes;
+ 136:../src/CMSIS/system_m2sxxx.c ****     SERDES_TypeDef * const  lane;
+ 137:../src/CMSIS/system_m2sxxx.c ****     uint16_t                config_reg_lane_sel;
+ 138:../src/CMSIS/system_m2sxxx.c ****     uint16_t                pcie_ctrl_id;           /* distinguish between first and second PCIe co
+ 139:../src/CMSIS/system_m2sxxx.c **** } pma_poll_info_t;
+ 140:../src/CMSIS/system_m2sxxx.c **** 
+ 141:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+ 142:../src/CMSIS/system_m2sxxx.c ****  * SERDES0: list of PMA to poll as part of PCIe configuration. This list only
+ 143:../src/CMSIS/system_m2sxxx.c ****  * handles the first PCIe controller of SERDES0.
+ 144:../src/CMSIS/system_m2sxxx.c ****  */
+ 145:../src/CMSIS/system_m2sxxx.c **** static const pma_poll_info_t g_serdes0_pcie_lane_cfg_lut[] =
+ 146:../src/CMSIS/system_m2sxxx.c **** {
+ 147:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_0_PCIE_LANE_PMA_STATUS_LANE_0)
+ 148:../src/CMSIS/system_m2sxxx.c ****     {
+ 149:../src/CMSIS/system_m2sxxx.c ****         SERDES0,                    /* SERDESIF_TypeDef * serdes */
+ 150:../src/CMSIS/system_m2sxxx.c ****         &SERDES0->lane[0],          /* SERDES_TypeDef * const lane */
+ 151:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_0, /* uint16_t config_reg_lane_sel */
+ 152:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 153:../src/CMSIS/system_m2sxxx.c ****     },
+ 154:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 155:../src/CMSIS/system_m2sxxx.c **** 
+ 156:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_0_PCIE_LANE_PMA_STATUS_LANE_1)
+ 157:../src/CMSIS/system_m2sxxx.c ****     {
+ 158:../src/CMSIS/system_m2sxxx.c ****         SERDES0,                    /* SERDESIF_TypeDef * serdes */
+ 159:../src/CMSIS/system_m2sxxx.c ****         &SERDES0->lane[1],          /* SERDES_TypeDef * const lane */
+ 160:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_1, /* uint16_t config_reg_lane_sel */
+ 161:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 162:../src/CMSIS/system_m2sxxx.c ****     },
+ 163:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 164:../src/CMSIS/system_m2sxxx.c **** 
+ 165:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_0_PCIE_LANE_PMA_STATUS_LANE_2)
+ 166:../src/CMSIS/system_m2sxxx.c ****     {
+ 167:../src/CMSIS/system_m2sxxx.c ****         SERDES0,                    /* SERDESIF_TypeDef * serdes */
+ 168:../src/CMSIS/system_m2sxxx.c ****         &SERDES0->lane[2],          /* SERDES_TypeDef * const lane */
+ 169:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_2, /* uint16_t config_reg_lane_sel */
+ 170:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 171:../src/CMSIS/system_m2sxxx.c ****     },
+ 172:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 173:../src/CMSIS/system_m2sxxx.c **** 
+ 174:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_0_PCIE_LANE_PMA_STATUS_LANE_3)
+ 175:../src/CMSIS/system_m2sxxx.c ****     {
+ 176:../src/CMSIS/system_m2sxxx.c ****         SERDES0,                    /* SERDESIF_TypeDef * serdes */
+ 177:../src/CMSIS/system_m2sxxx.c ****         &SERDES0->lane[3],          /* SERDES_TypeDef * const lane */
+ 178:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_3, /* uint16_t config_reg_lane_sel */
+ 179:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 180:../src/CMSIS/system_m2sxxx.c ****     },
+ 181:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 182:../src/CMSIS/system_m2sxxx.c **** 
+ 183:../src/CMSIS/system_m2sxxx.c ****     {
+ 184:../src/CMSIS/system_m2sxxx.c ****         (SERDESIF_TypeDef *)0,      /* SERDESIF_TypeDef * serdes */
+ 185:../src/CMSIS/system_m2sxxx.c ****         (SERDES_TypeDef *)0,        /* SERDES_TypeDef * const lane */
+ 186:../src/CMSIS/system_m2sxxx.c ****         0,                          /* uint16_t config_reg_lane_sel */
+ 187:../src/CMSIS/system_m2sxxx.c ****         0                           /* uint16_t pcie_ctrl_id */
+ 188:../src/CMSIS/system_m2sxxx.c ****     }
+ 189:../src/CMSIS/system_m2sxxx.c **** };
+ 190:../src/CMSIS/system_m2sxxx.c **** 
+ 191:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+ 192:../src/CMSIS/system_m2sxxx.c ****  * SERDES1: list of PMA to poll as part of PCIe configuration. This list handles
+ 193:../src/CMSIS/system_m2sxxx.c ****  * both SERDES1 first PCIe controller and the M2S090 SERDES0 second PCIe
+ 194:../src/CMSIS/system_m2sxxx.c ****  * controller.
+ 195:../src/CMSIS/system_m2sxxx.c ****  */
+ 196:../src/CMSIS/system_m2sxxx.c **** static const pma_poll_info_t g_serdes1_pcie_lane_cfg_lut[] =
+ 197:../src/CMSIS/system_m2sxxx.c **** {
+ 198:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_1_PCIE_LANE_PMA_STATUS_LANE_0)
+ 199:../src/CMSIS/system_m2sxxx.c ****     {
+ 200:../src/CMSIS/system_m2sxxx.c ****         SERDES1,                    /* SERDESIF_TypeDef * serdes */
+ 201:../src/CMSIS/system_m2sxxx.c ****         &SERDES1->lane[0],          /* SERDES_TypeDef * const lane */
+ 202:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_0, /* uint16_t config_reg_lane_sel */
+ 203:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 204:../src/CMSIS/system_m2sxxx.c ****     },
+ 205:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 206:../src/CMSIS/system_m2sxxx.c **** 
+ 207:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_1_PCIE_LANE_PMA_STATUS_LANE_1)
+ 208:../src/CMSIS/system_m2sxxx.c ****     {
+ 209:../src/CMSIS/system_m2sxxx.c ****         SERDES1,                    /* SERDESIF_TypeDef * serdes */
+ 210:../src/CMSIS/system_m2sxxx.c ****         &SERDES1->lane[1],          /* SERDES_TypeDef * const lane */
+ 211:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_1, /* uint16_t config_reg_lane_sel */
+ 212:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 213:../src/CMSIS/system_m2sxxx.c ****     },
+ 214:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 215:../src/CMSIS/system_m2sxxx.c **** 
+ 216:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_1_PCIE_LANE_PMA_STATUS_LANE_2)
+ 217:../src/CMSIS/system_m2sxxx.c ****     {
+ 218:../src/CMSIS/system_m2sxxx.c ****         SERDES1,                    /* SERDESIF_TypeDef * serdes */
+ 219:../src/CMSIS/system_m2sxxx.c ****         &SERDES1->lane[2],          /* SERDES_TypeDef * const lane */
+ 220:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_2, /* uint16_t config_reg_lane_sel */
+ 221:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 222:../src/CMSIS/system_m2sxxx.c ****     },
+ 223:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 224:../src/CMSIS/system_m2sxxx.c **** 
+ 225:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_1_PCIE_LANE_PMA_STATUS_LANE_3)
+ 226:../src/CMSIS/system_m2sxxx.c ****     {
+ 227:../src/CMSIS/system_m2sxxx.c ****         SERDES1,                    /* SERDESIF_TypeDef * serdes */
+ 228:../src/CMSIS/system_m2sxxx.c ****         &SERDES1->lane[3],          /* SERDES_TypeDef * const lane */
+ 229:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_3, /* uint16_t config_reg_lane_sel */
+ 230:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 231:../src/CMSIS/system_m2sxxx.c ****     },
+ 232:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 233:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_0_PCIE_1_LANE_PMA_STATUS_LANE_0)
+ 234:../src/CMSIS/system_m2sxxx.c ****     {
+ 235:../src/CMSIS/system_m2sxxx.c ****         SERDES0,                    /* SERDESIF_TypeDef * serdes */
+ 236:../src/CMSIS/system_m2sxxx.c ****         &SERDES0->lane[0],          /* SERDES_TypeDef * const lane */
+ 237:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_0, /* uint16_t config_reg_lane_sel */
+ 238:../src/CMSIS/system_m2sxxx.c ****         SECOND_PCIE_CTRL            /* uint16_t pcie_ctrl_id */
+ 239:../src/CMSIS/system_m2sxxx.c ****     },
+ 240:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 241:../src/CMSIS/system_m2sxxx.c **** 
+ 242:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_0_PCIE_1_LANE_PMA_STATUS_LANE_1)
+ 243:../src/CMSIS/system_m2sxxx.c ****     {
+ 244:../src/CMSIS/system_m2sxxx.c ****         SERDES0,                    /* SERDESIF_TypeDef * serdes */
+ 245:../src/CMSIS/system_m2sxxx.c ****         &SERDES0->lane[1],          /* SERDES_TypeDef * const lane */
+ 246:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_1, /* uint16_t config_reg_lane_sel */
+ 247:../src/CMSIS/system_m2sxxx.c ****         SECOND_PCIE_CTRL            /* uint16_t pcie_ctrl_id */
+ 248:../src/CMSIS/system_m2sxxx.c ****     },
+ 249:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 250:../src/CMSIS/system_m2sxxx.c **** 
+ 251:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_0_PCIE_1_LANE_PMA_STATUS_LANE_2)
+ 252:../src/CMSIS/system_m2sxxx.c ****     {
+ 253:../src/CMSIS/system_m2sxxx.c ****         SERDES0,                    /* SERDESIF_TypeDef * serdes */
+ 254:../src/CMSIS/system_m2sxxx.c ****         &SERDES0->lane[2],          /* SERDES_TypeDef * const lane */
+ 255:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_2, /* uint16_t config_reg_lane_sel */
+ 256:../src/CMSIS/system_m2sxxx.c ****         SECOND_PCIE_CTRL            /* uint16_t pcie_ctrl_id */
+ 257:../src/CMSIS/system_m2sxxx.c ****     },
+ 258:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 259:../src/CMSIS/system_m2sxxx.c **** 
+ 260:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_0_PCIE_1_LANE_PMA_STATUS_LANE_3)
+ 261:../src/CMSIS/system_m2sxxx.c ****     {
+ 262:../src/CMSIS/system_m2sxxx.c ****         SERDES0,                    /* SERDESIF_TypeDef * serdes */
+ 263:../src/CMSIS/system_m2sxxx.c ****         &SERDES0->lane[3],          /* SERDES_TypeDef * const lane */
+ 264:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_3, /* uint16_t config_reg_lane_sel */
+ 265:../src/CMSIS/system_m2sxxx.c ****         SECOND_PCIE_CTRL            /* uint16_t pcie_ctrl_id */
+ 266:../src/CMSIS/system_m2sxxx.c ****     },
+ 267:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 268:../src/CMSIS/system_m2sxxx.c ****     {
+ 269:../src/CMSIS/system_m2sxxx.c ****         (SERDESIF_TypeDef *)0,      /* SERDESIF_TypeDef * serdes */
+ 270:../src/CMSIS/system_m2sxxx.c ****         (SERDES_TypeDef *)0,        /* SERDES_TypeDef * const lane */
+ 271:../src/CMSIS/system_m2sxxx.c ****         0,                          /* uint16_t config_reg_lane_sel */
+ 272:../src/CMSIS/system_m2sxxx.c ****         0                           /* uint16_t pcie_ctrl_id */
+ 273:../src/CMSIS/system_m2sxxx.c ****     }
+ 274:../src/CMSIS/system_m2sxxx.c **** };
+ 275:../src/CMSIS/system_m2sxxx.c **** 
+ 276:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+ 277:../src/CMSIS/system_m2sxxx.c ****  * SERDES2: list of PMA to poll as part of PCIe configuration.
+ 278:../src/CMSIS/system_m2sxxx.c ****  */
+ 279:../src/CMSIS/system_m2sxxx.c **** static const pma_poll_info_t g_serdes2_pcie_lane_cfg_lut[] =
+ 280:../src/CMSIS/system_m2sxxx.c **** {
+ 281:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_2_PCIE_LANE_PMA_STATUS_LANE_0)
+ 282:../src/CMSIS/system_m2sxxx.c ****     {
+ 283:../src/CMSIS/system_m2sxxx.c ****         SERDES2,                     /* SERDESIF_TypeDef * serdes */
+ 284:../src/CMSIS/system_m2sxxx.c ****         &SERDES2->lane[0],          /* SERDES_TypeDef * const lane */
+ 285:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_0, /* uint16_t config_reg_lane_sel */
+ 286:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 287:../src/CMSIS/system_m2sxxx.c ****     },
+ 288:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 289:../src/CMSIS/system_m2sxxx.c **** 
+ 290:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_2_PCIE_LANE_PMA_STATUS_LANE_1)
+ 291:../src/CMSIS/system_m2sxxx.c ****     {
+ 292:../src/CMSIS/system_m2sxxx.c ****         SERDES2,                    /* SERDESIF_TypeDef * serdes */
+ 293:../src/CMSIS/system_m2sxxx.c ****         &SERDES2->lane[1],          /* SERDES_TypeDef * const lane */
+ 294:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_1, /* uint16_t config_reg_lane_sel */
+ 295:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 296:../src/CMSIS/system_m2sxxx.c ****     },
+ 297:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 298:../src/CMSIS/system_m2sxxx.c **** 
+ 299:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_2_PCIE_LANE_PMA_STATUS_LANE_2)
+ 300:../src/CMSIS/system_m2sxxx.c ****     {
+ 301:../src/CMSIS/system_m2sxxx.c ****         SERDES2,                    /* SERDESIF_TypeDef * serdes */
+ 302:../src/CMSIS/system_m2sxxx.c ****         &SERDES2->lane[2],          /* SERDES_TypeDef * const lane */
+ 303:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_2, /* uint16_t config_reg_lane_sel */
+ 304:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 305:../src/CMSIS/system_m2sxxx.c ****     },
+ 306:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 307:../src/CMSIS/system_m2sxxx.c **** 
+ 308:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_2_PCIE_LANE_PMA_STATUS_LANE_3)
+ 309:../src/CMSIS/system_m2sxxx.c ****     {
+ 310:../src/CMSIS/system_m2sxxx.c ****         SERDES2,                    /* SERDESIF_TypeDef * serdes */
+ 311:../src/CMSIS/system_m2sxxx.c ****         &SERDES2->lane[3],          /* SERDES_TypeDef * const lane */
+ 312:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_3, /* uint16_t config_reg_lane_sel */
+ 313:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 314:../src/CMSIS/system_m2sxxx.c ****     },
+ 315:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 316:../src/CMSIS/system_m2sxxx.c **** 
+ 317:../src/CMSIS/system_m2sxxx.c ****     {
+ 318:../src/CMSIS/system_m2sxxx.c ****         (SERDESIF_TypeDef *)0,      /* SERDESIF_TypeDef * serdes */
+ 319:../src/CMSIS/system_m2sxxx.c ****         (SERDES_TypeDef *)0,        /* SERDES_TypeDef * const lane */
+ 320:../src/CMSIS/system_m2sxxx.c ****         0,                          /* uint16_t config_reg_lane_sel */
+ 321:../src/CMSIS/system_m2sxxx.c ****         0                           /* uint16_t pcie_ctrl_id */
+ 322:../src/CMSIS/system_m2sxxx.c ****     }
+ 323:../src/CMSIS/system_m2sxxx.c **** };
+ 324:../src/CMSIS/system_m2sxxx.c **** 
+ 325:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+ 326:../src/CMSIS/system_m2sxxx.c ****  * SERDES3: list of PMA to poll as part of PCIe configuration.
+ 327:../src/CMSIS/system_m2sxxx.c ****  */
+ 328:../src/CMSIS/system_m2sxxx.c **** static const pma_poll_info_t g_serdes3_pcie_lane_cfg_lut[] =
+ 329:../src/CMSIS/system_m2sxxx.c **** {
+ 330:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_3_PCIE_LANE_PMA_STATUS_LANE_0)
+ 331:../src/CMSIS/system_m2sxxx.c ****     {
+ 332:../src/CMSIS/system_m2sxxx.c ****         SERDES3,                    /* SERDESIF_TypeDef * serdes */
+ 333:../src/CMSIS/system_m2sxxx.c ****         &SERDES3->lane[0],          /* SERDES_TypeDef * const lane */
+ 334:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_0, /* uint16_t config_reg_lane_sel */
+ 335:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 336:../src/CMSIS/system_m2sxxx.c ****     },
+ 337:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 338:../src/CMSIS/system_m2sxxx.c **** 
+ 339:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_3_PCIE_LANE_PMA_STATUS_LANE_1)
+ 340:../src/CMSIS/system_m2sxxx.c ****     {
+ 341:../src/CMSIS/system_m2sxxx.c ****         SERDES3,                    /* SERDESIF_TypeDef * serdes */
+ 342:../src/CMSIS/system_m2sxxx.c ****         &SERDES3->lane[1],          /* SERDES_TypeDef * const lane */
+ 343:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_1, /* uint16_t config_reg_lane_sel */
+ 344:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 345:../src/CMSIS/system_m2sxxx.c ****     },
+ 346:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 347:../src/CMSIS/system_m2sxxx.c **** 
+ 348:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_3_PCIE_LANE_PMA_STATUS_LANE_2)
+ 349:../src/CMSIS/system_m2sxxx.c ****     {
+ 350:../src/CMSIS/system_m2sxxx.c ****         SERDES3,                    /* SERDESIF_TypeDef * serdes */
+ 351:../src/CMSIS/system_m2sxxx.c ****         &SERDES3->lane[2],          /* SERDES_TypeDef * const lane */
+ 352:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_2, /* uint16_t config_reg_lane_sel */
+ 353:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 354:../src/CMSIS/system_m2sxxx.c ****     },
+ 355:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 356:../src/CMSIS/system_m2sxxx.c **** 
+ 357:../src/CMSIS/system_m2sxxx.c ****   #if defined(SERDESIF_3_PCIE_LANE_PMA_STATUS_LANE_3)
+ 358:../src/CMSIS/system_m2sxxx.c ****     {
+ 359:../src/CMSIS/system_m2sxxx.c ****         SERDES3,                    /* SERDESIF_TypeDef * serdes */
+ 360:../src/CMSIS/system_m2sxxx.c ****         &SERDES3->lane[3],          /* SERDES_TypeDef * const lane */
+ 361:../src/CMSIS/system_m2sxxx.c ****         CONFIG_REG_LANE_SEL_LANE_3, /* uint16_t config_reg_lane_sel */
+ 362:../src/CMSIS/system_m2sxxx.c ****         FIRST_PCIE_CTRL             /* uint16_t pcie_ctrl_id */
+ 363:../src/CMSIS/system_m2sxxx.c ****     },
+ 364:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 365:../src/CMSIS/system_m2sxxx.c **** 
+ 366:../src/CMSIS/system_m2sxxx.c ****     {
+ 367:../src/CMSIS/system_m2sxxx.c ****         (SERDESIF_TypeDef *)0,      /* SERDESIF_TypeDef * serdes */
+ 368:../src/CMSIS/system_m2sxxx.c ****         (SERDES_TypeDef *)0,        /* SERDES_TypeDef * const lane */
+ 369:../src/CMSIS/system_m2sxxx.c ****         0,                          /* uint16_t config_reg_lane_sel */
+ 370:../src/CMSIS/system_m2sxxx.c ****         0                           /* uint16_t pcie_ctrl_id */
+ 371:../src/CMSIS/system_m2sxxx.c ****     }
+ 372:../src/CMSIS/system_m2sxxx.c **** };
+ 373:../src/CMSIS/system_m2sxxx.c **** 
+ 374:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+ 375:../src/CMSIS/system_m2sxxx.c ****  * Master lookup table for all SERDES PCIe configuration.
+ 376:../src/CMSIS/system_m2sxxx.c ****  */
+ 377:../src/CMSIS/system_m2sxxx.c **** static const pma_poll_info_t * const g_pcie_lane_cfg_lut[] =
+ 378:../src/CMSIS/system_m2sxxx.c **** {
+ 379:../src/CMSIS/system_m2sxxx.c ****     g_serdes0_pcie_lane_cfg_lut,
+ 380:../src/CMSIS/system_m2sxxx.c ****     g_serdes1_pcie_lane_cfg_lut,
+ 381:../src/CMSIS/system_m2sxxx.c ****     g_serdes2_pcie_lane_cfg_lut,
+ 382:../src/CMSIS/system_m2sxxx.c ****     g_serdes3_pcie_lane_cfg_lut
+ 383:../src/CMSIS/system_m2sxxx.c **** };
+ 384:../src/CMSIS/system_m2sxxx.c **** 
+ 385:../src/CMSIS/system_m2sxxx.c **** #endif
+ 386:../src/CMSIS/system_m2sxxx.c **** 
+ 387:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+ 388:../src/CMSIS/system_m2sxxx.c ****  * Local functions:
+ 389:../src/CMSIS/system_m2sxxx.c ****  */
+ 390:../src/CMSIS/system_m2sxxx.c **** static uint32_t get_silicon_revision(void);
+ 391:../src/CMSIS/system_m2sxxx.c **** static void silicon_workarounds(void);
+ 392:../src/CMSIS/system_m2sxxx.c **** static void m2s050_rev_a_workarounds(void);
+ 393:../src/CMSIS/system_m2sxxx.c **** 
+ 394:../src/CMSIS/system_m2sxxx.c **** #if (MSS_SYS_FACC_INIT_BY_CORTEX == 1)
+ 395:../src/CMSIS/system_m2sxxx.c **** static void complete_clock_config(void);
+ 396:../src/CMSIS/system_m2sxxx.c **** #endif
+ 397:../src/CMSIS/system_m2sxxx.c **** 
+ 398:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_SERDES_CONFIG_BY_CORTEX
+ 399:../src/CMSIS/system_m2sxxx.c **** static void configure_serdes_intf(void);
+ 400:../src/CMSIS/system_m2sxxx.c **** static void configure_pcie_intf(void);
+ 401:../src/CMSIS/system_m2sxxx.c **** 
+ 402:../src/CMSIS/system_m2sxxx.c **** static void configure_pcie_block
+ 403:../src/CMSIS/system_m2sxxx.c **** (
+ 404:../src/CMSIS/system_m2sxxx.c ****     const cfg_addr_value_pair_t * p_addr_value_pair,
+ 405:../src/CMSIS/system_m2sxxx.c ****     uint32_t nb_of_cfg_pairs,
+ 406:../src/CMSIS/system_m2sxxx.c ****     uint32_t serdes_id
+ 407:../src/CMSIS/system_m2sxxx.c **** );
+ 408:../src/CMSIS/system_m2sxxx.c **** #endif
+ 409:../src/CMSIS/system_m2sxxx.c **** 
+ 410:../src/CMSIS/system_m2sxxx.c **** #if (MSS_SYS_MDDR_CONFIG_BY_CORTEX || MSS_SYS_FDDR_CONFIG_BY_CORTEX)
+ 411:../src/CMSIS/system_m2sxxx.c **** static void config_ddr_subsys
+ 412:../src/CMSIS/system_m2sxxx.c **** (
+ 413:../src/CMSIS/system_m2sxxx.c ****     const ddr_subsys_cfg_t * p_ddr_subsys_cfg,
+ 414:../src/CMSIS/system_m2sxxx.c ****     DDRCore_TypeDef * p_ddr_subsys_regs
+ 415:../src/CMSIS/system_m2sxxx.c **** );
+ 416:../src/CMSIS/system_m2sxxx.c **** #endif
+ 417:../src/CMSIS/system_m2sxxx.c **** 
+ 418:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_SERDES_CONFIG_BY_CORTEX
+ 419:../src/CMSIS/system_m2sxxx.c **** static void config_by_addr_value
+ 420:../src/CMSIS/system_m2sxxx.c **** (
+ 421:../src/CMSIS/system_m2sxxx.c ****     const cfg_addr_value_pair_t * p_addr_value_pair,
+ 422:../src/CMSIS/system_m2sxxx.c ****     uint32_t nb_of_cfg_pairs
+ 423:../src/CMSIS/system_m2sxxx.c **** );
+ 424:../src/CMSIS/system_m2sxxx.c **** #endif
+ 425:../src/CMSIS/system_m2sxxx.c **** 
+ 426:../src/CMSIS/system_m2sxxx.c **** static uint32_t get_rcosc_25_50mhz_frequency(void);
+ 427:../src/CMSIS/system_m2sxxx.c **** static void set_clock_frequency_globals(uint32_t fclk);
+ 428:../src/CMSIS/system_m2sxxx.c **** 
+ 429:../src/CMSIS/system_m2sxxx.c **** /***************************************************************************//**
+ 430:../src/CMSIS/system_m2sxxx.c ****  * See system_m2sxxx.h for details.
+ 431:../src/CMSIS/system_m2sxxx.c ****  */
+ 432:../src/CMSIS/system_m2sxxx.c **** void SystemInit(void)
+ 433:../src/CMSIS/system_m2sxxx.c **** {
+ 434:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_SERDES_CONFIG_BY_CORTEX
+ 435:../src/CMSIS/system_m2sxxx.c ****     uint32_t sdif_released;
+ 436:../src/CMSIS/system_m2sxxx.c **** #endif
+ 437:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_CORESF2RESET_USED
+ 438:../src/CMSIS/system_m2sxxx.c ****     uint32_t init_done;
+ 439:../src/CMSIS/system_m2sxxx.c **** #endif
+ 440:../src/CMSIS/system_m2sxxx.c **** 
+ 441:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_SERDES_CONFIG_BY_CORTEX
+ 442:../src/CMSIS/system_m2sxxx.c ****     uint32_t core_cfg_version;
+ 443:../src/CMSIS/system_m2sxxx.c **** 
+ 444:../src/CMSIS/system_m2sxxx.c ****     core_cfg_version = CORE_SF2_CFG->IP_VERSION_SR;
+ 445:../src/CMSIS/system_m2sxxx.c **** #endif
+ 446:../src/CMSIS/system_m2sxxx.c **** 
+ 447:../src/CMSIS/system_m2sxxx.c ****     /*
+ 448:../src/CMSIS/system_m2sxxx.c ****      * Do not make use of global variables or make any asumptions regarding
+ 449:../src/CMSIS/system_m2sxxx.c ****      * memory content if modifying this function. The memory content has not been
+ 450:../src/CMSIS/system_m2sxxx.c ****      * initialised by the time this function is called by the start-up code.
+ 451:../src/CMSIS/system_m2sxxx.c ****      */
+ 452:../src/CMSIS/system_m2sxxx.c **** #if (MSS_SYS_FACC_INIT_BY_CORTEX == 1)
+ 453:../src/CMSIS/system_m2sxxx.c ****     complete_clock_config();
+ 454:../src/CMSIS/system_m2sxxx.c **** #endif
+ 455:../src/CMSIS/system_m2sxxx.c **** 
+ 456:../src/CMSIS/system_m2sxxx.c ****     silicon_workarounds();
+ 457:../src/CMSIS/system_m2sxxx.c **** 
+ 458:../src/CMSIS/system_m2sxxx.c ****     /*--------------------------------------------------------------------------
+ 459:../src/CMSIS/system_m2sxxx.c ****      * Set STKALIGN to ensure exception stacking starts on 8 bytes address
+ 460:../src/CMSIS/system_m2sxxx.c ****      * boundary. This ensures compliance with the "Procedure Call Standards for
+ 461:../src/CMSIS/system_m2sxxx.c ****      * the ARM Architecture" (AAPCS).
+ 462:../src/CMSIS/system_m2sxxx.c ****      */
+ 463:../src/CMSIS/system_m2sxxx.c ****     SCB->CCR |= SCB_CCR_STKALIGN_Msk;
+ 464:../src/CMSIS/system_m2sxxx.c **** 
+ 465:../src/CMSIS/system_m2sxxx.c ****     /*--------------------------------------------------------------------------
+ 466:../src/CMSIS/system_m2sxxx.c ****      * MDDR configuration
+ 467:../src/CMSIS/system_m2sxxx.c ****      */
+ 468:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_MDDR_CONFIG_BY_CORTEX
+ 469:../src/CMSIS/system_m2sxxx.c ****     if(0u == SYSREG->DDR_CR)
+ 470:../src/CMSIS/system_m2sxxx.c ****     {
+ 471:../src/CMSIS/system_m2sxxx.c ****         /*
+ 472:../src/CMSIS/system_m2sxxx.c ****          * We only configure the MDDR memory controller if MDDR is not remapped
+ 473:../src/CMSIS/system_m2sxxx.c ****          * to address 0x00000000. If MDDR is remapped to 0x00000000 then we are
+ 474:../src/CMSIS/system_m2sxxx.c ****          * probably executing this code from MDDR in a debugging session and
+ 475:../src/CMSIS/system_m2sxxx.c ****          * attempting to reconfigure the MDDR memory controller will cause the
+ 476:../src/CMSIS/system_m2sxxx.c ****          * Cortex-M3 to crash.
+ 477:../src/CMSIS/system_m2sxxx.c ****          */
+ 478:../src/CMSIS/system_m2sxxx.c ****         config_ddr_subsys(&g_m2s_mddr_subsys_config, &g_m2s_mddr_addr->core);
+ 479:../src/CMSIS/system_m2sxxx.c ****     }
+ 480:../src/CMSIS/system_m2sxxx.c **** #endif
+ 481:../src/CMSIS/system_m2sxxx.c **** 
+ 482:../src/CMSIS/system_m2sxxx.c ****     /*--------------------------------------------------------------------------
+ 483:../src/CMSIS/system_m2sxxx.c ****      * FDDR configuration
+ 484:../src/CMSIS/system_m2sxxx.c ****      */
+ 485:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_FDDR_CONFIG_BY_CORTEX
+ 486:../src/CMSIS/system_m2sxxx.c ****     config_ddr_subsys(&g_m2s_fddr_subsys_config, &g_m2s_fddr_addr->core);
+ 487:../src/CMSIS/system_m2sxxx.c **** #endif
+ 488:../src/CMSIS/system_m2sxxx.c **** 
+ 489:../src/CMSIS/system_m2sxxx.c ****     /*--------------------------------------------------------------------------
+ 490:../src/CMSIS/system_m2sxxx.c ****      * Call user defined configuration function.
+ 491:../src/CMSIS/system_m2sxxx.c ****      */
+ 492:../src/CMSIS/system_m2sxxx.c ****     mscc_post_hw_cfg_init();
+ 493:../src/CMSIS/system_m2sxxx.c **** 
+ 494:../src/CMSIS/system_m2sxxx.c ****     /*--------------------------------------------------------------------------
+ 495:../src/CMSIS/system_m2sxxx.c ****      * SERDES interfaces configuration.
+ 496:../src/CMSIS/system_m2sxxx.c ****      */
+ 497:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_SERDES_CONFIG_BY_CORTEX
+ 498:../src/CMSIS/system_m2sxxx.c ****     configure_serdes_intf();
+ 499:../src/CMSIS/system_m2sxxx.c **** 
+ 500:../src/CMSIS/system_m2sxxx.c ****     if(core_cfg_version >= CORE_CONFIGP_V7_0)
+ 501:../src/CMSIS/system_m2sxxx.c ****     {
+ 502:../src/CMSIS/system_m2sxxx.c ****         CORE_SF2_CFG->CONFIG_DONE = CONFIG_1_DONE;
+ 503:../src/CMSIS/system_m2sxxx.c **** 
+ 504:../src/CMSIS/system_m2sxxx.c ****         /* Poll for SDIF_RELEASED. */
+ 505:../src/CMSIS/system_m2sxxx.c ****         do
+ 506:../src/CMSIS/system_m2sxxx.c ****         {
+ 507:../src/CMSIS/system_m2sxxx.c ****             sdif_released = CORE_SF2_CFG->INIT_DONE & SDIF_RELEASED_MASK;
+ 508:../src/CMSIS/system_m2sxxx.c ****         } while (0u == sdif_released);
+ 509:../src/CMSIS/system_m2sxxx.c ****     }
+ 510:../src/CMSIS/system_m2sxxx.c **** 
+ 511:../src/CMSIS/system_m2sxxx.c ****     configure_pcie_intf();
+ 512:../src/CMSIS/system_m2sxxx.c **** #endif
+ 513:../src/CMSIS/system_m2sxxx.c **** 
+ 514:../src/CMSIS/system_m2sxxx.c ****     /*--------------------------------------------------------------------------
+ 515:../src/CMSIS/system_m2sxxx.c ****      * Synchronize with CoreSF2Reset controlling resets from the fabric.
+ 516:../src/CMSIS/system_m2sxxx.c ****      */
+ 517:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_CORESF2RESET_USED
+ 518:../src/CMSIS/system_m2sxxx.c ****     /*
+ 519:../src/CMSIS/system_m2sxxx.c ****      * Negate FPGA_SOFTRESET to de-assert MSS_RESET_N_M2F in the fabric. We must
+ 520:../src/CMSIS/system_m2sxxx.c ****      * do this here because this signal is only deasserted by the System
+ 521:../src/CMSIS/system_m2sxxx.c ****      * Controller on a power-on reset. Other types of reset such as a watchdog
+ 522:../src/CMSIS/system_m2sxxx.c ****      * reset would result in the FPGA fabric being held in reset and getting
+ 523:../src/CMSIS/system_m2sxxx.c ****      * stuck waiting for the CoreSF2Config INIT_DONE to become asserted.
+ 524:../src/CMSIS/system_m2sxxx.c ****      */
+ 525:../src/CMSIS/system_m2sxxx.c ****     SYSREG->SOFT_RST_CR &= ~SYSREG_FPGA_SOFTRESET_MASK;
+ 526:../src/CMSIS/system_m2sxxx.c **** 
+ 527:../src/CMSIS/system_m2sxxx.c ****     /*
+ 528:../src/CMSIS/system_m2sxxx.c ****      * Signal to CoreSF2Reset that peripheral configuration registers have been
+ 529:../src/CMSIS/system_m2sxxx.c ****      * written.
+ 530:../src/CMSIS/system_m2sxxx.c ****      */
+ 531:../src/CMSIS/system_m2sxxx.c ****     CORE_SF2_CFG->CONFIG_DONE |= (CONFIG_1_DONE | CONFIG_2_DONE);
+ 532:../src/CMSIS/system_m2sxxx.c **** 
+ 533:../src/CMSIS/system_m2sxxx.c ****     /* Wait for INIT_DONE from CoreSF2Reset. */
+ 534:../src/CMSIS/system_m2sxxx.c ****     do
+ 535:../src/CMSIS/system_m2sxxx.c ****     {
+ 536:../src/CMSIS/system_m2sxxx.c ****         init_done = CORE_SF2_CFG->INIT_DONE & INIT_DONE_MASK;
+ 537:../src/CMSIS/system_m2sxxx.c ****     } while (0u == init_done);
+ 538:../src/CMSIS/system_m2sxxx.c **** #endif
+ 539:../src/CMSIS/system_m2sxxx.c **** }
+ 540:../src/CMSIS/system_m2sxxx.c **** 
+ 541:../src/CMSIS/system_m2sxxx.c **** /***************************************************************************//**
+ 542:../src/CMSIS/system_m2sxxx.c ****  * SystemCoreClockUpdate()
+ 543:../src/CMSIS/system_m2sxxx.c ****  */
+ 544:../src/CMSIS/system_m2sxxx.c **** #define RCOSC_25_50MHZ_CLK_SRC  0u
+ 545:../src/CMSIS/system_m2sxxx.c **** #define CLK_XTAL_CLK_SRC        1u
+ 546:../src/CMSIS/system_m2sxxx.c **** #define RCOSC_1_MHZ_CLK_SRC     2u
+ 547:../src/CMSIS/system_m2sxxx.c **** #define CCC2ASCI_CLK_SRC        3u
+ 548:../src/CMSIS/system_m2sxxx.c **** 
+ 549:../src/CMSIS/system_m2sxxx.c **** #define FACC_STANDBY_SHIFT      6u
+ 550:../src/CMSIS/system_m2sxxx.c **** #define FACC_STANDBY_SEL_MASK   0x00000007u
+ 551:../src/CMSIS/system_m2sxxx.c **** 
+ 552:../src/CMSIS/system_m2sxxx.c **** #define FREQ_32KHZ   32768u
+ 553:../src/CMSIS/system_m2sxxx.c **** #define FREQ_1MHZ    1000000u
+ 554:../src/CMSIS/system_m2sxxx.c **** #define FREQ_25MHZ   25000000u
+ 555:../src/CMSIS/system_m2sxxx.c **** #define FREQ_50MHZ   50000000u
+ 556:../src/CMSIS/system_m2sxxx.c **** 
+ 557:../src/CMSIS/system_m2sxxx.c **** void SystemCoreClockUpdate(void)
+ 558:../src/CMSIS/system_m2sxxx.c **** {
+ 559:../src/CMSIS/system_m2sxxx.c ****     uint32_t controller_pll_init;
+ 560:../src/CMSIS/system_m2sxxx.c ****     uint32_t clk_src;
+ 561:../src/CMSIS/system_m2sxxx.c **** 
+ 562:../src/CMSIS/system_m2sxxx.c ****     controller_pll_init = SYSREG->MSSDDR_FACC1_CR & CONTROLLER_PLL_INIT_MASK;
+ 563:../src/CMSIS/system_m2sxxx.c **** 
+ 564:../src/CMSIS/system_m2sxxx.c ****     if(0u == controller_pll_init)
+ 565:../src/CMSIS/system_m2sxxx.c ****     {
+ 566:../src/CMSIS/system_m2sxxx.c ****         /* Normal operations. */
+ 567:../src/CMSIS/system_m2sxxx.c ****         uint32_t global_mux_sel;
+ 568:../src/CMSIS/system_m2sxxx.c **** 
+ 569:../src/CMSIS/system_m2sxxx.c ****         global_mux_sel = SYSREG->MSSDDR_FACC1_CR & FACC_GLMUX_SEL_MASK;
+ 570:../src/CMSIS/system_m2sxxx.c ****         if(0u == global_mux_sel)
+ 571:../src/CMSIS/system_m2sxxx.c ****         {
+ 572:../src/CMSIS/system_m2sxxx.c ****             /* MSS clocked from MSS PLL. Use Libero flow defines. */
+ 573:../src/CMSIS/system_m2sxxx.c ****             SystemCoreClock = MSS_SYS_M3_CLK_FREQ;
+ 574:../src/CMSIS/system_m2sxxx.c ****             g_FrequencyPCLK0 = MSS_SYS_APB_0_CLK_FREQ;
+ 575:../src/CMSIS/system_m2sxxx.c ****             g_FrequencyPCLK1 = MSS_SYS_APB_1_CLK_FREQ;
+ 576:../src/CMSIS/system_m2sxxx.c ****             g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;
+ 577:../src/CMSIS/system_m2sxxx.c ****             g_FrequencyFIC0 = MSS_SYS_FIC_0_CLK_FREQ;
+ 578:../src/CMSIS/system_m2sxxx.c ****             g_FrequencyFIC1 = MSS_SYS_FIC_1_CLK_FREQ;
+ 579:../src/CMSIS/system_m2sxxx.c ****             g_FrequencyFIC64 = MSS_SYS_FIC64_CLK_FREQ;
+ 580:../src/CMSIS/system_m2sxxx.c ****         }
+ 581:../src/CMSIS/system_m2sxxx.c ****         else
+ 582:../src/CMSIS/system_m2sxxx.c ****         {
+ 583:../src/CMSIS/system_m2sxxx.c ****             /* MSS clocked from standby clock. */
+ 584:../src/CMSIS/system_m2sxxx.c ****             const uint8_t standby_clock_lut[8] = { RCOSC_25_50MHZ_CLK_SRC,
+ 585:../src/CMSIS/system_m2sxxx.c ****                                                    CLK_XTAL_CLK_SRC,
+ 586:../src/CMSIS/system_m2sxxx.c ****                                                    RCOSC_25_50MHZ_CLK_SRC,
+ 587:../src/CMSIS/system_m2sxxx.c ****                                                    CLK_XTAL_CLK_SRC,
+ 588:../src/CMSIS/system_m2sxxx.c ****                                                    RCOSC_1_MHZ_CLK_SRC,
+ 589:../src/CMSIS/system_m2sxxx.c ****                                                    RCOSC_1_MHZ_CLK_SRC,
+ 590:../src/CMSIS/system_m2sxxx.c ****                                                    CCC2ASCI_CLK_SRC,
+ 591:../src/CMSIS/system_m2sxxx.c ****                                                    CCC2ASCI_CLK_SRC };
+ 592:../src/CMSIS/system_m2sxxx.c **** 
+ 593:../src/CMSIS/system_m2sxxx.c ****             uint32_t standby_sel;
+ 594:../src/CMSIS/system_m2sxxx.c ****             uint8_t clock_source;
+ 595:../src/CMSIS/system_m2sxxx.c **** 
+ 596:../src/CMSIS/system_m2sxxx.c ****             standby_sel = (SYSREG->MSSDDR_FACC2_CR >> FACC_STANDBY_SHIFT) & FACC_STANDBY_SEL_MASK;
+ 597:../src/CMSIS/system_m2sxxx.c ****             clock_source = standby_clock_lut[standby_sel];
+ 598:../src/CMSIS/system_m2sxxx.c ****             switch(clock_source)
+ 599:../src/CMSIS/system_m2sxxx.c ****             {
+ 600:../src/CMSIS/system_m2sxxx.c ****                 case RCOSC_25_50MHZ_CLK_SRC:
+ 601:../src/CMSIS/system_m2sxxx.c ****                     clk_src = get_rcosc_25_50mhz_frequency();
+ 602:../src/CMSIS/system_m2sxxx.c ****                     set_clock_frequency_globals(clk_src);
+ 603:../src/CMSIS/system_m2sxxx.c ****                 break;
+ 604:../src/CMSIS/system_m2sxxx.c **** 
+ 605:../src/CMSIS/system_m2sxxx.c ****                 case CLK_XTAL_CLK_SRC:
+ 606:../src/CMSIS/system_m2sxxx.c ****                     set_clock_frequency_globals(FREQ_32KHZ);
+ 607:../src/CMSIS/system_m2sxxx.c ****                 break;
+ 608:../src/CMSIS/system_m2sxxx.c **** 
+ 609:../src/CMSIS/system_m2sxxx.c ****                 case RCOSC_1_MHZ_CLK_SRC:
+ 610:../src/CMSIS/system_m2sxxx.c ****                     set_clock_frequency_globals(FREQ_1MHZ);
+ 611:../src/CMSIS/system_m2sxxx.c ****                 break;
+ 612:../src/CMSIS/system_m2sxxx.c **** 
+ 613:../src/CMSIS/system_m2sxxx.c ****                 case CCC2ASCI_CLK_SRC:
+ 614:../src/CMSIS/system_m2sxxx.c ****                     /* Fall through. */
+ 615:../src/CMSIS/system_m2sxxx.c ****                 default:
+ 616:../src/CMSIS/system_m2sxxx.c ****                     set_clock_frequency_globals(FREQ_1MHZ);
+ 617:../src/CMSIS/system_m2sxxx.c ****                 break;
+ 618:../src/CMSIS/system_m2sxxx.c ****             }
+ 619:../src/CMSIS/system_m2sxxx.c ****         }
+ 620:../src/CMSIS/system_m2sxxx.c ****     }
+ 621:../src/CMSIS/system_m2sxxx.c ****     else
+ 622:../src/CMSIS/system_m2sxxx.c ****     {
+ 623:../src/CMSIS/system_m2sxxx.c ****         /* PLL initialization mode. Running from 25/50MHZ RC oscillator. */
+ 624:../src/CMSIS/system_m2sxxx.c ****         clk_src = get_rcosc_25_50mhz_frequency();
+ 625:../src/CMSIS/system_m2sxxx.c ****         set_clock_frequency_globals(clk_src);
+ 626:../src/CMSIS/system_m2sxxx.c ****     }
+ 627:../src/CMSIS/system_m2sxxx.c **** }
+ 628:../src/CMSIS/system_m2sxxx.c **** 
+ 629:../src/CMSIS/system_m2sxxx.c **** /***************************************************************************//**
+ 630:../src/CMSIS/system_m2sxxx.c ****  * Find out frequency generated by the 25_50mhz RC osciallator.
+ 631:../src/CMSIS/system_m2sxxx.c ****  */
+ 632:../src/CMSIS/system_m2sxxx.c **** static uint32_t get_rcosc_25_50mhz_frequency(void)
+ 633:../src/CMSIS/system_m2sxxx.c **** {
+ 634:../src/CMSIS/system_m2sxxx.c ****     uint32_t rcosc_div2;
+ 635:../src/CMSIS/system_m2sxxx.c ****     uint32_t rcosc_frequency;
+ 636:../src/CMSIS/system_m2sxxx.c **** 
+ 637:../src/CMSIS/system_m2sxxx.c ****     rcosc_div2 = SYSREG->MSSDDR_PLL_STATUS & RCOSC_DIV2_MASK;
+ 638:../src/CMSIS/system_m2sxxx.c ****     if(0u == rcosc_div2)
+ 639:../src/CMSIS/system_m2sxxx.c ****     {
+ 640:../src/CMSIS/system_m2sxxx.c ****         /* 25_50mhz oscillator is configured for 25 MHz operations. */
+ 641:../src/CMSIS/system_m2sxxx.c ****         rcosc_frequency = FREQ_25MHZ;
+ 642:../src/CMSIS/system_m2sxxx.c ****     }
+ 643:../src/CMSIS/system_m2sxxx.c ****     else
+ 644:../src/CMSIS/system_m2sxxx.c ****     {
+ 645:../src/CMSIS/system_m2sxxx.c ****         /* 25_50mhz oscillator is configured for 50 MHz operations. */
+ 646:../src/CMSIS/system_m2sxxx.c ****         rcosc_frequency = FREQ_50MHZ;
+ 647:../src/CMSIS/system_m2sxxx.c ****     }
+ 648:../src/CMSIS/system_m2sxxx.c **** 
+ 649:../src/CMSIS/system_m2sxxx.c ****     return rcosc_frequency;
+ 650:../src/CMSIS/system_m2sxxx.c **** }
+ 651:../src/CMSIS/system_m2sxxx.c **** 
+ 652:../src/CMSIS/system_m2sxxx.c **** /***************************************************************************//**
+ 653:../src/CMSIS/system_m2sxxx.c ****    Set the value of the clock frequency global variables based on the value of
+ 654:../src/CMSIS/system_m2sxxx.c ****    standby_clk passed as parameter.
+ 655:../src/CMSIS/system_m2sxxx.c ****    The following global variables are set by this function:
+ 656:../src/CMSIS/system_m2sxxx.c ****         - SystemCoreClock
+ 657:../src/CMSIS/system_m2sxxx.c ****         - g_FrequencyPCLK0
+ 658:../src/CMSIS/system_m2sxxx.c ****         - g_FrequencyPCLK1
+ 659:../src/CMSIS/system_m2sxxx.c ****         - g_FrequencyPCLK2
+ 660:../src/CMSIS/system_m2sxxx.c ****         - g_FrequencyFIC0
+ 661:../src/CMSIS/system_m2sxxx.c ****         - g_FrequencyFIC1
+ 662:../src/CMSIS/system_m2sxxx.c ****         - g_FrequencyFIC64
+ 663:../src/CMSIS/system_m2sxxx.c ****  */
+ 664:../src/CMSIS/system_m2sxxx.c **** static void set_clock_frequency_globals(uint32_t standby_clk)
+ 665:../src/CMSIS/system_m2sxxx.c **** {
+  26              		.loc 1 665 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31              	.LVL0:
+ 666:../src/CMSIS/system_m2sxxx.c ****     SystemCoreClock = standby_clk;
+  32              		.loc 1 666 0
+  33 0000 074B     		ldr	r3, .L2
+ 667:../src/CMSIS/system_m2sxxx.c ****     g_FrequencyPCLK0 = standby_clk;
+ 668:../src/CMSIS/system_m2sxxx.c ****     g_FrequencyPCLK1 = standby_clk;
+ 669:../src/CMSIS/system_m2sxxx.c ****     g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;
+  34              		.loc 1 669 0
+  35 0002 084A     		ldr	r2, .L2+4
+ 666:../src/CMSIS/system_m2sxxx.c ****     SystemCoreClock = standby_clk;
+  36              		.loc 1 666 0
+  37 0004 1860     		str	r0, [r3]
+ 667:../src/CMSIS/system_m2sxxx.c ****     g_FrequencyPCLK0 = standby_clk;
+  38              		.loc 1 667 0
+  39 0006 084B     		ldr	r3, .L2+8
+  40 0008 1860     		str	r0, [r3]
+ 668:../src/CMSIS/system_m2sxxx.c ****     g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;
+  41              		.loc 1 668 0
+  42 000a 084B     		ldr	r3, .L2+12
+  43 000c 1860     		str	r0, [r3]
+  44              		.loc 1 669 0
+  45 000e 084B     		ldr	r3, .L2+16
+  46 0010 1A60     		str	r2, [r3]
+ 670:../src/CMSIS/system_m2sxxx.c ****     g_FrequencyFIC0 = standby_clk;
+  47              		.loc 1 670 0
+  48 0012 084B     		ldr	r3, .L2+20
+  49 0014 1860     		str	r0, [r3]
+ 671:../src/CMSIS/system_m2sxxx.c ****     g_FrequencyFIC1 = standby_clk;
+  50              		.loc 1 671 0
+  51 0016 084B     		ldr	r3, .L2+24
+  52 0018 1860     		str	r0, [r3]
+ 672:../src/CMSIS/system_m2sxxx.c ****     g_FrequencyFIC64 = standby_clk;
+  53              		.loc 1 672 0
+  54 001a 084B     		ldr	r3, .L2+28
+  55 001c 1860     		str	r0, [r3]
+  56 001e 7047     		bx	lr
+  57              	.L3:
+  58              		.align	2
+  59              	.L2:
+  60 0020 00000000 		.word	.LANCHOR0
+  61 0024 C00E1602 		.word	35000000
+  62 0028 00000000 		.word	.LANCHOR1
+  63 002c 00000000 		.word	.LANCHOR2
+  64 0030 00000000 		.word	.LANCHOR3
+  65 0034 00000000 		.word	.LANCHOR4
+  66 0038 00000000 		.word	.LANCHOR5
+  67 003c 00000000 		.word	.LANCHOR6
+  68              		.cfi_endproc
+  69              	.LFE66:
+  71              		.section	.text.SystemInit,"ax",%progbits
+  72              		.align	1
+  73              		.global	SystemInit
+  74              		.thumb
+  75              		.thumb_func
+  77              	SystemInit:
+  78              	.LFB63:
+ 433:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_SERDES_CONFIG_BY_CORTEX
+  79              		.loc 1 433 0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  84              	.LBB8:
+  85              	.LBB9:
+  86              	.LBB10:
+  87              	.LBB11:
+ 673:../src/CMSIS/system_m2sxxx.c **** }
+ 674:../src/CMSIS/system_m2sxxx.c **** 
+ 675:../src/CMSIS/system_m2sxxx.c **** /***************************************************************************//**
+ 676:../src/CMSIS/system_m2sxxx.c ****  * Write 16-bit configuration values into 32-bit word aligned registers.
+ 677:../src/CMSIS/system_m2sxxx.c ****  */
+ 678:../src/CMSIS/system_m2sxxx.c **** #if (MSS_SYS_MDDR_CONFIG_BY_CORTEX || MSS_SYS_FDDR_CONFIG_BY_CORTEX)
+ 679:../src/CMSIS/system_m2sxxx.c **** static void copy_cfg16_to_regs
+ 680:../src/CMSIS/system_m2sxxx.c **** (
+ 681:../src/CMSIS/system_m2sxxx.c ****     volatile uint32_t * p_regs,
+ 682:../src/CMSIS/system_m2sxxx.c ****     const uint16_t * p_cfg,
+ 683:../src/CMSIS/system_m2sxxx.c ****     uint32_t nb_16bit_words
+ 684:../src/CMSIS/system_m2sxxx.c **** )
+ 685:../src/CMSIS/system_m2sxxx.c **** {
+ 686:../src/CMSIS/system_m2sxxx.c ****     uint32_t inc;
+ 687:../src/CMSIS/system_m2sxxx.c **** 
+ 688:../src/CMSIS/system_m2sxxx.c ****     for(inc = 0u; inc < nb_16bit_words; ++inc)
+ 689:../src/CMSIS/system_m2sxxx.c ****     {
+ 690:../src/CMSIS/system_m2sxxx.c ****         p_regs[inc] = p_cfg[inc];
+ 691:../src/CMSIS/system_m2sxxx.c ****     }
+ 692:../src/CMSIS/system_m2sxxx.c **** }
+ 693:../src/CMSIS/system_m2sxxx.c **** #endif
+ 694:../src/CMSIS/system_m2sxxx.c **** 
+ 695:../src/CMSIS/system_m2sxxx.c **** /***************************************************************************//**
+ 696:../src/CMSIS/system_m2sxxx.c ****  * Configure peripheral using register address and register value pairs.
+ 697:../src/CMSIS/system_m2sxxx.c ****  */
+ 698:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_SERDES_CONFIG_BY_CORTEX
+ 699:../src/CMSIS/system_m2sxxx.c **** static void config_by_addr_value
+ 700:../src/CMSIS/system_m2sxxx.c **** (
+ 701:../src/CMSIS/system_m2sxxx.c ****     const cfg_addr_value_pair_t * p_addr_value_pair,
+ 702:../src/CMSIS/system_m2sxxx.c ****     uint32_t nb_of_cfg_pairs
+ 703:../src/CMSIS/system_m2sxxx.c **** )
+ 704:../src/CMSIS/system_m2sxxx.c **** {
+ 705:../src/CMSIS/system_m2sxxx.c ****     uint32_t inc;
+ 706:../src/CMSIS/system_m2sxxx.c **** 
+ 707:../src/CMSIS/system_m2sxxx.c ****     for(inc = 0u; inc < nb_of_cfg_pairs; ++inc)
+ 708:../src/CMSIS/system_m2sxxx.c ****     {
+ 709:../src/CMSIS/system_m2sxxx.c ****         *p_addr_value_pair[inc].p_reg = p_addr_value_pair[inc].value;
+ 710:../src/CMSIS/system_m2sxxx.c ****     }
+ 711:../src/CMSIS/system_m2sxxx.c **** }
+ 712:../src/CMSIS/system_m2sxxx.c **** #endif
+ 713:../src/CMSIS/system_m2sxxx.c **** 
+ 714:../src/CMSIS/system_m2sxxx.c **** /***************************************************************************//**
+ 715:../src/CMSIS/system_m2sxxx.c ****  * DDR subsystem configuration.
+ 716:../src/CMSIS/system_m2sxxx.c ****  */
+ 717:../src/CMSIS/system_m2sxxx.c **** #if (MSS_SYS_MDDR_CONFIG_BY_CORTEX || MSS_SYS_FDDR_CONFIG_BY_CORTEX)
+ 718:../src/CMSIS/system_m2sxxx.c **** 
+ 719:../src/CMSIS/system_m2sxxx.c **** #define NB_OF_DDRC_REGS_TO_CONFIG       57u
+ 720:../src/CMSIS/system_m2sxxx.c **** #define NB_OF_DDR_PHY_REGS_TO_CONFIG    65u
+ 721:../src/CMSIS/system_m2sxxx.c **** 
+ 722:../src/CMSIS/system_m2sxxx.c **** static void config_ddr_subsys
+ 723:../src/CMSIS/system_m2sxxx.c **** (
+ 724:../src/CMSIS/system_m2sxxx.c ****     const ddr_subsys_cfg_t * p_ddr_subsys_cfg,
+ 725:../src/CMSIS/system_m2sxxx.c ****     DDRCore_TypeDef * p_ddr_subsys_regs
+ 726:../src/CMSIS/system_m2sxxx.c **** )
+ 727:../src/CMSIS/system_m2sxxx.c **** {
+ 728:../src/CMSIS/system_m2sxxx.c ****     volatile uint32_t * p_regs;
+ 729:../src/CMSIS/system_m2sxxx.c ****     const uint16_t * p_cfg;
+ 730:../src/CMSIS/system_m2sxxx.c **** 
+ 731:../src/CMSIS/system_m2sxxx.c ****     /*--------------------------------------------------------------------------
+ 732:../src/CMSIS/system_m2sxxx.c ****      * Configure DDR controller part of the MDDR subsystem.
+ 733:../src/CMSIS/system_m2sxxx.c ****      */
+ 734:../src/CMSIS/system_m2sxxx.c ****     p_cfg = &p_ddr_subsys_cfg->ddrc.DYN_SOFT_RESET_CR;
+ 735:../src/CMSIS/system_m2sxxx.c ****     p_regs = &p_ddr_subsys_regs->ddrc.DYN_SOFT_RESET_CR;
+ 736:../src/CMSIS/system_m2sxxx.c **** 
+ 737:../src/CMSIS/system_m2sxxx.c ****     copy_cfg16_to_regs(p_regs, p_cfg, NB_OF_DDRC_REGS_TO_CONFIG);
+ 738:../src/CMSIS/system_m2sxxx.c **** 
+ 739:../src/CMSIS/system_m2sxxx.c ****     /*--------------------------------------------------------------------------
+ 740:../src/CMSIS/system_m2sxxx.c ****      * Configure DDR PHY.
+ 741:../src/CMSIS/system_m2sxxx.c ****      */
+ 742:../src/CMSIS/system_m2sxxx.c ****     p_cfg = &p_ddr_subsys_cfg->phy.LOOPBACK_TEST_CR;
+ 743:../src/CMSIS/system_m2sxxx.c ****     p_regs = &p_ddr_subsys_regs->phy.LOOPBACK_TEST_CR;
+ 744:../src/CMSIS/system_m2sxxx.c **** 
+ 745:../src/CMSIS/system_m2sxxx.c ****     copy_cfg16_to_regs(p_regs, p_cfg, NB_OF_DDR_PHY_REGS_TO_CONFIG);
+ 746:../src/CMSIS/system_m2sxxx.c **** 
+ 747:../src/CMSIS/system_m2sxxx.c ****     /*--------------------------------------------------------------------------
+ 748:../src/CMSIS/system_m2sxxx.c ****      * Configure DDR FIC.
+ 749:../src/CMSIS/system_m2sxxx.c ****      */
+ 750:../src/CMSIS/system_m2sxxx.c ****     p_ddr_subsys_regs->fic.NB_ADDR_CR = p_ddr_subsys_cfg->fic.NB_ADDR_CR;
+ 751:../src/CMSIS/system_m2sxxx.c ****     p_ddr_subsys_regs->fic.NBRWB_SIZE_CR = p_ddr_subsys_cfg->fic.NBRWB_SIZE_CR;
+ 752:../src/CMSIS/system_m2sxxx.c ****     p_ddr_subsys_regs->fic.WB_TIMEOUT_CR = p_ddr_subsys_cfg->fic.WB_TIMEOUT_CR;
+ 753:../src/CMSIS/system_m2sxxx.c ****     p_ddr_subsys_regs->fic.HPD_SW_RW_EN_CR = p_ddr_subsys_cfg->fic.HPD_SW_RW_EN_CR;
+ 754:../src/CMSIS/system_m2sxxx.c ****     p_ddr_subsys_regs->fic.HPD_SW_RW_INVAL_CR = p_ddr_subsys_cfg->fic.HPD_SW_RW_INVAL_CR;
+ 755:../src/CMSIS/system_m2sxxx.c ****     p_ddr_subsys_regs->fic.SW_WR_ERCLR_CR = p_ddr_subsys_cfg->fic.SW_WR_ERCLR_CR;
+ 756:../src/CMSIS/system_m2sxxx.c ****     p_ddr_subsys_regs->fic.ERR_INT_ENABLE_CR = p_ddr_subsys_cfg->fic.ERR_INT_ENABLE_CR;
+ 757:../src/CMSIS/system_m2sxxx.c ****     p_ddr_subsys_regs->fic.NUM_AHB_MASTERS_CR = p_ddr_subsys_cfg->fic.NUM_AHB_MASTERS_CR;
+ 758:../src/CMSIS/system_m2sxxx.c ****     p_ddr_subsys_regs->fic.LOCK_TIMEOUTVAL_CR[0] = p_ddr_subsys_cfg->fic.LOCK_TIMEOUTVAL_1_CR;
+ 759:../src/CMSIS/system_m2sxxx.c ****     p_ddr_subsys_regs->fic.LOCK_TIMEOUTVAL_CR[1] = p_ddr_subsys_cfg->fic.LOCK_TIMEOUTVAL_2_CR;
+ 760:../src/CMSIS/system_m2sxxx.c ****     p_ddr_subsys_regs->fic.LOCK_TIMEOUT_EN_CR = p_ddr_subsys_cfg->fic.LOCK_TIMEOUT_EN_CR;
+ 761:../src/CMSIS/system_m2sxxx.c **** 
+ 762:../src/CMSIS/system_m2sxxx.c ****     /*--------------------------------------------------------------------------
+ 763:../src/CMSIS/system_m2sxxx.c ****      * Enable DDR.
+ 764:../src/CMSIS/system_m2sxxx.c ****      */
+ 765:../src/CMSIS/system_m2sxxx.c ****     p_ddr_subsys_regs->ddrc.DYN_SOFT_RESET_CR = 0x01u;
+ 766:../src/CMSIS/system_m2sxxx.c **** 
+ 767:../src/CMSIS/system_m2sxxx.c ****     while(0x0000u == p_ddr_subsys_regs->ddrc.DDRC_SR)
+ 768:../src/CMSIS/system_m2sxxx.c ****     {
+ 769:../src/CMSIS/system_m2sxxx.c ****         ;
+ 770:../src/CMSIS/system_m2sxxx.c ****     }
+ 771:../src/CMSIS/system_m2sxxx.c **** }
+ 772:../src/CMSIS/system_m2sxxx.c **** 
+ 773:../src/CMSIS/system_m2sxxx.c **** #endif
+ 774:../src/CMSIS/system_m2sxxx.c **** 
+ 775:../src/CMSIS/system_m2sxxx.c **** /***************************************************************************//**
+ 776:../src/CMSIS/system_m2sxxx.c ****  * Configure SERDES interfaces.
+ 777:../src/CMSIS/system_m2sxxx.c ****  */
+ 778:../src/CMSIS/system_m2sxxx.c **** #if MSS_SYS_SERDES_CONFIG_BY_CORTEX
+ 779:../src/CMSIS/system_m2sxxx.c **** 
+ 780:../src/CMSIS/system_m2sxxx.c **** static void configure_serdes_intf(void)
+ 781:../src/CMSIS/system_m2sxxx.c **** {
+ 782:../src/CMSIS/system_m2sxxx.c ****   #if MSS_SYS_SERDES_0_CONFIG_BY_CORTEX
+ 783:../src/CMSIS/system_m2sxxx.c ****     config_by_addr_value(g_m2s_serdes_0_config, SERDES_0_CFG_NB_OF_PAIRS);
+ 784:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 785:../src/CMSIS/system_m2sxxx.c **** 
+ 786:../src/CMSIS/system_m2sxxx.c ****   #if MSS_SYS_SERDES_1_CONFIG_BY_CORTEX
+ 787:../src/CMSIS/system_m2sxxx.c ****     config_by_addr_value(g_m2s_serdes_1_config, SERDES_1_CFG_NB_OF_PAIRS);
+ 788:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 789:../src/CMSIS/system_m2sxxx.c **** 
+ 790:../src/CMSIS/system_m2sxxx.c ****   #if MSS_SYS_SERDES_2_CONFIG_BY_CORTEX
+ 791:../src/CMSIS/system_m2sxxx.c ****     config_by_addr_value(g_m2s_serdes_2_config, SERDES_2_CFG_NB_OF_PAIRS);
+ 792:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 793:../src/CMSIS/system_m2sxxx.c **** 
+ 794:../src/CMSIS/system_m2sxxx.c ****   #if MSS_SYS_SERDES_3_CONFIG_BY_CORTEX
+ 795:../src/CMSIS/system_m2sxxx.c ****     config_by_addr_value(g_m2s_serdes_3_config, SERDES_3_CFG_NB_OF_PAIRS);
+ 796:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 797:../src/CMSIS/system_m2sxxx.c **** }
+ 798:../src/CMSIS/system_m2sxxx.c **** 
+ 799:../src/CMSIS/system_m2sxxx.c **** /***************************************************************************//**
+ 800:../src/CMSIS/system_m2sxxx.c ****  * Configure PCIe interfaces.
+ 801:../src/CMSIS/system_m2sxxx.c ****  */
+ 802:../src/CMSIS/system_m2sxxx.c **** static void configure_pcie_intf(void)
+ 803:../src/CMSIS/system_m2sxxx.c **** {
+ 804:../src/CMSIS/system_m2sxxx.c ****   #if MSS_SYS_SERDES_0_CONFIG_BY_CORTEX
+ 805:../src/CMSIS/system_m2sxxx.c ****     configure_pcie_block(g_m2s_serdes_0_config, SERDES_0_CFG_NB_OF_PAIRS, 0u);
+ 806:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 807:../src/CMSIS/system_m2sxxx.c **** 
+ 808:../src/CMSIS/system_m2sxxx.c ****   #if MSS_SYS_SERDES_1_CONFIG_BY_CORTEX
+ 809:../src/CMSIS/system_m2sxxx.c ****     configure_pcie_block(g_m2s_serdes_1_config, SERDES_1_CFG_NB_OF_PAIRS, 1u);
+ 810:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 811:../src/CMSIS/system_m2sxxx.c **** 
+ 812:../src/CMSIS/system_m2sxxx.c ****   #if MSS_SYS_SERDES_2_CONFIG_BY_CORTEX
+ 813:../src/CMSIS/system_m2sxxx.c ****     configure_pcie_block(g_m2s_serdes_2_config, SERDES_2_CFG_NB_OF_PAIRS, 2u);
+ 814:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 815:../src/CMSIS/system_m2sxxx.c **** 
+ 816:../src/CMSIS/system_m2sxxx.c ****   #if MSS_SYS_SERDES_3_CONFIG_BY_CORTEX
+ 817:../src/CMSIS/system_m2sxxx.c ****     configure_pcie_block(g_m2s_serdes_3_config, SERDES_3_CFG_NB_OF_PAIRS, 3u);
+ 818:../src/CMSIS/system_m2sxxx.c ****   #endif
+ 819:../src/CMSIS/system_m2sxxx.c **** }
+ 820:../src/CMSIS/system_m2sxxx.c **** 
+ 821:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+ 822:../src/CMSIS/system_m2sxxx.c ****   Configure one individual PCIe block.
+ 823:../src/CMSIS/system_m2sxxx.c ****  */
+ 824:../src/CMSIS/system_m2sxxx.c **** static void configure_pcie_block
+ 825:../src/CMSIS/system_m2sxxx.c **** (
+ 826:../src/CMSIS/system_m2sxxx.c ****     const cfg_addr_value_pair_t * p_addr_value_pair,
+ 827:../src/CMSIS/system_m2sxxx.c ****     uint32_t nb_of_cfg_pairs,
+ 828:../src/CMSIS/system_m2sxxx.c ****     uint32_t serdes_id
+ 829:../src/CMSIS/system_m2sxxx.c **** )
+ 830:../src/CMSIS/system_m2sxxx.c **** {
+ 831:../src/CMSIS/system_m2sxxx.c ****     uint32_t inc;
+ 832:../src/CMSIS/system_m2sxxx.c **** 
+ 833:../src/CMSIS/system_m2sxxx.c ****     const uint32_t PMA_READY_MASK = 0x00000080u;
+ 834:../src/CMSIS/system_m2sxxx.c ****     const uint32_t PCIE_CTRL_REG_LENGTH = 0x1000u;
+ 835:../src/CMSIS/system_m2sxxx.c ****     const uint32_t PCIE_CTLR_SOFTRESET_MASK = 0x00000001;
+ 836:../src/CMSIS/system_m2sxxx.c ****     const uint32_t PCIE2_CTLR_SOFTRESET_MASK = 0x00000040;
+ 837:../src/CMSIS/system_m2sxxx.c **** 
+ 838:../src/CMSIS/system_m2sxxx.c ****     SERDESIF_TypeDef * const serdes_lut[4] =
+ 839:../src/CMSIS/system_m2sxxx.c ****     {
+ 840:../src/CMSIS/system_m2sxxx.c ****         SERDES0, SERDES1, SERDES2, SERDES3
+ 841:../src/CMSIS/system_m2sxxx.c ****     };
+ 842:../src/CMSIS/system_m2sxxx.c **** 
+ 843:../src/CMSIS/system_m2sxxx.c ****     const uint32_t pcie_ctrl_top_addr_lut[4] =
+ 844:../src/CMSIS/system_m2sxxx.c ****     {
+ 845:../src/CMSIS/system_m2sxxx.c ****         SERDES0_CFG_BASE + PCIE_CTRL_REG_LENGTH,
+ 846:../src/CMSIS/system_m2sxxx.c ****         SERDES1_CFG_BASE + PCIE_CTRL_REG_LENGTH,
+ 847:../src/CMSIS/system_m2sxxx.c ****         SERDES2_CFG_BASE + PCIE_CTRL_REG_LENGTH,
+ 848:../src/CMSIS/system_m2sxxx.c ****         SERDES3_CFG_BASE + PCIE_CTRL_REG_LENGTH
+ 849:../src/CMSIS/system_m2sxxx.c ****     };
+ 850:../src/CMSIS/system_m2sxxx.c **** 
+ 851:../src/CMSIS/system_m2sxxx.c ****     /*
+ 852:../src/CMSIS/system_m2sxxx.c ****      * Poll for PMA_READY.
+ 853:../src/CMSIS/system_m2sxxx.c ****      */
+ 854:../src/CMSIS/system_m2sxxx.c ****     inc = 0U;
+ 855:../src/CMSIS/system_m2sxxx.c ****     while(g_pcie_lane_cfg_lut[serdes_id][inc].config_reg_lane_sel != 0)
+ 856:../src/CMSIS/system_m2sxxx.c ****     {
+ 857:../src/CMSIS/system_m2sxxx.c ****         uint32_t pma_ready;
+ 858:../src/CMSIS/system_m2sxxx.c ****         uint32_t config_phy_mode_1;
+ 859:../src/CMSIS/system_m2sxxx.c **** 
+ 860:../src/CMSIS/system_m2sxxx.c ****         /* select lane */
+ 861:../src/CMSIS/system_m2sxxx.c ****         config_phy_mode_1 = g_pcie_lane_cfg_lut[serdes_id][inc].serdes->sys_regs.CONFIG_PHY_MODE_1;
+ 862:../src/CMSIS/system_m2sxxx.c ****         config_phy_mode_1 &= ~CONFIG_REG_LANE_SEL_MASK;
+ 863:../src/CMSIS/system_m2sxxx.c ****         config_phy_mode_1 |= (uint32_t)g_pcie_lane_cfg_lut[serdes_id][inc].config_reg_lane_sel;
+ 864:../src/CMSIS/system_m2sxxx.c ****         g_pcie_lane_cfg_lut[serdes_id][inc].serdes->sys_regs.CONFIG_PHY_MODE_1 = config_phy_mode_1;
+ 865:../src/CMSIS/system_m2sxxx.c **** 
+ 866:../src/CMSIS/system_m2sxxx.c ****         /* Wait for PMA to become ready. */
+ 867:../src/CMSIS/system_m2sxxx.c ****         do
+ 868:../src/CMSIS/system_m2sxxx.c ****         {
+ 869:../src/CMSIS/system_m2sxxx.c ****             pma_ready = g_pcie_lane_cfg_lut[serdes_id][inc].lane->PMA_STATUS & PMA_READY_MASK;
+ 870:../src/CMSIS/system_m2sxxx.c ****         }
+ 871:../src/CMSIS/system_m2sxxx.c ****         while (0u == pma_ready);
+ 872:../src/CMSIS/system_m2sxxx.c ****         ++inc;
+ 873:../src/CMSIS/system_m2sxxx.c ****     }
+ 874:../src/CMSIS/system_m2sxxx.c **** 
+ 875:../src/CMSIS/system_m2sxxx.c ****     /*
+ 876:../src/CMSIS/system_m2sxxx.c ****      * Configure the PCIe controller registers.
+ 877:../src/CMSIS/system_m2sxxx.c ****      */
+ 878:../src/CMSIS/system_m2sxxx.c ****     for(inc = 0u; inc < nb_of_cfg_pairs; ++inc)
+ 879:../src/CMSIS/system_m2sxxx.c ****     {
+ 880:../src/CMSIS/system_m2sxxx.c ****         uint32_t reg_addr;
+ 881:../src/CMSIS/system_m2sxxx.c **** 
+ 882:../src/CMSIS/system_m2sxxx.c ****         reg_addr = (uint32_t)p_addr_value_pair[inc].p_reg;
+ 883:../src/CMSIS/system_m2sxxx.c **** 
+ 884:../src/CMSIS/system_m2sxxx.c ****         if(reg_addr < pcie_ctrl_top_addr_lut[serdes_id])
+ 885:../src/CMSIS/system_m2sxxx.c ****         {
+ 886:../src/CMSIS/system_m2sxxx.c ****             *p_addr_value_pair[inc].p_reg = p_addr_value_pair[inc].value;
+ 887:../src/CMSIS/system_m2sxxx.c ****         }
+ 888:../src/CMSIS/system_m2sxxx.c ****     }
+ 889:../src/CMSIS/system_m2sxxx.c **** 
+ 890:../src/CMSIS/system_m2sxxx.c ****     /*
+ 891:../src/CMSIS/system_m2sxxx.c ****      * Issue a soft-reset to the PCIe controller
+ 892:../src/CMSIS/system_m2sxxx.c ****      */
+ 893:../src/CMSIS/system_m2sxxx.c ****     inc = 0U;
+ 894:../src/CMSIS/system_m2sxxx.c ****     while(g_pcie_lane_cfg_lut[serdes_id][inc].config_reg_lane_sel != 0)
+ 895:../src/CMSIS/system_m2sxxx.c ****     {
+ 896:../src/CMSIS/system_m2sxxx.c ****         if(FIRST_PCIE_CTRL == g_pcie_lane_cfg_lut[serdes_id][inc].pcie_ctrl_id)
+ 897:../src/CMSIS/system_m2sxxx.c ****         {
+ 898:../src/CMSIS/system_m2sxxx.c ****             serdes_lut[serdes_id]->sys_regs.SERDESIF_SOFT_RESET &= ~PCIE_CTLR_SOFTRESET_MASK;
+ 899:../src/CMSIS/system_m2sxxx.c ****             serdes_lut[serdes_id]->sys_regs.SERDESIF_SOFT_RESET |= PCIE_CTLR_SOFTRESET_MASK;
+ 900:../src/CMSIS/system_m2sxxx.c ****         }
+ 901:../src/CMSIS/system_m2sxxx.c ****         else
+ 902:../src/CMSIS/system_m2sxxx.c ****         {
+ 903:../src/CMSIS/system_m2sxxx.c ****             serdes_lut[serdes_id]->sys_regs.SERDESIF_SOFT_RESET &= ~PCIE2_CTLR_SOFTRESET_MASK;
+ 904:../src/CMSIS/system_m2sxxx.c ****             serdes_lut[serdes_id]->sys_regs.SERDESIF_SOFT_RESET |= PCIE2_CTLR_SOFTRESET_MASK;
+ 905:../src/CMSIS/system_m2sxxx.c ****         }
+ 906:../src/CMSIS/system_m2sxxx.c ****         ++inc;
+ 907:../src/CMSIS/system_m2sxxx.c ****     }
+ 908:../src/CMSIS/system_m2sxxx.c **** }
+ 909:../src/CMSIS/system_m2sxxx.c **** 
+ 910:../src/CMSIS/system_m2sxxx.c **** #endif
+ 911:../src/CMSIS/system_m2sxxx.c **** 
+ 912:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+ 913:../src/CMSIS/system_m2sxxx.c ****   Retrieve silicon revision from system registers.
+ 914:../src/CMSIS/system_m2sxxx.c ****  */
+ 915:../src/CMSIS/system_m2sxxx.c **** static uint32_t get_silicon_revision(void)
+ 916:../src/CMSIS/system_m2sxxx.c **** {
+ 917:../src/CMSIS/system_m2sxxx.c ****     uint32_t silicon_revision;
+ 918:../src/CMSIS/system_m2sxxx.c ****     uint32_t device_version;
+ 919:../src/CMSIS/system_m2sxxx.c **** 
+ 920:../src/CMSIS/system_m2sxxx.c ****     device_version = SYSREG->DEVICE_VERSION;
+ 921:../src/CMSIS/system_m2sxxx.c ****     switch(device_version)
+  88              		.loc 1 921 0
+  89 0000 4FF60202 		movw	r2, #63490
+ 920:../src/CMSIS/system_m2sxxx.c ****     switch(device_version)
+  90              		.loc 1 920 0
+  91 0004 0C4B     		ldr	r3, .L8
+  92 0006 D3F84C11 		ldr	r1, [r3, #332]
+  93              	.LVL1:
+  94              		.loc 1 921 0
+  95 000a 9142     		cmp	r1, r2
+  96 000c 06D0     		beq	.L6
+  97              	.L5:
+  98              	.LBE11:
+  99              	.LBE10:
+ 100              	.LBE9:
+ 101              	.LBE8:
+ 463:../src/CMSIS/system_m2sxxx.c **** 
+ 102              		.loc 1 463 0
+ 103 000e 0B4A     		ldr	r2, .L8+4
+ 104 0010 5369     		ldr	r3, [r2, #20]
+ 105 0012 43F40073 		orr	r3, r3, #512
+ 106 0016 5361     		str	r3, [r2, #20]
+ 492:../src/CMSIS/system_m2sxxx.c **** 
+ 107              		.loc 1 492 0
+ 108 0018 FFF7FEBF 		b	mscc_post_hw_cfg_init
+ 109              	.LVL2:
+ 110              	.L6:
+ 111              	.LBB15:
+ 112              	.LBB14:
+ 113              	.LBB12:
+ 114              	.LBB13:
+ 922:../src/CMSIS/system_m2sxxx.c ****     {
+ 923:../src/CMSIS/system_m2sxxx.c ****         case 0x0000F802:
+ 924:../src/CMSIS/system_m2sxxx.c ****             silicon_revision = M2S050_REV_A_SILICON;
+ 925:../src/CMSIS/system_m2sxxx.c ****             break;
+ 926:../src/CMSIS/system_m2sxxx.c **** 
+ 927:../src/CMSIS/system_m2sxxx.c ****         case 0x0001F802:
+ 928:../src/CMSIS/system_m2sxxx.c ****             silicon_revision = M2S050_REV_B_SILICON;
+ 929:../src/CMSIS/system_m2sxxx.c ****             break;
+ 930:../src/CMSIS/system_m2sxxx.c **** 
+ 931:../src/CMSIS/system_m2sxxx.c ****         default:
+ 932:../src/CMSIS/system_m2sxxx.c ****             silicon_revision = UNKNOWN_SILICON_REV;
+ 933:../src/CMSIS/system_m2sxxx.c ****             break;
+ 934:../src/CMSIS/system_m2sxxx.c ****     }
+ 935:../src/CMSIS/system_m2sxxx.c **** 
+ 936:../src/CMSIS/system_m2sxxx.c ****     return silicon_revision;
+ 937:../src/CMSIS/system_m2sxxx.c **** }
+ 938:../src/CMSIS/system_m2sxxx.c **** 
+ 939:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+ 940:../src/CMSIS/system_m2sxxx.c ****   Workarounds for various silicon versions.
+ 941:../src/CMSIS/system_m2sxxx.c ****  */
+ 942:../src/CMSIS/system_m2sxxx.c **** static void silicon_workarounds(void)
+ 943:../src/CMSIS/system_m2sxxx.c **** {
+ 944:../src/CMSIS/system_m2sxxx.c ****     uint32_t silicon_revision;
+ 945:../src/CMSIS/system_m2sxxx.c **** 
+ 946:../src/CMSIS/system_m2sxxx.c ****     silicon_revision = get_silicon_revision();
+ 947:../src/CMSIS/system_m2sxxx.c **** 
+ 948:../src/CMSIS/system_m2sxxx.c ****     switch(silicon_revision)
+ 949:../src/CMSIS/system_m2sxxx.c ****     {
+ 950:../src/CMSIS/system_m2sxxx.c ****         case M2S050_REV_A_SILICON:
+ 951:../src/CMSIS/system_m2sxxx.c ****             m2s050_rev_a_workarounds();
+ 952:../src/CMSIS/system_m2sxxx.c ****             break;
+ 953:../src/CMSIS/system_m2sxxx.c **** 
+ 954:../src/CMSIS/system_m2sxxx.c ****         case M2S050_REV_B_SILICON:
+ 955:../src/CMSIS/system_m2sxxx.c ****             /* Fall through. */
+ 956:../src/CMSIS/system_m2sxxx.c ****         case UNKNOWN_SILICON_REV:
+ 957:../src/CMSIS/system_m2sxxx.c ****             /* Fall through. */
+ 958:../src/CMSIS/system_m2sxxx.c ****         default:
+ 959:../src/CMSIS/system_m2sxxx.c ****             break;
+ 960:../src/CMSIS/system_m2sxxx.c ****     }
+ 961:../src/CMSIS/system_m2sxxx.c **** }
+ 962:../src/CMSIS/system_m2sxxx.c **** 
+ 963:../src/CMSIS/system_m2sxxx.c **** /*------------------------------------------------------------------------------
+ 964:../src/CMSIS/system_m2sxxx.c ****   Silicon workarounds for M2S050 rev A.
+ 965:../src/CMSIS/system_m2sxxx.c ****  */
+ 966:../src/CMSIS/system_m2sxxx.c **** static void m2s050_rev_a_workarounds(void)
+ 967:../src/CMSIS/system_m2sxxx.c **** {
+ 968:../src/CMSIS/system_m2sxxx.c ****     /*--------------------------------------------------------------------------
+ 969:../src/CMSIS/system_m2sxxx.c ****      * Work around a couple of silicon issues:
+ 970:../src/CMSIS/system_m2sxxx.c ****      */
+ 971:../src/CMSIS/system_m2sxxx.c ****     /* DDR_CLK_EN <- 1 */
+ 972:../src/CMSIS/system_m2sxxx.c ****     SYSREG->MSSDDR_FACC1_CR |= (uint32_t)1 << DDR_CLK_EN_SHIFT;
+ 115              		.loc 1 972 0
+ 116 001c D3F89820 		ldr	r2, [r3, #152]
+ 117 0020 42F48072 		orr	r2, r2, #256
+ 118 0024 C3F89820 		str	r2, [r3, #152]
+ 973:../src/CMSIS/system_m2sxxx.c **** 
+ 974:../src/CMSIS/system_m2sxxx.c ****     /* CONTROLLER_PLL_INIT <- 0 */
+ 975:../src/CMSIS/system_m2sxxx.c ****     SYSREG->MSSDDR_FACC1_CR = SYSREG->MSSDDR_FACC1_CR & ~CONTROLLER_PLL_INIT_MASK;
+ 119              		.loc 1 975 0
+ 120 0028 D3F89820 		ldr	r2, [r3, #152]
+ 121 002c 22F08062 		bic	r2, r2, #67108864
+ 122 0030 C3F89820 		str	r2, [r3, #152]
+ 123 0034 EBE7     		b	.L5
+ 124              	.L9:
+ 125 0036 00BF     		.align	2
+ 126              	.L8:
+ 127 0038 00800340 		.word	1073971200
+ 128 003c 00ED00E0 		.word	-536810240
+ 129              	.LBE13:
+ 130              	.LBE12:
+ 131              	.LBE14:
+ 132              	.LBE15:
+ 133              		.cfi_endproc
+ 134              	.LFE63:
+ 136              		.section	.text.SystemCoreClockUpdate,"ax",%progbits
+ 137              		.align	1
+ 138              		.global	SystemCoreClockUpdate
+ 139              		.thumb
+ 140              		.thumb_func
+ 142              	SystemCoreClockUpdate:
+ 143              	.LFB64:
+ 558:../src/CMSIS/system_m2sxxx.c ****     uint32_t controller_pll_init;
+ 144              		.loc 1 558 0
+ 145              		.cfi_startproc
+ 146              		@ args = 0, pretend = 0, frame = 8
+ 147              		@ frame_needed = 0, uses_anonymous_args = 0
+ 148              		@ link register save eliminated.
+ 562:../src/CMSIS/system_m2sxxx.c **** 
+ 149              		.loc 1 562 0
+ 150 0000 1E4B     		ldr	r3, .L25
+ 558:../src/CMSIS/system_m2sxxx.c ****     uint32_t controller_pll_init;
+ 151              		.loc 1 558 0
+ 152 0002 82B0     		sub	sp, sp, #8
+ 153              		.cfi_def_cfa_offset 8
+ 562:../src/CMSIS/system_m2sxxx.c **** 
+ 154              		.loc 1 562 0
+ 155 0004 D3F89820 		ldr	r2, [r3, #152]
+ 156              	.LVL3:
+ 564:../src/CMSIS/system_m2sxxx.c ****     {
+ 157              		.loc 1 564 0
+ 158 0008 5101     		lsls	r1, r2, #5
+ 159 000a 2BD4     		bmi	.L11
+ 160              	.LBB22:
+ 569:../src/CMSIS/system_m2sxxx.c ****         if(0u == global_mux_sel)
+ 161              		.loc 1 569 0
+ 162 000c D3F89820 		ldr	r2, [r3, #152]
+ 163              	.LVL4:
+ 570:../src/CMSIS/system_m2sxxx.c ****         {
+ 164              		.loc 1 570 0
+ 165 0010 D204     		lsls	r2, r2, #19
+ 166              	.LVL5:
+ 167 0012 12D4     		bmi	.L12
+ 573:../src/CMSIS/system_m2sxxx.c ****             g_FrequencyPCLK0 = MSS_SYS_APB_0_CLK_FREQ;
+ 168              		.loc 1 573 0
+ 169 0014 1A4B     		ldr	r3, .L25+4
+ 170 0016 1B4A     		ldr	r2, .L25+8
+ 576:../src/CMSIS/system_m2sxxx.c ****             g_FrequencyFIC0 = MSS_SYS_FIC_0_CLK_FREQ;
+ 171              		.loc 1 576 0
+ 172 0018 1B49     		ldr	r1, .L25+12
+ 573:../src/CMSIS/system_m2sxxx.c ****             g_FrequencyPCLK0 = MSS_SYS_APB_0_CLK_FREQ;
+ 173              		.loc 1 573 0
+ 174 001a 1360     		str	r3, [r2]
+ 574:../src/CMSIS/system_m2sxxx.c ****             g_FrequencyPCLK1 = MSS_SYS_APB_1_CLK_FREQ;
+ 175              		.loc 1 574 0
+ 176 001c 1B4A     		ldr	r2, .L25+16
+ 177 001e 1360     		str	r3, [r2]
+ 575:../src/CMSIS/system_m2sxxx.c ****             g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;
+ 178              		.loc 1 575 0
+ 179 0020 1B4A     		ldr	r2, .L25+20
+ 180 0022 1360     		str	r3, [r2]
+ 576:../src/CMSIS/system_m2sxxx.c ****             g_FrequencyFIC0 = MSS_SYS_FIC_0_CLK_FREQ;
+ 181              		.loc 1 576 0
+ 182 0024 1B4A     		ldr	r2, .L25+24
+ 183 0026 1160     		str	r1, [r2]
+ 577:../src/CMSIS/system_m2sxxx.c ****             g_FrequencyFIC1 = MSS_SYS_FIC_1_CLK_FREQ;
+ 184              		.loc 1 577 0
+ 185 0028 1B49     		ldr	r1, .L25+28
+ 186 002a 1C4A     		ldr	r2, .L25+32
+ 187 002c 1160     		str	r1, [r2]
+ 578:../src/CMSIS/system_m2sxxx.c ****             g_FrequencyFIC64 = MSS_SYS_FIC64_CLK_FREQ;
+ 188              		.loc 1 578 0
+ 189 002e 1C4A     		ldr	r2, .L25+36
+ 190 0030 1360     		str	r3, [r2]
+ 579:../src/CMSIS/system_m2sxxx.c ****         }
+ 191              		.loc 1 579 0
+ 192 0032 1C4A     		ldr	r2, .L25+40
+ 193 0034 1360     		str	r3, [r2]
+ 194              	.LBE22:
+ 627:../src/CMSIS/system_m2sxxx.c **** 
+ 195              		.loc 1 627 0
+ 196 0036 02B0     		add	sp, sp, #8
+ 197              		.cfi_remember_state
+ 198              		.cfi_def_cfa_offset 0
+ 199              		@ sp needed
+ 200 0038 7047     		bx	lr
+ 201              	.L12:
+ 202              		.cfi_restore_state
+ 203              	.LBB24:
+ 204              	.LBB23:
+ 584:../src/CMSIS/system_m2sxxx.c ****                                                    CLK_XTAL_CLK_SRC,
+ 205              		.loc 1 584 0
+ 206 003a 6A46     		mov	r2, sp
+ 207 003c 1A49     		ldr	r1, .L25+44
+ 208 003e 0868     		ldr	r0, [r1]	@ unaligned
+ 209 0040 4968     		ldr	r1, [r1, #4]	@ unaligned
+ 210 0042 03C2     		stmia	r2!, {r0, r1}
+ 596:../src/CMSIS/system_m2sxxx.c ****             clock_source = standby_clock_lut[standby_sel];
+ 211              		.loc 1 596 0
+ 212 0044 D3F89C20 		ldr	r2, [r3, #156]
+ 213              	.LVL6:
+ 597:../src/CMSIS/system_m2sxxx.c ****             switch(clock_source)
+ 214              		.loc 1 597 0
+ 215 0048 02A9     		add	r1, sp, #8
+ 216              	.LVL7:
+ 596:../src/CMSIS/system_m2sxxx.c ****             clock_source = standby_clock_lut[standby_sel];
+ 217              		.loc 1 596 0
+ 218 004a C2F38212 		ubfx	r2, r2, #6, #3
+ 219              	.LVL8:
+ 597:../src/CMSIS/system_m2sxxx.c ****             switch(clock_source)
+ 220              		.loc 1 597 0
+ 221 004e 0A44     		add	r2, r2, r1
+ 598:../src/CMSIS/system_m2sxxx.c ****             {
+ 222              		.loc 1 598 0
+ 223 0050 12F8082C 		ldrb	r2, [r2, #-8]	@ zero_extendqisi2
+ 224 0054 012A     		cmp	r2, #1
+ 225 0056 02D0     		beq	.L15
+ 226 0058 04D3     		bcc	.L11
+ 616:../src/CMSIS/system_m2sxxx.c ****                 break;
+ 227              		.loc 1 616 0
+ 228 005a 1448     		ldr	r0, .L25+48
+ 229 005c 0AE0     		b	.L24
+ 230              	.L15:
+ 606:../src/CMSIS/system_m2sxxx.c ****                 break;
+ 231              		.loc 1 606 0
+ 232 005e 4FF40040 		mov	r0, #32768
+ 233 0062 07E0     		b	.L24
+ 234              	.L11:
+ 235              	.LBE23:
+ 236              	.LBE24:
+ 237              	.LBB25:
+ 238              	.LBB26:
+ 637:../src/CMSIS/system_m2sxxx.c ****     if(0u == rcosc_div2)
+ 239              		.loc 1 637 0
+ 240 0064 D3F85031 		ldr	r3, [r3, #336]
+ 241              	.LVL9:
+ 242              	.LBE26:
+ 243              	.LBE25:
+ 625:../src/CMSIS/system_m2sxxx.c ****     }
+ 244              		.loc 1 625 0
+ 245 0068 1148     		ldr	r0, .L25+52
+ 246              	.LBB28:
+ 247              	.LBB27:
+ 638:../src/CMSIS/system_m2sxxx.c ****     {
+ 248              		.loc 1 638 0
+ 249 006a 13F0040F 		tst	r3, #4
+ 250              	.LVL10:
+ 251              	.LBE27:
+ 252              	.LBE28:
+ 625:../src/CMSIS/system_m2sxxx.c ****     }
+ 253              		.loc 1 625 0
+ 254 006e 114B     		ldr	r3, .L25+56
+ 255              	.LVL11:
+ 256 0070 18BF     		it	ne
+ 257 0072 1846     		movne	r0, r3
+ 258              	.LVL12:
+ 259              	.L24:
+ 627:../src/CMSIS/system_m2sxxx.c **** 
+ 260              		.loc 1 627 0
+ 261 0074 02B0     		add	sp, sp, #8
+ 262              		.cfi_def_cfa_offset 0
+ 263              		@ sp needed
+ 625:../src/CMSIS/system_m2sxxx.c ****     }
+ 264              		.loc 1 625 0
+ 265 0076 FFF7FEBF 		b	set_clock_frequency_globals
+ 266              	.LVL13:
+ 267              	.L26:
+ 268 007a 00BF     		.align	2
+ 269              	.L25:
+ 270 007c 00800340 		.word	1073971200
+ 271 0080 003B5808 		.word	140000000
+ 272 0084 00000000 		.word	.LANCHOR0
+ 273 0088 C00E1602 		.word	35000000
+ 274 008c 00000000 		.word	.LANCHOR1
+ 275 0090 00000000 		.word	.LANCHOR2
+ 276 0094 00000000 		.word	.LANCHOR3
+ 277 0098 801D2C04 		.word	70000000
+ 278 009c 00000000 		.word	.LANCHOR4
+ 279 00a0 00000000 		.word	.LANCHOR5
+ 280 00a4 00000000 		.word	.LANCHOR6
+ 281 00a8 00000000 		.word	.LANCHOR7
+ 282 00ac 40420F00 		.word	1000000
+ 283 00b0 40787D01 		.word	25000000
+ 284 00b4 80F0FA02 		.word	50000000
+ 285              		.cfi_endproc
+ 286              	.LFE64:
+ 288              		.global	g_FrequencyFIC64
+ 289              		.global	g_FrequencyFIC1
+ 290              		.global	g_FrequencyFIC0
+ 291              		.global	g_FrequencyPCLK2
+ 292              		.global	g_FrequencyPCLK1
+ 293              		.global	g_FrequencyPCLK0
+ 294              		.global	SystemCoreClock
+ 295              		.section	.rodata
+ 296              		.set	.LANCHOR7,. + 0
+ 297              	.LC0:
+ 298 0000 00       		.byte	0
+ 299 0001 01       		.byte	1
+ 300 0002 00       		.byte	0
+ 301 0003 01       		.byte	1
+ 302 0004 02       		.byte	2
+ 303 0005 02       		.byte	2
+ 304 0006 03       		.byte	3
+ 305 0007 03       		.byte	3
+ 306              		.section	.data.g_FrequencyFIC64,"aw",%progbits
+ 307              		.align	2
+ 308              		.set	.LANCHOR6,. + 0
+ 311              	g_FrequencyFIC64:
+ 312 0000 003B5808 		.word	140000000
+ 313              		.section	.data.g_FrequencyPCLK2,"aw",%progbits
+ 314              		.align	2
+ 315              		.set	.LANCHOR3,. + 0
+ 318              	g_FrequencyPCLK2:
+ 319 0000 C00E1602 		.word	35000000
+ 320              		.section	.data.g_FrequencyFIC0,"aw",%progbits
+ 321              		.align	2
+ 322              		.set	.LANCHOR4,. + 0
+ 325              	g_FrequencyFIC0:
+ 326 0000 801D2C04 		.word	70000000
+ 327              		.section	.data.g_FrequencyFIC1,"aw",%progbits
+ 328              		.align	2
+ 329              		.set	.LANCHOR5,. + 0
+ 332              	g_FrequencyFIC1:
+ 333 0000 003B5808 		.word	140000000
+ 334              		.section	.data.g_FrequencyPCLK0,"aw",%progbits
+ 335              		.align	2
+ 336              		.set	.LANCHOR1,. + 0
+ 339              	g_FrequencyPCLK0:
+ 340 0000 003B5808 		.word	140000000
+ 341              		.section	.data.g_FrequencyPCLK1,"aw",%progbits
+ 342              		.align	2
+ 343              		.set	.LANCHOR2,. + 0
+ 346              	g_FrequencyPCLK1:
+ 347 0000 003B5808 		.word	140000000
+ 348              		.section	.data.SystemCoreClock,"aw",%progbits
+ 349              		.align	2
+ 350              		.set	.LANCHOR0,. + 0
+ 353              	SystemCoreClock:
+ 354 0000 003B5808 		.word	140000000
+ 355              		.text
+ 356              	.Letext0:
+ 357              		.file 2 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\machine\\_def
+ 358              		.file 3 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\sys\\_stdint.
+ 359              		.file 4 "C:\\Microsemi\\SoftConsole_v4.0\\CMSIS\\V4.3\\Include/core_cm3.h"
+ 360              		.file 5 "../src/CMSIS/m2sxxx.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 system_m2sxxx.c
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:19     .text.set_clock_frequency_globals:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:23     .text.set_clock_frequency_globals:00000000 set_clock_frequency_globals
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:60     .text.set_clock_frequency_globals:00000020 $d
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:72     .text.SystemInit:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:77     .text.SystemInit:00000000 SystemInit
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:127    .text.SystemInit:00000038 $d
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:137    .text.SystemCoreClockUpdate:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:142    .text.SystemCoreClockUpdate:00000000 SystemCoreClockUpdate
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:270    .text.SystemCoreClockUpdate:0000007c $d
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:311    .data.g_FrequencyFIC64:00000000 g_FrequencyFIC64
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:332    .data.g_FrequencyFIC1:00000000 g_FrequencyFIC1
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:325    .data.g_FrequencyFIC0:00000000 g_FrequencyFIC0
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:318    .data.g_FrequencyPCLK2:00000000 g_FrequencyPCLK2
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:346    .data.g_FrequencyPCLK1:00000000 g_FrequencyPCLK1
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:339    .data.g_FrequencyPCLK0:00000000 g_FrequencyPCLK0
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:353    .data.SystemCoreClock:00000000 SystemCoreClock
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:307    .data.g_FrequencyFIC64:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:314    .data.g_FrequencyPCLK2:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:321    .data.g_FrequencyFIC0:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:328    .data.g_FrequencyFIC1:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:335    .data.g_FrequencyPCLK0:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:342    .data.g_FrequencyPCLK1:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccIuxgUU.s:349    .data.SystemCoreClock:00000000 $d
+                     .debug_frame:00000010 $d
+                           .group:00000000 wm4.0.dc60c94ad21b0a47fa3b55ee8062ac89
+                           .group:00000000 wm4.m2sxxx.h.14.987ea2aeaafde240411e8c56d47721f7
+                           .group:00000000 wm4.core_cm3.h.43.614605f47657df9251f3b3f57590a49a
+                           .group:00000000 wm4.features.h.22.2e382148a0560adabf236cddd4e880f4
+                           .group:00000000 wm4._default_types.h.15.933e8edd27a65e0b69af4a865eb623d2
+                           .group:00000000 wm4._intsup.h.10.b2832a532eae49c14d45880be6d4ca65
+                           .group:00000000 wm4._stdint.h.10.f76354baea1c7088202064e6f3d4f5e3
+                           .group:00000000 wm4.stdint.h.23.373a9d32a9e4c2e88fd347156532d281
+                           .group:00000000 wm4.core_cmInstr.h.39.addda81f1f3453ba31dd54fc5b6fcee8
+                           .group:00000000 wm4.core_cm3.h.160.4f087d7d2b17fc46469486aedc40cf5c
+                           .group:00000000 wm4.m2sxxx.h.2709.9eef8620912489dbc5c26e98701cdac3
+                           .group:00000000 wm4.sys_config_mss_clocks.h.10.c7f4d81ec72bcea6cafb9cc9c2acf4ab
+                           .group:00000000 wm4.sys_config.h.25.1448a2ceceaa3c2e8913533fa4e42cee
+
+UNDEFINED SYMBOLS
+mscc_post_hw_cfg_init

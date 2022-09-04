@@ -1,0 +1,153 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"util.c"
+  15              		.section	.text.delay_us,"ax",%progbits
+  16              		.align	2
+  17              		.global	delay_us
+  18              		.thumb
+  19              		.thumb_func
+  21              	delay_us:
+  22              		@ args = 0, pretend = 0, frame = 0
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24              		@ link register save eliminated.
+  25 0000 28B1     		cbz	r0, .L1
+  26 0002 0023     		movs	r3, #0
+  27              	.L3:
+  28              	@ 10 "../src/util.c" 1
+  29 0004 00BF     		nop
+  30              	@ 0 "" 2
+  31              	@ 10 "../src/util.c" 1
+  32 0006 00BF     		nop
+  33              	@ 0 "" 2
+  34              		.thumb
+  35 0008 0133     		adds	r3, r3, #1
+  36 000a 8342     		cmp	r3, r0
+  37 000c FAD1     		bne	.L3
+  38              	.L1:
+  39 000e 7047     		bx	lr
+  41              		.section	.text.delay_ms,"ax",%progbits
+  42              		.align	2
+  43              		.global	delay_ms
+  44              		.thumb
+  45              		.thumb_func
+  47              	delay_ms:
+  48              		@ args = 0, pretend = 0, frame = 0
+  49              		@ frame_needed = 0, uses_anonymous_args = 0
+  50              		@ link register save eliminated.
+  51 0000 0022     		movs	r2, #0
+  52 0002 48B1     		cbz	r0, .L16
+  53              	.L10:
+  54 0004 4FF47A73 		mov	r3, #1000
+  55              	.L12:
+  56              	@ 10 "../src/util.c" 1
+  57 0008 00BF     		nop
+  58              	@ 0 "" 2
+  59              	@ 10 "../src/util.c" 1
+  60 000a 00BF     		nop
+  61              	@ 0 "" 2
+  62              		.thumb
+  63 000c 013B     		subs	r3, r3, #1
+  64 000e FBD1     		bne	.L12
+  65 0010 0132     		adds	r2, r2, #1
+  66 0012 8242     		cmp	r2, r0
+  67 0014 F6D1     		bne	.L10
+  68 0016 7047     		bx	lr
+  69              	.L16:
+  70 0018 7047     		bx	lr
+  72 001a 00BF     		.section	.text.AsciiToHex,"ax",%progbits
+  73              		.align	2
+  74              		.global	AsciiToHex
+  75              		.thumb
+  76              		.thumb_func
+  78              	AsciiToHex:
+  79              		@ args = 0, pretend = 0, frame = 0
+  80              		@ frame_needed = 0, uses_anonymous_args = 0
+  81              		@ link register save eliminated.
+  82 0000 0A4B     		ldr	r3, .L23
+  83 0002 1B68     		ldr	r3, [r3]
+  84 0004 0344     		add	r3, r3, r0
+  85 0006 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+  86 0008 03F00303 		and	r3, r3, #3
+  87 000c 022B     		cmp	r3, #2
+  88 000e 08BF     		it	eq
+  89 0010 2038     		subeq	r0, r0, #32
+  90 0012 A0F13003 		sub	r3, r0, #48
+  91 0016 092B     		cmp	r3, #9
+  92 0018 05D9     		bls	.L22
+  93 001a A0F14103 		sub	r3, r0, #65
+  94 001e 052B     		cmp	r3, #5
+  95 0020 98BF     		it	ls
+  96 0022 1846     		movls	r0, r3
+  97 0024 7047     		bx	lr
+  98              	.L22:
+  99 0026 1846     		mov	r0, r3
+ 100 0028 7047     		bx	lr
+ 101              	.L24:
+ 102 002a 00BF     		.align	2
+ 103              	.L23:
+ 104 002c 00000000 		.word	__ctype_ptr__
+ 106              		.section	.text.HexStringToByte,"ax",%progbits
+ 107              		.align	2
+ 108              		.global	HexStringToByte
+ 109              		.thumb
+ 110              		.thumb_func
+ 112              	HexStringToByte:
+ 113              		@ args = 0, pretend = 0, frame = 0
+ 114              		@ frame_needed = 0, uses_anonymous_args = 0
+ 115 0000 38B5     		push	{r3, r4, r5, lr}
+ 116 0002 0546     		mov	r5, r0
+ 117 0004 40B2     		sxtb	r0, r0
+ 118 0006 FFF7FEFF 		bl	AsciiToHex
+ 119 000a 0446     		mov	r4, r0
+ 120 000c 2812     		asrs	r0, r5, #8
+ 121 000e FFF7FEFF 		bl	AsciiToHex
+ 122 0012 40B2     		sxtb	r0, r0
+ 123 0014 44EA0010 		orr	r0, r4, r0, lsl #4
+ 124 0018 40B2     		sxtb	r0, r0
+ 125 001a 38BD     		pop	{r3, r4, r5, pc}
+ 127              		.section	.text.HexStringToShort,"ax",%progbits
+ 128              		.align	2
+ 129              		.global	HexStringToShort
+ 130              		.thumb
+ 131              		.thumb_func
+ 133              	HexStringToShort:
+ 134              		@ args = 0, pretend = 0, frame = 0
+ 135              		@ frame_needed = 0, uses_anonymous_args = 0
+ 136 0000 38B5     		push	{r3, r4, r5, lr}
+ 137 0002 0546     		mov	r5, r0
+ 138 0004 00B2     		sxth	r0, r0
+ 139 0006 FFF7FEFF 		bl	HexStringToByte
+ 140 000a 0446     		mov	r4, r0
+ 141 000c 2814     		asrs	r0, r5, #16
+ 142 000e FFF7FEFF 		bl	HexStringToByte
+ 143 0012 44EA0020 		orr	r0, r4, r0, lsl #8
+ 144 0016 00B2     		sxth	r0, r0
+ 145 0018 38BD     		pop	{r3, r4, r5, pc}
+ 147 001a 00BF     		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150529 (release) [ARM/embedded-4_9-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 util.c
+C:\Users\jiryu\AppData\Local\Temp\cc7hLyOg.s:16     .text.delay_us:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc7hLyOg.s:21     .text.delay_us:00000000 delay_us
+C:\Users\jiryu\AppData\Local\Temp\cc7hLyOg.s:42     .text.delay_ms:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc7hLyOg.s:47     .text.delay_ms:00000000 delay_ms
+C:\Users\jiryu\AppData\Local\Temp\cc7hLyOg.s:73     .text.AsciiToHex:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc7hLyOg.s:78     .text.AsciiToHex:00000000 AsciiToHex
+C:\Users\jiryu\AppData\Local\Temp\cc7hLyOg.s:104    .text.AsciiToHex:0000002c $d
+C:\Users\jiryu\AppData\Local\Temp\cc7hLyOg.s:107    .text.HexStringToByte:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc7hLyOg.s:112    .text.HexStringToByte:00000000 HexStringToByte
+C:\Users\jiryu\AppData\Local\Temp\cc7hLyOg.s:128    .text.HexStringToShort:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc7hLyOg.s:133    .text.HexStringToShort:00000000 HexStringToShort
+
+UNDEFINED SYMBOLS
+__ctype_ptr__

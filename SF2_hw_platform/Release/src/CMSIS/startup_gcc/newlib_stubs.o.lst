@@ -1,0 +1,324 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"newlib_stubs.c"
+  15              		.section	.text._close,"ax",%progbits
+  16              		.align	2
+  17              		.global	_close
+  18              		.thumb
+  19              		.thumb_func
+  21              	_close:
+  22              		@ args = 0, pretend = 0, frame = 0
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24              		@ link register save eliminated.
+  25 0000 4FF0FF30 		mov	r0, #-1
+  26 0004 7047     		bx	lr
+  28 0006 00BF     		.section	.text._execve,"ax",%progbits
+  29              		.align	2
+  30              		.global	_execve
+  31              		.thumb
+  32              		.thumb_func
+  34              	_execve:
+  35              		@ args = 0, pretend = 0, frame = 0
+  36              		@ frame_needed = 0, uses_anonymous_args = 0
+  37 0000 08B5     		push	{r3, lr}
+  38 0002 FFF7FEFF 		bl	__errno
+  39 0006 0C23     		movs	r3, #12
+  40 0008 0360     		str	r3, [r0]
+  41 000a 4FF0FF30 		mov	r0, #-1
+  42 000e 08BD     		pop	{r3, pc}
+  44              		.section	.text._exit,"ax",%progbits
+  45              		.align	2
+  46              		.global	_exit
+  47              		.thumb
+  48              		.thumb_func
+  50              	_exit:
+  51              		@ Volatile: function does not return.
+  52              		@ args = 0, pretend = 0, frame = 0
+  53              		@ frame_needed = 0, uses_anonymous_args = 0
+  54              		@ link register save eliminated.
+  55              	.L5:
+  56 0000 FEE7     		b	.L5
+  58 0002 00BF     		.section	.text._fork,"ax",%progbits
+  59              		.align	2
+  60              		.global	_fork
+  61              		.thumb
+  62              		.thumb_func
+  64              	_fork:
+  65              		@ args = 0, pretend = 0, frame = 0
+  66              		@ frame_needed = 0, uses_anonymous_args = 0
+  67 0000 08B5     		push	{r3, lr}
+  68 0002 FFF7FEFF 		bl	__errno
+  69 0006 0B23     		movs	r3, #11
+  70 0008 0360     		str	r3, [r0]
+  71 000a 4FF0FF30 		mov	r0, #-1
+  72 000e 08BD     		pop	{r3, pc}
+  74              		.section	.text._fstat,"ax",%progbits
+  75              		.align	2
+  76              		.global	_fstat
+  77              		.thumb
+  78              		.thumb_func
+  80              	_fstat:
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  84 0000 4FF40053 		mov	r3, #8192
+  85 0004 4B60     		str	r3, [r1, #4]
+  86 0006 0020     		movs	r0, #0
+  87 0008 7047     		bx	lr
+  89 000a 00BF     		.section	.text._getpid,"ax",%progbits
+  90              		.align	2
+  91              		.global	_getpid
+  92              		.thumb
+  93              		.thumb_func
+  95              	_getpid:
+  96              		@ args = 0, pretend = 0, frame = 0
+  97              		@ frame_needed = 0, uses_anonymous_args = 0
+  98              		@ link register save eliminated.
+  99 0000 0120     		movs	r0, #1
+ 100 0002 7047     		bx	lr
+ 102              		.section	.text._isatty,"ax",%progbits
+ 103              		.align	2
+ 104              		.global	_isatty
+ 105              		.thumb
+ 106              		.thumb_func
+ 108              	_isatty:
+ 109              		@ args = 0, pretend = 0, frame = 0
+ 110              		@ frame_needed = 0, uses_anonymous_args = 0
+ 111              		@ link register save eliminated.
+ 112 0000 0120     		movs	r0, #1
+ 113 0002 7047     		bx	lr
+ 115              		.section	.text._kill,"ax",%progbits
+ 116              		.align	2
+ 117              		.global	_kill
+ 118              		.thumb
+ 119              		.thumb_func
+ 121              	_kill:
+ 122              		@ args = 0, pretend = 0, frame = 0
+ 123              		@ frame_needed = 0, uses_anonymous_args = 0
+ 124 0000 08B5     		push	{r3, lr}
+ 125 0002 FFF7FEFF 		bl	__errno
+ 126 0006 1623     		movs	r3, #22
+ 127 0008 0360     		str	r3, [r0]
+ 128 000a 4FF0FF30 		mov	r0, #-1
+ 129 000e 08BD     		pop	{r3, pc}
+ 131              		.section	.text._link,"ax",%progbits
+ 132              		.align	2
+ 133              		.global	_link
+ 134              		.thumb
+ 135              		.thumb_func
+ 137              	_link:
+ 138              		@ args = 0, pretend = 0, frame = 0
+ 139              		@ frame_needed = 0, uses_anonymous_args = 0
+ 140 0000 08B5     		push	{r3, lr}
+ 141 0002 FFF7FEFF 		bl	__errno
+ 142 0006 1F23     		movs	r3, #31
+ 143 0008 0360     		str	r3, [r0]
+ 144 000a 4FF0FF30 		mov	r0, #-1
+ 145 000e 08BD     		pop	{r3, pc}
+ 147              		.section	.text._lseek,"ax",%progbits
+ 148              		.align	2
+ 149              		.global	_lseek
+ 150              		.thumb
+ 151              		.thumb_func
+ 153              	_lseek:
+ 154              		@ args = 0, pretend = 0, frame = 0
+ 155              		@ frame_needed = 0, uses_anonymous_args = 0
+ 156              		@ link register save eliminated.
+ 157 0000 0020     		movs	r0, #0
+ 158 0002 7047     		bx	lr
+ 160              		.section	.text._open,"ax",%progbits
+ 161              		.align	2
+ 162              		.global	_open
+ 163              		.thumb
+ 164              		.thumb_func
+ 166              	_open:
+ 167              		@ args = 0, pretend = 0, frame = 0
+ 168              		@ frame_needed = 0, uses_anonymous_args = 0
+ 169              		@ link register save eliminated.
+ 170 0000 4FF0FF30 		mov	r0, #-1
+ 171 0004 7047     		bx	lr
+ 173 0006 00BF     		.section	.text._read,"ax",%progbits
+ 174              		.align	2
+ 175              		.global	_read
+ 176              		.thumb
+ 177              		.thumb_func
+ 179              	_read:
+ 180              		@ args = 0, pretend = 0, frame = 0
+ 181              		@ frame_needed = 0, uses_anonymous_args = 0
+ 182              		@ link register save eliminated.
+ 183 0000 0020     		movs	r0, #0
+ 184 0002 7047     		bx	lr
+ 186              		.section	.text._write_r,"ax",%progbits
+ 187              		.align	2
+ 188              		.global	_write_r
+ 189              		.thumb
+ 190              		.thumb_func
+ 192              	_write_r:
+ 193              		@ args = 0, pretend = 0, frame = 0
+ 194              		@ frame_needed = 0, uses_anonymous_args = 0
+ 195              		@ link register save eliminated.
+ 196 0000 0020     		movs	r0, #0
+ 197 0002 7047     		bx	lr
+ 199              		.section	.text._sbrk,"ax",%progbits
+ 200              		.align	2
+ 201              		.global	_sbrk
+ 202              		.thumb
+ 203              		.thumb_func
+ 205              	_sbrk:
+ 206              		@ args = 0, pretend = 0, frame = 0
+ 207              		@ frame_needed = 0, uses_anonymous_args = 0
+ 208              		@ link register save eliminated.
+ 209 0000 10B4     		push	{r4}
+ 210 0002 084C     		ldr	r4, .L27
+ 211 0004 084A     		ldr	r2, .L27+4
+ 212 0006 2368     		ldr	r3, [r4]
+ 213 0008 002B     		cmp	r3, #0
+ 214 000a 08BF     		it	eq
+ 215 000c 1346     		moveq	r3, r2
+ 216              	@ 233 "../src/CMSIS/startup_gcc/newlib_stubs.c" 1
+ 217 000e EFF30881 		MRS r1, msp
+ 218              	@ 0 "" 2
+ 219              		.thumb
+ 220 0012 1A18     		adds	r2, r3, r0
+ 221 0014 9142     		cmp	r1, r2
+ 222 0016 00D2     		bcs	.L21
+ 223              	.L24:
+ 224 0018 FEE7     		b	.L24
+ 225              	.L21:
+ 226 001a 2260     		str	r2, [r4]
+ 227 001c 1846     		mov	r0, r3
+ 228 001e 5DF8044B 		ldr	r4, [sp], #4
+ 229 0022 7047     		bx	lr
+ 230              	.L28:
+ 231              		.align	2
+ 232              	.L27:
+ 233 0024 00000000 		.word	.LANCHOR0
+ 234 0028 00000000 		.word	_end
+ 236              		.section	.text._stat,"ax",%progbits
+ 237              		.align	2
+ 238              		.global	_stat
+ 239              		.thumb
+ 240              		.thumb_func
+ 242              	_stat:
+ 243              		@ args = 0, pretend = 0, frame = 0
+ 244              		@ frame_needed = 0, uses_anonymous_args = 0
+ 245              		@ link register save eliminated.
+ 246 0000 4FF40053 		mov	r3, #8192
+ 247 0004 4B60     		str	r3, [r1, #4]
+ 248 0006 0020     		movs	r0, #0
+ 249 0008 7047     		bx	lr
+ 251 000a 00BF     		.section	.text._times,"ax",%progbits
+ 252              		.align	2
+ 253              		.global	_times
+ 254              		.thumb
+ 255              		.thumb_func
+ 257              	_times:
+ 258              		@ args = 0, pretend = 0, frame = 0
+ 259              		@ frame_needed = 0, uses_anonymous_args = 0
+ 260              		@ link register save eliminated.
+ 261 0000 4FF0FF30 		mov	r0, #-1
+ 262 0004 7047     		bx	lr
+ 264 0006 00BF     		.section	.text._unlink,"ax",%progbits
+ 265              		.align	2
+ 266              		.global	_unlink
+ 267              		.thumb
+ 268              		.thumb_func
+ 270              	_unlink:
+ 271              		@ args = 0, pretend = 0, frame = 0
+ 272              		@ frame_needed = 0, uses_anonymous_args = 0
+ 273 0000 08B5     		push	{r3, lr}
+ 274 0002 FFF7FEFF 		bl	__errno
+ 275 0006 0223     		movs	r3, #2
+ 276 0008 0360     		str	r3, [r0]
+ 277 000a 4FF0FF30 		mov	r0, #-1
+ 278 000e 08BD     		pop	{r3, pc}
+ 280              		.section	.text._wait,"ax",%progbits
+ 281              		.align	2
+ 282              		.global	_wait
+ 283              		.thumb
+ 284              		.thumb_func
+ 286              	_wait:
+ 287              		@ args = 0, pretend = 0, frame = 0
+ 288              		@ frame_needed = 0, uses_anonymous_args = 0
+ 289 0000 08B5     		push	{r3, lr}
+ 290 0002 FFF7FEFF 		bl	__errno
+ 291 0006 0A23     		movs	r3, #10
+ 292 0008 0360     		str	r3, [r0]
+ 293 000a 4FF0FF30 		mov	r0, #-1
+ 294 000e 08BD     		pop	{r3, pc}
+ 296              		.global	environ
+ 297              		.global	__env
+ 298              		.section	.data.environ,"aw",%progbits
+ 299              		.align	2
+ 302              	environ:
+ 303 0000 00000000 		.word	__env
+ 304              		.section	.bss.__env,"aw",%nobits
+ 305              		.align	2
+ 308              	__env:
+ 309 0000 00000000 		.space	4
+ 310              		.section	.bss.heap_end.5162,"aw",%nobits
+ 311              		.align	2
+ 312              		.set	.LANCHOR0,. + 0
+ 315              	heap_end.5162:
+ 316 0000 00000000 		.space	4
+ 317              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150529 (release) [ARM/embedded-4_9-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 newlib_stubs.c
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:16     .text._close:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:21     .text._close:00000000 _close
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:29     .text._execve:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:34     .text._execve:00000000 _execve
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:45     .text._exit:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:50     .text._exit:00000000 _exit
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:59     .text._fork:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:64     .text._fork:00000000 _fork
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:75     .text._fstat:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:80     .text._fstat:00000000 _fstat
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:90     .text._getpid:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:95     .text._getpid:00000000 _getpid
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:103    .text._isatty:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:108    .text._isatty:00000000 _isatty
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:116    .text._kill:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:121    .text._kill:00000000 _kill
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:132    .text._link:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:137    .text._link:00000000 _link
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:148    .text._lseek:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:153    .text._lseek:00000000 _lseek
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:161    .text._open:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:166    .text._open:00000000 _open
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:174    .text._read:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:179    .text._read:00000000 _read
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:187    .text._write_r:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:192    .text._write_r:00000000 _write_r
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:200    .text._sbrk:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:205    .text._sbrk:00000000 _sbrk
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:233    .text._sbrk:00000024 $d
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:237    .text._stat:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:242    .text._stat:00000000 _stat
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:252    .text._times:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:257    .text._times:00000000 _times
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:265    .text._unlink:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:270    .text._unlink:00000000 _unlink
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:281    .text._wait:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:286    .text._wait:00000000 _wait
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:302    .data.environ:00000000 environ
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:308    .bss.__env:00000000 __env
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:299    .data.environ:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:305    .bss.__env:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:311    .bss.heap_end.5162:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\cckBSWvY.s:315    .bss.heap_end.5162:00000000 heap_end.5162
+
+UNDEFINED SYMBOLS
+__errno
+_end

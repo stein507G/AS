@@ -1,0 +1,79 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+-include ../makefile.init
+
+RM := rm -rf
+
+# All of the sources participating in the build are defined here
+-include sources.mk
+-include src/subdir.mk
+-include subdir.mk
+-include objects.mk
+
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(strip $(ASM_DEPS)),)
+-include $(ASM_DEPS)
+endif
+ifneq ($(strip $(S_UPPER_DEPS)),)
+-include $(S_UPPER_DEPS)
+endif
+ifneq ($(strip $(C_DEPS)),)
+-include $(C_DEPS)
+endif
+endif
+
+-include ../makefile.defs
+
+# Add inputs and outputs from these tool invocations to the build variables 
+SECONDARY_FLASH += \
+SF2_IAP.hex \
+
+SECONDARY_LIST += \
+SF2_IAP.lst \
+
+SECONDARY_SIZE += \
+SF2_IAP.siz \
+
+
+# All Target
+all: SF2_IAP.elf secondary-outputs
+
+# Tool invocations
+SF2_IAP.elf: $(OBJS) $(USER_OBJS)
+	@echo 'Building target: $@'
+	@echo 'Invoking: Cross ARM C Linker'
+	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -O2 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -T "J:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_IAP\src\production-execute-in-place-Remap.ld" -Xlinker --gc-sections -L"J:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release" -Xlinker -gc-sections -Wl,-Map,"SF2_IAP.map" -o "SF2_IAP.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	@echo 'Finished building target: $@'
+	@echo ' '
+
+SF2_IAP.hex: SF2_IAP.elf
+	@echo 'Invoking: Cross ARM GNU Create Flash Image'
+	arm-none-eabi-objcopy -O ihex "SF2_IAP.elf"  "SF2_IAP.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
+SF2_IAP.lst: SF2_IAP.elf
+	@echo 'Invoking: Cross ARM GNU Create Listing'
+	arm-none-eabi-objdump --source --all-headers --demangle --debugging --line-numbers --wide "SF2_IAP.elf" > "SF2_IAP.lst"
+	@echo 'Finished building: $@'
+	@echo ' '
+
+SF2_IAP.siz: SF2_IAP.elf
+	@echo 'Invoking: Cross ARM GNU Print Size'
+	arm-none-eabi-size --format=berkeley "SF2_IAP.elf"
+	@echo 'Finished building: $@'
+	@echo ' '
+
+# Other Targets
+clean:
+	-$(RM) $(OBJS)$(SECONDARY_FLASH)$(SECONDARY_LIST)$(SECONDARY_SIZE)$(ASM_DEPS)$(S_UPPER_DEPS)$(C_DEPS) SF2_IAP.elf
+	-@echo ' '
+
+secondary-outputs: $(SECONDARY_FLASH) $(SECONDARY_LIST) $(SECONDARY_SIZE)
+
+.PHONY: all clean dependents
+.SECONDARY:
+
+-include ../makefile.targets

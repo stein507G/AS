@@ -1,0 +1,7 @@
+08:46:39 **** Clean-only build of configuration Release for project SF2_Bootloader ****
+make clean 
+rm -rf  ./src/main.o ./src/procotol.o ./src/run_program.o ./src/storage.o ./src/system.o ./src/timer.o ./src/util.o  SF2_Bootloader.hex  SF2_Bootloader.lst  SF2_Bootloader.siz  ./src/main.d ./src/procotol.d ./src/run_program.d ./src/storage.d ./src/system.d ./src/timer.d ./src/util.d  SF2_Bootloader.elf
+ 
+
+08:46:39 Build Finished (took 229ms)
+

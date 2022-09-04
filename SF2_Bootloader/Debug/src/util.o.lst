@@ -1,0 +1,474 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"util.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.delay_us,"ax",%progbits
+  19              		.align	2
+  20              		.global	delay_us
+  21              		.thumb
+  22              		.thumb_func
+  24              	delay_us:
+  25              	.LFB102:
+  26              		.file 1 "../src/util.c"
+   1:../src/util.c **** #include "config.h"
+   2:../src/util.c **** 
+   3:../src/util.c **** // 1uS
+   4:../src/util.c **** void delay_us(unsigned int time)
+   5:../src/util.c **** {
+  27              		.loc 1 5 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 16
+  30              		@ frame_needed = 1, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32 0000 80B4     		push	{r7}
+  33              		.cfi_def_cfa_offset 4
+  34              		.cfi_offset 7, -4
+  35 0002 85B0     		sub	sp, sp, #20
+  36              		.cfi_def_cfa_offset 24
+  37 0004 00AF     		add	r7, sp, #0
+  38              		.cfi_def_cfa_register 7
+  39 0006 7860     		str	r0, [r7, #4]
+   6:../src/util.c **** 	uint32_t i =0 , j = 0;
+  40              		.loc 1 6 0
+  41 0008 0023     		movs	r3, #0
+  42 000a FB60     		str	r3, [r7, #12]
+  43 000c 0023     		movs	r3, #0
+  44 000e BB60     		str	r3, [r7, #8]
+   7:../src/util.c **** 	for(j=0 ; j<time ; j++)
+  45              		.loc 1 7 0
+  46 0010 0023     		movs	r3, #0
+  47 0012 BB60     		str	r3, [r7, #8]
+  48 0014 0CE0     		b	.L2
+  49              	.L5:
+   8:../src/util.c **** 	{
+   9:../src/util.c **** 		for(i=0; i<2; i++) {
+  50              		.loc 1 9 0
+  51 0016 0023     		movs	r3, #0
+  52 0018 FB60     		str	r3, [r7, #12]
+  53 001a 03E0     		b	.L3
+  54              	.L4:
+  10:../src/util.c **** 			__asm volatile ("nop");
+  55              		.loc 1 10 0 discriminator 3
+  56              	@ 10 "../src/util.c" 1
+  57 001c 00BF     		nop
+  58              	@ 0 "" 2
+   9:../src/util.c **** 			__asm volatile ("nop");
+  59              		.loc 1 9 0 discriminator 3
+  60              		.thumb
+  61 001e FB68     		ldr	r3, [r7, #12]
+  62 0020 0133     		adds	r3, r3, #1
+  63 0022 FB60     		str	r3, [r7, #12]
+  64              	.L3:
+   9:../src/util.c **** 			__asm volatile ("nop");
+  65              		.loc 1 9 0 is_stmt 0 discriminator 1
+  66 0024 FB68     		ldr	r3, [r7, #12]
+  67 0026 012B     		cmp	r3, #1
+  68 0028 F8D9     		bls	.L4
+   7:../src/util.c **** 	{
+  69              		.loc 1 7 0 is_stmt 1 discriminator 2
+  70 002a BB68     		ldr	r3, [r7, #8]
+  71 002c 0133     		adds	r3, r3, #1
+  72 002e BB60     		str	r3, [r7, #8]
+  73              	.L2:
+   7:../src/util.c **** 	{
+  74              		.loc 1 7 0 is_stmt 0 discriminator 1
+  75 0030 BA68     		ldr	r2, [r7, #8]
+  76 0032 7B68     		ldr	r3, [r7, #4]
+  77 0034 9A42     		cmp	r2, r3
+  78 0036 EED3     		bcc	.L5
+  11:../src/util.c **** 		}
+  12:../src/util.c **** 	}
+  13:../src/util.c **** }
+  79              		.loc 1 13 0 is_stmt 1
+  80 0038 1437     		adds	r7, r7, #20
+  81              		.cfi_def_cfa_offset 4
+  82 003a BD46     		mov	sp, r7
+  83              		.cfi_def_cfa_register 13
+  84              		@ sp needed
+  85 003c 5DF8047B 		ldr	r7, [sp], #4
+  86              		.cfi_restore 7
+  87              		.cfi_def_cfa_offset 0
+  88 0040 7047     		bx	lr
+  89              		.cfi_endproc
+  90              	.LFE102:
+  92 0042 00BF     		.section	.text.delay_ms,"ax",%progbits
+  93              		.align	2
+  94              		.global	delay_ms
+  95              		.thumb
+  96              		.thumb_func
+  98              	delay_ms:
+  99              	.LFB103:
+  14:../src/util.c **** 
+  15:../src/util.c **** void delay_ms(unsigned int time)
+  16:../src/util.c **** {
+ 100              		.loc 1 16 0
+ 101              		.cfi_startproc
+ 102              		@ args = 0, pretend = 0, frame = 16
+ 103              		@ frame_needed = 1, uses_anonymous_args = 0
+ 104 0000 80B5     		push	{r7, lr}
+ 105              		.cfi_def_cfa_offset 8
+ 106              		.cfi_offset 7, -8
+ 107              		.cfi_offset 14, -4
+ 108 0002 84B0     		sub	sp, sp, #16
+ 109              		.cfi_def_cfa_offset 24
+ 110 0004 00AF     		add	r7, sp, #0
+ 111              		.cfi_def_cfa_register 7
+ 112 0006 7860     		str	r0, [r7, #4]
+  17:../src/util.c **** 	uint32_t i;
+  18:../src/util.c **** 	for(i=0;i<time;i++)
+ 113              		.loc 1 18 0
+ 114 0008 0023     		movs	r3, #0
+ 115 000a FB60     		str	r3, [r7, #12]
+ 116 000c 06E0     		b	.L7
+ 117              	.L8:
+  19:../src/util.c **** 	{
+  20:../src/util.c **** 		delay_us(1000);		// 1uS
+ 118              		.loc 1 20 0 discriminator 3
+ 119 000e 4FF47A70 		mov	r0, #1000
+ 120 0012 FFF7FEFF 		bl	delay_us
+  18:../src/util.c **** 	{
+ 121              		.loc 1 18 0 discriminator 3
+ 122 0016 FB68     		ldr	r3, [r7, #12]
+ 123 0018 0133     		adds	r3, r3, #1
+ 124 001a FB60     		str	r3, [r7, #12]
+ 125              	.L7:
+  18:../src/util.c **** 	{
+ 126              		.loc 1 18 0 is_stmt 0 discriminator 1
+ 127 001c FA68     		ldr	r2, [r7, #12]
+ 128 001e 7B68     		ldr	r3, [r7, #4]
+ 129 0020 9A42     		cmp	r2, r3
+ 130 0022 F4D3     		bcc	.L8
+  21:../src/util.c **** 	}
+  22:../src/util.c **** }
+ 131              		.loc 1 22 0 is_stmt 1
+ 132 0024 1037     		adds	r7, r7, #16
+ 133              		.cfi_def_cfa_offset 8
+ 134 0026 BD46     		mov	sp, r7
+ 135              		.cfi_def_cfa_register 13
+ 136              		@ sp needed
+ 137 0028 80BD     		pop	{r7, pc}
+ 138              		.cfi_endproc
+ 139              	.LFE103:
+ 141 002a 00BF     		.section	.text.AsciiToHex,"ax",%progbits
+ 142              		.align	2
+ 143              		.global	AsciiToHex
+ 144              		.thumb
+ 145              		.thumb_func
+ 147              	AsciiToHex:
+ 148              	.LFB104:
+  23:../src/util.c **** 
+  24:../src/util.c **** int AsciiToHex(char c)
+  25:../src/util.c **** {
+ 149              		.loc 1 25 0
+ 150              		.cfi_startproc
+ 151              		@ args = 0, pretend = 0, frame = 16
+ 152              		@ frame_needed = 1, uses_anonymous_args = 0
+ 153              		@ link register save eliminated.
+ 154 0000 80B4     		push	{r7}
+ 155              		.cfi_def_cfa_offset 4
+ 156              		.cfi_offset 7, -4
+ 157 0002 85B0     		sub	sp, sp, #20
+ 158              		.cfi_def_cfa_offset 24
+ 159 0004 00AF     		add	r7, sp, #0
+ 160              		.cfi_def_cfa_register 7
+ 161 0006 0346     		mov	r3, r0
+ 162 0008 FB71     		strb	r3, [r7, #7]
+ 163              	.LBB2:
+  26:../src/util.c **** 	int num = toupper(c);
+ 164              		.loc 1 26 0
+ 165 000a FB79     		ldrb	r3, [r7, #7]
+ 166 000c FB73     		strb	r3, [r7, #15]
+ 167 000e 164B     		ldr	r3, .L15
+ 168 0010 1A68     		ldr	r2, [r3]
+ 169 0012 97F90F30 		ldrsb	r3, [r7, #15]
+ 170 0016 0133     		adds	r3, r3, #1
+ 171 0018 1344     		add	r3, r3, r2
+ 172 001a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 173 001c DBB2     		uxtb	r3, r3
+ 174 001e 03F00303 		and	r3, r3, #3
+ 175 0022 022B     		cmp	r3, #2
+ 176 0024 03D1     		bne	.L10
+ 177              		.loc 1 26 0 is_stmt 0 discriminator 1
+ 178 0026 97F90F30 		ldrsb	r3, [r7, #15]
+ 179 002a 203B     		subs	r3, r3, #32
+ 180 002c 01E0     		b	.L11
+ 181              	.L10:
+ 182              		.loc 1 26 0 discriminator 2
+ 183 002e 97F90F30 		ldrsb	r3, [r7, #15]
+ 184              	.L11:
+ 185              	.LBE2:
+ 186              		.loc 1 26 0 discriminator 4
+ 187 0032 BB60     		str	r3, [r7, #8]
+  27:../src/util.c **** 	if(num >= 0x30 && num <= 0x39)
+ 188              		.loc 1 27 0 is_stmt 1 discriminator 4
+ 189 0034 BB68     		ldr	r3, [r7, #8]
+ 190 0036 2F2B     		cmp	r3, #47
+ 191 0038 05DD     		ble	.L12
+ 192              		.loc 1 27 0 is_stmt 0 discriminator 1
+ 193 003a BB68     		ldr	r3, [r7, #8]
+ 194 003c 392B     		cmp	r3, #57
+ 195 003e 02DC     		bgt	.L12
+  28:../src/util.c **** 	{
+  29:../src/util.c **** 		return num - 0x30;
+ 196              		.loc 1 29 0 is_stmt 1
+ 197 0040 BB68     		ldr	r3, [r7, #8]
+ 198 0042 303B     		subs	r3, r3, #48
+ 199 0044 09E0     		b	.L13
+ 200              	.L12:
+  30:../src/util.c **** 	}
+  31:../src/util.c **** 	if(num >= 'A' && num <= 'F')
+ 201              		.loc 1 31 0
+ 202 0046 BB68     		ldr	r3, [r7, #8]
+ 203 0048 402B     		cmp	r3, #64
+ 204 004a 05DD     		ble	.L14
+ 205              		.loc 1 31 0 is_stmt 0 discriminator 1
+ 206 004c BB68     		ldr	r3, [r7, #8]
+ 207 004e 462B     		cmp	r3, #70
+ 208 0050 02DC     		bgt	.L14
+  32:../src/util.c **** 	{
+  33:../src/util.c **** 		return num - 'A';
+ 209              		.loc 1 33 0 is_stmt 1
+ 210 0052 BB68     		ldr	r3, [r7, #8]
+ 211 0054 413B     		subs	r3, r3, #65
+ 212 0056 00E0     		b	.L13
+ 213              	.L14:
+  34:../src/util.c **** 	}
+  35:../src/util.c **** 	return num;
+ 214              		.loc 1 35 0
+ 215 0058 BB68     		ldr	r3, [r7, #8]
+ 216              	.L13:
+  36:../src/util.c **** }
+ 217              		.loc 1 36 0
+ 218 005a 1846     		mov	r0, r3
+ 219 005c 1437     		adds	r7, r7, #20
+ 220              		.cfi_def_cfa_offset 4
+ 221 005e BD46     		mov	sp, r7
+ 222              		.cfi_def_cfa_register 13
+ 223              		@ sp needed
+ 224 0060 5DF8047B 		ldr	r7, [sp], #4
+ 225              		.cfi_restore 7
+ 226              		.cfi_def_cfa_offset 0
+ 227 0064 7047     		bx	lr
+ 228              	.L16:
+ 229 0066 00BF     		.align	2
+ 230              	.L15:
+ 231 0068 00000000 		.word	__ctype_ptr__
+ 232              		.cfi_endproc
+ 233              	.LFE104:
+ 235              		.section	.text.HexStringToByte,"ax",%progbits
+ 236              		.align	2
+ 237              		.global	HexStringToByte
+ 238              		.thumb
+ 239              		.thumb_func
+ 241              	HexStringToByte:
+ 242              	.LFB105:
+  37:../src/util.c **** 
+  38:../src/util.c **** char HexStringToByte(short value )
+  39:../src/util.c **** {
+ 243              		.loc 1 39 0
+ 244              		.cfi_startproc
+ 245              		@ args = 0, pretend = 0, frame = 16
+ 246              		@ frame_needed = 1, uses_anonymous_args = 0
+ 247 0000 80B5     		push	{r7, lr}
+ 248              		.cfi_def_cfa_offset 8
+ 249              		.cfi_offset 7, -8
+ 250              		.cfi_offset 14, -4
+ 251 0002 84B0     		sub	sp, sp, #16
+ 252              		.cfi_def_cfa_offset 24
+ 253 0004 00AF     		add	r7, sp, #0
+ 254              		.cfi_def_cfa_register 7
+ 255 0006 0346     		mov	r3, r0
+ 256 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+  40:../src/util.c **** 	char lower = AsciiToHex(value & 0xFF);
+ 257              		.loc 1 40 0
+ 258 000a FB88     		ldrh	r3, [r7, #6]	@ movhi
+ 259 000c DBB2     		uxtb	r3, r3
+ 260 000e 5BB2     		sxtb	r3, r3
+ 261 0010 1846     		mov	r0, r3
+ 262 0012 FFF7FEFF 		bl	AsciiToHex
+ 263 0016 0346     		mov	r3, r0
+ 264 0018 FB73     		strb	r3, [r7, #15]
+  41:../src/util.c **** 	char Upper = AsciiToHex( (value >> 8) & 0xFF);
+ 265              		.loc 1 41 0
+ 266 001a B7F90630 		ldrsh	r3, [r7, #6]
+ 267 001e 1B12     		asrs	r3, r3, #8
+ 268 0020 9BB2     		uxth	r3, r3
+ 269 0022 DBB2     		uxtb	r3, r3
+ 270 0024 5BB2     		sxtb	r3, r3
+ 271 0026 1846     		mov	r0, r3
+ 272 0028 FFF7FEFF 		bl	AsciiToHex
+ 273 002c 0346     		mov	r3, r0
+ 274 002e BB73     		strb	r3, [r7, #14]
+  42:../src/util.c **** 	char nRet = Upper << 4 | lower;
+ 275              		.loc 1 42 0
+ 276 0030 97F90E30 		ldrsb	r3, [r7, #14]
+ 277 0034 1B01     		lsls	r3, r3, #4
+ 278 0036 DBB2     		uxtb	r3, r3
+ 279 0038 1A46     		mov	r2, r3
+ 280 003a FB7B     		ldrb	r3, [r7, #15]
+ 281 003c 1343     		orrs	r3, r3, r2
+ 282 003e 7B73     		strb	r3, [r7, #13]
+  43:../src/util.c **** 	return nRet;
+ 283              		.loc 1 43 0
+ 284 0040 7B7B     		ldrb	r3, [r7, #13]	@ zero_extendqisi2
+ 285 0042 5BB2     		sxtb	r3, r3
+  44:../src/util.c **** }
+ 286              		.loc 1 44 0
+ 287 0044 1846     		mov	r0, r3
+ 288 0046 1037     		adds	r7, r7, #16
+ 289              		.cfi_def_cfa_offset 8
+ 290 0048 BD46     		mov	sp, r7
+ 291              		.cfi_def_cfa_register 13
+ 292              		@ sp needed
+ 293 004a 80BD     		pop	{r7, pc}
+ 294              		.cfi_endproc
+ 295              	.LFE105:
+ 297              		.section	.text.HexStringToShort,"ax",%progbits
+ 298              		.align	2
+ 299              		.global	HexStringToShort
+ 300              		.thumb
+ 301              		.thumb_func
+ 303              	HexStringToShort:
+ 304              	.LFB106:
+  45:../src/util.c **** 
+  46:../src/util.c **** short HexStringToShort(int value)
+  47:../src/util.c **** {
+ 305              		.loc 1 47 0
+ 306              		.cfi_startproc
+ 307              		@ args = 0, pretend = 0, frame = 16
+ 308              		@ frame_needed = 1, uses_anonymous_args = 0
+ 309 0000 80B5     		push	{r7, lr}
+ 310              		.cfi_def_cfa_offset 8
+ 311              		.cfi_offset 7, -8
+ 312              		.cfi_offset 14, -4
+ 313 0002 84B0     		sub	sp, sp, #16
+ 314              		.cfi_def_cfa_offset 24
+ 315 0004 00AF     		add	r7, sp, #0
+ 316              		.cfi_def_cfa_register 7
+ 317 0006 7860     		str	r0, [r7, #4]
+  48:../src/util.c **** 	char lower = HexStringToByte(value & 0xFFFF);
+ 318              		.loc 1 48 0
+ 319 0008 7B68     		ldr	r3, [r7, #4]
+ 320 000a 9BB2     		uxth	r3, r3
+ 321 000c 1BB2     		sxth	r3, r3
+ 322 000e 1846     		mov	r0, r3
+ 323 0010 FFF7FEFF 		bl	HexStringToByte
+ 324 0014 0346     		mov	r3, r0
+ 325 0016 FB73     		strb	r3, [r7, #15]
+  49:../src/util.c **** 	char Upper = HexStringToByte( (value >> 16) & 0xFFFF);
+ 326              		.loc 1 49 0
+ 327 0018 7B68     		ldr	r3, [r7, #4]
+ 328 001a 1B0C     		lsrs	r3, r3, #16
+ 329 001c 9BB2     		uxth	r3, r3
+ 330 001e 1BB2     		sxth	r3, r3
+ 331 0020 1846     		mov	r0, r3
+ 332 0022 FFF7FEFF 		bl	HexStringToByte
+ 333 0026 0346     		mov	r3, r0
+ 334 0028 BB73     		strb	r3, [r7, #14]
+  50:../src/util.c **** 	short nRet = Upper << 8 | lower;
+ 335              		.loc 1 50 0
+ 336 002a 97F90E30 		ldrsb	r3, [r7, #14]
+ 337 002e 1B02     		lsls	r3, r3, #8
+ 338 0030 9AB2     		uxth	r2, r3
+ 339 0032 97F90F30 		ldrsb	r3, [r7, #15]
+ 340 0036 9BB2     		uxth	r3, r3
+ 341 0038 1343     		orrs	r3, r3, r2
+ 342 003a BB81     		strh	r3, [r7, #12]	@ movhi
+  51:../src/util.c **** 	return nRet;
+ 343              		.loc 1 51 0
+ 344 003c BB89     		ldrh	r3, [r7, #12]
+ 345 003e 1BB2     		sxth	r3, r3
+  52:../src/util.c **** }
+ 346              		.loc 1 52 0
+ 347 0040 1846     		mov	r0, r3
+ 348 0042 1037     		adds	r7, r7, #16
+ 349              		.cfi_def_cfa_offset 8
+ 350 0044 BD46     		mov	sp, r7
+ 351              		.cfi_def_cfa_register 13
+ 352              		@ sp needed
+ 353 0046 80BD     		pop	{r7, pc}
+ 354              		.cfi_endproc
+ 355              	.LFE106:
+ 357              		.text
+ 358              	.Letext0:
+ 359              		.file 2 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\machine\\_def
+ 360              		.file 3 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\sys\\_stdint.
+ 361              		.file 4 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\ctype.h"
+ 362              		.file 5 "C:\\Microsemi\\SoftConsole_v4.0\\CMSIS\\V4.3\\Include/core_cm3.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 util.c
+C:\Users\jiryu\AppData\Local\Temp\cc0r4QeK.s:19     .text.delay_us:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc0r4QeK.s:24     .text.delay_us:00000000 delay_us
+C:\Users\jiryu\AppData\Local\Temp\cc0r4QeK.s:93     .text.delay_ms:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc0r4QeK.s:98     .text.delay_ms:00000000 delay_ms
+C:\Users\jiryu\AppData\Local\Temp\cc0r4QeK.s:142    .text.AsciiToHex:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc0r4QeK.s:147    .text.AsciiToHex:00000000 AsciiToHex
+C:\Users\jiryu\AppData\Local\Temp\cc0r4QeK.s:231    .text.AsciiToHex:00000068 $d
+C:\Users\jiryu\AppData\Local\Temp\cc0r4QeK.s:236    .text.HexStringToByte:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc0r4QeK.s:241    .text.HexStringToByte:00000000 HexStringToByte
+C:\Users\jiryu\AppData\Local\Temp\cc0r4QeK.s:298    .text.HexStringToShort:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc0r4QeK.s:303    .text.HexStringToShort:00000000 HexStringToShort
+                     .debug_frame:00000010 $d
+                           .group:00000000 wm4.0.8a78f5deb025003dde8e8313b7e18811
+                           .group:00000000 wm4.newlib.h.8.2702bca278809460f0af6fba1d84eb68
+                           .group:00000000 wm4.features.h.22.2e382148a0560adabf236cddd4e880f4
+                           .group:00000000 wm4.config.h.220.a09b0b0de3c25be3f39d71990e617bff
+                           .group:00000000 wm4._ansi.h.23.9f8fcfa20193763fcf364fb91705c94b
+                           .group:00000000 wm4.ctype.h.29.655cb005a4d596b4713c7a42170c401a
+                           .group:00000000 wm4.stdarg.h.31.72c3aa8d68b291953fa52b9471bcdff7
+                           .group:00000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:00000000 wm4._default_types.h.6.35ee9e747940367bf2a634907d1c2382
+                           .group:00000000 wm4.stddef.h.184.159df79b4ca79c76561572a55985524c
+                           .group:00000000 wm4.cdefs.h.47.3052445825803de6c3a3b68ec8193866
+                           .group:00000000 wm4.stddef.h.39.7e3d906ac58942e0b374c527445f5de5
+                           .group:00000000 wm4.lock.h.2.9bc98482741e5e2a9450b12934a684ea
+                           .group:00000000 wm4._types.h.54.d3d34a3b7f3cc230cd159baf022b4b08
+                           .group:00000000 wm4.stddef.h.158.61317cdbfb4026324507d123a50b0fd6
+                           .group:00000000 wm4.reent.h.17.8bd9e4098e0428508c282cad794fae43
+                           .group:00000000 wm4.types.h.23.0d949686bbcadd1621462d4fa1f884f9
+                           .group:00000000 wm4._stdint.h.10.f76354baea1c7088202064e6f3d4f5e3
+                           .group:00000000 wm4.types.h.2.e9cec8c90ab35f77d9f499e06ae02400
+                           .group:00000000 wm4.types.h.81.ded4e8fbe2d299b79c956dc834e43661
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.68.a99a2db1e55915cfd1b035cc1e9fcff1
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.stddef.h.158.a7efb00f6cbc6f43213b50e183c9830c
+                           .group:00000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:00000000 wm4.stdlib.h.54.cd3744e0b066087ec8fbb1bdc22d1043
+                           .group:00000000 wm4.string.h.8.c4b8571ce60dff2817f43fec8b86aecd
+                           .group:00000000 wm4._intsup.h.10.b2832a532eae49c14d45880be6d4ca65
+                           .group:00000000 wm4.stdint.h.23.373a9d32a9e4c2e88fd347156532d281
+                           .group:00000000 wm4.limits.h.2.9dea55bedb68394d9750fdf18fad85e9
+                           .group:00000000 wm4.limits.h.60.b4bc9eda7e37043243f7148a2c6d0306
+                           .group:00000000 wm4.stdbool.h.29.1c9ee6859ce8145f7838a4f2549ccec2
+                           .group:00000000 wm4.m2sxxx.h.14.987ea2aeaafde240411e8c56d47721f7
+                           .group:00000000 wm4.core_cm3.h.43.614605f47657df9251f3b3f57590a49a
+                           .group:00000000 wm4.core_cmInstr.h.39.addda81f1f3453ba31dd54fc5b6fcee8
+                           .group:00000000 wm4.core_cm3.h.160.4f087d7d2b17fc46469486aedc40cf5c
+                           .group:00000000 wm4.m2sxxx.h.2709.9eef8620912489dbc5c26e98701cdac3
+                           .group:00000000 wm4.sys_config_mss_clocks.h.10.c7f4d81ec72bcea6cafb9cc9c2acf4ab
+                           .group:00000000 wm4.sys_config.h.25.1448a2ceceaa3c2e8913533fa4e42cee
+                           .group:00000000 wm4.mss_uart.h.258.ed2d082f8e6703bd440653ce1fa4b528
+                           .group:00000000 wm4.assert.h.11.7fe9eb241be6b0fee772a1e693b81ae3
+                           .group:00000000 wm4.mss_watchdog.h.135.cd7fdb2556dfc88c684a3bccbcbeffd0
+                           .group:00000000 wm4.mss_nvm.h.54.53fe48cb67630dbcda63b96130444f53
+                           .group:00000000 wm4.protocol.h.2.6a5796ea80238bc4f9a16400f98bef7e
+                           .group:00000000 wm4.storage.h.2.37efc95cfbe2d56f733e692b6f73ffca
+                           .group:00000000 wm4.system.h.2.8eca77f0cab86ca974940a82c5c17eab
+                           .group:00000000 wm4.version.h.2.9d8026164faa16ae393ccbd448177fc2
+
+UNDEFINED SYMBOLS
+__ctype_ptr__

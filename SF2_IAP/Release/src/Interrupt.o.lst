@@ -1,0 +1,220 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"Interrupt.c"
+  15              		.section	.text.prvGetRegistersFromStack,"ax",%progbits
+  16              		.align	2
+  17              		.global	prvGetRegistersFromStack
+  18              		.thumb
+  19              		.thumb_func
+  21              	prvGetRegistersFromStack:
+  22              		@ args = 0, pretend = 0, frame = 32
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  25 0002 D0F800E0 		ldr	lr, [r0]
+  26 0006 4768     		ldr	r7, [r0, #4]
+  27 0008 8668     		ldr	r6, [r0, #8]
+  28 000a C568     		ldr	r5, [r0, #12]
+  29 000c 0469     		ldr	r4, [r0, #16]
+  30 000e 89B0     		sub	sp, sp, #36
+  31 0010 00F11401 		add	r1, r0, #20
+  32 0014 CDF800E0 		str	lr, [sp]
+  33 0018 0EC9     		ldmia	r1, {r1, r2, r3}
+  34 001a 0197     		str	r7, [sp, #4]
+  35 001c 0296     		str	r6, [sp, #8]
+  36 001e 0395     		str	r5, [sp, #12]
+  37 0020 0494     		str	r4, [sp, #16]
+  38 0022 0591     		str	r1, [sp, #20]
+  39 0024 0692     		str	r2, [sp, #24]
+  40 0026 0793     		str	r3, [sp, #28]
+  41 0028 09B0     		add	sp, sp, #36
+  42              		@ sp needed
+  43 002a F0BD     		pop	{r4, r5, r6, r7, pc}
+  45              		.section	.text.NMI_Handler,"ax",%progbits
+  46              		.align	2
+  47              		.global	NMI_Handler
+  48              		.thumb
+  49              		.thumb_func
+  51              	NMI_Handler:
+  52              		@ Volatile: function does not return.
+  53              		@ Stack Align: May be called with mis-aligned SP.
+  54              		@ args = 0, pretend = 0, frame = 0
+  55              		@ frame_needed = 0, uses_anonymous_args = 0
+  56              		@ link register save eliminated.
+  57 0000 6846     		mov	r0, sp
+  58 0002 20F00701 		bic	r1, r0, #7
+  59 0006 8D46     		mov	sp, r1
+  60              	.L4:
+  61 0008 FEE7     		b	.L4
+  63 000a 00BF     		.section	.text.HardFault_Handler,"ax",%progbits
+  64              		.align	2
+  65              		.global	HardFault_Handler
+  66              		.thumb
+  67              		.thumb_func
+  69              	HardFault_Handler:
+  70              		@ Volatile: function does not return.
+  71              		@ Stack Align: May be called with mis-aligned SP.
+  72              		@ args = 0, pretend = 0, frame = 0
+  73              		@ frame_needed = 0, uses_anonymous_args = 0
+  74              		@ link register save eliminated.
+  75 0000 6846     		mov	r0, sp
+  76 0002 20F00701 		bic	r1, r0, #7
+  77 0006 8D46     		mov	sp, r1
+  78              	@ 64 "../src/Interrupt.c" 1
+  79 0008 1EF0040F 		 tst lr, #4                                                
+  80 000c 0CBF     	 ite eq                                                    
+  81 000e EFF30880 	 mrseq r0, msp                                             
+  82 0012 EFF30980 	 mrsne r0, psp                                             
+  83 0016 FFF7FEBF 	 b prvGetRegistersFromStack                               
+  84              	
+  85              	@ 0 "" 2
+  86              		.thumb
+  87              	.L7:
+  88 001a FEE7     		b	.L7
+  90              		.section	.text.MemManage_Handler,"ax",%progbits
+  91              		.align	2
+  92              		.global	MemManage_Handler
+  93              		.thumb
+  94              		.thumb_func
+  96              	MemManage_Handler:
+  97              		@ Volatile: function does not return.
+  98              		@ Stack Align: May be called with mis-aligned SP.
+  99              		@ args = 0, pretend = 0, frame = 0
+ 100              		@ frame_needed = 0, uses_anonymous_args = 0
+ 101              		@ link register save eliminated.
+ 102 0000 6846     		mov	r0, sp
+ 103 0002 20F00701 		bic	r1, r0, #7
+ 104 0006 8D46     		mov	sp, r1
+ 105              	.L9:
+ 106 0008 FEE7     		b	.L9
+ 108 000a 00BF     		.section	.text.BusFault_Handler,"ax",%progbits
+ 109              		.align	2
+ 110              		.global	BusFault_Handler
+ 111              		.thumb
+ 112              		.thumb_func
+ 114              	BusFault_Handler:
+ 115              		@ Volatile: function does not return.
+ 116              		@ Stack Align: May be called with mis-aligned SP.
+ 117              		@ args = 0, pretend = 0, frame = 0
+ 118              		@ frame_needed = 0, uses_anonymous_args = 0
+ 119              		@ link register save eliminated.
+ 120 0000 6846     		mov	r0, sp
+ 121 0002 20F00701 		bic	r1, r0, #7
+ 122 0006 8D46     		mov	sp, r1
+ 123              	.L11:
+ 124 0008 FEE7     		b	.L11
+ 126 000a 00BF     		.section	.text.UsageFault_Handler,"ax",%progbits
+ 127              		.align	2
+ 128              		.global	UsageFault_Handler
+ 129              		.thumb
+ 130              		.thumb_func
+ 132              	UsageFault_Handler:
+ 133              		@ Volatile: function does not return.
+ 134              		@ Stack Align: May be called with mis-aligned SP.
+ 135              		@ args = 0, pretend = 0, frame = 0
+ 136              		@ frame_needed = 0, uses_anonymous_args = 0
+ 137              		@ link register save eliminated.
+ 138 0000 6846     		mov	r0, sp
+ 139 0002 20F00701 		bic	r1, r0, #7
+ 140 0006 8D46     		mov	sp, r1
+ 141              	.L13:
+ 142 0008 FEE7     		b	.L13
+ 144 000a 00BF     		.section	.text.WdogWakeup_IRQHandler,"ax",%progbits
+ 145              		.align	2
+ 146              		.global	WdogWakeup_IRQHandler
+ 147              		.thumb
+ 148              		.thumb_func
+ 150              	WdogWakeup_IRQHandler:
+ 151              		@ Volatile: function does not return.
+ 152              		@ Stack Align: May be called with mis-aligned SP.
+ 153              		@ args = 0, pretend = 0, frame = 0
+ 154              		@ frame_needed = 0, uses_anonymous_args = 0
+ 155              		@ link register save eliminated.
+ 156 0000 6846     		mov	r0, sp
+ 157 0002 20F00701 		bic	r1, r0, #7
+ 158 0006 8D46     		mov	sp, r1
+ 159              	.L15:
+ 160 0008 FEE7     		b	.L15
+ 162 000a 00BF     		.section	.text.CommSwitchError_IRQHandler,"ax",%progbits
+ 163              		.align	2
+ 164              		.global	CommSwitchError_IRQHandler
+ 165              		.thumb
+ 166              		.thumb_func
+ 168              	CommSwitchError_IRQHandler:
+ 169              		@ Volatile: function does not return.
+ 170              		@ Stack Align: May be called with mis-aligned SP.
+ 171              		@ args = 0, pretend = 0, frame = 0
+ 172              		@ frame_needed = 0, uses_anonymous_args = 0
+ 173              		@ link register save eliminated.
+ 174 0000 6846     		mov	r0, sp
+ 175 0002 20F00701 		bic	r1, r0, #7
+ 176 0006 8D46     		mov	sp, r1
+ 177              	.L17:
+ 178 0008 FEE7     		b	.L17
+ 180 000a 00BF     		.section	.text.CacheError_IRQHandler,"ax",%progbits
+ 181              		.align	2
+ 182              		.global	CacheError_IRQHandler
+ 183              		.thumb
+ 184              		.thumb_func
+ 186              	CacheError_IRQHandler:
+ 187              		@ Volatile: function does not return.
+ 188              		@ Stack Align: May be called with mis-aligned SP.
+ 189              		@ args = 0, pretend = 0, frame = 0
+ 190              		@ frame_needed = 0, uses_anonymous_args = 0
+ 191              		@ link register save eliminated.
+ 192 0000 6846     		mov	r0, sp
+ 193 0002 20F00701 		bic	r1, r0, #7
+ 194 0006 8D46     		mov	sp, r1
+ 195              	.L19:
+ 196 0008 FEE7     		b	.L19
+ 198 000a 00BF     		.section	.text.ECC_Error_IRQHandler,"ax",%progbits
+ 199              		.align	2
+ 200              		.global	ECC_Error_IRQHandler
+ 201              		.thumb
+ 202              		.thumb_func
+ 204              	ECC_Error_IRQHandler:
+ 205              		@ Volatile: function does not return.
+ 206              		@ Stack Align: May be called with mis-aligned SP.
+ 207              		@ args = 0, pretend = 0, frame = 0
+ 208              		@ frame_needed = 0, uses_anonymous_args = 0
+ 209              		@ link register save eliminated.
+ 210 0000 6846     		mov	r0, sp
+ 211 0002 20F00701 		bic	r1, r0, #7
+ 212 0006 8D46     		mov	sp, r1
+ 213              	.L21:
+ 214 0008 FEE7     		b	.L21
+ 216 000a 00BF     		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150529 (release) [ARM/embedded-4_9-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 Interrupt.c
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:16     .text.prvGetRegistersFromStack:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:21     .text.prvGetRegistersFromStack:00000000 prvGetRegistersFromStack
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:46     .text.NMI_Handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:51     .text.NMI_Handler:00000000 NMI_Handler
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:64     .text.HardFault_Handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:69     .text.HardFault_Handler:00000000 HardFault_Handler
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:91     .text.MemManage_Handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:96     .text.MemManage_Handler:00000000 MemManage_Handler
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:109    .text.BusFault_Handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:114    .text.BusFault_Handler:00000000 BusFault_Handler
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:127    .text.UsageFault_Handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:132    .text.UsageFault_Handler:00000000 UsageFault_Handler
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:145    .text.WdogWakeup_IRQHandler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:150    .text.WdogWakeup_IRQHandler:00000000 WdogWakeup_IRQHandler
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:163    .text.CommSwitchError_IRQHandler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:168    .text.CommSwitchError_IRQHandler:00000000 CommSwitchError_IRQHandler
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:181    .text.CacheError_IRQHandler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:186    .text.CacheError_IRQHandler:00000000 CacheError_IRQHandler
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:199    .text.ECC_Error_IRQHandler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9yxvMn.s:204    .text.ECC_Error_IRQHandler:00000000 ECC_Error_IRQHandler
+
+NO UNDEFINED SYMBOLS

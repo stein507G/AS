@@ -1,0 +1,180 @@
+#ifndef OPTION_OVEN_H_
+#define OPTION_OVEN_H_
+
+
+//=========================================================
+// #### TEST FUNCTION
+//=========================================================
+#define DEBUG_OVEN				0
+	#if DEBUG_OVEN
+		#define NOT_USE_BUZZER		1
+	#else
+	#endif
+//=========================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+#define TEMP_CAL_DATA_FORMAT_DOUBLE			0
+
+#define GRADIENT_CURVE		// gradient curve실행함. - 실행하지 않는 경우는 게단식
+//#define HEATER_OFF_FUNC		// 마지막 테이블에 온도 설정값이 -1이면 off
+//#define HEATER_OFF_FUNC_SAME_TIME		// 마지막 테이블에 온도 설정값이 -1이면 off
+
+// 2011.01.17  Oven Temp Calibation 프로토콜 추가 작업
+#define TEMP_CALIBRATION
+#define TEMP_RS232			0		// 온도출력
+
+#define INTERNAl_FAN_ALWAYS_ON		1			// 내부팬을 항상 켜지도록 (낮은 풍량으로 )
+
+#define MAIN_POWRER_15V						1
+
+#define PWM_CON_1024_SCALE				1
+
+// 20201216
+#define NET_SEND_ACK					1
+
+
+#define BOARD_TEST_PRGM				0			// 보드테스트를 목적으로 - 자동 반복 운동
+#define MACHINE_TEST_PRGM			0			// 기구적인 테스트 - Key B/d 입력이용
+
+//#define SYSTEM_MODEL				"YL9152 LC AutoSampler"
+//#define SYSTEM_MODEL				"YL9130 Column Comp.:1.1.8"
+#define SYSTEM_MODEL				"Chrozen LC Column Comp.:1.0.0"
+
+// 이동 
+//#define SYSTEM_DISP_MODEL		"YL9150 Plus LC AutoSampler"
+//#define SYSTEM_VERSION			"1.0.0"
+
+// 20181012 - Adjust data 백업을 위해서 새롭게
+#define HOME_ADJUST_VERSION_CHECK_DATA	0x7234AA55
+
+#define MECH_VER				1 
+#define BOARD_REV				1 
+//#define BOARD_REV				4 // 20200422
+
+
+#if MECH_VER == 1
+	#define NDEBUG_DP
+//	#define FIRMWARE_VERSION		" 1.00.00"	// 맨앞은 space
+// 20210414 - PWM Control fan
+	#define FIRMWARE_VERSION		" 1.01.00"
+	#define MACHINE_VER		" 1.0.0"
+#endif
+
+// 이동 
+//#define SYSTEM_DISP_MODEL		"YL9150 Plus LC AutoSampler"
+#define SYSTEM_DISP_MODEL			"Chrozen LC Column Oven:1.0.0"
+#define SYSTEM_VERSION				MACHINE_VER
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// #define	ALL_ACCEL_CONTROL			1
+
+//===========================================================================================
+// 
+
+		// Autotunning 실행
+#define AUTO_TUNNING_CONTROL		0
+
+#define HEATING_SYSTEM					0
+#define COOLING_SYSTEM					1
+//#define AUTO_TUNNING_TARGET			HEATING_SYSTEM
+#define AUTO_TUNNING_TARGET			COOLING_SYSTEM
+
+
+
+#define MOTOR_POWER_DOWN_MODE			1						// 20171213
+#define MICRO_PUMP_VOLTAGE_ADJUSTMENT			1			// 20171216
+
+#define EEPROM_SAVE_MODIFY		1			// eeprom저장을 한번에 쓸수 있도록 - 에러 방지
+#define HOME_CHECK_MODIFY_1ST		1		// 홈체크후 조금더 홈방향으로 이동
+#define HOME_CHECK_MODIFY_2ND		2		// 홈체크후 바로 스톱 후 reset -> ready
+#define HOME_CHECK_MODIFY		HOME_CHECK_MODIFY_1ST	//HOME_CHECK_MODIFY_2ND
+
+
+// 20191223 - 맥어드레스 생성방법변경 - 시리얼 입력시 생성되도록
+#define MAKE_MAC_ADDR_SERIAL		1
+	#define MAKE_MAC			0xAA
+	#define LOAD_MAC			0x00
+	#define APPLY_MAC			0x55
+
+#define LOAD_IPADDRESS    0xAA
+#define DEFAULT_IPADDRESS    0x55
+
+
+
+
+
+
+// 20200109 -- tcp_close 실행을 안하도록
+#define FIX_TCP_CLOSE_EXCUTE_1			1
+#define FIX_TCP_CLOSE_EXCUTE_2			1			// 괜찮은지 검초해야 된다. - 괜찮은 듯하다?
+
+// 20200217 -- Driver IC 과열 방지
+// Z축은 Sleep mode에서 Power down mode로 딥스위치 변경한다.
+#define POWER_DOWN_SYR_MODIFY		1	// Power Down - Syringe
+#define POWER_DOWN_Z_MODIFY		1		// Power Down - Z축 제외
+
+
+//    static
+extern unsigned char bInitTicks;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// CoreGpio Reading
+#define POWER_SW_OFF_TIME			50		// 5sec
+
+#define SWITCH_1_ID						0
+#define SWITCH_2_ID						1
+#define DOOR_ERROR						2
+#define START_IN_ID						3
+#define READY_IN_ID						4
+#define LEAK_SEN_ID						5
+#define CPU_ONOFF_DET_ID			6
+#define POWER_BUTTON_ID				CPU_ONOFF_DET_ID
+
+
+#define FIRST_YEAR			2001u
+#define LAST_YEAR			2099u
+#define SECOND_YEAR			86400u
+
+#endif	// OPTION_OVEN_H_
+

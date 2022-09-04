@@ -1,0 +1,22 @@
+#ifndef __RUN_PROGRAM_H__
+#define __RUN_PROGRAM_H__
+
+#if 0
+#define ESRAM_IAP_RUN_ADDR 			0x20000000
+
+#define ENVM_BOOTLOADER_IMAGE_ADDR 	0x00000000
+#define ENVM_IAP_IMAGE_ADDR 		0x60002000
+#define ENVM_APP_IMAGE_ADDR 		0x00008000
+#endif
+
+/* function to copy code to eSRAM*/
+void copy_image_to_esram();
+
+/* function to remap eSRAM to cortex - M3 code region*/
+void remap_user_code_eSRAM_0(void);
+
+void run_iap(void);
+
+void run_application(void);
+
+#endif /* __RUN_PROGRAM_H__ */

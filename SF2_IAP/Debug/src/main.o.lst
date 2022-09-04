@@ -1,0 +1,144 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"main.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.main,"ax",%progbits
+  19              		.align	2
+  20              		.global	main
+  21              		.thumb
+  22              		.thumb_func
+  24              	main:
+  25              	.LFB102:
+  26              		.file 1 "../src/main.c"
+   1:../src/main.c **** //
+   2:../src/main.c **** // Print a greeting message on standard output and exit.
+   3:../src/main.c **** //
+   4:../src/main.c **** // On embedded platforms this might require semi-hosting or similar.
+   5:../src/main.c **** //
+   6:../src/main.c **** // For example, for toolchains derived from GNU Tools for Embedded,
+   7:../src/main.c **** // to enable semi-hosting, the following was added to the linker:
+   8:../src/main.c **** //
+   9:../src/main.c **** // --specs=rdimon.specs -Wl,--start-group -lgcc -lc -lc -lm -lrdimon -Wl,--end-group
+  10:../src/main.c **** // -T../debug-in-microsemi-smartfusion2-envm.ld
+  11:../src/main.c **** // -T../debug-in-microsemi-smartfusion2-envm.ld
+  12:../src/main.c **** // Adjust it for other toolchains.
+  13:../src/main.c **** // use define (__DEBUG_CONSOLE__)
+  14:../src/main.c **** 
+  15:../src/main.c **** #include "config.h"
+  16:../src/main.c **** 
+  17:../src/main.c **** 
+  18:../src/main.c **** int main()
+  19:../src/main.c **** {
+  27              		.loc 1 19 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 8
+  30              		@ frame_needed = 1, uses_anonymous_args = 0
+  31 0000 80B5     		push	{r7, lr}
+  32              		.cfi_def_cfa_offset 8
+  33              		.cfi_offset 7, -8
+  34              		.cfi_offset 14, -4
+  35 0002 82B0     		sub	sp, sp, #8
+  36              		.cfi_def_cfa_offset 16
+  37 0004 00AF     		add	r7, sp, #0
+  38              		.cfi_def_cfa_register 7
+  20:../src/main.c **** 	int nRet = 0;
+  39              		.loc 1 20 0
+  40 0006 0023     		movs	r3, #0
+  41 0008 7B60     		str	r3, [r7, #4]
+  21:../src/main.c **** 
+  22:../src/main.c **** 	init_system();
+  42              		.loc 1 22 0
+  43 000a FFF7FEFF 		bl	init_system
+  23:../src/main.c **** 
+  24:../src/main.c **** 	post_update_ready();
+  44              		.loc 1 24 0
+  45 000e FFF7FEFF 		bl	post_update_ready
+  46              	.L2:
+  25:../src/main.c **** 
+  26:../src/main.c **** 	while(1)
+  27:../src/main.c **** 	{
+  28:../src/main.c **** 		nRet = processFwUpdate();
+  47              		.loc 1 28 0 discriminator 1
+  48 0012 FFF7FEFF 		bl	processFwUpdate
+  49 0016 7860     		str	r0, [r7, #4]
+  29:../src/main.c **** 	}
+  50              		.loc 1 29 0 discriminator 1
+  51 0018 FBE7     		b	.L2
+  52              		.cfi_endproc
+  53              	.LFE102:
+  55 001a 00BF     		.text
+  56              	.Letext0:
+  57              		.file 2 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\machine\\_def
+  58              		.file 3 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\sys\\_stdint.
+  59              		.file 4 "C:\\Microsemi\\SoftConsole_v4.0\\CMSIS\\V4.3\\Include/core_cm3.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\jiryu\AppData\Local\Temp\ccvvH02c.s:19     .text.main:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccvvH02c.s:24     .text.main:00000000 main
+                     .debug_frame:00000010 $d
+                           .group:00000000 wm4.0.68149608ea1c0d23dbbfc534e19a39c3
+                           .group:00000000 wm4.newlib.h.8.2702bca278809460f0af6fba1d84eb68
+                           .group:00000000 wm4.features.h.22.2e382148a0560adabf236cddd4e880f4
+                           .group:00000000 wm4.config.h.220.a09b0b0de3c25be3f39d71990e617bff
+                           .group:00000000 wm4._ansi.h.23.9f8fcfa20193763fcf364fb91705c94b
+                           .group:00000000 wm4.ctype.h.29.655cb005a4d596b4713c7a42170c401a
+                           .group:00000000 wm4.stdarg.h.31.72c3aa8d68b291953fa52b9471bcdff7
+                           .group:00000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:00000000 wm4._default_types.h.6.35ee9e747940367bf2a634907d1c2382
+                           .group:00000000 wm4.stddef.h.184.159df79b4ca79c76561572a55985524c
+                           .group:00000000 wm4.cdefs.h.47.a14b68a47d722a767cc4688ffe478d81
+                           .group:00000000 wm4.stddef.h.39.fb88e218f22ad7a0ab38f3d93c6eb3e4
+                           .group:00000000 wm4.lock.h.2.9bc98482741e5e2a9450b12934a684ea
+                           .group:00000000 wm4._types.h.54.d3d34a3b7f3cc230cd159baf022b4b08
+                           .group:00000000 wm4.stddef.h.158.61317cdbfb4026324507d123a50b0fd6
+                           .group:00000000 wm4.reent.h.17.8bd9e4098e0428508c282cad794fae43
+                           .group:00000000 wm4.types.h.23.0d949686bbcadd1621462d4fa1f884f9
+                           .group:00000000 wm4._stdint.h.10.f76354baea1c7088202064e6f3d4f5e3
+                           .group:00000000 wm4.types.h.2.e9cec8c90ab35f77d9f499e06ae02400
+                           .group:00000000 wm4.types.h.81.ded4e8fbe2d299b79c956dc834e43661
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.68.a99a2db1e55915cfd1b035cc1e9fcff1
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.stddef.h.158.a7efb00f6cbc6f43213b50e183c9830c
+                           .group:00000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:00000000 wm4.stdlib.h.54.cd3744e0b066087ec8fbb1bdc22d1043
+                           .group:00000000 wm4.string.h.8.c4b8571ce60dff2817f43fec8b86aecd
+                           .group:00000000 wm4._intsup.h.10.b2832a532eae49c14d45880be6d4ca65
+                           .group:00000000 wm4.stdint.h.23.373a9d32a9e4c2e88fd347156532d281
+                           .group:00000000 wm4.limits.h.2.9dea55bedb68394d9750fdf18fad85e9
+                           .group:00000000 wm4.limits.h.60.b4bc9eda7e37043243f7148a2c6d0306
+                           .group:00000000 wm4.stdbool.h.29.1c9ee6859ce8145f7838a4f2549ccec2
+                           .group:00000000 wm4.m2sxxx.h.14.987ea2aeaafde240411e8c56d47721f7
+                           .group:00000000 wm4.core_cm3.h.43.614605f47657df9251f3b3f57590a49a
+                           .group:00000000 wm4.core_cmInstr.h.39.addda81f1f3453ba31dd54fc5b6fcee8
+                           .group:00000000 wm4.core_cm3.h.160.4f087d7d2b17fc46469486aedc40cf5c
+                           .group:00000000 wm4.m2sxxx.h.2709.9eef8620912489dbc5c26e98701cdac3
+                           .group:00000000 wm4.sys_config_mss_clocks.h.10.c7f4d81ec72bcea6cafb9cc9c2acf4ab
+                           .group:00000000 wm4.sys_config.h.25.1448a2ceceaa3c2e8913533fa4e42cee
+                           .group:00000000 wm4.mss_uart.h.258.ed2d082f8e6703bd440653ce1fa4b528
+                           .group:00000000 wm4.assert.h.11.db24e541f16414db224bf986d21017e2
+                           .group:00000000 wm4.mss_watchdog.h.135.cd7fdb2556dfc88c684a3bccbcbeffd0
+                           .group:00000000 wm4.mss_nvm.h.54.53fe48cb67630dbcda63b96130444f53
+                           .group:00000000 wm4.mss_sys_services.h.495.b87512b711a1bf96f4edb360126a223b
+                           .group:00000000 wm4.protocol.h.2.6a5796ea80238bc4f9a16400f98bef7e
+                           .group:00000000 wm4.storage.h.2.37efc95cfbe2d56f733e692b6f73ffca
+                           .group:00000000 wm4.system.h.2.20e7c232f891b8ec2c2a3cc764cb981e
+                           .group:00000000 wm4.version.h.2.bf62ea74301f6d323824787edbb86b92
+
+UNDEFINED SYMBOLS
+init_system
+post_update_ready
+processFwUpdate

@@ -1,0 +1,7 @@
+08:46:39 **** Clean-only build of configuration Release for project SF2_IAP ****
+make clean 
+rm -rf  ./src/Interrupt.o ./src/main.o ./src/procotol.o ./src/queue.o ./src/storage.o ./src/system.o ./src/timer.o ./src/util.o  SF2_IAP.hex  SF2_IAP.lst  SF2_IAP.siz  ./src/Interrupt.d ./src/main.d ./src/procotol.d ./src/queue.d ./src/storage.d ./src/system.d ./src/timer.d ./src/util.d  SF2_IAP.elf
+ 
+
+08:46:39 Build Finished (took 226ms)
+

@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "eeprom.h": "c",
+    "config.h": "c",
+    "mss_uart.h": "c"
+  }
+}

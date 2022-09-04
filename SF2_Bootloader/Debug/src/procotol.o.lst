@@ -1,0 +1,1252 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"procotol.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.bss.g_nCheckStartTime,"aw",%nobits
+  19              		.align	2
+  22              	g_nCheckStartTime:
+  23 0000 00000000 		.space	4
+  24              		.section	.text.GenPacket,"ax",%progbits
+  25              		.align	2
+  26              		.global	GenPacket
+  27              		.thumb
+  28              		.thumb_func
+  30              	GenPacket:
+  31              	.LFB102:
+  32              		.file 1 "../src/procotol.c"
+   1:../src/procotol.c **** 
+   2:../src/procotol.c **** #include "config.h"
+   3:../src/procotol.c **** 
+   4:../src/procotol.c **** #define	MAX_BUFFER	64
+   5:../src/procotol.c **** 
+   6:../src/procotol.c **** #define	WAIT_CHECK_UPDATE_TIME		3000	//ms
+   7:../src/procotol.c **** 
+   8:../src/procotol.c **** #define	STX_SIZE		1
+   9:../src/procotol.c **** #define	CHECKSUM_SIZE	1
+  10:../src/procotol.c **** #define	ETX_SIZE		1
+  11:../src/procotol.c **** 
+  12:../src/procotol.c **** static uint32_t g_nCheckStartTime = 0;
+  13:../src/procotol.c **** 
+  14:../src/procotol.c **** unsigned char CalcChkSum(uint8_t* pBuffer, int offset, int size);
+  15:../src/procotol.c **** 
+  16:../src/procotol.c **** #if 0
+  17:../src/procotol.c **** void uart0_rx_handler(mss_uart_instance_t * this_uart)
+  18:../src/procotol.c **** {
+  19:../src/procotol.c ****     uint8_t buffer[MAX_BUFFER] = {0};
+  20:../src/procotol.c ****     uint32_t nSize  = 0;
+  21:../src/procotol.c **** 
+  22:../src/procotol.c ****     nSize = MSS_UART_get_rx(this_uart, buffer, sizeof(buffer));
+  23:../src/procotol.c ****     enqueue(buffer, 0, nSize);
+  24:../src/procotol.c **** 
+  25:../src/procotol.c **** 	NVIC_ClearPendingIRQ(UART0_IRQn);
+  26:../src/procotol.c **** }
+  27:../src/procotol.c **** 
+  28:../src/procotol.c **** extern volatile size_t g_tx_size;
+  29:../src/procotol.c **** extern volatile const uint8_t * g_tx_buffer;
+  30:../src/procotol.c **** 
+  31:../src/procotol.c **** __attribute__((__interrupt__)) void uart_tx_handler(
+  32:../src/procotol.c **** 		mss_uart_instance_t * this_uart)
+  33:../src/procotol.c **** {
+  34:../src/procotol.c **** 	size_t size_in_fifo;
+  35:../src/procotol.c **** 
+  36:../src/procotol.c **** 	if (g_tx_size > 0)
+  37:../src/procotol.c **** 	{
+  38:../src/procotol.c **** 		size_in_fifo = MSS_UART_fill_tx_fifo(this_uart,
+  39:../src/procotol.c **** 				(const uint8_t *) g_tx_buffer, g_tx_size);
+  40:../src/procotol.c **** 
+  41:../src/procotol.c **** 		if (size_in_fifo == g_tx_size)
+  42:../src/procotol.c **** 		{
+  43:../src/procotol.c **** 			g_tx_size = 0;
+  44:../src/procotol.c **** 			MSS_UART_disable_irq(this_uart, MSS_UART_TBE_IRQ);
+  45:../src/procotol.c **** 		}
+  46:../src/procotol.c **** 		else
+  47:../src/procotol.c **** 		{
+  48:../src/procotol.c **** 			g_tx_buffer = &g_tx_buffer[size_in_fifo];
+  49:../src/procotol.c **** 			g_tx_size = g_tx_size - size_in_fifo;
+  50:../src/procotol.c **** 		}
+  51:../src/procotol.c **** 	}
+  52:../src/procotol.c **** 	else
+  53:../src/procotol.c **** 	{
+  54:../src/procotol.c **** 		g_tx_size = 0;
+  55:../src/procotol.c **** 		MSS_UART_disable_irq(this_uart, MSS_UART_TBE_IRQ);
+  56:../src/procotol.c **** 	}
+  57:../src/procotol.c **** }
+  58:../src/procotol.c **** #endif
+  59:../src/procotol.c **** 
+  60:../src/procotol.c **** int GenPacket(uint8_t* pBuffer, uint16_t cmd, uint8_t flag, uint8_t *pData, int size)
+  61:../src/procotol.c **** {
+  33              		.loc 1 61 0
+  34              		.cfi_startproc
+  35              		@ args = 4, pretend = 0, frame = 24
+  36              		@ frame_needed = 1, uses_anonymous_args = 0
+  37 0000 80B5     		push	{r7, lr}
+  38              		.cfi_def_cfa_offset 8
+  39              		.cfi_offset 7, -8
+  40              		.cfi_offset 14, -4
+  41 0002 86B0     		sub	sp, sp, #24
+  42              		.cfi_def_cfa_offset 32
+  43 0004 00AF     		add	r7, sp, #0
+  44              		.cfi_def_cfa_register 7
+  45 0006 F860     		str	r0, [r7, #12]
+  46 0008 7B60     		str	r3, [r7, #4]
+  47 000a 0B46     		mov	r3, r1	@ movhi
+  48 000c 7B81     		strh	r3, [r7, #10]	@ movhi
+  49 000e 1346     		mov	r3, r2
+  50 0010 7B72     		strb	r3, [r7, #9]
+  62:../src/procotol.c **** 	int nPos =0;
+  51              		.loc 1 62 0
+  52 0012 0023     		movs	r3, #0
+  53 0014 7B61     		str	r3, [r7, #20]
+  63:../src/procotol.c **** 	uint16_t chkSum = 0;
+  54              		.loc 1 63 0
+  55 0016 0023     		movs	r3, #0
+  56 0018 7B82     		strh	r3, [r7, #18]	@ movhi
+  64:../src/procotol.c **** 
+  65:../src/procotol.c **** 	pBuffer[nPos++] = PKT_STX;
+  57              		.loc 1 65 0
+  58 001a 7B69     		ldr	r3, [r7, #20]
+  59 001c 5A1C     		adds	r2, r3, #1
+  60 001e 7A61     		str	r2, [r7, #20]
+  61 0020 1A46     		mov	r2, r3
+  62 0022 FB68     		ldr	r3, [r7, #12]
+  63 0024 1344     		add	r3, r3, r2
+  64 0026 0222     		movs	r2, #2
+  65 0028 1A70     		strb	r2, [r3]
+  66:../src/procotol.c **** 	pBuffer[nPos++] = cmd & 0xFF;
+  66              		.loc 1 66 0
+  67 002a 7B69     		ldr	r3, [r7, #20]
+  68 002c 5A1C     		adds	r2, r3, #1
+  69 002e 7A61     		str	r2, [r7, #20]
+  70 0030 1A46     		mov	r2, r3
+  71 0032 FB68     		ldr	r3, [r7, #12]
+  72 0034 1344     		add	r3, r3, r2
+  73 0036 7A89     		ldrh	r2, [r7, #10]	@ movhi
+  74 0038 D2B2     		uxtb	r2, r2
+  75 003a 1A70     		strb	r2, [r3]
+  67:../src/procotol.c **** 	pBuffer[nPos++] = ( cmd >> 8 ) & 0xFF;
+  76              		.loc 1 67 0
+  77 003c 7B69     		ldr	r3, [r7, #20]
+  78 003e 5A1C     		adds	r2, r3, #1
+  79 0040 7A61     		str	r2, [r7, #20]
+  80 0042 1A46     		mov	r2, r3
+  81 0044 FB68     		ldr	r3, [r7, #12]
+  82 0046 1344     		add	r3, r3, r2
+  83 0048 7A89     		ldrh	r2, [r7, #10]
+  84 004a 120A     		lsrs	r2, r2, #8
+  85 004c 92B2     		uxth	r2, r2
+  86 004e D2B2     		uxtb	r2, r2
+  87 0050 1A70     		strb	r2, [r3]
+  68:../src/procotol.c **** 	pBuffer[nPos++] = flag;
+  88              		.loc 1 68 0
+  89 0052 7B69     		ldr	r3, [r7, #20]
+  90 0054 5A1C     		adds	r2, r3, #1
+  91 0056 7A61     		str	r2, [r7, #20]
+  92 0058 1A46     		mov	r2, r3
+  93 005a FB68     		ldr	r3, [r7, #12]
+  94 005c 1344     		add	r3, r3, r2
+  95 005e 7A7A     		ldrb	r2, [r7, #9]
+  96 0060 1A70     		strb	r2, [r3]
+  69:../src/procotol.c **** 	pBuffer[nPos++] = size & 0xFF;
+  97              		.loc 1 69 0
+  98 0062 7B69     		ldr	r3, [r7, #20]
+  99 0064 5A1C     		adds	r2, r3, #1
+ 100 0066 7A61     		str	r2, [r7, #20]
+ 101 0068 1A46     		mov	r2, r3
+ 102 006a FB68     		ldr	r3, [r7, #12]
+ 103 006c 1344     		add	r3, r3, r2
+ 104 006e 3A6A     		ldr	r2, [r7, #32]
+ 105 0070 D2B2     		uxtb	r2, r2
+ 106 0072 1A70     		strb	r2, [r3]
+  70:../src/procotol.c **** 	pBuffer[nPos++] = (size >> 8) & 0xFF;
+ 107              		.loc 1 70 0
+ 108 0074 7B69     		ldr	r3, [r7, #20]
+ 109 0076 5A1C     		adds	r2, r3, #1
+ 110 0078 7A61     		str	r2, [r7, #20]
+ 111 007a 1A46     		mov	r2, r3
+ 112 007c FB68     		ldr	r3, [r7, #12]
+ 113 007e 1344     		add	r3, r3, r2
+ 114 0080 3A6A     		ldr	r2, [r7, #32]
+ 115 0082 1212     		asrs	r2, r2, #8
+ 116 0084 D2B2     		uxtb	r2, r2
+ 117 0086 1A70     		strb	r2, [r3]
+  71:../src/procotol.c **** 
+  72:../src/procotol.c **** 	if (NULL != pData && size > 0) {
+ 118              		.loc 1 72 0
+ 119 0088 7B68     		ldr	r3, [r7, #4]
+ 120 008a 002B     		cmp	r3, #0
+ 121 008c 0FD0     		beq	.L2
+ 122              		.loc 1 72 0 is_stmt 0 discriminator 1
+ 123 008e 3B6A     		ldr	r3, [r7, #32]
+ 124 0090 002B     		cmp	r3, #0
+ 125 0092 0CDD     		ble	.L2
+  73:../src/procotol.c **** 		memcpy(&pBuffer[nPos], pData, size);
+ 126              		.loc 1 73 0 is_stmt 1
+ 127 0094 7B69     		ldr	r3, [r7, #20]
+ 128 0096 FA68     		ldr	r2, [r7, #12]
+ 129 0098 1A44     		add	r2, r2, r3
+ 130 009a 3B6A     		ldr	r3, [r7, #32]
+ 131 009c 1046     		mov	r0, r2
+ 132 009e 7968     		ldr	r1, [r7, #4]
+ 133 00a0 1A46     		mov	r2, r3
+ 134 00a2 FFF7FEFF 		bl	memcpy
+  74:../src/procotol.c **** 		nPos += size;
+ 135              		.loc 1 74 0
+ 136 00a6 7A69     		ldr	r2, [r7, #20]
+ 137 00a8 3B6A     		ldr	r3, [r7, #32]
+ 138 00aa 1344     		add	r3, r3, r2
+ 139 00ac 7B61     		str	r3, [r7, #20]
+ 140              	.L2:
+  75:../src/procotol.c **** 	}
+  76:../src/procotol.c **** 
+  77:../src/procotol.c **** 	chkSum = CalcChkSum(pBuffer, 1, nPos - 1);
+ 141              		.loc 1 77 0
+ 142 00ae 7B69     		ldr	r3, [r7, #20]
+ 143 00b0 013B     		subs	r3, r3, #1
+ 144 00b2 F868     		ldr	r0, [r7, #12]
+ 145 00b4 0121     		movs	r1, #1
+ 146 00b6 1A46     		mov	r2, r3
+ 147 00b8 FFF7FEFF 		bl	CalcChkSum
+ 148 00bc 0346     		mov	r3, r0
+ 149 00be 7B82     		strh	r3, [r7, #18]	@ movhi
+  78:../src/procotol.c **** 	pBuffer[nPos++] = chkSum & 0xFF;
+ 150              		.loc 1 78 0
+ 151 00c0 7B69     		ldr	r3, [r7, #20]
+ 152 00c2 5A1C     		adds	r2, r3, #1
+ 153 00c4 7A61     		str	r2, [r7, #20]
+ 154 00c6 1A46     		mov	r2, r3
+ 155 00c8 FB68     		ldr	r3, [r7, #12]
+ 156 00ca 1344     		add	r3, r3, r2
+ 157 00cc 7A8A     		ldrh	r2, [r7, #18]	@ movhi
+ 158 00ce D2B2     		uxtb	r2, r2
+ 159 00d0 1A70     		strb	r2, [r3]
+  79:../src/procotol.c **** 	//pBuffer[nPos++] = (chkSum >> 8) & 0xFF;
+  80:../src/procotol.c **** 	pBuffer[nPos++] = PKT_ETX;
+ 160              		.loc 1 80 0
+ 161 00d2 7B69     		ldr	r3, [r7, #20]
+ 162 00d4 5A1C     		adds	r2, r3, #1
+ 163 00d6 7A61     		str	r2, [r7, #20]
+ 164 00d8 1A46     		mov	r2, r3
+ 165 00da FB68     		ldr	r3, [r7, #12]
+ 166 00dc 1344     		add	r3, r3, r2
+ 167 00de 0322     		movs	r2, #3
+ 168 00e0 1A70     		strb	r2, [r3]
+  81:../src/procotol.c **** 
+  82:../src/procotol.c **** 	return nPos;
+ 169              		.loc 1 82 0
+ 170 00e2 7B69     		ldr	r3, [r7, #20]
+  83:../src/procotol.c **** }
+ 171              		.loc 1 83 0
+ 172 00e4 1846     		mov	r0, r3
+ 173 00e6 1837     		adds	r7, r7, #24
+ 174              		.cfi_def_cfa_offset 8
+ 175 00e8 BD46     		mov	sp, r7
+ 176              		.cfi_def_cfa_register 13
+ 177              		@ sp needed
+ 178 00ea 80BD     		pop	{r7, pc}
+ 179              		.cfi_endproc
+ 180              	.LFE102:
+ 182              		.section	.text.GenHeaderPacket,"ax",%progbits
+ 183              		.align	2
+ 184              		.global	GenHeaderPacket
+ 185              		.thumb
+ 186              		.thumb_func
+ 188              	GenHeaderPacket:
+ 189              	.LFB103:
+  84:../src/procotol.c **** 
+  85:../src/procotol.c **** 
+  86:../src/procotol.c **** int GenHeaderPacket(uint8_t* pBuffer, uint16_t cmd, uint8_t flag, uint8_t *pData, int size)
+  87:../src/procotol.c **** {
+ 190              		.loc 1 87 0
+ 191              		.cfi_startproc
+ 192              		@ args = 4, pretend = 0, frame = 24
+ 193              		@ frame_needed = 1, uses_anonymous_args = 0
+ 194 0000 80B5     		push	{r7, lr}
+ 195              		.cfi_def_cfa_offset 8
+ 196              		.cfi_offset 7, -8
+ 197              		.cfi_offset 14, -4
+ 198 0002 86B0     		sub	sp, sp, #24
+ 199              		.cfi_def_cfa_offset 32
+ 200 0004 00AF     		add	r7, sp, #0
+ 201              		.cfi_def_cfa_register 7
+ 202 0006 F860     		str	r0, [r7, #12]
+ 203 0008 7B60     		str	r3, [r7, #4]
+ 204 000a 0B46     		mov	r3, r1	@ movhi
+ 205 000c 7B81     		strh	r3, [r7, #10]	@ movhi
+ 206 000e 1346     		mov	r3, r2
+ 207 0010 7B72     		strb	r3, [r7, #9]
+  88:../src/procotol.c **** 	int nPos =0;
+ 208              		.loc 1 88 0
+ 209 0012 0023     		movs	r3, #0
+ 210 0014 7B61     		str	r3, [r7, #20]
+  89:../src/procotol.c **** 	uint16_t chkSum = 0;
+ 211              		.loc 1 89 0
+ 212 0016 0023     		movs	r3, #0
+ 213 0018 7B82     		strh	r3, [r7, #18]	@ movhi
+  90:../src/procotol.c **** 
+  91:../src/procotol.c **** 	pBuffer[nPos++] = PKT_STX;
+ 214              		.loc 1 91 0
+ 215 001a 7B69     		ldr	r3, [r7, #20]
+ 216 001c 5A1C     		adds	r2, r3, #1
+ 217 001e 7A61     		str	r2, [r7, #20]
+ 218 0020 1A46     		mov	r2, r3
+ 219 0022 FB68     		ldr	r3, [r7, #12]
+ 220 0024 1344     		add	r3, r3, r2
+ 221 0026 0222     		movs	r2, #2
+ 222 0028 1A70     		strb	r2, [r3]
+  92:../src/procotol.c **** 	pBuffer[nPos++] = cmd & 0xFF;
+ 223              		.loc 1 92 0
+ 224 002a 7B69     		ldr	r3, [r7, #20]
+ 225 002c 5A1C     		adds	r2, r3, #1
+ 226 002e 7A61     		str	r2, [r7, #20]
+ 227 0030 1A46     		mov	r2, r3
+ 228 0032 FB68     		ldr	r3, [r7, #12]
+ 229 0034 1344     		add	r3, r3, r2
+ 230 0036 7A89     		ldrh	r2, [r7, #10]	@ movhi
+ 231 0038 D2B2     		uxtb	r2, r2
+ 232 003a 1A70     		strb	r2, [r3]
+  93:../src/procotol.c **** 	pBuffer[nPos++] = ( cmd >> 8 ) & 0xFF;
+ 233              		.loc 1 93 0
+ 234 003c 7B69     		ldr	r3, [r7, #20]
+ 235 003e 5A1C     		adds	r2, r3, #1
+ 236 0040 7A61     		str	r2, [r7, #20]
+ 237 0042 1A46     		mov	r2, r3
+ 238 0044 FB68     		ldr	r3, [r7, #12]
+ 239 0046 1344     		add	r3, r3, r2
+ 240 0048 7A89     		ldrh	r2, [r7, #10]
+ 241 004a 120A     		lsrs	r2, r2, #8
+ 242 004c 92B2     		uxth	r2, r2
+ 243 004e D2B2     		uxtb	r2, r2
+ 244 0050 1A70     		strb	r2, [r3]
+  94:../src/procotol.c **** 	pBuffer[nPos++] = flag;
+ 245              		.loc 1 94 0
+ 246 0052 7B69     		ldr	r3, [r7, #20]
+ 247 0054 5A1C     		adds	r2, r3, #1
+ 248 0056 7A61     		str	r2, [r7, #20]
+ 249 0058 1A46     		mov	r2, r3
+ 250 005a FB68     		ldr	r3, [r7, #12]
+ 251 005c 1344     		add	r3, r3, r2
+ 252 005e 7A7A     		ldrb	r2, [r7, #9]
+ 253 0060 1A70     		strb	r2, [r3]
+  95:../src/procotol.c **** 
+  96:../src/procotol.c **** 	if (NULL != pData && size > 0) {
+ 254              		.loc 1 96 0
+ 255 0062 7B68     		ldr	r3, [r7, #4]
+ 256 0064 002B     		cmp	r3, #0
+ 257 0066 22D0     		beq	.L5
+ 258              		.loc 1 96 0 is_stmt 0 discriminator 1
+ 259 0068 3B6A     		ldr	r3, [r7, #32]
+ 260 006a 002B     		cmp	r3, #0
+ 261 006c 1FDD     		ble	.L5
+  97:../src/procotol.c **** 		pBuffer[nPos++] = size & 0xFF;
+ 262              		.loc 1 97 0 is_stmt 1
+ 263 006e 7B69     		ldr	r3, [r7, #20]
+ 264 0070 5A1C     		adds	r2, r3, #1
+ 265 0072 7A61     		str	r2, [r7, #20]
+ 266 0074 1A46     		mov	r2, r3
+ 267 0076 FB68     		ldr	r3, [r7, #12]
+ 268 0078 1344     		add	r3, r3, r2
+ 269 007a 3A6A     		ldr	r2, [r7, #32]
+ 270 007c D2B2     		uxtb	r2, r2
+ 271 007e 1A70     		strb	r2, [r3]
+  98:../src/procotol.c **** 		pBuffer[nPos++] = (size >> 8) & 0xFF;
+ 272              		.loc 1 98 0
+ 273 0080 7B69     		ldr	r3, [r7, #20]
+ 274 0082 5A1C     		adds	r2, r3, #1
+ 275 0084 7A61     		str	r2, [r7, #20]
+ 276 0086 1A46     		mov	r2, r3
+ 277 0088 FB68     		ldr	r3, [r7, #12]
+ 278 008a 1344     		add	r3, r3, r2
+ 279 008c 3A6A     		ldr	r2, [r7, #32]
+ 280 008e 1212     		asrs	r2, r2, #8
+ 281 0090 D2B2     		uxtb	r2, r2
+ 282 0092 1A70     		strb	r2, [r3]
+  99:../src/procotol.c **** 
+ 100:../src/procotol.c **** 		memcpy(&pBuffer[nPos], pData, size);
+ 283              		.loc 1 100 0
+ 284 0094 7B69     		ldr	r3, [r7, #20]
+ 285 0096 FA68     		ldr	r2, [r7, #12]
+ 286 0098 1A44     		add	r2, r2, r3
+ 287 009a 3B6A     		ldr	r3, [r7, #32]
+ 288 009c 1046     		mov	r0, r2
+ 289 009e 7968     		ldr	r1, [r7, #4]
+ 290 00a0 1A46     		mov	r2, r3
+ 291 00a2 FFF7FEFF 		bl	memcpy
+ 101:../src/procotol.c **** 		nPos += size;
+ 292              		.loc 1 101 0
+ 293 00a6 7A69     		ldr	r2, [r7, #20]
+ 294 00a8 3B6A     		ldr	r3, [r7, #32]
+ 295 00aa 1344     		add	r3, r3, r2
+ 296 00ac 7B61     		str	r3, [r7, #20]
+ 297              	.L5:
+ 102:../src/procotol.c **** 	}
+ 103:../src/procotol.c **** 
+ 104:../src/procotol.c **** 	return nPos;
+ 298              		.loc 1 104 0
+ 299 00ae 7B69     		ldr	r3, [r7, #20]
+ 105:../src/procotol.c **** }
+ 300              		.loc 1 105 0
+ 301 00b0 1846     		mov	r0, r3
+ 302 00b2 1837     		adds	r7, r7, #24
+ 303              		.cfi_def_cfa_offset 8
+ 304 00b4 BD46     		mov	sp, r7
+ 305              		.cfi_def_cfa_register 13
+ 306              		@ sp needed
+ 307 00b6 80BD     		pop	{r7, pc}
+ 308              		.cfi_endproc
+ 309              	.LFE103:
+ 311              		.section	.text.CalcChkSum,"ax",%progbits
+ 312              		.align	2
+ 313              		.global	CalcChkSum
+ 314              		.thumb
+ 315              		.thumb_func
+ 317              	CalcChkSum:
+ 318              	.LFB104:
+ 106:../src/procotol.c **** 
+ 107:../src/procotol.c **** #if 0
+ 108:../src/procotol.c **** unsigned short CalcChkSum(uint8_t* pBuffer, int offset, int size)
+ 109:../src/procotol.c **** {
+ 110:../src/procotol.c **** 	short word16 ,  i;
+ 111:../src/procotol.c **** 	unsigned int sum = 0;
+ 112:../src/procotol.c **** 	for( i = 0; i < size; i = i+2 )
+ 113:../src/procotol.c **** 	{
+ 114:../src/procotol.c **** 		word16 = ( ( pBuffer[offset + i]<<8) & 0xFF00 )+( pBuffer[offset + i+1] & 0xFF );
+ 115:../src/procotol.c **** 		sum = sum + (unsigned int) word16;
+ 116:../src/procotol.c **** 	}
+ 117:../src/procotol.c **** 
+ 118:../src/procotol.c **** 	while( sum >> 16 )
+ 119:../src/procotol.c **** 			sum = ( sum & 0xFFFF ) + ( sum >> 16 );
+ 120:../src/procotol.c **** 
+ 121:../src/procotol.c **** 	sum = ~sum;
+ 122:../src/procotol.c **** 	return ((u_short) sum);
+ 123:../src/procotol.c **** 
+ 124:../src/procotol.c **** }
+ 125:../src/procotol.c **** #else
+ 126:../src/procotol.c **** unsigned char CalcChkSum(uint8_t* pBuffer, int offset, int size)
+ 127:../src/procotol.c **** {
+ 319              		.loc 1 127 0
+ 320              		.cfi_startproc
+ 321              		@ args = 0, pretend = 0, frame = 32
+ 322              		@ frame_needed = 1, uses_anonymous_args = 0
+ 323              		@ link register save eliminated.
+ 324 0000 80B4     		push	{r7}
+ 325              		.cfi_def_cfa_offset 4
+ 326              		.cfi_offset 7, -4
+ 327 0002 89B0     		sub	sp, sp, #36
+ 328              		.cfi_def_cfa_offset 40
+ 329 0004 00AF     		add	r7, sp, #0
+ 330              		.cfi_def_cfa_register 7
+ 331 0006 F860     		str	r0, [r7, #12]
+ 332 0008 B960     		str	r1, [r7, #8]
+ 333 000a 7A60     		str	r2, [r7, #4]
+ 128:../src/procotol.c **** 	int sum = 0, temp = 0, result = 0;
+ 334              		.loc 1 128 0
+ 335 000c 0023     		movs	r3, #0
+ 336 000e FB61     		str	r3, [r7, #28]
+ 337 0010 0023     		movs	r3, #0
+ 338 0012 7B61     		str	r3, [r7, #20]
+ 339 0014 0023     		movs	r3, #0
+ 340 0016 3B61     		str	r3, [r7, #16]
+ 129:../src/procotol.c **** 
+ 130:../src/procotol.c **** 	int i = 0;
+ 341              		.loc 1 130 0
+ 342 0018 0023     		movs	r3, #0
+ 343 001a BB61     		str	r3, [r7, #24]
+ 131:../src/procotol.c **** 	for (i = 0; i < size; i++) {
+ 344              		.loc 1 131 0
+ 345 001c 0023     		movs	r3, #0
+ 346 001e BB61     		str	r3, [r7, #24]
+ 347 0020 0EE0     		b	.L8
+ 348              	.L9:
+ 132:../src/procotol.c **** 		temp = pBuffer[offset + i] & 0xFF;
+ 349              		.loc 1 132 0 discriminator 3
+ 350 0022 BA68     		ldr	r2, [r7, #8]
+ 351 0024 BB69     		ldr	r3, [r7, #24]
+ 352 0026 1344     		add	r3, r3, r2
+ 353 0028 1A46     		mov	r2, r3
+ 354 002a FB68     		ldr	r3, [r7, #12]
+ 355 002c 1344     		add	r3, r3, r2
+ 356 002e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 357 0030 7B61     		str	r3, [r7, #20]
+ 133:../src/procotol.c **** 		sum += temp;
+ 358              		.loc 1 133 0 discriminator 3
+ 359 0032 FA69     		ldr	r2, [r7, #28]
+ 360 0034 7B69     		ldr	r3, [r7, #20]
+ 361 0036 1344     		add	r3, r3, r2
+ 362 0038 FB61     		str	r3, [r7, #28]
+ 131:../src/procotol.c **** 	for (i = 0; i < size; i++) {
+ 363              		.loc 1 131 0 discriminator 3
+ 364 003a BB69     		ldr	r3, [r7, #24]
+ 365 003c 0133     		adds	r3, r3, #1
+ 366 003e BB61     		str	r3, [r7, #24]
+ 367              	.L8:
+ 131:../src/procotol.c **** 	for (i = 0; i < size; i++) {
+ 368              		.loc 1 131 0 is_stmt 0 discriminator 1
+ 369 0040 BA69     		ldr	r2, [r7, #24]
+ 370 0042 7B68     		ldr	r3, [r7, #4]
+ 371 0044 9A42     		cmp	r2, r3
+ 372 0046 ECDB     		blt	.L9
+ 134:../src/procotol.c **** 	}
+ 135:../src/procotol.c **** 	result = ~(sum & 0xFF) + 1;
+ 373              		.loc 1 135 0 is_stmt 1
+ 374 0048 FB69     		ldr	r3, [r7, #28]
+ 375 004a DBB2     		uxtb	r3, r3
+ 376 004c 5B42     		negs	r3, r3
+ 377 004e 3B61     		str	r3, [r7, #16]
+ 136:../src/procotol.c **** 
+ 137:../src/procotol.c **** 	return result;
+ 378              		.loc 1 137 0
+ 379 0050 3B69     		ldr	r3, [r7, #16]
+ 380 0052 DBB2     		uxtb	r3, r3
+ 138:../src/procotol.c **** 
+ 139:../src/procotol.c **** }
+ 381              		.loc 1 139 0
+ 382 0054 1846     		mov	r0, r3
+ 383 0056 2437     		adds	r7, r7, #36
+ 384              		.cfi_def_cfa_offset 4
+ 385 0058 BD46     		mov	sp, r7
+ 386              		.cfi_def_cfa_register 13
+ 387              		@ sp needed
+ 388 005a 5DF8047B 		ldr	r7, [sp], #4
+ 389              		.cfi_restore 7
+ 390              		.cfi_def_cfa_offset 0
+ 391 005e 7047     		bx	lr
+ 392              		.cfi_endproc
+ 393              	.LFE104:
+ 395              		.section	.text.CheckPacket,"ax",%progbits
+ 396              		.align	2
+ 397              		.global	CheckPacket
+ 398              		.thumb
+ 399              		.thumb_func
+ 401              	CheckPacket:
+ 402              	.LFB105:
+ 140:../src/procotol.c **** #endif
+ 141:../src/procotol.c **** 
+ 142:../src/procotol.c **** int CheckPacket(uint8_t* pBuffer, int size)
+ 143:../src/procotol.c **** {
+ 403              		.loc 1 143 0
+ 404              		.cfi_startproc
+ 405              		@ args = 0, pretend = 0, frame = 24
+ 406              		@ frame_needed = 1, uses_anonymous_args = 0
+ 407 0000 80B5     		push	{r7, lr}
+ 408              		.cfi_def_cfa_offset 8
+ 409              		.cfi_offset 7, -8
+ 410              		.cfi_offset 14, -4
+ 411 0002 86B0     		sub	sp, sp, #24
+ 412              		.cfi_def_cfa_offset 32
+ 413 0004 00AF     		add	r7, sp, #0
+ 414              		.cfi_def_cfa_register 7
+ 415 0006 7860     		str	r0, [r7, #4]
+ 416 0008 3960     		str	r1, [r7]
+ 144:../src/procotol.c **** 	int nRet = 0;
+ 417              		.loc 1 144 0
+ 418 000a 0023     		movs	r3, #0
+ 419 000c 7B61     		str	r3, [r7, #20]
+ 145:../src/procotol.c **** 	unsigned char chkSum = 0, calcChkSum = 0;
+ 420              		.loc 1 145 0
+ 421 000e 0023     		movs	r3, #0
+ 422 0010 FB74     		strb	r3, [r7, #19]
+ 423 0012 0023     		movs	r3, #0
+ 424 0014 BB74     		strb	r3, [r7, #18]
+ 146:../src/procotol.c **** 	PHEADER_PKT pPktHeader = (PHEADER_PKT) pBuffer;
+ 425              		.loc 1 146 0
+ 426 0016 7B68     		ldr	r3, [r7, #4]
+ 427 0018 FB60     		str	r3, [r7, #12]
+ 147:../src/procotol.c **** 
+ 148:../src/procotol.c **** 	if(pPktHeader->Stx == PKT_STX) {
+ 428              		.loc 1 148 0
+ 429 001a FB68     		ldr	r3, [r7, #12]
+ 430 001c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 431 001e 022B     		cmp	r3, #2
+ 432 0020 15D1     		bne	.L12
+ 149:../src/procotol.c **** 		calcChkSum = CalcChkSum(pBuffer, 1, size - (STX_SIZE + CHECKSUM_SIZE + ETX_SIZE)) ;
+ 433              		.loc 1 149 0
+ 434 0022 3B68     		ldr	r3, [r7]
+ 435 0024 033B     		subs	r3, r3, #3
+ 436 0026 7868     		ldr	r0, [r7, #4]
+ 437 0028 0121     		movs	r1, #1
+ 438 002a 1A46     		mov	r2, r3
+ 439 002c FFF7FEFF 		bl	CalcChkSum
+ 440 0030 0346     		mov	r3, r0
+ 441 0032 BB74     		strb	r3, [r7, #18]
+ 150:../src/procotol.c **** 		chkSum = (pBuffer[size - 2]  & 0xFF) ;
+ 442              		.loc 1 150 0
+ 443 0034 3B68     		ldr	r3, [r7]
+ 444 0036 023B     		subs	r3, r3, #2
+ 445 0038 7A68     		ldr	r2, [r7, #4]
+ 446 003a 1344     		add	r3, r3, r2
+ 447 003c 1B78     		ldrb	r3, [r3]
+ 448 003e FB74     		strb	r3, [r7, #19]
+ 151:../src/procotol.c **** 
+ 152:../src/procotol.c **** 		if (chkSum != calcChkSum) {
+ 449              		.loc 1 152 0
+ 450 0040 FA7C     		ldrb	r2, [r7, #19]	@ zero_extendqisi2
+ 451 0042 BB7C     		ldrb	r3, [r7, #18]	@ zero_extendqisi2
+ 452 0044 9A42     		cmp	r2, r3
+ 453 0046 04D0     		beq	.L14
+ 153:../src/procotol.c **** #ifdef __DEBUG_CONSOLE__
+ 154:../src/procotol.c **** 			//printf("Invalid CheckSum [%X, %X]\n", chkSum, calcChkSum);
+ 155:../src/procotol.c **** #endif
+ 156:../src/procotol.c **** 
+ 157:../src/procotol.c **** 			nRet = ERROR_INVALID_CHKSUM;
+ 454              		.loc 1 157 0
+ 455 0048 2123     		movs	r3, #33
+ 456 004a 7B61     		str	r3, [r7, #20]
+ 457 004c 01E0     		b	.L14
+ 458              	.L12:
+ 158:../src/procotol.c **** 		}
+ 159:../src/procotol.c **** 
+ 160:../src/procotol.c **** 	} else {
+ 161:../src/procotol.c **** 		nRet = ERROR_INVALID_STX;
+ 459              		.loc 1 161 0
+ 460 004e 2023     		movs	r3, #32
+ 461 0050 7B61     		str	r3, [r7, #20]
+ 462              	.L14:
+ 162:../src/procotol.c **** 	}
+ 163:../src/procotol.c **** 
+ 164:../src/procotol.c **** 	return nRet;
+ 463              		.loc 1 164 0
+ 464 0052 7B69     		ldr	r3, [r7, #20]
+ 165:../src/procotol.c **** }
+ 465              		.loc 1 165 0
+ 466 0054 1846     		mov	r0, r3
+ 467 0056 1837     		adds	r7, r7, #24
+ 468              		.cfi_def_cfa_offset 8
+ 469 0058 BD46     		mov	sp, r7
+ 470              		.cfi_def_cfa_register 13
+ 471              		@ sp needed
+ 472 005a 80BD     		pop	{r7, pc}
+ 473              		.cfi_endproc
+ 474              	.LFE105:
+ 476              		.section	.text.RecvData,"ax",%progbits
+ 477              		.align	2
+ 478              		.global	RecvData
+ 479              		.thumb
+ 480              		.thumb_func
+ 482              	RecvData:
+ 483              	.LFB106:
+ 166:../src/procotol.c **** 
+ 167:../src/procotol.c **** int RecvData( mss_uart_instance_t * this_uart, uint8_t * rx_buff, int buff_size)
+ 168:../src/procotol.c **** {
+ 484              		.loc 1 168 0
+ 485              		.cfi_startproc
+ 486              		@ args = 0, pretend = 0, frame = 40
+ 487              		@ frame_needed = 1, uses_anonymous_args = 0
+ 488 0000 80B5     		push	{r7, lr}
+ 489              		.cfi_def_cfa_offset 8
+ 490              		.cfi_offset 7, -8
+ 491              		.cfi_offset 14, -4
+ 492 0002 8AB0     		sub	sp, sp, #40
+ 493              		.cfi_def_cfa_offset 48
+ 494 0004 00AF     		add	r7, sp, #0
+ 495              		.cfi_def_cfa_register 7
+ 496 0006 F860     		str	r0, [r7, #12]
+ 497 0008 B960     		str	r1, [r7, #8]
+ 498 000a 7A60     		str	r2, [r7, #4]
+ 169:../src/procotol.c **** #define	STX_SIZE		1
+ 170:../src/procotol.c **** #define	CHECKSUM_SIZE	1
+ 171:../src/procotol.c **** #define	ETX_SIZE		1
+ 172:../src/procotol.c **** 
+ 173:../src/procotol.c **** 	int rxSize = 0U;
+ 499              		.loc 1 173 0
+ 500 000c 0023     		movs	r3, #0
+ 501 000e 7B62     		str	r3, [r7, #36]
+ 174:../src/procotol.c ****     int size = 0, hdrSize = sizeof(HEADER_PKT), dataSize = 0;
+ 502              		.loc 1 174 0
+ 503 0010 0023     		movs	r3, #0
+ 504 0012 3B62     		str	r3, [r7, #32]
+ 505 0014 0623     		movs	r3, #6
+ 506 0016 FB61     		str	r3, [r7, #28]
+ 507 0018 0023     		movs	r3, #0
+ 508 001a BB61     		str	r3, [r7, #24]
+ 509              	.L22:
+ 175:../src/procotol.c **** 
+ 176:../src/procotol.c ****     do {
+ 177:../src/procotol.c ****     	while ( ((this_uart->hw_reg->LSR) & 0x1) != 0U  )
+ 510              		.loc 1 177 0
+ 511 001c 0AE0     		b	.L17
+ 512              	.L18:
+ 178:../src/procotol.c ****     	{
+ 179:../src/procotol.c ****     	   rx_buff[rxSize] = this_uart->hw_reg->RBR;
+ 513              		.loc 1 179 0
+ 514 001e 7B6A     		ldr	r3, [r7, #36]
+ 515 0020 BA68     		ldr	r2, [r7, #8]
+ 516 0022 1344     		add	r3, r3, r2
+ 517 0024 FA68     		ldr	r2, [r7, #12]
+ 518 0026 1268     		ldr	r2, [r2]
+ 519 0028 1278     		ldrb	r2, [r2]
+ 520 002a D2B2     		uxtb	r2, r2
+ 521 002c 1A70     		strb	r2, [r3]
+ 180:../src/procotol.c ****     	   ++rxSize;
+ 522              		.loc 1 180 0
+ 523 002e 7B6A     		ldr	r3, [r7, #36]
+ 524 0030 0133     		adds	r3, r3, #1
+ 525 0032 7B62     		str	r3, [r7, #36]
+ 526              	.L17:
+ 177:../src/procotol.c ****     	{
+ 527              		.loc 1 177 0
+ 528 0034 FB68     		ldr	r3, [r7, #12]
+ 529 0036 1B68     		ldr	r3, [r3]
+ 530 0038 1B7D     		ldrb	r3, [r3, #20]
+ 531 003a DBB2     		uxtb	r3, r3
+ 532 003c 03F00103 		and	r3, r3, #1
+ 533 0040 002B     		cmp	r3, #0
+ 534 0042 ECD1     		bne	.L18
+ 181:../src/procotol.c ****     	}
+ 182:../src/procotol.c **** 
+ 183:../src/procotol.c ****     	if(rxSize == hdrSize) {
+ 535              		.loc 1 183 0
+ 536 0044 7A6A     		ldr	r2, [r7, #36]
+ 537 0046 FB69     		ldr	r3, [r7, #28]
+ 538 0048 9A42     		cmp	r2, r3
+ 539 004a 0AD1     		bne	.L19
+ 540              	.LBB2:
+ 184:../src/procotol.c ****     	   PHEADER_PKT pPkt = (PHEADER_PKT) rx_buff;
+ 541              		.loc 1 184 0
+ 542 004c BB68     		ldr	r3, [r7, #8]
+ 543 004e 7B61     		str	r3, [r7, #20]
+ 185:../src/procotol.c **** 
+ 186:../src/procotol.c ****     	   dataSize = pPkt->Length;
+ 544              		.loc 1 186 0
+ 545 0050 7B69     		ldr	r3, [r7, #20]
+ 546 0052 9B88     		ldrh	r3, [r3, #4]	@ unaligned
+ 547 0054 9BB2     		uxth	r3, r3
+ 548 0056 BB61     		str	r3, [r7, #24]
+ 187:../src/procotol.c ****     	   size = hdrSize + dataSize + CHECKSUM_SIZE + ETX_SIZE;
+ 549              		.loc 1 187 0
+ 550 0058 FA69     		ldr	r2, [r7, #28]
+ 551 005a BB69     		ldr	r3, [r7, #24]
+ 552 005c 1344     		add	r3, r3, r2
+ 553 005e 0233     		adds	r3, r3, #2
+ 554 0060 3B62     		str	r3, [r7, #32]
+ 555              	.L19:
+ 556              	.LBE2:
+ 188:../src/procotol.c ****     	}
+ 189:../src/procotol.c **** 
+ 190:../src/procotol.c ****     	if( rxSize > hdrSize && (rxSize >= size) ) {
+ 557              		.loc 1 190 0
+ 558 0062 7A6A     		ldr	r2, [r7, #36]
+ 559 0064 FB69     		ldr	r3, [r7, #28]
+ 560 0066 9A42     		cmp	r2, r3
+ 561 0068 0BDD     		ble	.L20
+ 562              		.loc 1 190 0 is_stmt 0 discriminator 1
+ 563 006a 7A6A     		ldr	r2, [r7, #36]
+ 564 006c 3B6A     		ldr	r3, [r7, #32]
+ 565 006e 9A42     		cmp	r2, r3
+ 566 0070 07DB     		blt	.L20
+ 191:../src/procotol.c ****     	   if(rx_buff[rxSize - 1] == PKT_ETX)
+ 567              		.loc 1 191 0 is_stmt 1
+ 568 0072 7B6A     		ldr	r3, [r7, #36]
+ 569 0074 013B     		subs	r3, r3, #1
+ 570 0076 BA68     		ldr	r2, [r7, #8]
+ 571 0078 1344     		add	r3, r3, r2
+ 572 007a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 573 007c 032B     		cmp	r3, #3
+ 574 007e 00D1     		bne	.L20
+ 192:../src/procotol.c ****     		   break;
+ 575              		.loc 1 192 0
+ 576 0080 0CE0     		b	.L21
+ 577              	.L20:
+ 193:../src/procotol.c ****     	}
+ 194:../src/procotol.c **** 
+ 195:../src/procotol.c ****     } while ( 0 != rxSize && (diff_mili_time(g_nCheckStartTime) < WAIT_CHECK_UPDATE_TIME));
+ 578              		.loc 1 195 0
+ 579 0082 7B6A     		ldr	r3, [r7, #36]
+ 580 0084 002B     		cmp	r3, #0
+ 581 0086 09D0     		beq	.L21
+ 582              		.loc 1 195 0 is_stmt 0 discriminator 1
+ 583 0088 074B     		ldr	r3, .L24
+ 584 008a 1B68     		ldr	r3, [r3]
+ 585 008c 1846     		mov	r0, r3
+ 586 008e FFF7FEFF 		bl	diff_mili_time
+ 587 0092 0246     		mov	r2, r0
+ 588 0094 40F6B733 		movw	r3, #2999
+ 589 0098 9A42     		cmp	r2, r3
+ 590 009a BFD9     		bls	.L22
+ 591              	.L21:
+ 196:../src/procotol.c **** 
+ 197:../src/procotol.c **** 
+ 198:../src/procotol.c ****     return rxSize;
+ 592              		.loc 1 198 0 is_stmt 1
+ 593 009c 7B6A     		ldr	r3, [r7, #36]
+ 199:../src/procotol.c **** }
+ 594              		.loc 1 199 0
+ 595 009e 1846     		mov	r0, r3
+ 596 00a0 2837     		adds	r7, r7, #40
+ 597              		.cfi_def_cfa_offset 8
+ 598 00a2 BD46     		mov	sp, r7
+ 599              		.cfi_def_cfa_register 13
+ 600              		@ sp needed
+ 601 00a4 80BD     		pop	{r7, pc}
+ 602              	.L25:
+ 603 00a6 00BF     		.align	2
+ 604              	.L24:
+ 605 00a8 00000000 		.word	g_nCheckStartTime
+ 606              		.cfi_endproc
+ 607              	.LFE106:
+ 609              		.section	.text.check_fwpdate,"ax",%progbits
+ 610              		.align	2
+ 611              		.global	check_fwpdate
+ 612              		.thumb
+ 613              		.thumb_func
+ 615              	check_fwpdate:
+ 616              	.LFB107:
+ 200:../src/procotol.c **** 
+ 201:../src/procotol.c **** bool check_fwpdate()
+ 202:../src/procotol.c **** {
+ 617              		.loc 1 202 0
+ 618              		.cfi_startproc
+ 619              		@ args = 0, pretend = 0, frame = 88
+ 620              		@ frame_needed = 1, uses_anonymous_args = 0
+ 621 0000 80B5     		push	{r7, lr}
+ 622              		.cfi_def_cfa_offset 8
+ 623              		.cfi_offset 7, -8
+ 624              		.cfi_offset 14, -4
+ 625 0002 96B0     		sub	sp, sp, #88
+ 626              		.cfi_def_cfa_offset 96
+ 627 0004 00AF     		add	r7, sp, #0
+ 628              		.cfi_def_cfa_register 7
+ 203:../src/procotol.c **** 
+ 204:../src/procotol.c **** #define	RETRY_CHECK_UPDATE_TIME		500	//ms
+ 205:../src/procotol.c **** #define	PROGRESS_CHECK_UPDATE 		100	//ms
+ 206:../src/procotol.c **** 
+ 207:../src/procotol.c **** 	uint32_t time = 0;
+ 629              		.loc 1 207 0
+ 630 0006 0023     		movs	r3, #0
+ 631 0008 FB64     		str	r3, [r7, #76]
+ 208:../src/procotol.c **** 	uint8_t buffer[MAX_BUFFER] = {0};
+ 632              		.loc 1 208 0
+ 633 000a 3B1D     		adds	r3, r7, #4
+ 634 000c 4022     		movs	r2, #64
+ 635 000e 1846     		mov	r0, r3
+ 636 0010 0021     		movs	r1, #0
+ 637 0012 FFF7FEFF 		bl	memset
+ 209:../src/procotol.c **** 
+ 210:../src/procotol.c **** 	bool bRet = false;
+ 638              		.loc 1 210 0
+ 639 0016 0023     		movs	r3, #0
+ 640 0018 87F85730 		strb	r3, [r7, #87]
+ 211:../src/procotol.c **** 	int nSize = 0, nRet = 0;
+ 641              		.loc 1 211 0
+ 642 001c 0023     		movs	r3, #0
+ 643 001e 3B65     		str	r3, [r7, #80]
+ 644 0020 0023     		movs	r3, #0
+ 645 0022 BB64     		str	r3, [r7, #72]
+ 212:../src/procotol.c **** 
+ 213:../src/procotol.c **** #ifdef DEBUG_MESSAGE
+ 214:../src/procotol.c **** 	MSS_UART_polled_tx_string(get_uart(),(uint8_t *)"Wait 3 second for fw update\n\r");
+ 215:../src/procotol.c **** #endif
+ 216:../src/procotol.c **** 
+ 217:../src/procotol.c **** 	send_update_check();
+ 646              		.loc 1 217 0
+ 647 0024 FFF7FEFF 		bl	send_update_check
+ 218:../src/procotol.c **** 	g_nCheckStartTime = get_mili_time();
+ 648              		.loc 1 218 0
+ 649 0028 FFF7FEFF 		bl	get_mili_time
+ 650 002c 0246     		mov	r2, r0
+ 651 002e 2C4B     		ldr	r3, .L35
+ 652 0030 1A60     		str	r2, [r3]
+ 653              	.L33:
+ 219:../src/procotol.c **** 	do {
+ 220:../src/procotol.c **** 
+ 221:../src/procotol.c **** 		nSize = RecvData ( get_uart(), &buffer[nSize], MAX_BUFFER );
+ 654              		.loc 1 221 0
+ 655 0032 FFF7FEFF 		bl	get_uart
+ 656 0036 0146     		mov	r1, r0
+ 657 0038 3A1D     		adds	r2, r7, #4
+ 658 003a 3B6D     		ldr	r3, [r7, #80]
+ 659 003c 1344     		add	r3, r3, r2
+ 660 003e 0846     		mov	r0, r1
+ 661 0040 1946     		mov	r1, r3
+ 662 0042 4022     		movs	r2, #64
+ 663 0044 FFF7FEFF 		bl	RecvData
+ 664 0048 3865     		str	r0, [r7, #80]
+ 222:../src/procotol.c **** 
+ 223:../src/procotol.c **** 		if(nSize > 0) {
+ 665              		.loc 1 223 0
+ 666 004a 3B6D     		ldr	r3, [r7, #80]
+ 667 004c 002B     		cmp	r3, #0
+ 668 004e 20DD     		ble	.L27
+ 669              	.LBB3:
+ 224:../src/procotol.c **** 
+ 225:../src/procotol.c **** 			PUPDATE_RESP_PKT pPktResp = (PUPDATE_RESP_PKT)buffer;
+ 670              		.loc 1 225 0
+ 671 0050 3B1D     		adds	r3, r7, #4
+ 672 0052 7B64     		str	r3, [r7, #68]
+ 226:../src/procotol.c **** 
+ 227:../src/procotol.c **** 			nRet = CheckPacket((uint8_t *)pPktResp, nSize);
+ 673              		.loc 1 227 0
+ 674 0054 786C     		ldr	r0, [r7, #68]
+ 675 0056 396D     		ldr	r1, [r7, #80]
+ 676 0058 FFF7FEFF 		bl	CheckPacket
+ 677 005c B864     		str	r0, [r7, #72]
+ 228:../src/procotol.c **** 			if(nRet >= 0) {
+ 678              		.loc 1 228 0
+ 679 005e BB6C     		ldr	r3, [r7, #72]
+ 680 0060 002B     		cmp	r3, #0
+ 681 0062 15DB     		blt	.L28
+ 229:../src/procotol.c **** 
+ 230:../src/procotol.c **** 				switch(pPktResp->Cmd) {
+ 682              		.loc 1 230 0
+ 683 0064 7B6C     		ldr	r3, [r7, #68]
+ 684 0066 B3F80130 		ldrh	r3, [r3, #1]	@ unaligned
+ 685 006a 9BB2     		uxth	r3, r3
+ 686 006c 1A46     		mov	r2, r3
+ 687 006e 48F20113 		movw	r3, #33025
+ 688 0072 9A42     		cmp	r2, r3
+ 689 0074 00D0     		beq	.L30
+ 690 0076 0BE0     		b	.L28
+ 691              	.L30:
+ 231:../src/procotol.c **** 					case PKT_CMD_UPDATE_CHECK :
+ 232:../src/procotol.c **** 						bRet = true;
+ 692              		.loc 1 232 0
+ 693 0078 0123     		movs	r3, #1
+ 694 007a 87F85730 		strb	r3, [r7, #87]
+ 233:../src/procotol.c **** 						memset(buffer, 0, MAX_BUFFER);
+ 695              		.loc 1 233 0
+ 696 007e 3B1D     		adds	r3, r7, #4
+ 697 0080 1846     		mov	r0, r3
+ 698 0082 0021     		movs	r1, #0
+ 699 0084 4022     		movs	r2, #64
+ 700 0086 FFF7FEFF 		bl	memset
+ 234:../src/procotol.c **** 						nSize = 0;
+ 701              		.loc 1 234 0
+ 702 008a 0023     		movs	r3, #0
+ 703 008c 3B65     		str	r3, [r7, #80]
+ 235:../src/procotol.c **** 						break;
+ 704              		.loc 1 235 0
+ 705 008e 00BF     		nop
+ 706              	.L28:
+ 707              	.LBE3:
+ 708 0090 0EE0     		b	.L31
+ 709              	.L27:
+ 236:../src/procotol.c **** 				}
+ 237:../src/procotol.c **** 
+ 238:../src/procotol.c **** 			} else {
+ 239:../src/procotol.c **** 
+ 240:../src/procotol.c **** 			}
+ 241:../src/procotol.c **** 		} else {
+ 242:../src/procotol.c **** 
+ 243:../src/procotol.c **** 			if(0 == (diff_mili_time(g_nCheckStartTime) % RETRY_CHECK_UPDATE_TIME) ) {
+ 710              		.loc 1 243 0
+ 711 0092 134B     		ldr	r3, .L35
+ 712 0094 1B68     		ldr	r3, [r3]
+ 713 0096 1846     		mov	r0, r3
+ 714 0098 FFF7FEFF 		bl	diff_mili_time
+ 715 009c 0246     		mov	r2, r0
+ 716 009e 114B     		ldr	r3, .L35+4
+ 717 00a0 A3FB0213 		umull	r1, r3, r3, r2
+ 718 00a4 5B09     		lsrs	r3, r3, #5
+ 719 00a6 4FF4FA71 		mov	r1, #500
+ 720 00aa 01FB03F3 		mul	r3, r1, r3
+ 721 00ae D31A     		subs	r3, r2, r3
+ 722              	.L31:
+ 244:../src/procotol.c **** 				//delay_ms(1000);
+ 245:../src/procotol.c **** 				//send_update_check();
+ 246:../src/procotol.c **** 
+ 247:../src/procotol.c **** 			}
+ 248:../src/procotol.c **** 		}
+ 249:../src/procotol.c **** #ifdef DEBUG_MESSAGE
+ 250:../src/procotol.c **** 		if(0 == ((diff_mili_time(g_nCheckStartTime) % PROGRESS_CHECK_UPDATE))) {
+ 251:../src/procotol.c **** 			MSS_UART_polled_tx_string(get_uart(),(uint8_t *)".");
+ 252:../src/procotol.c **** 		}
+ 253:../src/procotol.c **** #endif
+ 254:../src/procotol.c **** 
+ 255:../src/procotol.c **** 	} while( !bRet && (diff_mili_time(g_nCheckStartTime) < WAIT_CHECK_UPDATE_TIME) );
+ 723              		.loc 1 255 0
+ 724 00b0 97F85730 		ldrb	r3, [r7, #87]
+ 725 00b4 83F00103 		eor	r3, r3, #1
+ 726 00b8 DBB2     		uxtb	r3, r3
+ 727 00ba 002B     		cmp	r3, #0
+ 728 00bc 09D0     		beq	.L32
+ 729              		.loc 1 255 0 is_stmt 0 discriminator 1
+ 730 00be 084B     		ldr	r3, .L35
+ 731 00c0 1B68     		ldr	r3, [r3]
+ 732 00c2 1846     		mov	r0, r3
+ 733 00c4 FFF7FEFF 		bl	diff_mili_time
+ 734 00c8 0246     		mov	r2, r0
+ 735 00ca 40F6B733 		movw	r3, #2999
+ 736 00ce 9A42     		cmp	r2, r3
+ 737 00d0 AFD9     		bls	.L33
+ 738              	.L32:
+ 256:../src/procotol.c **** 
+ 257:../src/procotol.c **** #ifdef DEBUG_MESSAGE
+ 258:../src/procotol.c **** 	MSS_UART_polled_tx_string(get_uart(),(uint8_t *)"\n\r");
+ 259:../src/procotol.c **** 	if(!bRet) {
+ 260:../src/procotol.c **** 		MSS_UART_polled_tx_string(get_uart(),(uint8_t *)"Timeout 3 second\n\r");
+ 261:../src/procotol.c **** 	}
+ 262:../src/procotol.c **** #endif
+ 263:../src/procotol.c **** 
+ 264:../src/procotol.c **** 	return bRet;
+ 739              		.loc 1 264 0 is_stmt 1
+ 740 00d2 97F85730 		ldrb	r3, [r7, #87]	@ zero_extendqisi2
+ 265:../src/procotol.c **** }
+ 741              		.loc 1 265 0
+ 742 00d6 1846     		mov	r0, r3
+ 743 00d8 5837     		adds	r7, r7, #88
+ 744              		.cfi_def_cfa_offset 8
+ 745 00da BD46     		mov	sp, r7
+ 746              		.cfi_def_cfa_register 13
+ 747              		@ sp needed
+ 748 00dc 80BD     		pop	{r7, pc}
+ 749              	.L36:
+ 750 00de 00BF     		.align	2
+ 751              	.L35:
+ 752 00e0 00000000 		.word	g_nCheckStartTime
+ 753 00e4 D34D6210 		.word	274877907
+ 754              		.cfi_endproc
+ 755              	.LFE107:
+ 757              		.section	.text.send_update_check,"ax",%progbits
+ 758              		.align	2
+ 759              		.global	send_update_check
+ 760              		.thumb
+ 761              		.thumb_func
+ 763              	send_update_check:
+ 764              	.LFB108:
+ 266:../src/procotol.c **** 
+ 267:../src/procotol.c **** 
+ 268:../src/procotol.c **** int send_update_check()
+ 269:../src/procotol.c **** {
+ 765              		.loc 1 269 0
+ 766              		.cfi_startproc
+ 767              		@ args = 0, pretend = 0, frame = 16
+ 768              		@ frame_needed = 1, uses_anonymous_args = 0
+ 769 0000 80B5     		push	{r7, lr}
+ 770              		.cfi_def_cfa_offset 8
+ 771              		.cfi_offset 7, -8
+ 772              		.cfi_offset 14, -4
+ 773 0002 86B0     		sub	sp, sp, #24
+ 774              		.cfi_def_cfa_offset 32
+ 775 0004 02AF     		add	r7, sp, #8
+ 776              		.cfi_def_cfa 7, 24
+ 270:../src/procotol.c **** 	int nRet = 0;
+ 777              		.loc 1 270 0
+ 778 0006 0023     		movs	r3, #0
+ 779 0008 FB60     		str	r3, [r7, #12]
+ 271:../src/procotol.c **** 	UPDATE_COMMON_PKT pkt;
+ 272:../src/procotol.c **** 
+ 273:../src/procotol.c **** 	nRet = GenPacket((uint8_t*)&pkt, PKT_CMD_UPDATE_CHECK, FLAG_SEND, NULL, 0 );
+ 780              		.loc 1 273 0
+ 781 000a 3A1D     		adds	r2, r7, #4
+ 782 000c 0023     		movs	r3, #0
+ 783 000e 0093     		str	r3, [sp]
+ 784 0010 1046     		mov	r0, r2
+ 785 0012 48F20111 		movw	r1, #33025
+ 786 0016 0022     		movs	r2, #0
+ 787 0018 0023     		movs	r3, #0
+ 788 001a FFF7FEFF 		bl	GenPacket
+ 789 001e F860     		str	r0, [r7, #12]
+ 274:../src/procotol.c **** 	MSS_UART_polled_tx( get_uart(), (uint8_t*)&pkt, nRet );
+ 790              		.loc 1 274 0
+ 791 0020 FFF7FEFF 		bl	get_uart
+ 792 0024 0146     		mov	r1, r0
+ 793 0026 FB68     		ldr	r3, [r7, #12]
+ 794 0028 3A1D     		adds	r2, r7, #4
+ 795 002a 0846     		mov	r0, r1
+ 796 002c 1146     		mov	r1, r2
+ 797 002e 1A46     		mov	r2, r3
+ 798 0030 FFF7FEFF 		bl	MSS_UART_polled_tx
+ 275:../src/procotol.c **** 
+ 276:../src/procotol.c **** 	return nRet;
+ 799              		.loc 1 276 0
+ 800 0034 FB68     		ldr	r3, [r7, #12]
+ 277:../src/procotol.c **** }
+ 801              		.loc 1 277 0
+ 802 0036 1846     		mov	r0, r3
+ 803 0038 1037     		adds	r7, r7, #16
+ 804              		.cfi_def_cfa_offset 8
+ 805 003a BD46     		mov	sp, r7
+ 806              		.cfi_def_cfa_register 13
+ 807              		@ sp needed
+ 808 003c 80BD     		pop	{r7, pc}
+ 809              		.cfi_endproc
+ 810              	.LFE108:
+ 812 003e 00BF     		.section	.rodata
+ 813              		.align	2
+ 814              	.LC0:
+ 815 0000 312E3030 		.ascii	"1.00\000"
+ 815      00
+ 816              		.section	.text.post_prog_run,"ax",%progbits
+ 817              		.align	2
+ 818              		.global	post_prog_run
+ 819              		.thumb
+ 820              		.thumb_func
+ 822              	post_prog_run:
+ 823              	.LFB109:
+ 278:../src/procotol.c **** 
+ 279:../src/procotol.c **** int post_prog_run()
+ 280:../src/procotol.c **** {
+ 824              		.loc 1 280 0
+ 825              		.cfi_startproc
+ 826              		@ args = 0, pretend = 0, frame = 88
+ 827              		@ frame_needed = 1, uses_anonymous_args = 0
+ 828 0000 90B5     		push	{r4, r7, lr}
+ 829              		.cfi_def_cfa_offset 12
+ 830              		.cfi_offset 4, -12
+ 831              		.cfi_offset 7, -8
+ 832              		.cfi_offset 14, -4
+ 833 0002 99B0     		sub	sp, sp, #100
+ 834              		.cfi_def_cfa_offset 112
+ 835 0004 02AF     		add	r7, sp, #8
+ 836              		.cfi_def_cfa 7, 104
+ 281:../src/procotol.c **** 	int nRet = 0;
+ 837              		.loc 1 281 0
+ 838 0006 0023     		movs	r3, #0
+ 839 0008 7B65     		str	r3, [r7, #84]
+ 282:../src/procotol.c **** 	RUN_PROGRAM_T tProgram;
+ 283:../src/procotol.c **** 	RUN_PROGRAM_PKT pkt;
+ 284:../src/procotol.c **** 
+ 285:../src/procotol.c **** 	tProgram.Kind = PROGRAM_BL;
+ 840              		.loc 1 285 0
+ 841 000a 0023     		movs	r3, #0
+ 842 000c 3B63     		str	r3, [r7, #48]
+ 286:../src/procotol.c **** 	memcpy(tProgram.Version , BL_FIRMWARE_VERSION_STRING, sizeof(BL_FIRMWARE_VERSION_STRING));
+ 843              		.loc 1 286 0
+ 844 000e 07F13003 		add	r3, r7, #48
+ 845 0012 0433     		adds	r3, r3, #4
+ 846 0014 1846     		mov	r0, r3
+ 847 0016 1049     		ldr	r1, .L41
+ 848 0018 0522     		movs	r2, #5
+ 849 001a FFF7FEFF 		bl	memcpy
+ 287:../src/procotol.c **** 
+ 288:../src/procotol.c **** 	nRet = GenPacket((uint8_t*)&pkt, PKT_CMD_RUN_PROGRAM, FLAG_SEND, (uint8_t*)&tProgram, sizeof(tProg
+ 850              		.loc 1 288 0
+ 851 001e 3A1D     		adds	r2, r7, #4
+ 852 0020 07F13004 		add	r4, r7, #48
+ 853 0024 2423     		movs	r3, #36
+ 854 0026 0093     		str	r3, [sp]
+ 855 0028 1046     		mov	r0, r2
+ 856 002a 4FF40141 		mov	r1, #33024
+ 857 002e 0022     		movs	r2, #0
+ 858 0030 2346     		mov	r3, r4
+ 859 0032 FFF7FEFF 		bl	GenPacket
+ 860 0036 7865     		str	r0, [r7, #84]
+ 289:../src/procotol.c **** 	MSS_UART_polled_tx( get_uart(), (uint8_t*)&pkt, nRet );
+ 861              		.loc 1 289 0
+ 862 0038 FFF7FEFF 		bl	get_uart
+ 863 003c 0146     		mov	r1, r0
+ 864 003e 7B6D     		ldr	r3, [r7, #84]
+ 865 0040 3A1D     		adds	r2, r7, #4
+ 866 0042 0846     		mov	r0, r1
+ 867 0044 1146     		mov	r1, r2
+ 868 0046 1A46     		mov	r2, r3
+ 869 0048 FFF7FEFF 		bl	MSS_UART_polled_tx
+ 290:../src/procotol.c **** 
+ 291:../src/procotol.c **** 	return nRet;
+ 870              		.loc 1 291 0
+ 871 004c 7B6D     		ldr	r3, [r7, #84]
+ 292:../src/procotol.c **** }
+ 872              		.loc 1 292 0
+ 873 004e 1846     		mov	r0, r3
+ 874 0050 5C37     		adds	r7, r7, #92
+ 875              		.cfi_def_cfa_offset 12
+ 876 0052 BD46     		mov	sp, r7
+ 877              		.cfi_def_cfa_register 13
+ 878              		@ sp needed
+ 879 0054 90BD     		pop	{r4, r7, pc}
+ 880              	.L42:
+ 881 0056 00BF     		.align	2
+ 882              	.L41:
+ 883 0058 00000000 		.word	.LC0
+ 884              		.cfi_endproc
+ 885              	.LFE109:
+ 887              		.text
+ 888              	.Letext0:
+ 889              		.file 2 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\machine\\_def
+ 890              		.file 3 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\sys\\_stdint.
+ 891              		.file 4 "D:\\Home2021\\ChroZen-LC\\LC_AS\\SoC\\Ch_AS_SF2_FW-git\\SoftConsole4-SF2\\SF2_hw_platform
+ 892              		.file 5 "D:\\Home2021\\ChroZen-LC\\LC_AS\\SoC\\Ch_AS_SF2_FW-git\\SoftConsole4-SF2\\SF2_hw_platform
+ 893              		.file 6 "../src/protocol.h"
+ 894              		.file 7 "C:\\Microsemi\\SoftConsole_v4.0\\CMSIS\\V4.3\\Include/core_cm3.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 procotol.c
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:19     .bss.g_nCheckStartTime:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:22     .bss.g_nCheckStartTime:00000000 g_nCheckStartTime
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:25     .text.GenPacket:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:30     .text.GenPacket:00000000 GenPacket
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:317    .text.CalcChkSum:00000000 CalcChkSum
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:183    .text.GenHeaderPacket:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:188    .text.GenHeaderPacket:00000000 GenHeaderPacket
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:312    .text.CalcChkSum:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:396    .text.CheckPacket:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:401    .text.CheckPacket:00000000 CheckPacket
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:477    .text.RecvData:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:482    .text.RecvData:00000000 RecvData
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:605    .text.RecvData:000000a8 $d
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:610    .text.check_fwpdate:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:615    .text.check_fwpdate:00000000 check_fwpdate
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:763    .text.send_update_check:00000000 send_update_check
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:752    .text.check_fwpdate:000000e0 $d
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:758    .text.send_update_check:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:813    .rodata:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:817    .text.post_prog_run:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:822    .text.post_prog_run:00000000 post_prog_run
+C:\Users\jiryu\AppData\Local\Temp\ccI1OUHC.s:883    .text.post_prog_run:00000058 $d
+                     .debug_frame:00000010 $d
+                           .group:00000000 wm4.0.8a78f5deb025003dde8e8313b7e18811
+                           .group:00000000 wm4.newlib.h.8.2702bca278809460f0af6fba1d84eb68
+                           .group:00000000 wm4.features.h.22.2e382148a0560adabf236cddd4e880f4
+                           .group:00000000 wm4.config.h.220.a09b0b0de3c25be3f39d71990e617bff
+                           .group:00000000 wm4._ansi.h.23.9f8fcfa20193763fcf364fb91705c94b
+                           .group:00000000 wm4.ctype.h.29.655cb005a4d596b4713c7a42170c401a
+                           .group:00000000 wm4.stdarg.h.31.72c3aa8d68b291953fa52b9471bcdff7
+                           .group:00000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:00000000 wm4._default_types.h.6.35ee9e747940367bf2a634907d1c2382
+                           .group:00000000 wm4.stddef.h.184.159df79b4ca79c76561572a55985524c
+                           .group:00000000 wm4.cdefs.h.47.3052445825803de6c3a3b68ec8193866
+                           .group:00000000 wm4.stddef.h.39.7e3d906ac58942e0b374c527445f5de5
+                           .group:00000000 wm4.lock.h.2.9bc98482741e5e2a9450b12934a684ea
+                           .group:00000000 wm4._types.h.54.d3d34a3b7f3cc230cd159baf022b4b08
+                           .group:00000000 wm4.stddef.h.158.61317cdbfb4026324507d123a50b0fd6
+                           .group:00000000 wm4.reent.h.17.8bd9e4098e0428508c282cad794fae43
+                           .group:00000000 wm4.types.h.23.0d949686bbcadd1621462d4fa1f884f9
+                           .group:00000000 wm4._stdint.h.10.f76354baea1c7088202064e6f3d4f5e3
+                           .group:00000000 wm4.types.h.2.e9cec8c90ab35f77d9f499e06ae02400
+                           .group:00000000 wm4.types.h.81.ded4e8fbe2d299b79c956dc834e43661
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.68.a99a2db1e55915cfd1b035cc1e9fcff1
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.stddef.h.158.a7efb00f6cbc6f43213b50e183c9830c
+                           .group:00000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:00000000 wm4.stdlib.h.54.cd3744e0b066087ec8fbb1bdc22d1043
+                           .group:00000000 wm4.string.h.8.c4b8571ce60dff2817f43fec8b86aecd
+                           .group:00000000 wm4._intsup.h.10.b2832a532eae49c14d45880be6d4ca65
+                           .group:00000000 wm4.stdint.h.23.373a9d32a9e4c2e88fd347156532d281
+                           .group:00000000 wm4.limits.h.2.9dea55bedb68394d9750fdf18fad85e9
+                           .group:00000000 wm4.limits.h.60.b4bc9eda7e37043243f7148a2c6d0306
+                           .group:00000000 wm4.stdbool.h.29.1c9ee6859ce8145f7838a4f2549ccec2
+                           .group:00000000 wm4.m2sxxx.h.14.987ea2aeaafde240411e8c56d47721f7
+                           .group:00000000 wm4.core_cm3.h.43.614605f47657df9251f3b3f57590a49a
+                           .group:00000000 wm4.core_cmInstr.h.39.addda81f1f3453ba31dd54fc5b6fcee8
+                           .group:00000000 wm4.core_cm3.h.160.4f087d7d2b17fc46469486aedc40cf5c
+                           .group:00000000 wm4.m2sxxx.h.2709.9eef8620912489dbc5c26e98701cdac3
+                           .group:00000000 wm4.sys_config_mss_clocks.h.10.c7f4d81ec72bcea6cafb9cc9c2acf4ab
+                           .group:00000000 wm4.sys_config.h.25.1448a2ceceaa3c2e8913533fa4e42cee
+                           .group:00000000 wm4.mss_uart.h.258.ed2d082f8e6703bd440653ce1fa4b528
+                           .group:00000000 wm4.assert.h.11.7fe9eb241be6b0fee772a1e693b81ae3
+                           .group:00000000 wm4.mss_watchdog.h.135.cd7fdb2556dfc88c684a3bccbcbeffd0
+                           .group:00000000 wm4.mss_nvm.h.54.53fe48cb67630dbcda63b96130444f53
+                           .group:00000000 wm4.protocol.h.2.6a5796ea80238bc4f9a16400f98bef7e
+                           .group:00000000 wm4.storage.h.2.37efc95cfbe2d56f733e692b6f73ffca
+                           .group:00000000 wm4.system.h.2.8eca77f0cab86ca974940a82c5c17eab
+                           .group:00000000 wm4.version.h.2.9d8026164faa16ae393ccbd448177fc2
+
+UNDEFINED SYMBOLS
+memcpy
+diff_mili_time
+memset
+get_mili_time
+get_uart
+MSS_UART_polled_tx

@@ -1,0 +1,176 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"system.c"
+  15              		.section	.text.get_uart,"ax",%progbits
+  16              		.align	2
+  17              		.global	get_uart
+  18              		.thumb
+  19              		.thumb_func
+  21              	get_uart:
+  22              		@ args = 0, pretend = 0, frame = 0
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24              		@ link register save eliminated.
+  25 0000 0048     		ldr	r0, .L2
+  26 0002 7047     		bx	lr
+  27              	.L3:
+  28              		.align	2
+  29              	.L2:
+  30 0004 00000000 		.word	g_mss_uart0
+  32              		.section	.text.MSS_UART0_enable_intr,"ax",%progbits
+  33              		.align	2
+  34              		.global	MSS_UART0_enable_intr
+  35              		.thumb
+  36              		.thumb_func
+  38              	MSS_UART0_enable_intr:
+  39              		@ args = 0, pretend = 0, frame = 0
+  40              		@ frame_needed = 0, uses_anonymous_args = 0
+  41              		@ link register save eliminated.
+  42 0000 024B     		ldr	r3, .L5
+  43 0002 4FF48062 		mov	r2, #1024
+  44 0006 1A60     		str	r2, [r3]
+  45 0008 7047     		bx	lr
+  46              	.L6:
+  47 000a 00BF     		.align	2
+  48              	.L5:
+  49 000c 00E100E0 		.word	-536813312
+  51              		.section	.text.MSS_UART0_disable_intr,"ax",%progbits
+  52              		.align	2
+  53              		.global	MSS_UART0_disable_intr
+  54              		.thumb
+  55              		.thumb_func
+  57              	MSS_UART0_disable_intr:
+  58              		@ args = 0, pretend = 0, frame = 0
+  59              		@ frame_needed = 0, uses_anonymous_args = 0
+  60              		@ link register save eliminated.
+  61 0000 024B     		ldr	r3, .L8
+  62 0002 4FF48062 		mov	r2, #1024
+  63 0006 C3F88020 		str	r2, [r3, #128]
+  64 000a 7047     		bx	lr
+  65              	.L9:
+  66              		.align	2
+  67              	.L8:
+  68 000c 00E100E0 		.word	-536813312
+  70              		.section	.text.init_system,"ax",%progbits
+  71              		.align	2
+  72              		.global	init_system
+  73              		.thumb
+  74              		.thumb_func
+  76              	init_system:
+  77              		@ args = 0, pretend = 0, frame = 0
+  78              		@ frame_needed = 0, uses_anonymous_args = 0
+  79 0000 1249     		ldr	r1, .L17
+  80 0002 134A     		ldr	r2, .L17+4
+  81 0004 0023     		movs	r3, #0
+  82 0006 70B5     		push	{r4, r5, r6, lr}
+  83 0008 CB66     		str	r3, [r1, #108]
+  84 000a 9360     		str	r3, [r2, #8]
+  85 000c FFF7FEFF 		bl	InitStorageInfo
+  86 0010 FFF7FEFF 		bl	GetBLVer
+  87 0014 6428     		cmp	r0, #100
+  88 0016 05D0     		beq	.L11
+  89 0018 6420     		movs	r0, #100
+  90 001a FFF7FEFF 		bl	SetBLVer
+  91 001e 0120     		movs	r0, #1
+  92 0020 FFF7FEFF 		bl	SaveStorageInfo
+  93              	.L11:
+  94 0024 0B48     		ldr	r0, .L17+8
+  95 0026 4FF46121 		mov	r1, #921600
+  96 002a 0322     		movs	r2, #3
+  97 002c FFF7FEFF 		bl	MSS_UART_init
+  98 0030 094D     		ldr	r5, .L17+12
+  99 0032 FFF7FEFF 		bl	init_timer_1
+ 100 0036 094C     		ldr	r4, .L17+16
+ 101 0038 0948     		ldr	r0, .L17+20
+ 102 003a 0A49     		ldr	r1, .L17+24
+ 103 003c 0A4A     		ldr	r2, .L17+28
+ 104 003e 0023     		movs	r3, #0
+ 105 0040 0926     		movs	r6, #9
+ 106 0042 2E60     		str	r6, [r5]
+ 107 0044 0460     		str	r4, [r0]
+ 108 0046 0B60     		str	r3, [r1]
+ 109 0048 1360     		str	r3, [r2]
+ 110 004a 70BD     		pop	{r4, r5, r6, pc}
+ 111              	.L18:
+ 112              		.align	2
+ 113              	.L17:
+ 114 004c 00800340 		.word	1073971200
+ 115 0050 00ED00E0 		.word	-536810240
+ 116 0054 00000000 		.word	g_mss_uart0
+ 117 0058 00400050 		.word	1342193664
+ 118 005c 2C012C01 		.word	19661100
+ 119 0060 08400050 		.word	1342193672
+ 120 0064 0C000050 		.word	1342177292
+ 121 0068 08000050 		.word	1342177288
+ 123              		.section	.text.reset_system,"ax",%progbits
+ 124              		.align	2
+ 125              		.global	reset_system
+ 126              		.thumb
+ 127              		.thumb_func
+ 129              	reset_system:
+ 130              		@ Volatile: function does not return.
+ 131              		@ args = 0, pretend = 0, frame = 0
+ 132              		@ frame_needed = 0, uses_anonymous_args = 0
+ 133              		@ link register save eliminated.
+ 134              	@ 473 "C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include/core_cmInstr.h" 1
+ 135 0000 BFF34F8F 		dsb 0xF
+ 136              	@ 0 "" 2
+ 137              		.thumb
+ 138 0004 0549     		ldr	r1, .L21
+ 139 0006 064B     		ldr	r3, .L21+4
+ 140 0008 CA68     		ldr	r2, [r1, #12]
+ 141 000a 02F4E062 		and	r2, r2, #1792
+ 142 000e 1343     		orrs	r3, r3, r2
+ 143 0010 CB60     		str	r3, [r1, #12]
+ 144              	@ 473 "C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include/core_cmInstr.h" 1
+ 145 0012 BFF34F8F 		dsb 0xF
+ 146              	@ 0 "" 2
+ 147              		.thumb
+ 148              	.L20:
+ 149              	@ 418 "C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include/core_cmInstr.h" 1
+ 150 0016 00BF     		nop
+ 151              	@ 0 "" 2
+ 152              		.thumb
+ 153 0018 FDE7     		b	.L20
+ 154              	.L22:
+ 155 001a 00BF     		.align	2
+ 156              	.L21:
+ 157 001c 00ED00E0 		.word	-536810240
+ 158 0020 0400FA05 		.word	100270084
+ 160              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150529 (release) [ARM/embedded-4_9-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 system.c
+C:\Users\jiryu\AppData\Local\Temp\ccITfUJy.s:16     .text.get_uart:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccITfUJy.s:21     .text.get_uart:00000000 get_uart
+C:\Users\jiryu\AppData\Local\Temp\ccITfUJy.s:30     .text.get_uart:00000004 $d
+C:\Users\jiryu\AppData\Local\Temp\ccITfUJy.s:33     .text.MSS_UART0_enable_intr:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccITfUJy.s:38     .text.MSS_UART0_enable_intr:00000000 MSS_UART0_enable_intr
+C:\Users\jiryu\AppData\Local\Temp\ccITfUJy.s:49     .text.MSS_UART0_enable_intr:0000000c $d
+C:\Users\jiryu\AppData\Local\Temp\ccITfUJy.s:52     .text.MSS_UART0_disable_intr:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccITfUJy.s:57     .text.MSS_UART0_disable_intr:00000000 MSS_UART0_disable_intr
+C:\Users\jiryu\AppData\Local\Temp\ccITfUJy.s:68     .text.MSS_UART0_disable_intr:0000000c $d
+C:\Users\jiryu\AppData\Local\Temp\ccITfUJy.s:71     .text.init_system:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccITfUJy.s:76     .text.init_system:00000000 init_system
+C:\Users\jiryu\AppData\Local\Temp\ccITfUJy.s:114    .text.init_system:0000004c $d
+C:\Users\jiryu\AppData\Local\Temp\ccITfUJy.s:124    .text.reset_system:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccITfUJy.s:129    .text.reset_system:00000000 reset_system
+C:\Users\jiryu\AppData\Local\Temp\ccITfUJy.s:157    .text.reset_system:0000001c $d
+
+UNDEFINED SYMBOLS
+g_mss_uart0
+InitStorageInfo
+GetBLVer
+SetBLVer
+SaveStorageInfo
+MSS_UART_init
+init_timer_1

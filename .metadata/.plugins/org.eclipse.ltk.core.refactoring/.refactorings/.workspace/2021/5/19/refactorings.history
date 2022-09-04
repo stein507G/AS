@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;Ch_AS4/inc/Motor_Ctrl.h&apos;" deleteContents="false" description="Delete resource &apos;Ch_AS4/inc/Motor_Ctrl.h&apos;" element1="/Ch_AS4/inc/Motor_Ctrl.h" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1620031727429"/>
+</session>

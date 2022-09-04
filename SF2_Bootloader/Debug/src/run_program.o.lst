@@ -1,0 +1,837 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"run_program.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.copy_image_to_esram,"ax",%progbits
+  19              		.align	2
+  20              		.global	copy_image_to_esram
+  21              		.thumb
+  22              		.thumb_func
+  24              	copy_image_to_esram:
+  25              	.LFB102:
+  26              		.file 1 "../src/run_program.c"
+   1:../src/run_program.c **** #include "config.h"
+   2:../src/run_program.c **** 
+   3:../src/run_program.c **** 
+   4:../src/run_program.c **** #define	 MEMORY_16KB		( (16 * 1024) )
+   5:../src/run_program.c **** #define	 MEMORY_24KB		( (24 * 1024) )
+   6:../src/run_program.c **** 
+   7:../src/run_program.c **** #define	 MEMORY_SIZE		( MEMORY_24KB / 4 )		/* 16 K B = 16 KB /4 ptr increments by 4bytes*/
+   8:../src/run_program.c **** 
+   9:../src/run_program.c **** /* function to copy code to eSRAM*/
+  10:../src/run_program.c **** void copy_image_to_esram()
+  11:../src/run_program.c **** {
+  27              		.loc 1 11 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 16
+  30              		@ frame_needed = 1, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32 0000 80B4     		push	{r7}
+  33              		.cfi_def_cfa_offset 4
+  34              		.cfi_offset 7, -4
+  35 0002 85B0     		sub	sp, sp, #20
+  36              		.cfi_def_cfa_offset 24
+  37 0004 00AF     		add	r7, sp, #0
+  38              		.cfi_def_cfa_register 7
+  12:../src/run_program.c ****     unsigned int ii=0;
+  39              		.loc 1 12 0
+  40 0006 0023     		movs	r3, #0
+  41 0008 FB60     		str	r3, [r7, #12]
+  13:../src/run_program.c ****     unsigned long *exeDestAddr, *exeSrcAddr;
+  14:../src/run_program.c **** 
+  15:../src/run_program.c **** #ifdef DEBUG_MESSAGE
+  16:../src/run_program.c ****     MSS_UART_polled_tx_string(get_uart(),(uint8_t *)"Copy IAP code to eSRAM_0\n\r");
+  17:../src/run_program.c **** 	MSS_UART_polled_tx_string(get_uart(),(uint8_t *)"\n\r");
+  18:../src/run_program.c **** #endif
+  19:../src/run_program.c **** 
+  20:../src/run_program.c **** 	exeDestAddr = (unsigned long *)ESRAM_IAP_RUN_ADDR;
+  42              		.loc 1 20 0
+  43 000a 4FF00053 		mov	r3, #536870912
+  44 000e BB60     		str	r3, [r7, #8]
+  21:../src/run_program.c **** 	exeSrcAddr = (unsigned long *)ENVM_IAP_IMAGE_ADDR;
+  45              		.loc 1 21 0
+  46 0010 0C4B     		ldr	r3, .L4
+  47 0012 7B60     		str	r3, [r7, #4]
+  22:../src/run_program.c **** 	for (ii=0; ii < MEMORY_SIZE; ii++ )
+  48              		.loc 1 22 0
+  49 0014 0023     		movs	r3, #0
+  50 0016 FB60     		str	r3, [r7, #12]
+  51 0018 0AE0     		b	.L2
+  52              	.L3:
+  23:../src/run_program.c **** 	{
+  24:../src/run_program.c **** 		*exeDestAddr++ = *exeSrcAddr++;
+  53              		.loc 1 24 0 discriminator 3
+  54 001a BB68     		ldr	r3, [r7, #8]
+  55 001c 1A1D     		adds	r2, r3, #4
+  56 001e BA60     		str	r2, [r7, #8]
+  57 0020 7A68     		ldr	r2, [r7, #4]
+  58 0022 111D     		adds	r1, r2, #4
+  59 0024 7960     		str	r1, [r7, #4]
+  60 0026 1268     		ldr	r2, [r2]
+  61 0028 1A60     		str	r2, [r3]
+  22:../src/run_program.c **** 	for (ii=0; ii < MEMORY_SIZE; ii++ )
+  62              		.loc 1 22 0 discriminator 3
+  63 002a FB68     		ldr	r3, [r7, #12]
+  64 002c 0133     		adds	r3, r3, #1
+  65 002e FB60     		str	r3, [r7, #12]
+  66              	.L2:
+  22:../src/run_program.c **** 	for (ii=0; ii < MEMORY_SIZE; ii++ )
+  67              		.loc 1 22 0 is_stmt 0 discriminator 1
+  68 0030 FB68     		ldr	r3, [r7, #12]
+  69 0032 B3F5C05F 		cmp	r3, #6144
+  70 0036 F0D3     		bcc	.L3
+  25:../src/run_program.c **** 	}
+  26:../src/run_program.c **** }
+  71              		.loc 1 26 0 is_stmt 1
+  72 0038 1437     		adds	r7, r7, #20
+  73              		.cfi_def_cfa_offset 4
+  74 003a BD46     		mov	sp, r7
+  75              		.cfi_def_cfa_register 13
+  76              		@ sp needed
+  77 003c 5DF8047B 		ldr	r7, [sp], #4
+  78              		.cfi_restore 7
+  79              		.cfi_def_cfa_offset 0
+  80 0040 7047     		bx	lr
+  81              	.L5:
+  82 0042 00BF     		.align	2
+  83              	.L4:
+  84 0044 00300060 		.word	1610625024
+  85              		.cfi_endproc
+  86              	.LFE102:
+  88              		.section	.text.remap_user_code_eSRAM_0,"ax",%progbits
+  89              		.align	2
+  90              		.global	remap_user_code_eSRAM_0
+  91              		.thumb
+  92              		.thumb_func
+  94              	remap_user_code_eSRAM_0:
+  95              	.LFB103:
+  27:../src/run_program.c **** 
+  28:../src/run_program.c **** /* function to remap eSRAM to cortex - M3 code region*/
+  29:../src/run_program.c **** void remap_user_code_eSRAM_0(void)
+  30:../src/run_program.c **** {
+  96              		.loc 1 30 0
+  97              		.cfi_startproc
+  98              		@ args = 0, pretend = 0, frame = 8
+  99              		@ frame_needed = 1, uses_anonymous_args = 0
+ 100 0000 80B5     		push	{r7, lr}
+ 101              		.cfi_def_cfa_offset 8
+ 102              		.cfi_offset 7, -8
+ 103              		.cfi_offset 14, -4
+ 104 0002 82B0     		sub	sp, sp, #8
+ 105              		.cfi_def_cfa_offset 16
+ 106 0004 00AF     		add	r7, sp, #0
+ 107              		.cfi_def_cfa_register 7
+  31:../src/run_program.c ****    int * address = (int *)(ESRAM_IAP_RUN_ADDR + 4); 		//pointer to reset handler of application
+ 108              		.loc 1 31 0
+ 109 0006 0B4B     		ldr	r3, .L8
+ 110 0008 7B60     		str	r3, [r7, #4]
+  32:../src/run_program.c **** 
+  33:../src/run_program.c **** #ifdef DEBUG_MESSAGE
+  34:../src/run_program.c ****    MSS_UART_polled_tx_string(get_uart(),(uint8_t *)"Run IAP..... \r\n");
+  35:../src/run_program.c ****    MSS_UART_polled_tx_string(get_uart(),(uint8_t *)"\r\n");
+  36:../src/run_program.c **** #endif
+  37:../src/run_program.c **** 
+  38:../src/run_program.c ****    __set_MSP(*(int*)ESRAM_IAP_RUN_ADDR); 			//set the stack pointer to that of the application
+ 111              		.loc 1 38 0
+ 112 000a 4FF00053 		mov	r3, #536870912
+ 113 000e 1B68     		ldr	r3, [r3]
+ 114 0010 3B60     		str	r3, [r7]
+ 115              	.LBB6:
+ 116              	.LBB7:
+ 117              		.file 2 "C:\\Microsemi\\SoftConsole_v4.0\\CMSIS\\V4.3\\Include/core_cmFunc.h"
+   1:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /**************************************************************************//**
+   2:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  * @file     core_cmFunc.h
+   3:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  * @brief    CMSIS Cortex-M Core Function Access Header File
+   4:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  * @version  V4.10
+   5:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  * @date     18. March 2015
+   6:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  *
+   7:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  * @note
+   8:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  *
+   9:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  ******************************************************************************/
+  10:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /* Copyright (c) 2009 - 2015 ARM LIMITED
+  11:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  12:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    All rights reserved.
+  13:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    Redistribution and use in source and binary forms, with or without
+  14:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    modification, are permitted provided that the following conditions are met:
+  15:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    - Redistributions of source code must retain the above copyright
+  16:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****      notice, this list of conditions and the following disclaimer.
+  17:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    - Redistributions in binary form must reproduce the above copyright
+  18:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****      notice, this list of conditions and the following disclaimer in the
+  19:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****      documentation and/or other materials provided with the distribution.
+  20:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    - Neither the name of ARM nor the names of its contributors may be used
+  21:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****      to endorse or promote products derived from this software without
+  22:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****      specific prior written permission.
+  23:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    *
+  24:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  25:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  26:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  27:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDERS AND CONTRIBUTORS BE
+  28:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  29:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  30:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  31:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  32:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  33:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  34:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    POSSIBILITY OF SUCH DAMAGE.
+  35:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    ---------------------------------------------------------------------------*/
+  36:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  37:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  38:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #ifndef __CORE_CMFUNC_H
+  39:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #define __CORE_CMFUNC_H
+  40:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  41:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  42:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /* ###########################  Core Function Access  ########################### */
+  43:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \ingroup  CMSIS_Core_FunctionInterface
+  44:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
+  45:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   @{
+  46:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+  47:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  48:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #if   defined ( __CC_ARM ) /*------------------RealView Compiler -----------------*/
+  49:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /* ARM armcc specific functions */
+  50:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  51:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #if (__ARMCC_VERSION < 400677)
+  52:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   #error "Please use ARM Compiler Toolchain V4.0.677 or later!"
+  53:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #endif
+  54:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  55:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /* intrinsic void __enable_irq();     */
+  56:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /* intrinsic void __disable_irq();    */
+  57:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  58:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get Control Register
+  59:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  60:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the content of the Control Register.
+  61:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  62:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               Control Register value
+  63:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+  64:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_CONTROL(void)
+  65:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+  66:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regControl         __ASM("control");
+  67:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(__regControl);
+  68:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+  69:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  70:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  71:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Set Control Register
+  72:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  73:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function writes the given value to the Control Register.
+  74:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  75:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \param [in]    control  Control Register value to set
+  76:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+  77:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE void __set_CONTROL(uint32_t control)
+  78:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+  79:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regControl         __ASM("control");
+  80:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __regControl = control;
+  81:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+  82:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  83:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  84:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get IPSR Register
+  85:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  86:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the content of the IPSR Register.
+  87:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  88:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               IPSR Register value
+  89:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+  90:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_IPSR(void)
+  91:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+  92:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regIPSR          __ASM("ipsr");
+  93:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(__regIPSR);
+  94:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+  95:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  96:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  97:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get APSR Register
+  98:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+  99:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the content of the APSR Register.
+ 100:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 101:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               APSR Register value
+ 102:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 103:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_APSR(void)
+ 104:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 105:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regAPSR          __ASM("apsr");
+ 106:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(__regAPSR);
+ 107:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 108:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 109:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 110:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get xPSR Register
+ 111:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 112:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the content of the xPSR Register.
+ 113:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 114:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               xPSR Register value
+ 115:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 116:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_xPSR(void)
+ 117:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 118:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regXPSR          __ASM("xpsr");
+ 119:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(__regXPSR);
+ 120:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 121:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 122:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 123:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get Process Stack Pointer
+ 124:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 125:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the current value of the Process Stack Pointer (PSP).
+ 126:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 127:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               PSP Register value
+ 128:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 129:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_PSP(void)
+ 130:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 131:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regProcessStackPointer  __ASM("psp");
+ 132:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(__regProcessStackPointer);
+ 133:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 134:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 135:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 136:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Set Process Stack Pointer
+ 137:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 138:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function assigns the given value to the Process Stack Pointer (PSP).
+ 139:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 140:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \param [in]    topOfProcStack  Process Stack Pointer value to set
+ 141:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 142:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE void __set_PSP(uint32_t topOfProcStack)
+ 143:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 144:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regProcessStackPointer  __ASM("psp");
+ 145:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __regProcessStackPointer = topOfProcStack;
+ 146:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 147:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 148:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 149:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get Main Stack Pointer
+ 150:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 151:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the current value of the Main Stack Pointer (MSP).
+ 152:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 153:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               MSP Register value
+ 154:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 155:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_MSP(void)
+ 156:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 157:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regMainStackPointer     __ASM("msp");
+ 158:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(__regMainStackPointer);
+ 159:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 160:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 161:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 162:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Set Main Stack Pointer
+ 163:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 164:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function assigns the given value to the Main Stack Pointer (MSP).
+ 165:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 166:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \param [in]    topOfMainStack  Main Stack Pointer value to set
+ 167:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 168:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE void __set_MSP(uint32_t topOfMainStack)
+ 169:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 170:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regMainStackPointer     __ASM("msp");
+ 171:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __regMainStackPointer = topOfMainStack;
+ 172:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 173:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 174:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 175:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get Priority Mask
+ 176:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 177:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the current state of the priority mask bit from the Priority Mask Registe
+ 178:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 179:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               Priority Mask value
+ 180:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 181:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_PRIMASK(void)
+ 182:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 183:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regPriMask         __ASM("primask");
+ 184:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(__regPriMask);
+ 185:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 186:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 187:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 188:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Set Priority Mask
+ 189:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 190:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function assigns the given value to the Priority Mask Register.
+ 191:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 192:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \param [in]    priMask  Priority Mask
+ 193:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 194:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE void __set_PRIMASK(uint32_t priMask)
+ 195:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 196:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regPriMask         __ASM("primask");
+ 197:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __regPriMask = (priMask);
+ 198:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 199:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 200:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 201:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #if       (__CORTEX_M >= 0x03) || (__CORTEX_SC >= 300)
+ 202:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 203:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Enable FIQ
+ 204:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 205:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function enables FIQ interrupts by clearing the F-bit in the CPSR.
+ 206:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     Can only be executed in Privileged modes.
+ 207:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 208:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #define __enable_fault_irq                __enable_fiq
+ 209:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 210:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 211:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Disable FIQ
+ 212:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 213:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function disables FIQ interrupts by setting the F-bit in the CPSR.
+ 214:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     Can only be executed in Privileged modes.
+ 215:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 216:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #define __disable_fault_irq               __disable_fiq
+ 217:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 218:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 219:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get Base Priority
+ 220:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 221:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the current value of the Base Priority register.
+ 222:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 223:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               Base Priority register value
+ 224:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 225:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE uint32_t  __get_BASEPRI(void)
+ 226:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 227:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regBasePri         __ASM("basepri");
+ 228:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(__regBasePri);
+ 229:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 230:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 231:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 232:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Set Base Priority
+ 233:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 234:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function assigns the given value to the Base Priority register.
+ 235:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 236:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \param [in]    basePri  Base Priority value to set
+ 237:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 238:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE void __set_BASEPRI(uint32_t basePri)
+ 239:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 240:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regBasePri         __ASM("basepri");
+ 241:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __regBasePri = (basePri & 0xff);
+ 242:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 243:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 244:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 245:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Set Base Priority with condition
+ 246:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 247:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function assigns the given value to the Base Priority register only if BASEPRI masking is 
+ 248:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     or the new value increases the BASEPRI priority level.
+ 249:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 250:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \param [in]    basePri  Base Priority value to set
+ 251:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 252:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE void __set_BASEPRI_MAX(uint32_t basePri)
+ 253:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 254:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regBasePriMax      __ASM("basepri_max");
+ 255:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __regBasePriMax = (basePri & 0xff);
+ 256:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 257:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 258:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 259:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get Fault Mask
+ 260:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 261:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the current value of the Fault Mask register.
+ 262:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 263:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               Fault Mask register value
+ 264:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 265:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_FAULTMASK(void)
+ 266:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 267:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regFaultMask       __ASM("faultmask");
+ 268:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(__regFaultMask);
+ 269:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 270:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 271:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 272:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Set Fault Mask
+ 273:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 274:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function assigns the given value to the Fault Mask register.
+ 275:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 276:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \param [in]    faultMask  Fault Mask value to set
+ 277:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 278:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE void __set_FAULTMASK(uint32_t faultMask)
+ 279:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 280:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regFaultMask       __ASM("faultmask");
+ 281:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __regFaultMask = (faultMask & (uint32_t)1);
+ 282:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 283:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 284:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #endif /* (__CORTEX_M >= 0x03) || (__CORTEX_SC >= 300) */
+ 285:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 286:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 287:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #if       (__CORTEX_M == 0x04) || (__CORTEX_M == 0x07)
+ 288:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 289:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get FPSCR
+ 290:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 291:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the current value of the Floating Point Status/Control register.
+ 292:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 293:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               Floating Point Status/Control register value
+ 294:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 295:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_FPSCR(void)
+ 296:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 297:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+ 298:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regfpscr         __ASM("fpscr");
+ 299:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(__regfpscr);
+ 300:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #else
+ 301:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****    return(0);
+ 302:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #endif
+ 303:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 304:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 305:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 306:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Set FPSCR
+ 307:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 308:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function assigns the given value to the Floating Point Status/Control register.
+ 309:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 310:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \param [in]    fpscr  Floating Point Status/Control value to set
+ 311:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 312:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __STATIC_INLINE void __set_FPSCR(uint32_t fpscr)
+ 313:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 314:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+ 315:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t __regfpscr         __ASM("fpscr");
+ 316:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __regfpscr = (fpscr);
+ 317:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #endif
+ 318:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 319:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 320:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #endif /* (__CORTEX_M == 0x04) || (__CORTEX_M == 0x07) */
+ 321:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 322:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 323:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** #elif defined ( __GNUC__ ) /*------------------ GNU Compiler ---------------------*/
+ 324:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /* GNU gcc specific functions */
+ 325:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 326:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Enable IRQ Interrupts
+ 327:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 328:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   This function enables IRQ interrupts by clearing the I-bit in the CPSR.
+ 329:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   Can only be executed in Privileged modes.
+ 330:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 331:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __enable_irq(void)
+ 332:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 333:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __ASM volatile ("cpsie i" : : : "memory");
+ 334:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 335:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 336:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 337:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Disable IRQ Interrupts
+ 338:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 339:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   This function disables IRQ interrupts by setting the I-bit in the CPSR.
+ 340:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   Can only be executed in Privileged modes.
+ 341:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 342:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_irq(void)
+ 343:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 344:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __ASM volatile ("cpsid i" : : : "memory");
+ 345:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 346:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 347:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 348:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get Control Register
+ 349:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 350:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the content of the Control Register.
+ 351:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 352:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               Control Register value
+ 353:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 354:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_CONTROL(void)
+ 355:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 356:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   uint32_t result;
+ 357:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 358:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __ASM volatile ("MRS %0, control" : "=r" (result) );
+ 359:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(result);
+ 360:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 361:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 362:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 363:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Set Control Register
+ 364:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 365:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function writes the given value to the Control Register.
+ 366:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 367:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \param [in]    control  Control Register value to set
+ 368:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 369:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __set_CONTROL(uint32_t control)
+ 370:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 371:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
+ 372:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 373:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 374:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 375:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get IPSR Register
+ 376:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 377:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the content of the IPSR Register.
+ 378:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 379:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               IPSR Register value
+ 380:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 381:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_IPSR(void)
+ 382:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 383:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   uint32_t result;
+ 384:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 385:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __ASM volatile ("MRS %0, ipsr" : "=r" (result) );
+ 386:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(result);
+ 387:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 388:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 389:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 390:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get APSR Register
+ 391:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 392:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the content of the APSR Register.
+ 393:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 394:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               APSR Register value
+ 395:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 396:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_APSR(void)
+ 397:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 398:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   uint32_t result;
+ 399:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 400:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __ASM volatile ("MRS %0, apsr" : "=r" (result) );
+ 401:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(result);
+ 402:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 403:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 404:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 405:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get xPSR Register
+ 406:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 407:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the content of the xPSR Register.
+ 408:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 409:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               xPSR Register value
+ 410:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 411:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_xPSR(void)
+ 412:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 413:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   uint32_t result;
+ 414:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 415:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __ASM volatile ("MRS %0, xpsr" : "=r" (result) );
+ 416:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(result);
+ 417:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 418:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 419:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 420:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get Process Stack Pointer
+ 421:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 422:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the current value of the Process Stack Pointer (PSP).
+ 423:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 424:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               PSP Register value
+ 425:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 426:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_PSP(void)
+ 427:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 428:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t result;
+ 429:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 430:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __ASM volatile ("MRS %0, psp\n"  : "=r" (result) );
+ 431:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(result);
+ 432:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 433:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 434:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 435:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Set Process Stack Pointer
+ 436:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 437:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function assigns the given value to the Process Stack Pointer (PSP).
+ 438:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 439:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \param [in]    topOfProcStack  Process Stack Pointer value to set
+ 440:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 441:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __set_PSP(uint32_t topOfProcStack)
+ 442:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 443:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __ASM volatile ("MSR psp, %0\n" : : "r" (topOfProcStack) : "sp");
+ 444:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 445:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 446:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 447:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Get Main Stack Pointer
+ 448:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 449:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function returns the current value of the Main Stack Pointer (MSP).
+ 450:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 451:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \return               MSP Register value
+ 452:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 453:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_MSP(void)
+ 454:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 455:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   register uint32_t result;
+ 456:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 457:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __ASM volatile ("MRS %0, msp\n" : "=r" (result) );
+ 458:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   return(result);
+ 459:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** }
+ 460:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 461:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 462:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** /** \brief  Set Main Stack Pointer
+ 463:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 464:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     This function assigns the given value to the Main Stack Pointer (MSP).
+ 465:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** 
+ 466:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****     \param [in]    topOfMainStack  Main Stack Pointer value to set
+ 467:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****  */
+ 468:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __set_MSP(uint32_t topOfMainStack)
+ 469:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h **** {
+ 470:C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include\core_cmFunc.h ****   __ASM volatile ("MSR msp, %0\n" : : "r" (topOfMainStack) : "sp");
+ 118              		.loc 2 470 0
+ 119 0012 3B68     		ldr	r3, [r7]
+ 120              	@ 470 "C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include/core_cmFunc.h" 1
+ 121 0014 83F30888 		MSR msp, r3
+ 122              	
+ 123              	@ 0 "" 2
+ 124              		.thumb
+ 125              	.LBE7:
+ 126              	.LBE6:
+  39:../src/run_program.c ****    SYSREG->ESRAM_CR |= 0x1;
+ 127              		.loc 1 39 0
+ 128 0018 074A     		ldr	r2, .L8+4
+ 129 001a 074B     		ldr	r3, .L8+4
+ 130 001c 1B68     		ldr	r3, [r3]
+ 131 001e 43F00103 		orr	r3, r3, #1
+ 132 0022 1360     		str	r3, [r2]
+  40:../src/run_program.c **** 
+  41:../src/run_program.c ****    SCB->VTOR = ESRAM_IAP_RUN_ADDR;
+ 133              		.loc 1 41 0
+ 134 0024 054B     		ldr	r3, .L8+8
+ 135 0026 4FF00052 		mov	r2, #536870912
+ 136 002a 9A60     		str	r2, [r3, #8]
+  42:../src/run_program.c **** 
+  43:../src/run_program.c ****    ((void (*)())(*address))(); 				// pointer recast as function pointer and the dereferenced/calle
+ 137              		.loc 1 43 0
+ 138 002c 7B68     		ldr	r3, [r7, #4]
+ 139 002e 1B68     		ldr	r3, [r3]
+ 140 0030 9847     		blx	r3
+ 141              	.L7:
+  44:../src/run_program.c ****    while(1){ }; 						    //This instruction never executed
+ 142              		.loc 1 44 0 discriminator 1
+ 143 0032 FEE7     		b	.L7
+ 144              	.L9:
+ 145              		.align	2
+ 146              	.L8:
+ 147 0034 04000020 		.word	536870916
+ 148 0038 00800340 		.word	1073971200
+ 149 003c 00ED00E0 		.word	-536810240
+ 150              		.cfi_endproc
+ 151              	.LFE103:
+ 153              		.section	.text.run_iap,"ax",%progbits
+ 154              		.align	2
+ 155              		.global	run_iap
+ 156              		.thumb
+ 157              		.thumb_func
+ 159              	run_iap:
+ 160              	.LFB104:
+  45:../src/run_program.c **** }
+  46:../src/run_program.c **** 
+  47:../src/run_program.c **** void run_iap(void)
+  48:../src/run_program.c **** {
+ 161              		.loc 1 48 0
+ 162              		.cfi_startproc
+ 163              		@ args = 0, pretend = 0, frame = 0
+ 164              		@ frame_needed = 1, uses_anonymous_args = 0
+ 165 0000 80B5     		push	{r7, lr}
+ 166              		.cfi_def_cfa_offset 8
+ 167              		.cfi_offset 7, -8
+ 168              		.cfi_offset 14, -4
+ 169 0002 00AF     		add	r7, sp, #0
+ 170              		.cfi_def_cfa_register 7
+  49:../src/run_program.c **** 	copy_image_to_esram();
+ 171              		.loc 1 49 0
+ 172 0004 FFF7FEFF 		bl	copy_image_to_esram
+  50:../src/run_program.c **** 	remap_user_code_eSRAM_0();
+ 173              		.loc 1 50 0
+ 174 0008 FFF7FEFF 		bl	remap_user_code_eSRAM_0
+  51:../src/run_program.c **** }
+ 175              		.loc 1 51 0
+ 176 000c 80BD     		pop	{r7, pc}
+ 177              		.cfi_endproc
+ 178              	.LFE104:
+ 180 000e 00BF     		.section	.text.run_application,"ax",%progbits
+ 181              		.align	2
+ 182              		.global	run_application
+ 183              		.thumb
+ 184              		.thumb_func
+ 186              	run_application:
+ 187              	.LFB105:
+  52:../src/run_program.c **** 
+  53:../src/run_program.c **** void run_application(void)
+  54:../src/run_program.c **** {
+ 188              		.loc 1 54 0
+ 189              		.cfi_startproc
+ 190              		@ args = 0, pretend = 0, frame = 8
+ 191              		@ frame_needed = 1, uses_anonymous_args = 0
+ 192 0000 80B5     		push	{r7, lr}
+ 193              		.cfi_def_cfa_offset 8
+ 194              		.cfi_offset 7, -8
+ 195              		.cfi_offset 14, -4
+ 196 0002 82B0     		sub	sp, sp, #8
+ 197              		.cfi_def_cfa_offset 16
+ 198 0004 00AF     		add	r7, sp, #0
+ 199              		.cfi_def_cfa_register 7
+  55:../src/run_program.c **** 
+  56:../src/run_program.c **** #ifdef DEBUG_MESSAGE
+  57:../src/run_program.c **** 	MSS_UART_polled_tx_string(get_uart(),(uint8_t *)"Run Application..... \n\r");
+  58:../src/run_program.c **** 	MSS_UART_polled_tx_string(get_uart(),(uint8_t *)"\r\n");
+  59:../src/run_program.c **** #endif
+  60:../src/run_program.c **** 
+  61:../src/run_program.c **** 	int * address = (int *)(ENVM_APP_IMAGE_ADDR + 4); 		//pointer to reset handler of application
+ 200              		.loc 1 61 0
+ 201 0006 49F20403 		movw	r3, #36868
+ 202 000a 7B60     		str	r3, [r7, #4]
+  62:../src/run_program.c **** 	__set_MSP(*(int*)ENVM_APP_IMAGE_ADDR); 			//set the stack pointer to that of the application
+ 203              		.loc 1 62 0
+ 204 000c 4FF41043 		mov	r3, #36864
+ 205 0010 1B68     		ldr	r3, [r3]
+ 206 0012 3B60     		str	r3, [r7]
+ 207              	.LBB8:
+ 208              	.LBB9:
+ 209              		.loc 2 470 0
+ 210 0014 3B68     		ldr	r3, [r7]
+ 211              	@ 470 "C:\Microsemi\SoftConsole_v4.0\CMSIS\V4.3\Include/core_cmFunc.h" 1
+ 212 0016 83F30888 		MSR msp, r3
+ 213              	
+ 214              	@ 0 "" 2
+ 215              		.thumb
+ 216              	.LBE9:
+ 217              	.LBE8:
+  63:../src/run_program.c **** 
+  64:../src/run_program.c **** 	//SYSREG->ENVM_CR |= 0x1;
+  65:../src/run_program.c **** 
+  66:../src/run_program.c **** 	SCB->VTOR = ENVM_APP_IMAGE_ADDR;
+ 218              		.loc 1 66 0
+ 219 001a 044B     		ldr	r3, .L13
+ 220 001c 4FF41042 		mov	r2, #36864
+ 221 0020 9A60     		str	r2, [r3, #8]
+  67:../src/run_program.c **** 
+  68:../src/run_program.c ****    ((void (*)())(*address))(); 				// pointer recast as function pointer and the dereferenced/calle
+ 222              		.loc 1 68 0
+ 223 0022 7B68     		ldr	r3, [r7, #4]
+ 224 0024 1B68     		ldr	r3, [r3]
+ 225 0026 9847     		blx	r3
+ 226              	.L12:
+  69:../src/run_program.c ****    while(1){ }; 						    //This instruction never executed
+ 227              		.loc 1 69 0 discriminator 1
+ 228 0028 FEE7     		b	.L12
+ 229              	.L14:
+ 230 002a 00BF     		.align	2
+ 231              	.L13:
+ 232 002c 00ED00E0 		.word	-536810240
+ 233              		.cfi_endproc
+ 234              	.LFE105:
+ 236              		.text
+ 237              	.Letext0:
+ 238              		.file 3 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\machine\\_def
+ 239              		.file 4 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\sys\\_stdint.
+ 240              		.file 5 "C:\\Microsemi\\SoftConsole_v4.0\\CMSIS\\V4.3\\Include/core_cm3.h"
+ 241              		.file 6 "D:\\Home2021\\ChroZen-LC\\LC_AS\\SoC\\Ch_AS_SF2_FW-git\\SoftConsole4-SF2\\SF2_hw_platform
+DEFINED SYMBOLS
+                            *ABS*:00000000 run_program.c
+C:\Users\jiryu\AppData\Local\Temp\cc29VyO6.s:19     .text.copy_image_to_esram:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc29VyO6.s:24     .text.copy_image_to_esram:00000000 copy_image_to_esram
+C:\Users\jiryu\AppData\Local\Temp\cc29VyO6.s:84     .text.copy_image_to_esram:00000044 $d
+C:\Users\jiryu\AppData\Local\Temp\cc29VyO6.s:89     .text.remap_user_code_eSRAM_0:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc29VyO6.s:94     .text.remap_user_code_eSRAM_0:00000000 remap_user_code_eSRAM_0
+C:\Users\jiryu\AppData\Local\Temp\cc29VyO6.s:147    .text.remap_user_code_eSRAM_0:00000034 $d
+C:\Users\jiryu\AppData\Local\Temp\cc29VyO6.s:154    .text.run_iap:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc29VyO6.s:159    .text.run_iap:00000000 run_iap
+C:\Users\jiryu\AppData\Local\Temp\cc29VyO6.s:181    .text.run_application:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc29VyO6.s:186    .text.run_application:00000000 run_application
+C:\Users\jiryu\AppData\Local\Temp\cc29VyO6.s:232    .text.run_application:0000002c $d
+                     .debug_frame:00000010 $d
+                           .group:00000000 wm4.0.8a78f5deb025003dde8e8313b7e18811
+                           .group:00000000 wm4.newlib.h.8.2702bca278809460f0af6fba1d84eb68
+                           .group:00000000 wm4.features.h.22.2e382148a0560adabf236cddd4e880f4
+                           .group:00000000 wm4.config.h.220.a09b0b0de3c25be3f39d71990e617bff
+                           .group:00000000 wm4._ansi.h.23.9f8fcfa20193763fcf364fb91705c94b
+                           .group:00000000 wm4.ctype.h.29.655cb005a4d596b4713c7a42170c401a
+                           .group:00000000 wm4.stdarg.h.31.72c3aa8d68b291953fa52b9471bcdff7
+                           .group:00000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:00000000 wm4._default_types.h.6.35ee9e747940367bf2a634907d1c2382
+                           .group:00000000 wm4.stddef.h.184.159df79b4ca79c76561572a55985524c
+                           .group:00000000 wm4.cdefs.h.47.3052445825803de6c3a3b68ec8193866
+                           .group:00000000 wm4.stddef.h.39.7e3d906ac58942e0b374c527445f5de5
+                           .group:00000000 wm4.lock.h.2.9bc98482741e5e2a9450b12934a684ea
+                           .group:00000000 wm4._types.h.54.d3d34a3b7f3cc230cd159baf022b4b08
+                           .group:00000000 wm4.stddef.h.158.61317cdbfb4026324507d123a50b0fd6
+                           .group:00000000 wm4.reent.h.17.8bd9e4098e0428508c282cad794fae43
+                           .group:00000000 wm4.types.h.23.0d949686bbcadd1621462d4fa1f884f9
+                           .group:00000000 wm4._stdint.h.10.f76354baea1c7088202064e6f3d4f5e3
+                           .group:00000000 wm4.types.h.2.e9cec8c90ab35f77d9f499e06ae02400
+                           .group:00000000 wm4.types.h.81.ded4e8fbe2d299b79c956dc834e43661
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.68.a99a2db1e55915cfd1b035cc1e9fcff1
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.stddef.h.158.a7efb00f6cbc6f43213b50e183c9830c
+                           .group:00000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:00000000 wm4.stdlib.h.54.cd3744e0b066087ec8fbb1bdc22d1043
+                           .group:00000000 wm4.string.h.8.c4b8571ce60dff2817f43fec8b86aecd
+                           .group:00000000 wm4._intsup.h.10.b2832a532eae49c14d45880be6d4ca65
+                           .group:00000000 wm4.stdint.h.23.373a9d32a9e4c2e88fd347156532d281
+                           .group:00000000 wm4.limits.h.2.9dea55bedb68394d9750fdf18fad85e9
+                           .group:00000000 wm4.limits.h.60.b4bc9eda7e37043243f7148a2c6d0306
+                           .group:00000000 wm4.stdbool.h.29.1c9ee6859ce8145f7838a4f2549ccec2
+                           .group:00000000 wm4.m2sxxx.h.14.987ea2aeaafde240411e8c56d47721f7
+                           .group:00000000 wm4.core_cm3.h.43.614605f47657df9251f3b3f57590a49a
+                           .group:00000000 wm4.core_cmInstr.h.39.addda81f1f3453ba31dd54fc5b6fcee8
+                           .group:00000000 wm4.core_cm3.h.160.4f087d7d2b17fc46469486aedc40cf5c
+                           .group:00000000 wm4.m2sxxx.h.2709.9eef8620912489dbc5c26e98701cdac3
+                           .group:00000000 wm4.sys_config_mss_clocks.h.10.c7f4d81ec72bcea6cafb9cc9c2acf4ab
+                           .group:00000000 wm4.sys_config.h.25.1448a2ceceaa3c2e8913533fa4e42cee
+                           .group:00000000 wm4.mss_uart.h.258.ed2d082f8e6703bd440653ce1fa4b528
+                           .group:00000000 wm4.assert.h.11.7fe9eb241be6b0fee772a1e693b81ae3
+                           .group:00000000 wm4.mss_watchdog.h.135.cd7fdb2556dfc88c684a3bccbcbeffd0
+                           .group:00000000 wm4.mss_nvm.h.54.53fe48cb67630dbcda63b96130444f53
+                           .group:00000000 wm4.protocol.h.2.6a5796ea80238bc4f9a16400f98bef7e
+                           .group:00000000 wm4.storage.h.2.37efc95cfbe2d56f733e692b6f73ffca
+                           .group:00000000 wm4.system.h.2.8eca77f0cab86ca974940a82c5c17eab
+                           .group:00000000 wm4.version.h.2.9d8026164faa16ae393ccbd448177fc2
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,38 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"main.c"
+  15              		.section	.text.startup.main,"ax",%progbits
+  16              		.align	2
+  17              		.global	main
+  18              		.thumb
+  19              		.thumb_func
+  21              	main:
+  22              		@ args = 0, pretend = 0, frame = 0
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24 0000 08B5     		push	{r3, lr}
+  25 0002 FFF7FEFF 		bl	init_system
+  26 0006 FFF7FEFF 		bl	post_update_ready
+  27              	.L2:
+  28 000a FFF7FEFF 		bl	processFwUpdate
+  29 000e FCE7     		b	.L2
+  31              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150529 (release) [ARM/embedded-4_9-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\jiryu\AppData\Local\Temp\ccC3Ye1x.s:16     .text.startup.main:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccC3Ye1x.s:21     .text.startup.main:00000000 main
+
+UNDEFINED SYMBOLS
+init_system
+post_update_ready
+processFwUpdate

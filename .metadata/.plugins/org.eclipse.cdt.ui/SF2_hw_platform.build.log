@@ -1,0 +1,7 @@
+08:46:39 **** Clean-only build of configuration Release for project SF2_hw_platform ****
+make clean 
+rm -rf  ./src/hal/CortexM3/GNU/hal.o ./src/hal/CortexM3/GNU/hw_reg_access.o  ./src/hal/CortexM3/cortex_nvic.o  ./src/drivers_config/sys_config/sys_config.o  ./src/drivers/mss_uart/mss_uart.o  ./src/drivers/mss_sys_services/mss_comblk.o ./src/drivers/mss_sys_services/mss_sys_services.o  ./src/drivers/mss_nvm/mss_nvm.o  ./src/CMSIS/startup_gcc/newlib_stubs.o ./src/CMSIS/startup_gcc/startup_m2sxxx.o  ./src/CMSIS/system_m2sxxx.o  ./src/hal/CortexM3/GNU/hal.d ./src/hal/CortexM3/GNU/hw_reg_access.d  ./src/CMSIS/startup_gcc/startup_m2sxxx.d  ./src/hal/CortexM3/cortex_nvic.d  ./src/drivers_config/sys_config/sys_config.d  ./src/drivers/mss_uart/mss_uart.d  ./src/drivers/mss_sys_services/mss_comblk.d ./src/drivers/mss_sys_services/mss_sys_services.d  ./src/drivers/mss_nvm/mss_nvm.d  ./src/CMSIS/startup_gcc/newlib_stubs.d  ./src/CMSIS/system_m2sxxx.d  libSF2_hw_platform.a
+ 
+
+08:46:40 Build Finished (took 735ms)
+

@@ -1,0 +1,401 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"procotol.c"
+  15              		.section	.text.CheckPacket.part.0,"ax",%progbits
+  16              		.align	2
+  17              		.thumb
+  18              		.thumb_func
+  20              	CheckPacket.part.0:
+  21              		@ args = 0, pretend = 0, frame = 0
+  22              		@ frame_needed = 0, uses_anonymous_args = 0
+  23              		@ link register save eliminated.
+  24 0000 0329     		cmp	r1, #3
+  25 0002 30B4     		push	{r4, r5}
+  26 0004 14DD     		ble	.L5
+  27 0006 0346     		mov	r3, r0
+  28 0008 CD1E     		subs	r5, r1, #3
+  29 000a 0544     		add	r5, r5, r0
+  30 000c 0022     		movs	r2, #0
+  31              	.L3:
+  32 000e 13F8014F 		ldrb	r4, [r3, #1]!	@ zero_extendqisi2
+  33 0012 AB42     		cmp	r3, r5
+  34 0014 2244     		add	r2, r2, r4
+  35 0016 FAD1     		bne	.L3
+  36 0018 5242     		negs	r2, r2
+  37 001a 02F0FF02 		and	r2, r2, #255
+  38              	.L2:
+  39 001e 0144     		add	r1, r1, r0
+  40 0020 11F8020C 		ldrb	r0, [r1, #-2]	@ zero_extendqisi2
+  41 0024 30BC     		pop	{r4, r5}
+  42 0026 9042     		cmp	r0, r2
+  43 0028 14BF     		ite	ne
+  44 002a 2120     		movne	r0, #33
+  45 002c 0020     		moveq	r0, #0
+  46 002e 7047     		bx	lr
+  47              	.L5:
+  48 0030 0022     		movs	r2, #0
+  49 0032 F4E7     		b	.L2
+  51              		.section	.text.GenPacket,"ax",%progbits
+  52              		.align	2
+  53              		.global	GenPacket
+  54              		.thumb
+  55              		.thumb_func
+  57              	GenPacket:
+  58              		@ args = 4, pretend = 0, frame = 0
+  59              		@ frame_needed = 0, uses_anonymous_args = 0
+  60 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  61 0002 0546     		mov	r5, r0
+  62 0004 069E     		ldr	r6, [sp, #24]
+  63 0006 0F0A     		lsrs	r7, r1, #8
+  64 0008 0224     		movs	r4, #2
+  65 000a 3012     		asrs	r0, r6, #8
+  66 000c 6970     		strb	r1, [r5, #1]
+  67 000e AF70     		strb	r7, [r5, #2]
+  68 0010 EA70     		strb	r2, [r5, #3]
+  69 0012 2C70     		strb	r4, [r5]
+  70 0014 2E71     		strb	r6, [r5, #4]
+  71 0016 6871     		strb	r0, [r5, #5]
+  72 0018 63B1     		cbz	r3, .L14
+  73 001a 002E     		cmp	r6, #0
+  74 001c 0ADD     		ble	.L14
+  75 001e 3246     		mov	r2, r6
+  76 0020 1946     		mov	r1, r3
+  77 0022 A81D     		adds	r0, r5, #6
+  78 0024 FFF7FEFF 		bl	memcpy
+  79 0028 741D     		adds	r4, r6, #5
+  80 002a B71D     		adds	r7, r6, #6
+  81 002c 06F10800 		add	r0, r6, #8
+  82 0030 0736     		adds	r6, r6, #7
+  83 0032 03E0     		b	.L11
+  84              	.L14:
+  85 0034 0726     		movs	r6, #7
+  86 0036 0820     		movs	r0, #8
+  87 0038 0627     		movs	r7, #6
+  88 003a 0524     		movs	r4, #5
+  89              	.L11:
+  90 003c 2B46     		mov	r3, r5
+  91 003e 2C44     		add	r4, r4, r5
+  92 0040 0022     		movs	r2, #0
+  93              	.L12:
+  94 0042 13F8011F 		ldrb	r1, [r3, #1]!	@ zero_extendqisi2
+  95 0046 A342     		cmp	r3, r4
+  96 0048 0A44     		add	r2, r2, r1
+  97 004a FAD1     		bne	.L12
+  98 004c 5242     		negs	r2, r2
+  99 004e 0323     		movs	r3, #3
+ 100 0050 EA55     		strb	r2, [r5, r7]
+ 101 0052 AB55     		strb	r3, [r5, r6]
+ 102 0054 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 104 0056 00BF     		.section	.text.GenHeaderPacket,"ax",%progbits
+ 105              		.align	2
+ 106              		.global	GenHeaderPacket
+ 107              		.thumb
+ 108              		.thumb_func
+ 110              	GenHeaderPacket:
+ 111              		@ args = 4, pretend = 0, frame = 0
+ 112              		@ frame_needed = 0, uses_anonymous_args = 0
+ 113 0000 38B5     		push	{r3, r4, r5, lr}
+ 114 0002 0224     		movs	r4, #2
+ 115 0004 0D0A     		lsrs	r5, r1, #8
+ 116 0006 0470     		strb	r4, [r0]
+ 117 0008 4170     		strb	r1, [r0, #1]
+ 118 000a 8570     		strb	r5, [r0, #2]
+ 119 000c C270     		strb	r2, [r0, #3]
+ 120 000e 049C     		ldr	r4, [sp, #16]
+ 121 0010 0BB1     		cbz	r3, .L20
+ 122 0012 002C     		cmp	r4, #0
+ 123 0014 01DC     		bgt	.L22
+ 124              	.L20:
+ 125 0016 0420     		movs	r0, #4
+ 126 0018 38BD     		pop	{r3, r4, r5, pc}
+ 127              	.L22:
+ 128 001a 2212     		asrs	r2, r4, #8
+ 129 001c 0471     		strb	r4, [r0, #4]
+ 130 001e 4271     		strb	r2, [r0, #5]
+ 131 0020 1946     		mov	r1, r3
+ 132 0022 2246     		mov	r2, r4
+ 133 0024 0630     		adds	r0, r0, #6
+ 134 0026 FFF7FEFF 		bl	memcpy
+ 135 002a A01D     		adds	r0, r4, #6
+ 136 002c 38BD     		pop	{r3, r4, r5, pc}
+ 138 002e 00BF     		.section	.text.CalcChkSum,"ax",%progbits
+ 139              		.align	2
+ 140              		.global	CalcChkSum
+ 141              		.thumb
+ 142              		.thumb_func
+ 144              	CalcChkSum:
+ 145              		@ args = 0, pretend = 0, frame = 0
+ 146              		@ frame_needed = 0, uses_anonymous_args = 0
+ 147              		@ link register save eliminated.
+ 148 0000 002A     		cmp	r2, #0
+ 149 0002 0CDD     		ble	.L26
+ 150 0004 0A44     		add	r2, r2, r1
+ 151 0006 0244     		add	r2, r2, r0
+ 152 0008 0144     		add	r1, r1, r0
+ 153 000a 0020     		movs	r0, #0
+ 154              	.L25:
+ 155 000c 11F8013B 		ldrb	r3, [r1], #1	@ zero_extendqisi2
+ 156 0010 9142     		cmp	r1, r2
+ 157 0012 1844     		add	r0, r0, r3
+ 158 0014 FAD1     		bne	.L25
+ 159 0016 4042     		negs	r0, r0
+ 160 0018 00F0FF00 		and	r0, r0, #255
+ 161 001c 7047     		bx	lr
+ 162              	.L26:
+ 163 001e 0020     		movs	r0, #0
+ 164 0020 7047     		bx	lr
+ 166 0022 00BF     		.section	.text.CheckPacket,"ax",%progbits
+ 167              		.align	2
+ 168              		.global	CheckPacket
+ 169              		.thumb
+ 170              		.thumb_func
+ 172              	CheckPacket:
+ 173              		@ args = 0, pretend = 0, frame = 0
+ 174              		@ frame_needed = 0, uses_anonymous_args = 0
+ 175              		@ link register save eliminated.
+ 176 0000 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+ 177 0002 022B     		cmp	r3, #2
+ 178 0004 01D0     		beq	.L30
+ 179 0006 2020     		movs	r0, #32
+ 180 0008 7047     		bx	lr
+ 181              	.L30:
+ 182 000a FFF7FEBF 		b	CheckPacket.part.0
+ 184 000e 00BF     		.section	.text.RecvData,"ax",%progbits
+ 185              		.align	2
+ 186              		.global	RecvData
+ 187              		.thumb
+ 188              		.thumb_func
+ 190              	RecvData:
+ 191              		@ args = 0, pretend = 0, frame = 0
+ 192              		@ frame_needed = 0, uses_anonymous_args = 0
+ 193 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 194 0004 0027     		movs	r7, #0
+ 195 0006 0546     		mov	r5, r0
+ 196 0008 0E46     		mov	r6, r1
+ 197 000a 3C46     		mov	r4, r7
+ 198 000c 40F6B738 		movw	r8, #2999
+ 199 0010 DFF84890 		ldr	r9, .L48
+ 200              	.L32:
+ 201 0014 2B68     		ldr	r3, [r5]
+ 202 0016 1A7D     		ldrb	r2, [r3, #20]	@ zero_extendqisi2
+ 203 0018 D207     		lsls	r2, r2, #31
+ 204 001a 13D4     		bmi	.L33
+ 205 001c 062C     		cmp	r4, #6
+ 206 001e 15D0     		beq	.L47
+ 207 0020 17DD     		ble	.L36
+ 208 0022 BC42     		cmp	r4, r7
+ 209 0024 06EB0403 		add	r3, r6, r4
+ 210 0028 03DB     		blt	.L35
+ 211 002a 13F8013C 		ldrb	r3, [r3, #-1]	@ zero_extendqisi2
+ 212 002e 032B     		cmp	r3, #3
+ 213 0030 05D0     		beq	.L37
+ 214              	.L35:
+ 215 0032 D9F80000 		ldr	r0, [r9]
+ 216 0036 FFF7FEFF 		bl	diff_mili_time
+ 217 003a 4045     		cmp	r0, r8
+ 218 003c EAD9     		bls	.L32
+ 219              	.L37:
+ 220 003e 2046     		mov	r0, r4
+ 221 0040 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 222              	.L33:
+ 223 0044 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 224 0046 3355     		strb	r3, [r6, r4]
+ 225 0048 0134     		adds	r4, r4, #1
+ 226 004a E3E7     		b	.L32
+ 227              	.L47:
+ 228 004c B788     		ldrh	r7, [r6, #4]	@ unaligned
+ 229 004e 0837     		adds	r7, r7, #8
+ 230 0050 EFE7     		b	.L35
+ 231              	.L36:
+ 232 0052 002C     		cmp	r4, #0
+ 233 0054 EDD1     		bne	.L35
+ 234 0056 2046     		mov	r0, r4
+ 235 0058 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 236              	.L49:
+ 237              		.align	2
+ 238              	.L48:
+ 239 005c 00000000 		.word	.LANCHOR0
+ 241              		.section	.text.send_update_check,"ax",%progbits
+ 242              		.align	2
+ 243              		.global	send_update_check
+ 244              		.thumb
+ 245              		.thumb_func
+ 247              	send_update_check:
+ 248              		@ args = 0, pretend = 0, frame = 8
+ 249              		@ frame_needed = 0, uses_anonymous_args = 0
+ 250 0000 10B5     		push	{r4, lr}
+ 251 0002 0022     		movs	r2, #0
+ 252 0004 84B0     		sub	sp, sp, #16
+ 253 0006 1346     		mov	r3, r2
+ 254 0008 0092     		str	r2, [sp]
+ 255 000a 48F20111 		movw	r1, #33025
+ 256 000e 02A8     		add	r0, sp, #8
+ 257 0010 FFF7FEFF 		bl	GenPacket
+ 258 0014 0446     		mov	r4, r0
+ 259 0016 FFF7FEFF 		bl	get_uart
+ 260 001a 02A9     		add	r1, sp, #8
+ 261 001c 2246     		mov	r2, r4
+ 262 001e FFF7FEFF 		bl	MSS_UART_polled_tx
+ 263 0022 2046     		mov	r0, r4
+ 264 0024 04B0     		add	sp, sp, #16
+ 265              		@ sp needed
+ 266 0026 10BD     		pop	{r4, pc}
+ 268              		.section	.text.check_fwpdate,"ax",%progbits
+ 269              		.align	2
+ 270              		.global	check_fwpdate
+ 271              		.thumb
+ 272              		.thumb_func
+ 274              	check_fwpdate:
+ 275              		@ args = 0, pretend = 0, frame = 64
+ 276              		@ frame_needed = 0, uses_anonymous_args = 0
+ 277 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 278 0002 91B0     		sub	sp, sp, #68
+ 279 0004 0021     		movs	r1, #0
+ 280 0006 4022     		movs	r2, #64
+ 281 0008 6846     		mov	r0, sp
+ 282 000a FFF7FEFF 		bl	memset
+ 283 000e FFF7FEFF 		bl	send_update_check
+ 284 0012 FFF7FEFF 		bl	get_mili_time
+ 285 0016 48F20117 		movw	r7, #33025
+ 286 001a 40F6B736 		movw	r6, #2999
+ 287 001e 174D     		ldr	r5, .L64
+ 288 0020 0024     		movs	r4, #0
+ 289 0022 2860     		str	r0, [r5]
+ 290              	.L58:
+ 291 0024 FFF7FEFF 		bl	get_uart
+ 292 0028 0DEB0401 		add	r1, sp, r4
+ 293 002c 4022     		movs	r2, #64
+ 294 002e FFF7FEFF 		bl	RecvData
+ 295 0032 041E     		subs	r4, r0, #0
+ 296 0034 16DD     		ble	.L53
+ 297 0036 9DF80030 		ldrb	r3, [sp]	@ zero_extendqisi2
+ 298 003a 022B     		cmp	r3, #2
+ 299 003c 0BD0     		beq	.L62
+ 300              	.L54:
+ 301 003e BDF80130 		ldrh	r3, [sp, #1]	@ unaligned
+ 302 0042 BB42     		cmp	r3, r7
+ 303 0044 12D0     		beq	.L63
+ 304              	.L55:
+ 305 0046 2868     		ldr	r0, [r5]
+ 306 0048 FFF7FEFF 		bl	diff_mili_time
+ 307 004c B042     		cmp	r0, r6
+ 308 004e E9D9     		bls	.L58
+ 309 0050 0020     		movs	r0, #0
+ 310 0052 11B0     		add	sp, sp, #68
+ 311              		@ sp needed
+ 312 0054 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 313              	.L62:
+ 314 0056 6846     		mov	r0, sp
+ 315 0058 2146     		mov	r1, r4
+ 316 005a FFF7FEFF 		bl	CheckPacket.part.0
+ 317 005e 0028     		cmp	r0, #0
+ 318 0060 F1DB     		blt	.L55
+ 319 0062 ECE7     		b	.L54
+ 320              	.L53:
+ 321 0064 2868     		ldr	r0, [r5]
+ 322 0066 FFF7FEFF 		bl	diff_mili_time
+ 323 006a ECE7     		b	.L55
+ 324              	.L63:
+ 325 006c 6846     		mov	r0, sp
+ 326 006e 0021     		movs	r1, #0
+ 327 0070 4022     		movs	r2, #64
+ 328 0072 FFF7FEFF 		bl	memset
+ 329 0076 0120     		movs	r0, #1
+ 330 0078 11B0     		add	sp, sp, #68
+ 331              		@ sp needed
+ 332 007a F0BD     		pop	{r4, r5, r6, r7, pc}
+ 333              	.L65:
+ 334              		.align	2
+ 335              	.L64:
+ 336 007c 00000000 		.word	.LANCHOR0
+ 338              		.section	.text.post_prog_run,"ax",%progbits
+ 339              		.align	2
+ 340              		.global	post_prog_run
+ 341              		.thumb
+ 342              		.thumb_func
+ 344              	post_prog_run:
+ 345              		@ args = 0, pretend = 0, frame = 80
+ 346              		@ frame_needed = 0, uses_anonymous_args = 0
+ 347 0000 10B5     		push	{r4, lr}
+ 348 0002 0D49     		ldr	r1, .L68
+ 349 0004 96B0     		sub	sp, sp, #88
+ 350 0006 16AB     		add	r3, sp, #88
+ 351 0008 0022     		movs	r2, #0
+ 352 000a 2424     		movs	r4, #36
+ 353 000c 43F8502D 		str	r2, [r3, #-80]!
+ 354 0010 03C9     		ldmia	r1, {r0, r1}
+ 355 0012 0094     		str	r4, [sp]
+ 356 0014 0390     		str	r0, [sp, #12]
+ 357 0016 8DF81010 		strb	r1, [sp, #16]
+ 358 001a 0BA8     		add	r0, sp, #44
+ 359 001c 4FF40141 		mov	r1, #33024
+ 360 0020 FFF7FEFF 		bl	GenPacket
+ 361 0024 0446     		mov	r4, r0
+ 362 0026 FFF7FEFF 		bl	get_uart
+ 363 002a 0BA9     		add	r1, sp, #44
+ 364 002c 2246     		mov	r2, r4
+ 365 002e FFF7FEFF 		bl	MSS_UART_polled_tx
+ 366 0032 2046     		mov	r0, r4
+ 367 0034 16B0     		add	sp, sp, #88
+ 368              		@ sp needed
+ 369 0036 10BD     		pop	{r4, pc}
+ 370              	.L69:
+ 371              		.align	2
+ 372              	.L68:
+ 373 0038 00000000 		.word	.LC0
+ 375              		.section	.bss.g_nCheckStartTime,"aw",%nobits
+ 376              		.align	2
+ 377              		.set	.LANCHOR0,. + 0
+ 380              	g_nCheckStartTime:
+ 381 0000 00000000 		.space	4
+ 382              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 383              		.align	2
+ 384              	.LC0:
+ 385 0000 312E3030 		.ascii	"1.00\000"
+ 385      00
+ 386              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150529 (release) [ARM/embedded-4_9-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 procotol.c
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:16     .text.CheckPacket.part.0:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:20     .text.CheckPacket.part.0:00000000 CheckPacket.part.0
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:52     .text.GenPacket:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:57     .text.GenPacket:00000000 GenPacket
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:105    .text.GenHeaderPacket:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:110    .text.GenHeaderPacket:00000000 GenHeaderPacket
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:139    .text.CalcChkSum:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:144    .text.CalcChkSum:00000000 CalcChkSum
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:167    .text.CheckPacket:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:172    .text.CheckPacket:00000000 CheckPacket
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:185    .text.RecvData:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:190    .text.RecvData:00000000 RecvData
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:239    .text.RecvData:0000005c $d
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:242    .text.send_update_check:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:247    .text.send_update_check:00000000 send_update_check
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:269    .text.check_fwpdate:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:274    .text.check_fwpdate:00000000 check_fwpdate
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:336    .text.check_fwpdate:0000007c $d
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:339    .text.post_prog_run:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:344    .text.post_prog_run:00000000 post_prog_run
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:373    .text.post_prog_run:00000038 $d
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:376    .bss.g_nCheckStartTime:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:380    .bss.g_nCheckStartTime:00000000 g_nCheckStartTime
+C:\Users\jiryu\AppData\Local\Temp\cc7gzTHp.s:383    .rodata.str1.4:00000000 $d
+
+UNDEFINED SYMBOLS
+memcpy
+diff_mili_time
+get_uart
+MSS_UART_polled_tx
+memset
+get_mili_time

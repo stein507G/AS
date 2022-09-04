@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="WorkbenchPreferenceDialogSettings">
+		<item value="716" key="DIALOG_X_ORIGIN"/>
+		<item value="344" key="DIALOG_Y_ORIGIN"/>
+	</section>
+	<section name="org.eclipse.ui.preferences.keysPreferencePage">
+	</section>
+	<section name="org.eclipse.ui.internal.QuickAccess">
+		<item value="1037" key="dialogHeight"/>
+		<item value="1920" key="dialogWidth"/>
+		<list key="textEntries">
+		</list>
+		<list key="orderedElements">
+		</list>
+		<list key="orderedProviders">
+		</list>
+		<list key="textArray">
+		</list>
+	</section>
+	<section name="PreferencesImportWizard">
+		<item value="J:\I_Drive\Ryu21c\ChroZen-LC\LC_Oven\SoC\ChrozenLC_Oven_SF2\SoftConsole4\SC4-preferences-default.epf" key=""/>
+		<list key="WizardPreferencesExportPage1.STORE_DESTINATION_NAMES_ID">
+			<item value="J:\I_Drive\Ryu21c\ChroZen-LC\LC_Oven\SoC\ChrozenLC_Oven_SF2\SoftConsole4\SC4-preferences-default.epf"/>
+			<item value="J:\I_Drive\Ryu21c\ChroZen-LC\LC_Oven\SoC\ChrozenLC_Oven_SF2\SoftConsole_Preference.epf"/>
+		</list>
+	</section>
+	<section name="NewWizardAction">
+	</section>
+	<section name="ImportExportAction">
+		<item value="org.eclipse.ui.wizards.export.Preferences" key="ImportExportPage.STORE_SELECTED_EXPORT_WIZARD_ID"/>
+		<item value="org.eclipse.ui.wizards.import.ExternalProject" key="ImportExportPage.STORE_SELECTED_IMPORT_WIZARD_ID"/>
+		<list key="ImportExportPage.STORE_EXPANDED_IMPORT_CATEGORIES">
+			<item value="org.eclipse.ui.Basic"/>
+		</list>
+		<list key="ImportExportPage.STORE_EXPANDED_EXPORT_CATEGORIES">
+			<item value="org.eclipse.ui.Basic"/>
+		</list>
+	</section>
+	<section name="ShowViewDialog">
+		<item value="321" key="DIALOG_WIDTH"/>
+		<item value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕" key="DIALOG_FONT_NAME"/>
+		<item value="org.eclipse.egit.ui.StagingView" key="ShowViewDialog.STORE_SELECTED_VIEW_ID"/>
+		<item value="439" key="DIALOG_HEIGHT"/>
+		<item value="808" key="DIALOG_X_ORIGIN"/>
+		<item value="241" key="DIALOG_Y_ORIGIN"/>
+		<list key="ShowViewDialog.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="org.eclipse.egit.ui.GitCategory"/>
+		</list>
+	</section>
+	<section name="PreferencesExportWizard">
+		<item value="D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2\SoftConsole4-SF2\SC4-preferences-20210617-Editor.epf" key=""/>
+		<item value="false" key="WizardPreferencesExportPage1.STORE_OVERWRITE_EXISTING_FILES_ID"/>
+		<item value="false" key="WizardPreferencesExportPage1.EXPORT_ALL_PREFERENCES_ID"/>
+		<list key="WizardPreferencesExportPage1.STORE_DESTINATION_NAMES_ID">
+			<item value="D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2\SoftConsole4-SF2\SC4-preferences-20210617-Editor.epf"/>
+			<item value="D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2\SoftConsole4-SF2\SC4-preferences-20210617-all.epf"/>
+			<item value="J:\I_Drive\Ryu21c\ChroZen-LC\LC_Oven\SoC\ChrozenLC_Oven_SF2\SoftConsole4\SC4-preferences-20201029.epf"/>
+			<item value="J:\I_Drive\Ryu21c\ChroZen-LC\LC_Oven\SoC\ChrozenLC_Oven_SF2\SoftConsole4\SC4-preferences-default.epf"/>
+		</list>
+		<list key="WizardPreferencesExportPage1.TRANSFER_PREFERENCES_NAMES_ID">
+			<item value="org.eclipse.cdt.ui.transfer.code_style"/>
+			<item value="org.eclipse.cdt.ui.transfer.editor.appearance"/>
+			<item value="org.eclipse.cdt.ui.transfer.editor.behavior"/>
+		</list>
+	</section>
+	<section name="FileSystemImportWizard">
+		<item value="false" key="WizardFileSystemResourceImportPage1.STORE_CREATE_CONTAINER_STRUCTURE_ID"/>
+		<item value="false" key="WizardFileSystemResourceImportPage1.STORE_OVERWRITE_EXISTING_RESOURCES_ID"/>
+		<list key="WizardFileSystemResourceImportPage1.STORE_SOURCE_NAMES_ID">
+			<item value="J:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2\SoftConsole4-203"/>
+			<item value="J:\I_Drive\Ryu21c\ChroZen-LC\LC_Oven\SoC\ChrozenLC_Oven_SF2\SoftConsole\ChrozenLC_Oven_SF2\GC_sb_MSS_CM3_app"/>
+			<item value="J:\I_Drive\Ryu21c\ChroZen-LC\LC_Oven\SoC\ChrozenLC_Oven_SF2\firmware"/>
+		</list>
+	</section>
+</section>

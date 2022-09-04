@@ -1,0 +1,389 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"cortex_nvic.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.NVIC_init,"ax",%progbits
+  19              		.align	1
+  20              		.global	NVIC_init
+  21              		.thumb
+  22              		.thumb_func
+  24              	NVIC_init:
+  25              	.LFB0:
+  26              		.file 1 "../src/hal/CortexM3/cortex_nvic.c"
+   1:../src/hal/CortexM3/cortex_nvic.c **** /*******************************************************************************
+   2:../src/hal/CortexM3/cortex_nvic.c ****  * (c) Copyright 2007-2013 Microsemi SoC Products Group.  All rights reserved.
+   3:../src/hal/CortexM3/cortex_nvic.c ****  * 
+   4:../src/hal/CortexM3/cortex_nvic.c ****  * Legacy Actel HAL Cortex NVIC control functions.
+   5:../src/hal/CortexM3/cortex_nvic.c ****  * The use of these functions should be replaced by calls to the equivalent
+   6:../src/hal/CortexM3/cortex_nvic.c ****  * CMSIS function in your application code.
+   7:../src/hal/CortexM3/cortex_nvic.c ****  *
+   8:../src/hal/CortexM3/cortex_nvic.c ****  * SVN $Revision: 7375 $
+   9:../src/hal/CortexM3/cortex_nvic.c ****  * SVN $Date: 2015-05-01 14:57:40 +0100 (Fri, 01 May 2015) $
+  10:../src/hal/CortexM3/cortex_nvic.c ****  */
+  11:../src/hal/CortexM3/cortex_nvic.c **** #include "cortex_nvic.h"
+  12:../src/hal/CortexM3/cortex_nvic.c **** #ifdef MSCC_NO_RELATIVE_PATHS
+  13:../src/hal/CortexM3/cortex_nvic.c **** #include "mss_assert.h"
+  14:../src/hal/CortexM3/cortex_nvic.c **** #else
+  15:../src/hal/CortexM3/cortex_nvic.c **** #include "../../CMSIS/mss_assert.h"
+  16:../src/hal/CortexM3/cortex_nvic.c **** #endif
+  17:../src/hal/CortexM3/cortex_nvic.c **** 
+  18:../src/hal/CortexM3/cortex_nvic.c **** 
+  19:../src/hal/CortexM3/cortex_nvic.c **** /***************************************************************************//**
+  20:../src/hal/CortexM3/cortex_nvic.c ****  * 
+  21:../src/hal/CortexM3/cortex_nvic.c ****  */
+  22:../src/hal/CortexM3/cortex_nvic.c **** void NVIC_init( void )
+  23:../src/hal/CortexM3/cortex_nvic.c **** {
+  27              		.loc 1 23 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  24:../src/hal/CortexM3/cortex_nvic.c ****     /*
+  25:../src/hal/CortexM3/cortex_nvic.c ****      * Please use the NVIC control functions provided by the SmartFusion2 CMSIS
+  26:../src/hal/CortexM3/cortex_nvic.c ****      * Hardware Abstraction Layer. The use of the Actel HAL NVIC control
+  27:../src/hal/CortexM3/cortex_nvic.c ****      * functions is obsolete on SmartFusion2 devices.
+  28:../src/hal/CortexM3/cortex_nvic.c ****      *
+  29:../src/hal/CortexM3/cortex_nvic.c ****      * Simply remove the call to NVIC_init() from your application code.
+  30:../src/hal/CortexM3/cortex_nvic.c ****      */
+  31:../src/hal/CortexM3/cortex_nvic.c ****     ASSERT(0);
+  32              		.loc 1 31 0
+  33              	@ 31 "../src/hal/CortexM3/cortex_nvic.c" 1
+  34 0000 00BE     		BKPT
+  35              		
+  36              	@ 0 "" 2
+  37              		.thumb
+  38 0002 7047     		bx	lr
+  39              		.cfi_endproc
+  40              	.LFE0:
+  42              		.section	.text.NVIC_set_handler,"ax",%progbits
+  43              		.align	1
+  44              		.global	NVIC_set_handler
+  45              		.thumb
+  46              		.thumb_func
+  48              	NVIC_set_handler:
+  49              	.LFB1:
+  32:../src/hal/CortexM3/cortex_nvic.c **** }
+  33:../src/hal/CortexM3/cortex_nvic.c **** 
+  34:../src/hal/CortexM3/cortex_nvic.c **** /***************************************************************************//**
+  35:../src/hal/CortexM3/cortex_nvic.c ****  * 
+  36:../src/hal/CortexM3/cortex_nvic.c ****  */
+  37:../src/hal/CortexM3/cortex_nvic.c **** void NVIC_set_handler
+  38:../src/hal/CortexM3/cortex_nvic.c **** (
+  39:../src/hal/CortexM3/cortex_nvic.c ****     uint32_t interrupt_number,
+  40:../src/hal/CortexM3/cortex_nvic.c ****     hal_nvic_irq_handler_t handler
+  41:../src/hal/CortexM3/cortex_nvic.c **** )
+  42:../src/hal/CortexM3/cortex_nvic.c **** {
+  50              		.loc 1 42 0
+  51              		.cfi_startproc
+  52              		@ args = 0, pretend = 0, frame = 0
+  53              		@ frame_needed = 0, uses_anonymous_args = 0
+  54              		@ link register save eliminated.
+  55              	.LVL0:
+  43:../src/hal/CortexM3/cortex_nvic.c ****     /*
+  44:../src/hal/CortexM3/cortex_nvic.c ****      * Please use the NVIC control functions provided by the SmartFusion2 CMSIS
+  45:../src/hal/CortexM3/cortex_nvic.c ****      * Hardware Abstraction Layer. The use of the Actel HAL NVIC control
+  46:../src/hal/CortexM3/cortex_nvic.c ****      * functions is obsolete on SmartFusion2 devices.
+  47:../src/hal/CortexM3/cortex_nvic.c ****      *
+  48:../src/hal/CortexM3/cortex_nvic.c ****      * Please remove the call to NVIC_set_handler() from your application code
+  49:../src/hal/CortexM3/cortex_nvic.c ****      * and provide a function using one of the following function prototypes to
+  50:../src/hal/CortexM3/cortex_nvic.c ****      * handle interrupts from peripherals implemeted in the SmartFusion2 FPGA
+  51:../src/hal/CortexM3/cortex_nvic.c ****      * fabric:
+  52:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq0_IRQHandler(void)
+  53:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq1_IRQHandler(void)
+  54:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq2_IRQHandler(void)
+  55:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq3_IRQHandler(void)
+  56:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq4_IRQHandler(void)
+  57:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq5_IRQHandler(void)
+  58:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq6_IRQHandler(void)
+  59:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq7_IRQHandler(void)
+  60:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq8_IRQHandler(void)
+  61:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq9_IRQHandler(void)
+  62:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq10_IRQHandler(void)
+  63:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq11_IRQHandler(void)
+  64:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq12_IRQHandler(void)
+  65:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq13_IRQHandler(void)
+  66:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq14_IRQHandler(void)
+  67:../src/hal/CortexM3/cortex_nvic.c ****      *      - void FabricIrq15_IRQHandler(void)
+  68:../src/hal/CortexM3/cortex_nvic.c ****      * The function to implement depends on which MSS_INT_F2M[n] signal is used
+  69:../src/hal/CortexM3/cortex_nvic.c ****      * in your Libero design to connect the interrupt signal of the peripheral
+  70:../src/hal/CortexM3/cortex_nvic.c ****      * generating the interrupt.
+  71:../src/hal/CortexM3/cortex_nvic.c ****      */
+  72:../src/hal/CortexM3/cortex_nvic.c ****     ASSERT(0);
+  56              		.loc 1 72 0
+  57              	@ 72 "../src/hal/CortexM3/cortex_nvic.c" 1
+  58 0000 00BE     		BKPT
+  59              		
+  60              	@ 0 "" 2
+  61              		.thumb
+  62 0002 7047     		bx	lr
+  63              		.cfi_endproc
+  64              	.LFE1:
+  66              		.section	.text.NVIC_set_priority,"ax",%progbits
+  67              		.align	1
+  68              		.global	NVIC_set_priority
+  69              		.thumb
+  70              		.thumb_func
+  72              	NVIC_set_priority:
+  73              	.LFB2:
+  73:../src/hal/CortexM3/cortex_nvic.c **** }
+  74:../src/hal/CortexM3/cortex_nvic.c **** 
+  75:../src/hal/CortexM3/cortex_nvic.c **** /***************************************************************************//**
+  76:../src/hal/CortexM3/cortex_nvic.c ****  * 
+  77:../src/hal/CortexM3/cortex_nvic.c ****  */
+  78:../src/hal/CortexM3/cortex_nvic.c **** void NVIC_set_priority
+  79:../src/hal/CortexM3/cortex_nvic.c **** (
+  80:../src/hal/CortexM3/cortex_nvic.c ****     uint32_t interrupt_number,
+  81:../src/hal/CortexM3/cortex_nvic.c ****     uint8_t priority_level
+  82:../src/hal/CortexM3/cortex_nvic.c **** )
+  83:../src/hal/CortexM3/cortex_nvic.c **** {
+  74              		.loc 1 83 0
+  75              		.cfi_startproc
+  76              		@ args = 0, pretend = 0, frame = 0
+  77              		@ frame_needed = 0, uses_anonymous_args = 0
+  78              		@ link register save eliminated.
+  79              	.LVL1:
+  84:../src/hal/CortexM3/cortex_nvic.c ****     /*
+  85:../src/hal/CortexM3/cortex_nvic.c ****      * Please use the NVIC control functions provided by the SmartFusion2 CMSIS
+  86:../src/hal/CortexM3/cortex_nvic.c ****      * Hardware Abstraction Layer. The use of the Actel HAL NVIC control
+  87:../src/hal/CortexM3/cortex_nvic.c ****      * functions is obsolete on SmartFusion2 devices.
+  88:../src/hal/CortexM3/cortex_nvic.c ****      *
+  89:../src/hal/CortexM3/cortex_nvic.c ****      * Please replace calls to NVIC_set_priority() with a call to the CMSIS
+  90:../src/hal/CortexM3/cortex_nvic.c ****      * void NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority) function where
+  91:../src/hal/CortexM3/cortex_nvic.c ****      * IRQn is one of the following values:
+  92:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq0_IRQn
+  93:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq1_IRQn
+  94:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq2_IRQn
+  95:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq3_IRQn
+  96:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq4_IRQn
+  97:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq5_IRQn
+  98:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq6_IRQn
+  99:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq7_IRQn
+ 100:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq8_IRQn
+ 101:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq9_IRQn
+ 102:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq10_IRQn
+ 103:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq11_IRQn
+ 104:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq12_IRQn
+ 105:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq13_IRQn
+ 106:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq14_IRQn
+ 107:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq15_IRQn
+ 108:../src/hal/CortexM3/cortex_nvic.c ****      */
+ 109:../src/hal/CortexM3/cortex_nvic.c ****     ASSERT(0);
+  80              		.loc 1 109 0
+  81              	@ 109 "../src/hal/CortexM3/cortex_nvic.c" 1
+  82 0000 00BE     		BKPT
+  83              		
+  84              	@ 0 "" 2
+  85              		.thumb
+  86 0002 7047     		bx	lr
+  87              		.cfi_endproc
+  88              	.LFE2:
+  90              		.section	.text.NVIC_enable_interrupt,"ax",%progbits
+  91              		.align	1
+  92              		.global	NVIC_enable_interrupt
+  93              		.thumb
+  94              		.thumb_func
+  96              	NVIC_enable_interrupt:
+  97              	.LFB3:
+ 110:../src/hal/CortexM3/cortex_nvic.c **** }
+ 111:../src/hal/CortexM3/cortex_nvic.c **** 
+ 112:../src/hal/CortexM3/cortex_nvic.c **** /***************************************************************************//**
+ 113:../src/hal/CortexM3/cortex_nvic.c ****  * 
+ 114:../src/hal/CortexM3/cortex_nvic.c ****  */
+ 115:../src/hal/CortexM3/cortex_nvic.c **** void NVIC_enable_interrupt( uint32_t interrupt_number )
+ 116:../src/hal/CortexM3/cortex_nvic.c **** {
+  98              		.loc 1 116 0
+  99              		.cfi_startproc
+ 100              		@ args = 0, pretend = 0, frame = 0
+ 101              		@ frame_needed = 0, uses_anonymous_args = 0
+ 102              		@ link register save eliminated.
+ 103              	.LVL2:
+ 117:../src/hal/CortexM3/cortex_nvic.c ****     /*
+ 118:../src/hal/CortexM3/cortex_nvic.c ****      * Please use the NVIC control functions provided by the SmartFusion2 CMSIS
+ 119:../src/hal/CortexM3/cortex_nvic.c ****      * Hardware Abstraction Layer. The use of the Actel HAL NVIC control
+ 120:../src/hal/CortexM3/cortex_nvic.c ****      * functions is obsolete on SmartFusion2 devices.
+ 121:../src/hal/CortexM3/cortex_nvic.c ****      *
+ 122:../src/hal/CortexM3/cortex_nvic.c ****      * Please replace calls to NVIC_enable_interrupt() with a call to the CMSIS
+ 123:../src/hal/CortexM3/cortex_nvic.c ****      * void NVIC_EnableIRQ(IRQn_Type IRQn) function where IRQn is one of the
+ 124:../src/hal/CortexM3/cortex_nvic.c ****      * following values:
+ 125:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq0_IRQn
+ 126:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq1_IRQn
+ 127:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq2_IRQn
+ 128:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq3_IRQn
+ 129:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq4_IRQn
+ 130:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq5_IRQn
+ 131:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq6_IRQn
+ 132:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq7_IRQn
+ 133:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq8_IRQn
+ 134:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq9_IRQn
+ 135:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq10_IRQn
+ 136:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq11_IRQn
+ 137:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq12_IRQn
+ 138:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq13_IRQn
+ 139:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq14_IRQn
+ 140:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq15_IRQn
+ 141:../src/hal/CortexM3/cortex_nvic.c ****      */
+ 142:../src/hal/CortexM3/cortex_nvic.c ****     ASSERT(0);
+ 104              		.loc 1 142 0
+ 105              	@ 142 "../src/hal/CortexM3/cortex_nvic.c" 1
+ 106 0000 00BE     		BKPT
+ 107              		
+ 108              	@ 0 "" 2
+ 109              		.thumb
+ 110 0002 7047     		bx	lr
+ 111              		.cfi_endproc
+ 112              	.LFE3:
+ 114              		.section	.text.NVIC_disable_interrupt,"ax",%progbits
+ 115              		.align	1
+ 116              		.global	NVIC_disable_interrupt
+ 117              		.thumb
+ 118              		.thumb_func
+ 120              	NVIC_disable_interrupt:
+ 121              	.LFB4:
+ 143:../src/hal/CortexM3/cortex_nvic.c **** }
+ 144:../src/hal/CortexM3/cortex_nvic.c **** 
+ 145:../src/hal/CortexM3/cortex_nvic.c **** /***************************************************************************//**
+ 146:../src/hal/CortexM3/cortex_nvic.c ****  * 
+ 147:../src/hal/CortexM3/cortex_nvic.c ****  */
+ 148:../src/hal/CortexM3/cortex_nvic.c **** void NVIC_disable_interrupt( uint32_t interrupt_number )
+ 149:../src/hal/CortexM3/cortex_nvic.c **** {
+ 122              		.loc 1 149 0
+ 123              		.cfi_startproc
+ 124              		@ args = 0, pretend = 0, frame = 0
+ 125              		@ frame_needed = 0, uses_anonymous_args = 0
+ 126              		@ link register save eliminated.
+ 127              	.LVL3:
+ 150:../src/hal/CortexM3/cortex_nvic.c ****     /*
+ 151:../src/hal/CortexM3/cortex_nvic.c ****      * Please use the NVIC control functions provided by the SmartFusion2 CMSIS
+ 152:../src/hal/CortexM3/cortex_nvic.c ****      * Hardware Abstraction Layer. The use of the Actel HAL NVIC control
+ 153:../src/hal/CortexM3/cortex_nvic.c ****      * functions is obsolete on SmartFusion2 devices.
+ 154:../src/hal/CortexM3/cortex_nvic.c ****      *
+ 155:../src/hal/CortexM3/cortex_nvic.c ****      * Please replace calls to NVIC_disable_interrupt() with a call to the CMSIS
+ 156:../src/hal/CortexM3/cortex_nvic.c ****      * void NVIC_DisableIRQ(IRQn_Type IRQn) function where IRQn is one of the
+ 157:../src/hal/CortexM3/cortex_nvic.c ****      * following values:
+ 158:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq0_IRQn
+ 159:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq1_IRQn
+ 160:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq2_IRQn
+ 161:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq3_IRQn
+ 162:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq4_IRQn
+ 163:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq5_IRQn
+ 164:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq6_IRQn
+ 165:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq7_IRQn
+ 166:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq8_IRQn
+ 167:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq9_IRQn
+ 168:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq10_IRQn
+ 169:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq11_IRQn
+ 170:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq12_IRQn
+ 171:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq13_IRQn
+ 172:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq14_IRQn
+ 173:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq15_IRQn
+ 174:../src/hal/CortexM3/cortex_nvic.c ****      */
+ 175:../src/hal/CortexM3/cortex_nvic.c ****     ASSERT(0);
+ 128              		.loc 1 175 0
+ 129              	@ 175 "../src/hal/CortexM3/cortex_nvic.c" 1
+ 130 0000 00BE     		BKPT
+ 131              		
+ 132              	@ 0 "" 2
+ 133              		.thumb
+ 134 0002 7047     		bx	lr
+ 135              		.cfi_endproc
+ 136              	.LFE4:
+ 138              		.section	.text.NVIC_clear_interrupt,"ax",%progbits
+ 139              		.align	1
+ 140              		.global	NVIC_clear_interrupt
+ 141              		.thumb
+ 142              		.thumb_func
+ 144              	NVIC_clear_interrupt:
+ 145              	.LFB5:
+ 176:../src/hal/CortexM3/cortex_nvic.c **** }
+ 177:../src/hal/CortexM3/cortex_nvic.c **** 
+ 178:../src/hal/CortexM3/cortex_nvic.c **** /***************************************************************************//**
+ 179:../src/hal/CortexM3/cortex_nvic.c ****  * 
+ 180:../src/hal/CortexM3/cortex_nvic.c ****  */
+ 181:../src/hal/CortexM3/cortex_nvic.c **** void NVIC_clear_interrupt( uint32_t interrupt_number )
+ 182:../src/hal/CortexM3/cortex_nvic.c **** {
+ 146              		.loc 1 182 0
+ 147              		.cfi_startproc
+ 148              		@ args = 0, pretend = 0, frame = 0
+ 149              		@ frame_needed = 0, uses_anonymous_args = 0
+ 150              		@ link register save eliminated.
+ 151              	.LVL4:
+ 183:../src/hal/CortexM3/cortex_nvic.c ****     /*
+ 184:../src/hal/CortexM3/cortex_nvic.c ****      * Please use the NVIC control functions provided by the SmartFusion2 CMSIS
+ 185:../src/hal/CortexM3/cortex_nvic.c ****      * Hardware Abstraction Layer. The use of the Actel HAL NVIC control
+ 186:../src/hal/CortexM3/cortex_nvic.c ****      * functions is obsolete on SmartFusion2 devices.
+ 187:../src/hal/CortexM3/cortex_nvic.c ****      *
+ 188:../src/hal/CortexM3/cortex_nvic.c ****      * Please replace calls to NVIC_clear_interrupt() with a call to the CMSIS
+ 189:../src/hal/CortexM3/cortex_nvic.c ****      * void NVIC_ClearPendingIRQ(IRQn_Type IRQn) function where IRQn is one of the
+ 190:../src/hal/CortexM3/cortex_nvic.c ****      * following values:
+ 191:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq0_IRQn
+ 192:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq1_IRQn
+ 193:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq2_IRQn
+ 194:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq3_IRQn
+ 195:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq4_IRQn
+ 196:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq5_IRQn
+ 197:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq6_IRQn
+ 198:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq7_IRQn
+ 199:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq8_IRQn
+ 200:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq9_IRQn
+ 201:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq10_IRQn
+ 202:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq11_IRQn
+ 203:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq12_IRQn
+ 204:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq13_IRQn
+ 205:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq14_IRQn
+ 206:../src/hal/CortexM3/cortex_nvic.c ****      *      - FabricIrq15_IRQn
+ 207:../src/hal/CortexM3/cortex_nvic.c ****      */
+ 208:../src/hal/CortexM3/cortex_nvic.c ****     ASSERT(0);
+ 152              		.loc 1 208 0
+ 153              	@ 208 "../src/hal/CortexM3/cortex_nvic.c" 1
+ 154 0000 00BE     		BKPT
+ 155              		
+ 156              	@ 0 "" 2
+ 157              		.thumb
+ 158 0002 7047     		bx	lr
+ 159              		.cfi_endproc
+ 160              	.LFE5:
+ 162              		.text
+ 163              	.Letext0:
+ 164              		.file 2 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\machine\\_def
+ 165              		.file 3 "c:\\microsemi\\softconsole_v4.0\\arm-none-eabi-gcc\\arm-none-eabi\\include\\sys\\_stdint.
+ 166              		.file 4 "../src/hal/CortexM3/cortex_nvic.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 cortex_nvic.c
+C:\Users\jiryu\AppData\Local\Temp\ccEpNdmu.s:19     .text.NVIC_init:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccEpNdmu.s:24     .text.NVIC_init:00000000 NVIC_init
+C:\Users\jiryu\AppData\Local\Temp\ccEpNdmu.s:43     .text.NVIC_set_handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccEpNdmu.s:48     .text.NVIC_set_handler:00000000 NVIC_set_handler
+C:\Users\jiryu\AppData\Local\Temp\ccEpNdmu.s:67     .text.NVIC_set_priority:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccEpNdmu.s:72     .text.NVIC_set_priority:00000000 NVIC_set_priority
+C:\Users\jiryu\AppData\Local\Temp\ccEpNdmu.s:91     .text.NVIC_enable_interrupt:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccEpNdmu.s:96     .text.NVIC_enable_interrupt:00000000 NVIC_enable_interrupt
+C:\Users\jiryu\AppData\Local\Temp\ccEpNdmu.s:115    .text.NVIC_disable_interrupt:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccEpNdmu.s:120    .text.NVIC_disable_interrupt:00000000 NVIC_disable_interrupt
+C:\Users\jiryu\AppData\Local\Temp\ccEpNdmu.s:139    .text.NVIC_clear_interrupt:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccEpNdmu.s:144    .text.NVIC_clear_interrupt:00000000 NVIC_clear_interrupt
+                     .debug_frame:00000010 $d
+                           .group:00000000 wm4.0.dc60c94ad21b0a47fa3b55ee8062ac89
+                           .group:00000000 wm4.features.h.22.2e382148a0560adabf236cddd4e880f4
+                           .group:00000000 wm4._default_types.h.15.933e8edd27a65e0b69af4a865eb623d2
+                           .group:00000000 wm4._intsup.h.10.b2832a532eae49c14d45880be6d4ca65
+                           .group:00000000 wm4._stdint.h.10.f76354baea1c7088202064e6f3d4f5e3
+                           .group:00000000 wm4.stdint.h.23.373a9d32a9e4c2e88fd347156532d281
+                           .group:00000000 wm4.newlib.h.8.2702bca278809460f0af6fba1d84eb68
+                           .group:00000000 wm4.config.h.220.a09b0b0de3c25be3f39d71990e617bff
+                           .group:00000000 wm4._ansi.h.23.9f8fcfa20193763fcf364fb91705c94b
+                           .group:00000000 wm4.assert.h.11.db24e541f16414db224bf986d21017e2
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,2431 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"mss_uart.c"
+  15              		.section	.text.global_init,"ax",%progbits
+  16              		.align	2
+  17              		.thumb
+  18              		.thumb_func
+  20              	global_init:
+  21              		@ args = 0, pretend = 0, frame = 8
+  22              		@ frame_needed = 0, uses_anonymous_args = 0
+  23 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  24 0004 DFF854E2 		ldr	lr, .L17+24
+  25 0008 83B0     		sub	sp, sp, #12
+  26 000a 7045     		cmp	r0, lr
+  27 000c 0446     		mov	r4, r0
+  28 000e 9046     		mov	r8, r2
+  29 0010 00F0D180 		beq	.L15
+  30 0014 8B48     		ldr	r0, .L17
+  31 0016 8C4B     		ldr	r3, .L17+4
+  32 0018 0546     		mov	r5, r0
+  33 001a 9A6C     		ldr	r2, [r3, #72]
+  34 001c 8B4E     		ldr	r6, .L17+8
+  35 001e 42F48072 		orr	r2, r2, #256
+  36 0022 4FF00B0C 		mov	ip, #11
+  37 0026 4FF40067 		mov	r7, #2048
+  38 002a 2060     		str	r0, [r4]
+  39 002c 84F804C0 		strb	ip, [r4, #4]
+  40 0030 9A64     		str	r2, [r3, #72]
+  41 0032 C6F88071 		str	r7, [r6, #384]
+  42 0036 9A6C     		ldr	r2, [r3, #72]
+  43 0038 22F48072 		bic	r2, r2, #256
+  44 003c 9A64     		str	r2, [r3, #72]
+  45              	.L3:
+  46 003e 0023     		movs	r3, #0
+  47 0040 2B71     		strb	r3, [r5, #4]
+  48 0042 2268     		ldr	r2, [r4]
+  49 0044 4FF0010C 		mov	ip, #1
+  50 0048 1372     		strb	r3, [r2, #8]
+  51 004a 2268     		ldr	r2, [r4]
+  52 004c 7445     		cmp	r4, lr
+  53 004e 02F10800 		add	r0, r2, #8
+  54 0052 02F11005 		add	r5, r2, #16
+  55 0056 02F13409 		add	r9, r2, #52
+  56 005a C0F3130A 		ubfx	r10, r0, #0, #20
+  57 005e 00F07040 		and	r0, r0, #-268435456
+  58 0062 02F13807 		add	r7, r2, #56
+  59 0066 02F13006 		add	r6, r2, #48
+  60 006a C5F3130B 		ubfx	fp, r5, #0, #20
+  61 006e 00EB4A10 		add	r0, r0, r10, lsl #5
+  62 0072 05F07045 		and	r5, r5, #-268435456
+  63 0076 C9F3130A 		ubfx	r10, r9, #0, #20
+  64 007a 09F07049 		and	r9, r9, #-268435456
+  65 007e 05EB4B15 		add	r5, r5, fp, lsl #5
+  66 0082 09EB4A19 		add	r9, r9, r10, lsl #5
+  67 0086 C7F3130B 		ubfx	fp, r7, #0, #20
+  68 008a C6F3130A 		ubfx	r10, r6, #0, #20
+  69 008e 07F07047 		and	r7, r7, #-268435456
+  70 0092 06F07046 		and	r6, r6, #-268435456
+  71 0096 07EB4B17 		add	r7, r7, fp, lsl #5
+  72 009a 06EB4A16 		add	r6, r6, r10, lsl #5
+  73 009e 00F10070 		add	r0, r0, #33554432
+  74 00a2 06F10076 		add	r6, r6, #33554432
+  75 00a6 05F10075 		add	r5, r5, #33554432
+  76 00aa 09F10079 		add	r9, r9, #33554432
+  77 00ae 07F10077 		add	r7, r7, #33554432
+  78 00b2 C0F804C0 		str	ip, [r0, #4]
+  79 00b6 C0F808C0 		str	ip, [r0, #8]
+  80 00ba C0F800C0 		str	ip, [r0]
+  81 00be 2B61     		str	r3, [r5, #16]
+  82 00c0 6B61     		str	r3, [r5, #20]
+  83 00c2 C9F80430 		str	r3, [r9, #4]
+  84 00c6 C9F80030 		str	r3, [r9]
+  85 00ca 7B60     		str	r3, [r7, #4]
+  86 00cc 7361     		str	r3, [r6, #20]
+  87 00ce B361     		str	r3, [r6, #24]
+  88 00d0 F361     		str	r3, [r6, #28]
+  89 00d2 FB60     		str	r3, [r7, #12]
+  90 00d4 82F84430 		strb	r3, [r2, #68]
+  91 00d8 2268     		ldr	r2, [r4]
+  92 00da 82F84830 		strb	r3, [r2, #72]
+  93 00de 2268     		ldr	r2, [r4]
+  94 00e0 82F84C30 		strb	r3, [r2, #76]
+  95 00e4 7CD0     		beq	.L4
+  96 00e6 5A4B     		ldr	r3, .L17+12
+  97 00e8 9C42     		cmp	r4, r3
+  98 00ea 16D0     		beq	.L16
+  99              	.L13:
+ 100 00ec 2268     		ldr	r2, [r4]
+ 101              	.L6:
+ 102 00ee 0023     		movs	r3, #0
+ 103 00f0 82F80C80 		strb	r8, [r2, #12]
+ 104 00f4 A160     		str	r1, [r4, #8]
+ 105 00f6 84F80C80 		strb	r8, [r4, #12]
+ 106 00fa 6361     		str	r3, [r4, #20]
+ 107 00fc 2361     		str	r3, [r4, #16]
+ 108 00fe A361     		str	r3, [r4, #24]
+ 109 0100 2362     		str	r3, [r4, #32]
+ 110 0102 6362     		str	r3, [r4, #36]
+ 111 0104 E361     		str	r3, [r4, #28]
+ 112 0106 A362     		str	r3, [r4, #40]
+ 113 0108 E362     		str	r3, [r4, #44]
+ 114 010a 2363     		str	r3, [r4, #48]
+ 115 010c 6363     		str	r3, [r4, #52]
+ 116 010e A363     		str	r3, [r4, #56]
+ 117 0110 E363     		str	r3, [r4, #60]
+ 118 0112 6373     		strb	r3, [r4, #13]
+ 119 0114 03B0     		add	sp, sp, #12
+ 120              		@ sp needed
+ 121 0116 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 122              	.L16:
+ 123 011a A160     		str	r1, [r4, #8]
+ 124 011c 0191     		str	r1, [sp, #4]
+ 125 011e FFF7FEFF 		bl	SystemCoreClockUpdate
+ 126 0122 4C4B     		ldr	r3, .L17+16
+ 127 0124 0199     		ldr	r1, [sp, #4]
+ 128 0126 1B68     		ldr	r3, [r3]
+ 129              	.L9:
+ 130 0128 DB00     		lsls	r3, r3, #3
+ 131 012a B3FBF1F3 		udiv	r3, r3, r1
+ 132 012e DA09     		lsrs	r2, r3, #7
+ 133 0130 B2F5803F 		cmp	r2, #65536
+ 134 0134 4FEA5305 		lsr	r5, r3, #1
+ 135 0138 D8D2     		bcs	.L13
+ 136 013a 012A     		cmp	r2, #1
+ 137 013c 58D9     		bls	.L8
+ 138 013e D4F800E0 		ldr	lr, [r4]
+ 139 0142 C3F3C73C 		ubfx	ip, r3, #15, #8
+ 140 0146 0EF10C00 		add	r0, lr, #12
+ 141 014a 00F07046 		and	r6, r0, #-268435456
+ 142 014e 06F10076 		add	r6, r6, #33554432
+ 143 0152 C0F31300 		ubfx	r0, r0, #0, #20
+ 144 0156 0127     		movs	r7, #1
+ 145 0158 1C36     		adds	r6, r6, #28
+ 146 015a 4001     		lsls	r0, r0, #5
+ 147 015c 3750     		str	r7, [r6, r0]
+ 148 015e 8EF804C0 		strb	ip, [lr, #4]
+ 149 0162 2068     		ldr	r0, [r4]
+ 150 0164 D6B2     		uxtb	r6, r2
+ 151 0166 0670     		strb	r6, [r0]
+ 152 0168 2668     		ldr	r6, [r4]
+ 153 016a A5EB821E 		sub	lr, r5, r2, lsl #6
+ 154 016e AEEBC212 		sub	r2, lr, r2, lsl #7
+ 155 0172 06F10C05 		add	r5, r6, #12
+ 156 0176 06F13000 		add	r0, r6, #48
+ 157 017a 00F0704C 		and	ip, r0, #-268435456
+ 158 017e 1344     		add	r3, r3, r2
+ 159 0180 05F07042 		and	r2, r5, #-268435456
+ 160 0184 A3EB4E03 		sub	r3, r3, lr, lsl #1
+ 161 0188 02F10072 		add	r2, r2, #33554432
+ 162 018c 0CF1007E 		add	lr, ip, #33554432
+ 163 0190 C5F31305 		ubfx	r5, r5, #0, #20
+ 164 0194 C0F31300 		ubfx	r0, r0, #0, #20
+ 165 0198 DBB2     		uxtb	r3, r3
+ 166 019a 1C32     		adds	r2, r2, #28
+ 167 019c 6D01     		lsls	r5, r5, #5
+ 168 019e 4FF0000C 		mov	ip, #0
+ 169 01a2 0EF11C0E 		add	lr, lr, #28
+ 170 01a6 4001     		lsls	r0, r0, #5
+ 171 01a8 42F805C0 		str	ip, [r2, r5]
+ 172 01ac 4EF80070 		str	r7, [lr, r0]
+ 173 01b0 86F83C30 		strb	r3, [r6, #60]
+ 174 01b4 9AE7     		b	.L13
+ 175              	.L15:
+ 176 01b6 244B     		ldr	r3, .L17+4
+ 177 01b8 2448     		ldr	r0, .L17+8
+ 178 01ba 9A6C     		ldr	r2, [r3, #72]
+ 179 01bc 4FF48065 		mov	r5, #1024
+ 180 01c0 42F08002 		orr	r2, r2, #128
+ 181 01c4 4FF08047 		mov	r7, #1073741824
+ 182 01c8 0A26     		movs	r6, #10
+ 183 01ca 2760     		str	r7, [r4]
+ 184 01cc 2671     		strb	r6, [r4, #4]
+ 185 01ce 9A64     		str	r2, [r3, #72]
+ 186 01d0 C0F88051 		str	r5, [r0, #384]
+ 187 01d4 9A6C     		ldr	r2, [r3, #72]
+ 188 01d6 2568     		ldr	r5, [r4]
+ 189 01d8 22F08002 		bic	r2, r2, #128
+ 190 01dc 9A64     		str	r2, [r3, #72]
+ 191 01de 2EE7     		b	.L3
+ 192              	.L4:
+ 193 01e0 A160     		str	r1, [r4, #8]
+ 194 01e2 0191     		str	r1, [sp, #4]
+ 195 01e4 FFF7FEFF 		bl	SystemCoreClockUpdate
+ 196 01e8 1B4B     		ldr	r3, .L17+20
+ 197 01ea 0199     		ldr	r1, [sp, #4]
+ 198 01ec 1B68     		ldr	r3, [r3]
+ 199 01ee 9BE7     		b	.L9
+ 200              	.L8:
+ 201 01f0 2668     		ldr	r6, [r4]
+ 202 01f2 0025     		movs	r5, #0
+ 203 01f4 06F10C03 		add	r3, r6, #12
+ 204 01f8 03F07040 		and	r0, r3, #-268435456
+ 205 01fc 00F10070 		add	r0, r0, #33554432
+ 206 0200 C3F31303 		ubfx	r3, r3, #0, #20
+ 207 0204 0127     		movs	r7, #1
+ 208 0206 1C30     		adds	r0, r0, #28
+ 209 0208 5B01     		lsls	r3, r3, #5
+ 210 020a C750     		str	r7, [r0, r3]
+ 211 020c 3571     		strb	r5, [r6, #4]
+ 212 020e 2368     		ldr	r3, [r4]
+ 213 0210 D2B2     		uxtb	r2, r2
+ 214 0212 1A70     		strb	r2, [r3]
+ 215 0214 2268     		ldr	r2, [r4]
+ 216 0216 02F10C00 		add	r0, r2, #12
+ 217 021a 02F13003 		add	r3, r2, #48
+ 218 021e 00F07047 		and	r7, r0, #-268435456
+ 219 0222 03F07046 		and	r6, r3, #-268435456
+ 220 0226 07F10077 		add	r7, r7, #33554432
+ 221 022a C0F31300 		ubfx	r0, r0, #0, #20
+ 222 022e 06F10076 		add	r6, r6, #33554432
+ 223 0232 C3F31303 		ubfx	r3, r3, #0, #20
+ 224 0236 1C37     		adds	r7, r7, #28
+ 225 0238 4001     		lsls	r0, r0, #5
+ 226 023a 1C36     		adds	r6, r6, #28
+ 227 023c 5B01     		lsls	r3, r3, #5
+ 228 023e 3D50     		str	r5, [r7, r0]
+ 229 0240 F550     		str	r5, [r6, r3]
+ 230 0242 54E7     		b	.L6
+ 231              	.L18:
+ 232              		.align	2
+ 233              	.L17:
+ 234 0244 00000140 		.word	1073807360
+ 235 0248 00800340 		.word	1073971200
+ 236 024c 00E100E0 		.word	-536813312
+ 237 0250 00000000 		.word	g_mss_uart1
+ 238 0254 00000000 		.word	g_FrequencyPCLK1
+ 239 0258 00000000 		.word	g_FrequencyPCLK0
+ 240 025c 00000000 		.word	g_mss_uart0
+ 242              		.section	.text.MSS_UART_isr.part.0,"ax",%progbits
+ 243              		.align	2
+ 244              		.thumb
+ 245              		.thumb_func
+ 247              	MSS_UART_isr.part.0:
+ 248              		@ args = 0, pretend = 0, frame = 0
+ 249              		@ frame_needed = 0, uses_anonymous_args = 0
+ 250 0000 0268     		ldr	r2, [r0]
+ 251 0002 137A     		ldrb	r3, [r2, #8]	@ zero_extendqisi2
+ 252 0004 03F00F03 		and	r3, r3, #15
+ 253 0008 0C2B     		cmp	r3, #12
+ 254 000a 0AD8     		bhi	.L73
+ 255 000c DFE803F0 		tbb	[pc, r3]
+ 256              	.L22:
+ 257 0010 07       		.byte	(.L21-.L22)/2
+ 258 0011 09       		.byte	(.L73-.L22)/2
+ 259 0012 0E       		.byte	(.L23-.L22)/2
+ 260 0013 12       		.byte	(.L24-.L22)/2
+ 261 0014 6D       		.byte	(.L25-.L22)/2
+ 262 0015 09       		.byte	(.L73-.L22)/2
+ 263 0016 0A       		.byte	(.L26-.L22)/2
+ 264 0017 09       		.byte	(.L73-.L22)/2
+ 265 0018 09       		.byte	(.L73-.L22)/2
+ 266 0019 09       		.byte	(.L73-.L22)/2
+ 267 001a 09       		.byte	(.L73-.L22)/2
+ 268 001b 09       		.byte	(.L73-.L22)/2
+ 269 001c 6D       		.byte	(.L25-.L22)/2
+ 270 001d 00       		.p2align 1
+ 271              	.L21:
+ 272 001e 836A     		ldr	r3, [r0, #40]
+ 273 0020 1BB9     		cbnz	r3, .L74
+ 274              	.L73:
+ 275 0022 7047     		bx	lr
+ 276              	.L26:
+ 277 0024 C369     		ldr	r3, [r0, #28]
+ 278 0026 002B     		cmp	r3, #0
+ 279 0028 FBD0     		beq	.L73
+ 280              	.L74:
+ 281 002a 1847     		bx	r3	@ indirect register sibling call
+ 282              	.L23:
+ 283 002c 436A     		ldr	r3, [r0, #36]
+ 284 002e 002B     		cmp	r3, #0
+ 285 0030 F7D0     		beq	.L73
+ 286 0032 1847     		bx	r3	@ indirect register sibling call
+ 287              	.L24:
+ 288 0034 2832     		adds	r2, r2, #40
+ 289 0036 02F07043 		and	r3, r2, #-268435456
+ 290 003a C2F31302 		ubfx	r2, r2, #0, #20
+ 291 003e 5201     		lsls	r2, r2, #5
+ 292 0040 03F10071 		add	r1, r3, #33554432
+ 293 0044 8958     		ldr	r1, [r1, r2]
+ 294 0046 10B5     		push	{r4, lr}
+ 295 0048 11F0FF0F 		tst	r1, #255
+ 296 004c 0446     		mov	r4, r0
+ 297 004e 09D0     		beq	.L29
+ 298 0050 C16A     		ldr	r1, [r0, #44]
+ 299 0052 39B1     		cbz	r1, .L29
+ 300 0054 8847     		blx	r1
+ 301 0056 2368     		ldr	r3, [r4]
+ 302 0058 2833     		adds	r3, r3, #40
+ 303 005a C3F31302 		ubfx	r2, r3, #0, #20
+ 304 005e 5201     		lsls	r2, r2, #5
+ 305 0060 03F07043 		and	r3, r3, #-268435456
+ 306              	.L29:
+ 307 0064 1A44     		add	r2, r2, r3
+ 308 0066 02F10073 		add	r3, r2, #33554432
+ 309 006a 5B68     		ldr	r3, [r3, #4]
+ 310 006c 13F0FF0F 		tst	r3, #255
+ 311 0070 0BD0     		beq	.L30
+ 312 0072 236B     		ldr	r3, [r4, #48]
+ 313 0074 4BB1     		cbz	r3, .L30
+ 314 0076 2046     		mov	r0, r4
+ 315 0078 9847     		blx	r3
+ 316 007a 2268     		ldr	r2, [r4]
+ 317 007c 2832     		adds	r2, r2, #40
+ 318 007e 02F07043 		and	r3, r2, #-268435456
+ 319 0082 C2F31302 		ubfx	r2, r2, #0, #20
+ 320 0086 03EB4212 		add	r2, r3, r2, lsl #5
+ 321              	.L30:
+ 322 008a 02F10073 		add	r3, r2, #33554432
+ 323 008e 9B68     		ldr	r3, [r3, #8]
+ 324 0090 13F0FF0F 		tst	r3, #255
+ 325 0094 0BD0     		beq	.L31
+ 326 0096 636B     		ldr	r3, [r4, #52]
+ 327 0098 4BB1     		cbz	r3, .L31
+ 328 009a 2046     		mov	r0, r4
+ 329 009c 9847     		blx	r3
+ 330 009e 2268     		ldr	r2, [r4]
+ 331 00a0 2832     		adds	r2, r2, #40
+ 332 00a2 02F07043 		and	r3, r2, #-268435456
+ 333 00a6 C2F31302 		ubfx	r2, r2, #0, #20
+ 334 00aa 03EB4212 		add	r2, r3, r2, lsl #5
+ 335              	.L31:
+ 336 00ae 02F10073 		add	r3, r2, #33554432
+ 337 00b2 DB68     		ldr	r3, [r3, #12]
+ 338 00b4 13F0FF0F 		tst	r3, #255
+ 339 00b8 0BD0     		beq	.L32
+ 340 00ba A36B     		ldr	r3, [r4, #56]
+ 341 00bc 4BB1     		cbz	r3, .L32
+ 342 00be 2046     		mov	r0, r4
+ 343 00c0 9847     		blx	r3
+ 344 00c2 2268     		ldr	r2, [r4]
+ 345 00c4 2832     		adds	r2, r2, #40
+ 346 00c6 02F07043 		and	r3, r2, #-268435456
+ 347 00ca C2F31302 		ubfx	r2, r2, #0, #20
+ 348 00ce 03EB4212 		add	r2, r3, r2, lsl #5
+ 349              	.L32:
+ 350 00d2 02F10072 		add	r2, r2, #33554432
+ 351 00d6 1369     		ldr	r3, [r2, #16]
+ 352 00d8 13F0FF0F 		tst	r3, #255
+ 353 00dc 09D0     		beq	.L19
+ 354 00de E36B     		ldr	r3, [r4, #60]
+ 355 00e0 3BB1     		cbz	r3, .L19
+ 356 00e2 2046     		mov	r0, r4
+ 357 00e4 BDE81040 		pop	{r4, lr}
+ 358 00e8 9FE7     		b	.L74
+ 359              	.L25:
+ 360 00ea 036A     		ldr	r3, [r0, #32]
+ 361 00ec 002B     		cmp	r3, #0
+ 362 00ee 98D0     		beq	.L73
+ 363 00f0 1847     		bx	r3	@ indirect register sibling call
+ 364              	.L19:
+ 365 00f2 10BD     		pop	{r4, pc}
+ 367              		.section	.text.default_tx_handler,"ax",%progbits
+ 368              		.align	2
+ 369              		.thumb
+ 370              		.thumb_func
+ 372              	default_tx_handler:
+ 373              		@ args = 0, pretend = 0, frame = 0
+ 374              		@ frame_needed = 0, uses_anonymous_args = 0
+ 375              		@ link register save eliminated.
+ 376 0000 1E4B     		ldr	r3, .L102
+ 377 0002 9842     		cmp	r0, r3
+ 378 0004 03D0     		beq	.L78
+ 379 0006 1E4B     		ldr	r3, .L102+4
+ 380 0008 9842     		cmp	r0, r3
+ 381 000a 00D0     		beq	.L78
+ 382              	.L99:
+ 383 000c 7047     		bx	lr
+ 384              	.L78:
+ 385 000e 0169     		ldr	r1, [r0, #16]
+ 386 0010 0029     		cmp	r1, #0
+ 387 0012 FBD0     		beq	.L99
+ 388 0014 4269     		ldr	r2, [r0, #20]
+ 389 0016 002A     		cmp	r2, #0
+ 390 0018 F8D0     		beq	.L99
+ 391 001a 30B4     		push	{r4, r5}
+ 392 001c 0468     		ldr	r4, [r0]
+ 393 001e 457B     		ldrb	r5, [r0, #13]	@ zero_extendqisi2
+ 394 0020 237D     		ldrb	r3, [r4, #20]	@ zero_extendqisi2
+ 395 0022 DBB2     		uxtb	r3, r3
+ 396 0024 1D43     		orrs	r5, r5, r3
+ 397 0026 13F0200F 		tst	r3, #32
+ 398 002a 4573     		strb	r5, [r0, #13]
+ 399 002c 8369     		ldr	r3, [r0, #24]
+ 400 002e 11D0     		beq	.L82
+ 401 0030 D51A     		subs	r5, r2, r3
+ 402 0032 0F2D     		cmp	r5, #15
+ 403 0034 1FD9     		bls	.L100
+ 404 0036 1025     		movs	r5, #16
+ 405              	.L83:
+ 406 0038 0022     		movs	r2, #0
+ 407 003a 01E0     		b	.L85
+ 408              	.L101:
+ 409 003c 0468     		ldr	r4, [r0]
+ 410 003e 0169     		ldr	r1, [r0, #16]
+ 411              	.L85:
+ 412 0040 CB5C     		ldrb	r3, [r1, r3]	@ zero_extendqisi2
+ 413 0042 0132     		adds	r2, r2, #1
+ 414 0044 2370     		strb	r3, [r4]
+ 415 0046 8369     		ldr	r3, [r0, #24]
+ 416 0048 AA42     		cmp	r2, r5
+ 417 004a 03F10103 		add	r3, r3, #1
+ 418 004e 8361     		str	r3, [r0, #24]
+ 419 0050 F4D3     		bcc	.L101
+ 420 0052 4269     		ldr	r2, [r0, #20]
+ 421              	.L82:
+ 422 0054 9A42     		cmp	r2, r3
+ 423 0056 0CD1     		bne	.L77
+ 424 0058 0368     		ldr	r3, [r0]
+ 425 005a 0021     		movs	r1, #0
+ 426 005c 0433     		adds	r3, r3, #4
+ 427 005e 03F07042 		and	r2, r3, #-268435456
+ 428 0062 02F10072 		add	r2, r2, #33554432
+ 429 0066 C3F31303 		ubfx	r3, r3, #0, #20
+ 430 006a 0432     		adds	r2, r2, #4
+ 431 006c 5B01     		lsls	r3, r3, #5
+ 432 006e 4161     		str	r1, [r0, #20]
+ 433 0070 D150     		str	r1, [r2, r3]
+ 434              	.L77:
+ 435 0072 30BC     		pop	{r4, r5}
+ 436 0074 7047     		bx	lr
+ 437              	.L100:
+ 438 0076 002D     		cmp	r5, #0
+ 439 0078 DED1     		bne	.L83
+ 440 007a EBE7     		b	.L82
+ 441              	.L103:
+ 442              		.align	2
+ 443              	.L102:
+ 444 007c 00000000 		.word	g_mss_uart0
+ 445 0080 00000000 		.word	g_mss_uart1
+ 447              		.section	.text.MSS_UART_init,"ax",%progbits
+ 448              		.align	2
+ 449              		.global	MSS_UART_init
+ 450              		.thumb
+ 451              		.thumb_func
+ 453              	MSS_UART_init:
+ 454              		@ args = 0, pretend = 0, frame = 0
+ 455              		@ frame_needed = 0, uses_anonymous_args = 0
+ 456 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 457 0002 0446     		mov	r4, r0
+ 458 0004 FFF7FEFF 		bl	global_init
+ 459 0008 2368     		ldr	r3, [r4]
+ 460 000a 134E     		ldr	r6, .L106
+ 461 000c 03F13001 		add	r1, r3, #48
+ 462 0010 03F13402 		add	r2, r3, #52
+ 463 0014 01F07045 		and	r5, r1, #-268435456
+ 464 0018 3833     		adds	r3, r3, #56
+ 465 001a 02F07040 		and	r0, r2, #-268435456
+ 466 001e 03F07047 		and	r7, r3, #-268435456
+ 467 0022 05F10075 		add	r5, r5, #33554432
+ 468 0026 C1F31301 		ubfx	r1, r1, #0, #20
+ 469 002a 00F10070 		add	r0, r0, #33554432
+ 470 002e C2F31302 		ubfx	r2, r2, #0, #20
+ 471 0032 C3F31303 		ubfx	r3, r3, #0, #20
+ 472 0036 4FF0000E 		mov	lr, #0
+ 473 003a 0C35     		adds	r5, r5, #12
+ 474 003c 4901     		lsls	r1, r1, #5
+ 475 003e 0830     		adds	r0, r0, #8
+ 476 0040 5201     		lsls	r2, r2, #5
+ 477 0042 07F10077 		add	r7, r7, #33554432
+ 478 0046 5B01     		lsls	r3, r3, #5
+ 479 0048 45F801E0 		str	lr, [r5, r1]
+ 480 004c 40F802E0 		str	lr, [r0, r2]
+ 481 0050 47F803E0 		str	lr, [r7, r3]
+ 482 0054 6662     		str	r6, [r4, #36]
+ 483 0056 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 484              	.L107:
+ 485              		.align	2
+ 486              	.L106:
+ 487 0058 00000000 		.word	default_tx_handler
+ 489              		.section	.text.MSS_UART_lin_init,"ax",%progbits
+ 490              		.align	2
+ 491              		.global	MSS_UART_lin_init
+ 492              		.thumb
+ 493              		.thumb_func
+ 495              	MSS_UART_lin_init:
+ 496              		@ args = 0, pretend = 0, frame = 0
+ 497              		@ frame_needed = 0, uses_anonymous_args = 0
+ 498 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 499 0002 0446     		mov	r4, r0
+ 500 0004 FFF7FEFF 		bl	global_init
+ 501 0008 2368     		ldr	r3, [r4]
+ 502 000a 0027     		movs	r7, #0
+ 503 000c 03F13001 		add	r1, r3, #48
+ 504 0010 03F13402 		add	r2, r3, #52
+ 505 0014 01F07044 		and	r4, r1, #-268435456
+ 506 0018 3833     		adds	r3, r3, #56
+ 507 001a 02F07040 		and	r0, r2, #-268435456
+ 508 001e 03F07046 		and	r6, r3, #-268435456
+ 509 0022 04F10074 		add	r4, r4, #33554432
+ 510 0026 C1F31301 		ubfx	r1, r1, #0, #20
+ 511 002a 00F10070 		add	r0, r0, #33554432
+ 512 002e C2F31302 		ubfx	r2, r2, #0, #20
+ 513 0032 C3F31303 		ubfx	r3, r3, #0, #20
+ 514 0036 0125     		movs	r5, #1
+ 515 0038 0C34     		adds	r4, r4, #12
+ 516 003a 4901     		lsls	r1, r1, #5
+ 517 003c 0830     		adds	r0, r0, #8
+ 518 003e 5201     		lsls	r2, r2, #5
+ 519 0040 06F10076 		add	r6, r6, #33554432
+ 520 0044 5B01     		lsls	r3, r3, #5
+ 521 0046 6550     		str	r5, [r4, r1]
+ 522 0048 8750     		str	r7, [r0, r2]
+ 523 004a F750     		str	r7, [r6, r3]
+ 524 004c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 526 004e 00BF     		.section	.text.MSS_UART_irda_init,"ax",%progbits
+ 527              		.align	2
+ 528              		.global	MSS_UART_irda_init
+ 529              		.thumb
+ 530              		.thumb_func
+ 532              	MSS_UART_irda_init:
+ 533              		@ args = 8, pretend = 0, frame = 0
+ 534              		@ frame_needed = 0, uses_anonymous_args = 0
+ 535 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 536 0002 0446     		mov	r4, r0
+ 537 0004 1E46     		mov	r6, r3
+ 538 0006 9DF81850 		ldrb	r5, [sp, #24]	@ zero_extendqisi2
+ 539 000a 9DF81C70 		ldrb	r7, [sp, #28]	@ zero_extendqisi2
+ 540 000e FFF7FEFF 		bl	global_init
+ 541 0012 2068     		ldr	r0, [r4]
+ 542 0014 4FF0000E 		mov	lr, #0
+ 543 0018 00F13004 		add	r4, r0, #48
+ 544 001c 00F13401 		add	r1, r0, #52
+ 545 0020 04F07043 		and	r3, r4, #-268435456
+ 546 0024 C1F31302 		ubfx	r2, r1, #0, #20
+ 547 0028 01F07041 		and	r1, r1, #-268435456
+ 548 002c 01EB4212 		add	r2, r1, r2, lsl #5
+ 549 0030 03F10073 		add	r3, r3, #33554432
+ 550 0034 C4F31304 		ubfx	r4, r4, #0, #20
+ 551 0038 0C33     		adds	r3, r3, #12
+ 552 003a 6401     		lsls	r4, r4, #5
+ 553 003c 02F10072 		add	r2, r2, #33554432
+ 554 0040 0121     		movs	r1, #1
+ 555 0042 43F804E0 		str	lr, [r3, r4]
+ 556 0046 9160     		str	r1, [r2, #8]
+ 557 0048 B6B9     		cbnz	r6, .L111
+ 558 004a D660     		str	r6, [r2, #12]
+ 559              	.L112:
+ 560 004c 75B9     		cbnz	r5, .L113
+ 561 004e 1561     		str	r5, [r2, #16]
+ 562 0050 87B1     		cbz	r7, .L118
+ 563              	.L115:
+ 564 0052 0123     		movs	r3, #1
+ 565 0054 5361     		str	r3, [r2, #20]
+ 566              	.L116:
+ 567 0056 3830     		adds	r0, r0, #56
+ 568 0058 00F07043 		and	r3, r0, #-268435456
+ 569 005c C0F31300 		ubfx	r0, r0, #0, #20
+ 570 0060 03F10073 		add	r3, r3, #33554432
+ 571 0064 4001     		lsls	r0, r0, #5
+ 572 0066 0022     		movs	r2, #0
+ 573 0068 1A50     		str	r2, [r3, r0]
+ 574 006a F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 575              	.L113:
+ 576 006c 0123     		movs	r3, #1
+ 577 006e 1361     		str	r3, [r2, #16]
+ 578 0070 002F     		cmp	r7, #0
+ 579 0072 EED1     		bne	.L115
+ 580              	.L118:
+ 581 0074 5761     		str	r7, [r2, #20]
+ 582 0076 EEE7     		b	.L116
+ 583              	.L111:
+ 584 0078 D160     		str	r1, [r2, #12]
+ 585 007a E7E7     		b	.L112
+ 587              		.section	.text.MSS_UART_smartcard_init,"ax",%progbits
+ 588              		.align	2
+ 589              		.global	MSS_UART_smartcard_init
+ 590              		.thumb
+ 591              		.thumb_func
+ 593              	MSS_UART_smartcard_init:
+ 594              		@ args = 0, pretend = 0, frame = 0
+ 595              		@ frame_needed = 0, uses_anonymous_args = 0
+ 596 0000 70B5     		push	{r4, r5, r6, lr}
+ 597 0002 0546     		mov	r5, r0
+ 598 0004 1446     		mov	r4, r2
+ 599 0006 FFF7FEFF 		bl	global_init
+ 600 000a 2B68     		ldr	r3, [r5]
+ 601 000c 04F00702 		and	r2, r4, #7
+ 602 0010 03F13000 		add	r0, r3, #48
+ 603 0014 03F13401 		add	r1, r3, #52
+ 604 0018 00F07045 		and	r5, r0, #-268435456
+ 605 001c 01F07044 		and	r4, r1, #-268435456
+ 606 0020 05F10075 		add	r5, r5, #33554432
+ 607 0024 C0F31300 		ubfx	r0, r0, #0, #20
+ 608 0028 04F10074 		add	r4, r4, #33554432
+ 609 002c C1F31301 		ubfx	r1, r1, #0, #20
+ 610 0030 0026     		movs	r6, #0
+ 611 0032 0C35     		adds	r5, r5, #12
+ 612 0034 4001     		lsls	r0, r0, #5
+ 613 0036 0834     		adds	r4, r4, #8
+ 614 0038 4901     		lsls	r1, r1, #5
+ 615 003a 072A     		cmp	r2, #7
+ 616 003c 2E50     		str	r6, [r5, r0]
+ 617 003e 6650     		str	r6, [r4, r1]
+ 618 0040 0BD1     		bne	.L119
+ 619 0042 3833     		adds	r3, r3, #56
+ 620 0044 C3F31302 		ubfx	r2, r3, #0, #20
+ 621 0048 03F07043 		and	r3, r3, #-268435456
+ 622 004c 03EB4213 		add	r3, r3, r2, lsl #5
+ 623 0050 03F10073 		add	r3, r3, #33554432
+ 624 0054 0122     		movs	r2, #1
+ 625 0056 1A60     		str	r2, [r3]
+ 626 0058 DA60     		str	r2, [r3, #12]
+ 627              	.L119:
+ 628 005a 70BD     		pop	{r4, r5, r6, pc}
+ 630              		.section	.text.MSS_UART_polled_tx,"ax",%progbits
+ 631              		.align	2
+ 632              		.global	MSS_UART_polled_tx
+ 633              		.thumb
+ 634              		.thumb_func
+ 636              	MSS_UART_polled_tx:
+ 637              		@ args = 0, pretend = 0, frame = 0
+ 638              		@ frame_needed = 0, uses_anonymous_args = 0
+ 639 0000 154B     		ldr	r3, .L147
+ 640 0002 9842     		cmp	r0, r3
+ 641 0004 03D0     		beq	.L123
+ 642 0006 154B     		ldr	r3, .L147+4
+ 643 0008 9842     		cmp	r0, r3
+ 644 000a 00D0     		beq	.L123
+ 645              	.L145:
+ 646 000c 7047     		bx	lr
+ 647              	.L123:
+ 648 000e 0029     		cmp	r1, #0
+ 649 0010 FCD0     		beq	.L145
+ 650 0012 002A     		cmp	r2, #0
+ 651 0014 FAD0     		beq	.L145
+ 652 0016 F0B5     		push	{r4, r5, r6, r7, lr}
+ 653 0018 0E46     		mov	r6, r1
+ 654 001a 0468     		ldr	r4, [r0]
+ 655 001c 457B     		ldrb	r5, [r0, #13]	@ zero_extendqisi2
+ 656 001e 4FF0000E 		mov	lr, #0
+ 657              	.L125:
+ 658 0022 237D     		ldrb	r3, [r4, #20]	@ zero_extendqisi2
+ 659 0024 DBB2     		uxtb	r3, r3
+ 660 0026 1D43     		orrs	r5, r5, r3
+ 661 0028 9B06     		lsls	r3, r3, #26
+ 662 002a 4573     		strb	r5, [r0, #13]
+ 663 002c F9D5     		bpl	.L125
+ 664 002e 0F2A     		cmp	r2, #15
+ 665 0030 94BF     		ite	ls
+ 666 0032 1746     		movls	r7, r2
+ 667 0034 1027     		movhi	r7, #16
+ 668 0036 BE44     		add	lr, lr, r7
+ 669 0038 3346     		mov	r3, r6
+ 670 003a 01EB0E06 		add	r6, r1, lr
+ 671 003e 00E0     		b	.L129
+ 672              	.L146:
+ 673 0040 0468     		ldr	r4, [r0]
+ 674              	.L129:
+ 675 0042 13F8015B 		ldrb	r5, [r3], #1	@ zero_extendqisi2
+ 676 0046 B342     		cmp	r3, r6
+ 677 0048 2570     		strb	r5, [r4]
+ 678 004a F9D1     		bne	.L146
+ 679 004c D21B     		subs	r2, r2, r7
+ 680 004e 02D0     		beq	.L122
+ 681 0050 0468     		ldr	r4, [r0]
+ 682 0052 457B     		ldrb	r5, [r0, #13]	@ zero_extendqisi2
+ 683 0054 E5E7     		b	.L125
+ 684              	.L122:
+ 685 0056 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 686              	.L148:
+ 687              		.align	2
+ 688              	.L147:
+ 689 0058 00000000 		.word	g_mss_uart0
+ 690 005c 00000000 		.word	g_mss_uart1
+ 692              		.section	.text.MSS_UART_polled_tx_string,"ax",%progbits
+ 693              		.align	2
+ 694              		.global	MSS_UART_polled_tx_string
+ 695              		.thumb
+ 696              		.thumb_func
+ 698              	MSS_UART_polled_tx_string:
+ 699              		@ args = 0, pretend = 0, frame = 0
+ 700              		@ frame_needed = 0, uses_anonymous_args = 0
+ 701              		@ link register save eliminated.
+ 702 0000 114B     		ldr	r3, .L171
+ 703 0002 9842     		cmp	r0, r3
+ 704 0004 03D0     		beq	.L150
+ 705 0006 114B     		ldr	r3, .L171+4
+ 706 0008 9842     		cmp	r0, r3
+ 707 000a 00D0     		beq	.L150
+ 708              	.L169:
+ 709 000c 7047     		bx	lr
+ 710              	.L150:
+ 711 000e 0029     		cmp	r1, #0
+ 712 0010 FCD0     		beq	.L169
+ 713 0012 70B4     		push	{r4, r5, r6}
+ 714 0014 0E78     		ldrb	r6, [r1]	@ zero_extendqisi2
+ 715 0016 AEB1     		cbz	r6, .L149
+ 716 0018 0025     		movs	r5, #0
+ 717              	.L154:
+ 718 001a 0468     		ldr	r4, [r0]
+ 719 001c 427B     		ldrb	r2, [r0, #13]	@ zero_extendqisi2
+ 720              	.L152:
+ 721 001e 237D     		ldrb	r3, [r4, #20]	@ zero_extendqisi2
+ 722 0020 DBB2     		uxtb	r3, r3
+ 723 0022 1A43     		orrs	r2, r2, r3
+ 724 0024 9B06     		lsls	r3, r3, #26
+ 725 0026 4273     		strb	r2, [r0, #13]
+ 726 0028 F9D5     		bpl	.L152
+ 727 002a 4B19     		adds	r3, r1, r5
+ 728 002c 05F11002 		add	r2, r5, #16
+ 729 0030 02E0     		b	.L155
+ 730              	.L170:
+ 731 0032 9542     		cmp	r5, r2
+ 732 0034 F1D0     		beq	.L154
+ 733 0036 0468     		ldr	r4, [r0]
+ 734              	.L155:
+ 735 0038 2670     		strb	r6, [r4]
+ 736 003a 13F8016F 		ldrb	r6, [r3, #1]!	@ zero_extendqisi2
+ 737 003e 0135     		adds	r5, r5, #1
+ 738 0040 002E     		cmp	r6, #0
+ 739 0042 F6D1     		bne	.L170
+ 740              	.L149:
+ 741 0044 70BC     		pop	{r4, r5, r6}
+ 742 0046 7047     		bx	lr
+ 743              	.L172:
+ 744              		.align	2
+ 745              	.L171:
+ 746 0048 00000000 		.word	g_mss_uart0
+ 747 004c 00000000 		.word	g_mss_uart1
+ 749              		.section	.text.MSS_UART_irq_tx,"ax",%progbits
+ 750              		.align	2
+ 751              		.global	MSS_UART_irq_tx
+ 752              		.thumb
+ 753              		.thumb_func
+ 755              	MSS_UART_irq_tx:
+ 756              		@ args = 0, pretend = 0, frame = 0
+ 757              		@ frame_needed = 0, uses_anonymous_args = 0
+ 758              		@ link register save eliminated.
+ 759 0000 70B4     		push	{r4, r5, r6}
+ 760 0002 32B1     		cbz	r2, .L173
+ 761 0004 29B1     		cbz	r1, .L173
+ 762 0006 174B     		ldr	r3, .L183
+ 763 0008 9842     		cmp	r0, r3
+ 764 000a 04D0     		beq	.L175
+ 765 000c 164B     		ldr	r3, .L183+4
+ 766 000e 9842     		cmp	r0, r3
+ 767 0010 01D0     		beq	.L175
+ 768              	.L173:
+ 769 0012 70BC     		pop	{r4, r5, r6}
+ 770 0014 7047     		bx	lr
+ 771              	.L175:
+ 772 0016 0479     		ldrb	r4, [r0, #4]	@ zero_extendqisi2
+ 773 0018 0125     		movs	r5, #1
+ 774 001a 44F3C403 		sbfx	r3, r4, #3, #5
+ 775 001e 23F06043 		bic	r3, r3, #-536870912
+ 776 0022 23F00303 		bic	r3, r3, #3
+ 777 0026 03F16043 		add	r3, r3, #-536870912
+ 778 002a 04F01F04 		and	r4, r4, #31
+ 779 002e 05FA04F4 		lsl	r4, r5, r4
+ 780 0032 03F56143 		add	r3, r3, #57600
+ 781 0036 0026     		movs	r6, #0
+ 782 0038 0161     		str	r1, [r0, #16]
+ 783 003a 4261     		str	r2, [r0, #20]
+ 784 003c 8661     		str	r6, [r0, #24]
+ 785 003e C3F88041 		str	r4, [r3, #384]
+ 786 0042 0268     		ldr	r2, [r0]
+ 787 0044 094E     		ldr	r6, .L183+8
+ 788 0046 0432     		adds	r2, r2, #4
+ 789 0048 02F07041 		and	r1, r2, #-268435456
+ 790 004c 01F10071 		add	r1, r1, #33554432
+ 791 0050 C2F31302 		ubfx	r2, r2, #0, #20
+ 792 0054 0431     		adds	r1, r1, #4
+ 793 0056 5201     		lsls	r2, r2, #5
+ 794 0058 4662     		str	r6, [r0, #36]
+ 795 005a 8D50     		str	r5, [r1, r2]
+ 796 005c 1C60     		str	r4, [r3]
+ 797 005e 70BC     		pop	{r4, r5, r6}
+ 798 0060 7047     		bx	lr
+ 799              	.L184:
+ 800 0062 00BF     		.align	2
+ 801              	.L183:
+ 802 0064 00000000 		.word	g_mss_uart0
+ 803 0068 00000000 		.word	g_mss_uart1
+ 804 006c 00000000 		.word	default_tx_handler
+ 806              		.section	.text.MSS_UART_tx_complete,"ax",%progbits
+ 807              		.align	2
+ 808              		.global	MSS_UART_tx_complete
+ 809              		.thumb
+ 810              		.thumb_func
+ 812              	MSS_UART_tx_complete:
+ 813              		@ args = 0, pretend = 0, frame = 0
+ 814              		@ frame_needed = 0, uses_anonymous_args = 0
+ 815              		@ link register save eliminated.
+ 816 0000 094B     		ldr	r3, .L189
+ 817 0002 9842     		cmp	r0, r3
+ 818 0004 04D0     		beq	.L186
+ 819 0006 094B     		ldr	r3, .L189+4
+ 820 0008 9842     		cmp	r0, r3
+ 821 000a 01D0     		beq	.L186
+ 822              	.L188:
+ 823 000c 0020     		movs	r0, #0
+ 824 000e 7047     		bx	lr
+ 825              	.L186:
+ 826 0010 0368     		ldr	r3, [r0]
+ 827 0012 427B     		ldrb	r2, [r0, #13]	@ zero_extendqisi2
+ 828 0014 1B7D     		ldrb	r3, [r3, #20]	@ zero_extendqisi2
+ 829 0016 4169     		ldr	r1, [r0, #20]
+ 830 0018 DBB2     		uxtb	r3, r3
+ 831 001a 1A43     		orrs	r2, r2, r3
+ 832 001c 4273     		strb	r2, [r0, #13]
+ 833 001e 0029     		cmp	r1, #0
+ 834 0020 F4D1     		bne	.L188
+ 835 0022 C3F38010 		ubfx	r0, r3, #6, #1
+ 836 0026 7047     		bx	lr
+ 837              	.L190:
+ 838              		.align	2
+ 839              	.L189:
+ 840 0028 00000000 		.word	g_mss_uart0
+ 841 002c 00000000 		.word	g_mss_uart1
+ 843              		.section	.text.MSS_UART_get_rx,"ax",%progbits
+ 844              		.align	2
+ 845              		.global	MSS_UART_get_rx
+ 846              		.thumb
+ 847              		.thumb_func
+ 849              	MSS_UART_get_rx:
+ 850              		@ args = 0, pretend = 0, frame = 0
+ 851              		@ frame_needed = 0, uses_anonymous_args = 0
+ 852              		@ link register save eliminated.
+ 853 0000 144B     		ldr	r3, .L211
+ 854 0002 70B4     		push	{r4, r5, r6}
+ 855 0004 9842     		cmp	r0, r3
+ 856 0006 06D0     		beq	.L192
+ 857 0008 134B     		ldr	r3, .L211+4
+ 858 000a 9842     		cmp	r0, r3
+ 859 000c 03D0     		beq	.L192
+ 860              	.L194:
+ 861 000e 0024     		movs	r4, #0
+ 862              	.L193:
+ 863 0010 2046     		mov	r0, r4
+ 864 0012 70BC     		pop	{r4, r5, r6}
+ 865 0014 7047     		bx	lr
+ 866              	.L192:
+ 867 0016 0029     		cmp	r1, #0
+ 868 0018 F9D0     		beq	.L194
+ 869 001a 002A     		cmp	r2, #0
+ 870 001c F7D0     		beq	.L194
+ 871 001e 0668     		ldr	r6, [r0]
+ 872 0020 447B     		ldrb	r4, [r0, #13]	@ zero_extendqisi2
+ 873 0022 337D     		ldrb	r3, [r6, #20]	@ zero_extendqisi2
+ 874 0024 DBB2     		uxtb	r3, r3
+ 875 0026 1C43     		orrs	r4, r4, r3
+ 876 0028 4473     		strb	r4, [r0, #13]
+ 877 002a DC07     		lsls	r4, r3, #31
+ 878 002c EFD5     		bpl	.L194
+ 879 002e 0139     		subs	r1, r1, #1
+ 880 0030 0024     		movs	r4, #0
+ 881 0032 01E0     		b	.L195
+ 882              	.L210:
+ 883 0034 9442     		cmp	r4, r2
+ 884 0036 EBD0     		beq	.L193
+ 885              	.L195:
+ 886 0038 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 887 003a 0134     		adds	r4, r4, #1
+ 888 003c 01F8013F 		strb	r3, [r1, #1]!
+ 889 0040 0668     		ldr	r6, [r0]
+ 890 0042 457B     		ldrb	r5, [r0, #13]	@ zero_extendqisi2
+ 891 0044 337D     		ldrb	r3, [r6, #20]	@ zero_extendqisi2
+ 892 0046 DBB2     		uxtb	r3, r3
+ 893 0048 1D43     		orrs	r5, r5, r3
+ 894 004a DB07     		lsls	r3, r3, #31
+ 895 004c 4573     		strb	r5, [r0, #13]
+ 896 004e DFD5     		bpl	.L193
+ 897 0050 F0E7     		b	.L210
+ 898              	.L212:
+ 899 0052 00BF     		.align	2
+ 900              	.L211:
+ 901 0054 00000000 		.word	g_mss_uart0
+ 902 0058 00000000 		.word	g_mss_uart1
+ 904              		.section	.text.MSS_UART_enable_irq,"ax",%progbits
+ 905              		.align	2
+ 906              		.global	MSS_UART_enable_irq
+ 907              		.thumb
+ 908              		.thumb_func
+ 910              	MSS_UART_enable_irq:
+ 911              		@ args = 0, pretend = 0, frame = 0
+ 912              		@ frame_needed = 0, uses_anonymous_args = 0
+ 913              		@ link register save eliminated.
+ 914 0000 174B     		ldr	r3, .L219
+ 915 0002 9842     		cmp	r0, r3
+ 916 0004 03D0     		beq	.L214
+ 917 0006 174B     		ldr	r3, .L219+4
+ 918 0008 9842     		cmp	r0, r3
+ 919 000a 00D0     		beq	.L214
+ 920              	.L218:
+ 921 000c 7047     		bx	lr
+ 922              	.L214:
+ 923 000e 4FF6FF73 		movw	r3, #65535
+ 924 0012 9942     		cmp	r1, r3
+ 925 0014 FAD0     		beq	.L218
+ 926 0016 70B4     		push	{r4, r5, r6}
+ 927 0018 0479     		ldrb	r4, [r0, #4]	@ zero_extendqisi2
+ 928 001a 134D     		ldr	r5, .L219+8
+ 929 001c 63B2     		sxtb	r3, r4
+ 930 001e 0122     		movs	r2, #1
+ 931 0020 04F01F04 		and	r4, r4, #31
+ 932 0024 5B09     		lsrs	r3, r3, #5
+ 933 0026 02FA04F6 		lsl	r6, r2, r4
+ 934 002a 6033     		adds	r3, r3, #96
+ 935 002c 0468     		ldr	r4, [r0]
+ 936 002e 45F82360 		str	r6, [r5, r3, lsl #2]
+ 937 0032 2679     		ldrb	r6, [r4, #4]	@ zero_extendqisi2
+ 938 0034 01F00F03 		and	r3, r1, #15
+ 939 0038 3343     		orrs	r3, r3, r6
+ 940 003a 2371     		strb	r3, [r4, #4]
+ 941 003c 0468     		ldr	r4, [r0]
+ 942 003e 94F82430 		ldrb	r3, [r4, #36]	@ zero_extendqisi2
+ 943 0042 43EA1111 		orr	r1, r3, r1, lsr #4
+ 944 0046 C9B2     		uxtb	r1, r1
+ 945 0048 84F82410 		strb	r1, [r4, #36]
+ 946 004c 0379     		ldrb	r3, [r0, #4]	@ zero_extendqisi2
+ 947 004e 03F01F01 		and	r1, r3, #31
+ 948 0052 5BB2     		sxtb	r3, r3
+ 949 0054 8A40     		lsls	r2, r2, r1
+ 950 0056 5B09     		lsrs	r3, r3, #5
+ 951 0058 45F82320 		str	r2, [r5, r3, lsl #2]
+ 952 005c 70BC     		pop	{r4, r5, r6}
+ 953 005e 7047     		bx	lr
+ 954              	.L220:
+ 955              		.align	2
+ 956              	.L219:
+ 957 0060 00000000 		.word	g_mss_uart0
+ 958 0064 00000000 		.word	g_mss_uart1
+ 959 0068 00E100E0 		.word	-536813312
+ 961              		.section	.text.MSS_UART_disable_irq,"ax",%progbits
+ 962              		.align	2
+ 963              		.global	MSS_UART_disable_irq
+ 964              		.thumb
+ 965              		.thumb_func
+ 967              	MSS_UART_disable_irq:
+ 968              		@ args = 0, pretend = 0, frame = 0
+ 969              		@ frame_needed = 0, uses_anonymous_args = 0
+ 970              		@ link register save eliminated.
+ 971 0000 174B     		ldr	r3, .L226
+ 972 0002 30B4     		push	{r4, r5}
+ 973 0004 9842     		cmp	r0, r3
+ 974 0006 04D0     		beq	.L222
+ 975 0008 164B     		ldr	r3, .L226+4
+ 976 000a 9842     		cmp	r0, r3
+ 977 000c 01D0     		beq	.L222
+ 978 000e 30BC     		pop	{r4, r5}
+ 979 0010 7047     		bx	lr
+ 980              	.L222:
+ 981 0012 0268     		ldr	r2, [r0]
+ 982 0014 01F00F05 		and	r5, r1, #15
+ 983 0018 1379     		ldrb	r3, [r2, #4]	@ zero_extendqisi2
+ 984 001a 0124     		movs	r4, #1
+ 985 001c 23EA0503 		bic	r3, r3, r5
+ 986 0020 1371     		strb	r3, [r2, #4]
+ 987 0022 0268     		ldr	r2, [r0]
+ 988 0024 0F29     		cmp	r1, #15
+ 989 0026 92F82430 		ldrb	r3, [r2, #36]	@ zero_extendqisi2
+ 990 002a 63EA1123 		orn	r3, r3, r1, lsr #8
+ 991 002e DBB2     		uxtb	r3, r3
+ 992 0030 82F82430 		strb	r3, [r2, #36]
+ 993 0034 0279     		ldrb	r2, [r0, #4]	@ zero_extendqisi2
+ 994 0036 42F3C403 		sbfx	r3, r2, #3, #5
+ 995 003a 23F06043 		bic	r3, r3, #-536870912
+ 996 003e 23F00303 		bic	r3, r3, #3
+ 997 0042 03F16043 		add	r3, r3, #-536870912
+ 998 0046 02F01F02 		and	r2, r2, #31
+ 999 004a 04FA02F2 		lsl	r2, r4, r2
+ 1000 004e 03F56143 		add	r3, r3, #57600
+ 1001 0052 C3F88021 		str	r2, [r3, #384]
+ 1002 0056 08BF     		it	eq
+ 1003 0058 C3F88020 		streq	r2, [r3, #128]
+ 1004 005c 30BC     		pop	{r4, r5}
+ 1005 005e 7047     		bx	lr
+ 1006              	.L227:
+ 1007              		.align	2
+ 1008              	.L226:
+ 1009 0060 00000000 		.word	g_mss_uart0
+ 1010 0064 00000000 		.word	g_mss_uart1
+ 1012              		.section	.text.MSS_UART_set_rx_handler,"ax",%progbits
+ 1013              		.align	2
+ 1014              		.global	MSS_UART_set_rx_handler
+ 1015              		.thumb
+ 1016              		.thumb_func
+ 1018              	MSS_UART_set_rx_handler:
+ 1019              		@ args = 0, pretend = 0, frame = 0
+ 1020              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1021              		@ link register save eliminated.
+ 1022 0000 194B     		ldr	r3, .L237
+ 1023 0002 9842     		cmp	r0, r3
+ 1024 0004 03D0     		beq	.L229
+ 1025 0006 194B     		ldr	r3, .L237+4
+ 1026 0008 9842     		cmp	r0, r3
+ 1027 000a 00D0     		beq	.L229
+ 1028              	.L236:
+ 1029 000c 7047     		bx	lr
+ 1030              	.L229:
+ 1031 000e 0029     		cmp	r1, #0
+ 1032 0010 FCD0     		beq	.L236
+ 1033 0012 C02A     		cmp	r2, #192
+ 1034 0014 FAD8     		bhi	.L236
+ 1035 0016 10B4     		push	{r4}
+ 1036 0018 0468     		ldr	r4, [r0]
+ 1037 001a 0162     		str	r1, [r0, #32]
+ 1038 001c 237A     		ldrb	r3, [r4, #8]	@ zero_extendqisi2
+ 1039 001e 0121     		movs	r1, #1
+ 1040 0020 03F03F03 		and	r3, r3, #63
+ 1041 0024 1A43     		orrs	r2, r2, r3
+ 1042 0026 2272     		strb	r2, [r4, #8]
+ 1043 0028 0279     		ldrb	r2, [r0, #4]	@ zero_extendqisi2
+ 1044 002a 42F3C403 		sbfx	r3, r2, #3, #5
+ 1045 002e 23F06043 		bic	r3, r3, #-536870912
+ 1046 0032 23F00303 		bic	r3, r3, #3
+ 1047 0036 02F01F02 		and	r2, r2, #31
+ 1048 003a 03F16043 		add	r3, r3, #-536870912
+ 1049 003e 01FA02F4 		lsl	r4, r1, r2
+ 1050 0042 03F56143 		add	r3, r3, #57600
+ 1051 0046 C3F88041 		str	r4, [r3, #384]
+ 1052 004a 0268     		ldr	r2, [r0]
+ 1053 004c 0432     		adds	r2, r2, #4
+ 1054 004e 02F07040 		and	r0, r2, #-268435456
+ 1055 0052 C2F31302 		ubfx	r2, r2, #0, #20
+ 1056 0056 00F10070 		add	r0, r0, #33554432
+ 1057 005a 5201     		lsls	r2, r2, #5
+ 1058 005c 8150     		str	r1, [r0, r2]
+ 1059 005e 1C60     		str	r4, [r3]
+ 1060 0060 5DF8044B 		ldr	r4, [sp], #4
+ 1061 0064 7047     		bx	lr
+ 1062              	.L238:
+ 1063 0066 00BF     		.align	2
+ 1064              	.L237:
+ 1065 0068 00000000 		.word	g_mss_uart0
+ 1066 006c 00000000 		.word	g_mss_uart1
+ 1068              		.section	.text.MSS_UART_set_loopback,"ax",%progbits
+ 1069              		.align	2
+ 1070              		.global	MSS_UART_set_loopback
+ 1071              		.thumb
+ 1072              		.thumb_func
+ 1074              	MSS_UART_set_loopback:
+ 1075              		@ args = 0, pretend = 0, frame = 0
+ 1076              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1077              		@ link register save eliminated.
+ 1078 0000 184B     		ldr	r3, .L249
+ 1079 0002 9842     		cmp	r0, r3
+ 1080 0004 04D0     		beq	.L240
+ 1081 0006 184B     		ldr	r3, .L249+4
+ 1082 0008 9842     		cmp	r0, r3
+ 1083 000a 01D0     		beq	.L240
+ 1084 000c 0529     		cmp	r1, #5
+ 1085 000e 0BD8     		bhi	.L239
+ 1086              	.L240:
+ 1087 0010 0529     		cmp	r1, #5
+ 1088 0012 09D8     		bhi	.L239
+ 1089 0014 DFE801F0 		tbb	[pc, r1]
+ 1090              	.L243:
+ 1091 0018 09       		.byte	(.L242-.L243)/2
+ 1092 0019 16       		.byte	(.L244-.L243)/2
+ 1093 001a 19       		.byte	(.L245-.L243)/2
+ 1094 001b 1F       		.byte	(.L246-.L243)/2
+ 1095 001c 19       		.byte	(.L245-.L243)/2
+ 1096 001d 03       		.byte	(.L247-.L243)/2
+ 1097              		.p2align 1
+ 1098              	.L247:
+ 1099 001e 0268     		ldr	r2, [r0]
+ 1100 0020 137C     		ldrb	r3, [r2, #16]	@ zero_extendqisi2
+ 1101 0022 43F04003 		orr	r3, r3, #64
+ 1102 0026 1374     		strb	r3, [r2, #16]
+ 1103              	.L239:
+ 1104 0028 7047     		bx	lr
+ 1105              	.L242:
+ 1106 002a 0368     		ldr	r3, [r0]
+ 1107 002c 0021     		movs	r1, #0
+ 1108              	.L248:
+ 1109 002e 1033     		adds	r3, r3, #16
+ 1110 0030 03F07042 		and	r2, r3, #-268435456
+ 1111 0034 02F10072 		add	r2, r2, #33554432
+ 1112 0038 C3F31303 		ubfx	r3, r3, #0, #20
+ 1113 003c 1032     		adds	r2, r2, #16
+ 1114 003e 5B01     		lsls	r3, r3, #5
+ 1115 0040 D150     		str	r1, [r2, r3]
+ 1116 0042 7047     		bx	lr
+ 1117              	.L244:
+ 1118 0044 0368     		ldr	r3, [r0]
+ 1119 0046 0121     		movs	r1, #1
+ 1120 0048 F1E7     		b	.L248
+ 1121              	.L245:
+ 1122 004a 0268     		ldr	r2, [r0]
+ 1123 004c 137C     		ldrb	r3, [r2, #16]	@ zero_extendqisi2
+ 1124 004e 03F0F903 		and	r3, r3, #249
+ 1125 0052 1374     		strb	r3, [r2, #16]
+ 1126 0054 7047     		bx	lr
+ 1127              	.L246:
+ 1128 0056 0268     		ldr	r2, [r0]
+ 1129 0058 137C     		ldrb	r3, [r2, #16]	@ zero_extendqisi2
+ 1130 005a 43F02003 		orr	r3, r3, #32
+ 1131 005e 1374     		strb	r3, [r2, #16]
+ 1132 0060 7047     		bx	lr
+ 1133              	.L250:
+ 1134 0062 00BF     		.align	2
+ 1135              	.L249:
+ 1136 0064 00000000 		.word	g_mss_uart0
+ 1137 0068 00000000 		.word	g_mss_uart1
+ 1139              		.section	.text.UART0_IRQHandler,"ax",%progbits
+ 1140              		.align	2
+ 1141              		.global	UART0_IRQHandler
+ 1142              		.thumb
+ 1143              		.thumb_func
+ 1145              	UART0_IRQHandler:
+ 1146              		@ Stack Align: May be called with mis-aligned SP.
+ 1147              		@ args = 0, pretend = 0, frame = 0
+ 1148              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1149 0000 6846     		mov	r0, sp
+ 1150 0002 20F00701 		bic	r1, r0, #7
+ 1151 0006 8D46     		mov	sp, r1
+ 1152 0008 01B5     		push	{r0, lr}
+ 1153 000a 0348     		ldr	r0, .L252
+ 1154 000c FFF7FEFF 		bl	MSS_UART_isr.part.0
+ 1155 0010 BDE80140 		pop	{r0, lr}
+ 1156 0014 8546     		mov	sp, r0
+ 1157 0016 7047     		bx	lr
+ 1158              	.L253:
+ 1159              		.align	2
+ 1160              	.L252:
+ 1161 0018 00000000 		.word	g_mss_uart0
+ 1163              		.section	.text.UART1_IRQHandler,"ax",%progbits
+ 1164              		.align	2
+ 1165              		.global	UART1_IRQHandler
+ 1166              		.thumb
+ 1167              		.thumb_func
+ 1169              	UART1_IRQHandler:
+ 1170              		@ Stack Align: May be called with mis-aligned SP.
+ 1171              		@ args = 0, pretend = 0, frame = 0
+ 1172              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1173 0000 6846     		mov	r0, sp
+ 1174 0002 20F00701 		bic	r1, r0, #7
+ 1175 0006 8D46     		mov	sp, r1
+ 1176 0008 01B5     		push	{r0, lr}
+ 1177 000a 0348     		ldr	r0, .L255
+ 1178 000c FFF7FEFF 		bl	MSS_UART_isr.part.0
+ 1179 0010 BDE80140 		pop	{r0, lr}
+ 1180 0014 8546     		mov	sp, r0
+ 1181 0016 7047     		bx	lr
+ 1182              	.L256:
+ 1183              		.align	2
+ 1184              	.L255:
+ 1185 0018 00000000 		.word	g_mss_uart1
+ 1187              		.section	.text.MSS_UART_set_rxstatus_handler,"ax",%progbits
+ 1188              		.align	2
+ 1189              		.global	MSS_UART_set_rxstatus_handler
+ 1190              		.thumb
+ 1191              		.thumb_func
+ 1193              	MSS_UART_set_rxstatus_handler:
+ 1194              		@ args = 0, pretend = 0, frame = 0
+ 1195              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1196              		@ link register save eliminated.
+ 1197 0000 154B     		ldr	r3, .L266
+ 1198 0002 9842     		cmp	r0, r3
+ 1199 0004 03D0     		beq	.L258
+ 1200 0006 154B     		ldr	r3, .L266+4
+ 1201 0008 9842     		cmp	r0, r3
+ 1202 000a 00D0     		beq	.L258
+ 1203              	.L265:
+ 1204 000c 7047     		bx	lr
+ 1205              	.L258:
+ 1206 000e 0029     		cmp	r1, #0
+ 1207 0010 FCD0     		beq	.L265
+ 1208 0012 0279     		ldrb	r2, [r0, #4]	@ zero_extendqisi2
+ 1209 0014 30B4     		push	{r4, r5}
+ 1210 0016 42F3C403 		sbfx	r3, r2, #3, #5
+ 1211 001a 23F06043 		bic	r3, r3, #-536870912
+ 1212 001e 23F00303 		bic	r3, r3, #3
+ 1213 0022 0124     		movs	r4, #1
+ 1214 0024 02F01F02 		and	r2, r2, #31
+ 1215 0028 03F16043 		add	r3, r3, #-536870912
+ 1216 002c 04FA02F5 		lsl	r5, r4, r2
+ 1217 0030 03F56143 		add	r3, r3, #57600
+ 1218 0034 C161     		str	r1, [r0, #28]
+ 1219 0036 C3F88051 		str	r5, [r3, #384]
+ 1220 003a 0268     		ldr	r2, [r0]
+ 1221 003c 0432     		adds	r2, r2, #4
+ 1222 003e 02F07041 		and	r1, r2, #-268435456
+ 1223 0042 01F10071 		add	r1, r1, #33554432
+ 1224 0046 C2F31302 		ubfx	r2, r2, #0, #20
+ 1225 004a 0831     		adds	r1, r1, #8
+ 1226 004c 5201     		lsls	r2, r2, #5
+ 1227 004e 8C50     		str	r4, [r1, r2]
+ 1228 0050 1D60     		str	r5, [r3]
+ 1229 0052 30BC     		pop	{r4, r5}
+ 1230 0054 7047     		bx	lr
+ 1231              	.L267:
+ 1232 0056 00BF     		.align	2
+ 1233              	.L266:
+ 1234 0058 00000000 		.word	g_mss_uart0
+ 1235 005c 00000000 		.word	g_mss_uart1
+ 1237              		.section	.text.MSS_UART_set_tx_handler,"ax",%progbits
+ 1238              		.align	2
+ 1239              		.global	MSS_UART_set_tx_handler
+ 1240              		.thumb
+ 1241              		.thumb_func
+ 1243              	MSS_UART_set_tx_handler:
+ 1244              		@ args = 0, pretend = 0, frame = 0
+ 1245              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1246              		@ link register save eliminated.
+ 1247 0000 164B     		ldr	r3, .L277
+ 1248 0002 9842     		cmp	r0, r3
+ 1249 0004 03D0     		beq	.L269
+ 1250 0006 164B     		ldr	r3, .L277+4
+ 1251 0008 9842     		cmp	r0, r3
+ 1252 000a 00D0     		beq	.L269
+ 1253              	.L276:
+ 1254 000c 7047     		bx	lr
+ 1255              	.L269:
+ 1256 000e 0029     		cmp	r1, #0
+ 1257 0010 FCD0     		beq	.L276
+ 1258 0012 0279     		ldrb	r2, [r0, #4]	@ zero_extendqisi2
+ 1259 0014 30B4     		push	{r4, r5}
+ 1260 0016 42F3C403 		sbfx	r3, r2, #3, #5
+ 1261 001a 23F06043 		bic	r3, r3, #-536870912
+ 1262 001e 23F00303 		bic	r3, r3, #3
+ 1263 0022 0124     		movs	r4, #1
+ 1264 0024 02F01F02 		and	r2, r2, #31
+ 1265 0028 03F16043 		add	r3, r3, #-536870912
+ 1266 002c 04FA02F5 		lsl	r5, r4, r2
+ 1267 0030 03F56143 		add	r3, r3, #57600
+ 1268 0034 0022     		movs	r2, #0
+ 1269 0036 4162     		str	r1, [r0, #36]
+ 1270 0038 0261     		str	r2, [r0, #16]
+ 1271 003a 4261     		str	r2, [r0, #20]
+ 1272 003c C3F88051 		str	r5, [r3, #384]
+ 1273 0040 0268     		ldr	r2, [r0]
+ 1274 0042 0432     		adds	r2, r2, #4
+ 1275 0044 02F07041 		and	r1, r2, #-268435456
+ 1276 0048 01F10071 		add	r1, r1, #33554432
+ 1277 004c C2F31302 		ubfx	r2, r2, #0, #20
+ 1278 0050 0431     		adds	r1, r1, #4
+ 1279 0052 5201     		lsls	r2, r2, #5
+ 1280 0054 8C50     		str	r4, [r1, r2]
+ 1281 0056 1D60     		str	r5, [r3]
+ 1282 0058 30BC     		pop	{r4, r5}
+ 1283 005a 7047     		bx	lr
+ 1284              	.L278:
+ 1285              		.align	2
+ 1286              	.L277:
+ 1287 005c 00000000 		.word	g_mss_uart0
+ 1288 0060 00000000 		.word	g_mss_uart1
+ 1290              		.section	.text.MSS_UART_set_modemstatus_handler,"ax",%progbits
+ 1291              		.align	2
+ 1292              		.global	MSS_UART_set_modemstatus_handler
+ 1293              		.thumb
+ 1294              		.thumb_func
+ 1296              	MSS_UART_set_modemstatus_handler:
+ 1297              		@ args = 0, pretend = 0, frame = 0
+ 1298              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1299              		@ link register save eliminated.
+ 1300 0000 154B     		ldr	r3, .L288
+ 1301 0002 9842     		cmp	r0, r3
+ 1302 0004 03D0     		beq	.L280
+ 1303 0006 154B     		ldr	r3, .L288+4
+ 1304 0008 9842     		cmp	r0, r3
+ 1305 000a 00D0     		beq	.L280
+ 1306              	.L287:
+ 1307 000c 7047     		bx	lr
+ 1308              	.L280:
+ 1309 000e 0029     		cmp	r1, #0
+ 1310 0010 FCD0     		beq	.L287
+ 1311 0012 0279     		ldrb	r2, [r0, #4]	@ zero_extendqisi2
+ 1312 0014 30B4     		push	{r4, r5}
+ 1313 0016 42F3C403 		sbfx	r3, r2, #3, #5
+ 1314 001a 23F06043 		bic	r3, r3, #-536870912
+ 1315 001e 23F00303 		bic	r3, r3, #3
+ 1316 0022 0124     		movs	r4, #1
+ 1317 0024 02F01F02 		and	r2, r2, #31
+ 1318 0028 03F16043 		add	r3, r3, #-536870912
+ 1319 002c 04FA02F5 		lsl	r5, r4, r2
+ 1320 0030 03F56143 		add	r3, r3, #57600
+ 1321 0034 8162     		str	r1, [r0, #40]
+ 1322 0036 C3F88051 		str	r5, [r3, #384]
+ 1323 003a 0268     		ldr	r2, [r0]
+ 1324 003c 0432     		adds	r2, r2, #4
+ 1325 003e 02F07041 		and	r1, r2, #-268435456
+ 1326 0042 01F10071 		add	r1, r1, #33554432
+ 1327 0046 C2F31302 		ubfx	r2, r2, #0, #20
+ 1328 004a 0C31     		adds	r1, r1, #12
+ 1329 004c 5201     		lsls	r2, r2, #5
+ 1330 004e 8C50     		str	r4, [r1, r2]
+ 1331 0050 1D60     		str	r5, [r3]
+ 1332 0052 30BC     		pop	{r4, r5}
+ 1333 0054 7047     		bx	lr
+ 1334              	.L289:
+ 1335 0056 00BF     		.align	2
+ 1336              	.L288:
+ 1337 0058 00000000 		.word	g_mss_uart0
+ 1338 005c 00000000 		.word	g_mss_uart1
+ 1340              		.section	.text.MSS_UART_fill_tx_fifo,"ax",%progbits
+ 1341              		.align	2
+ 1342              		.global	MSS_UART_fill_tx_fifo
+ 1343              		.thumb
+ 1344              		.thumb_func
+ 1346              	MSS_UART_fill_tx_fifo:
+ 1347              		@ args = 0, pretend = 0, frame = 0
+ 1348              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1349              		@ link register save eliminated.
+ 1350 0000 0346     		mov	r3, r0
+ 1351 0002 1348     		ldr	r0, .L310
+ 1352 0004 8342     		cmp	r3, r0
+ 1353 0006 05D0     		beq	.L291
+ 1354 0008 1248     		ldr	r0, .L310+4
+ 1355 000a 8342     		cmp	r3, r0
+ 1356 000c 02D0     		beq	.L291
+ 1357              	.L308:
+ 1358 000e 0022     		movs	r2, #0
+ 1359 0010 1046     		mov	r0, r2
+ 1360 0012 7047     		bx	lr
+ 1361              	.L291:
+ 1362 0014 0029     		cmp	r1, #0
+ 1363 0016 FAD0     		beq	.L308
+ 1364 0018 002A     		cmp	r2, #0
+ 1365 001a F8D0     		beq	.L308
+ 1366 001c 30B4     		push	{r4, r5}
+ 1367 001e 1868     		ldr	r0, [r3]
+ 1368 0020 5D7B     		ldrb	r5, [r3, #13]	@ zero_extendqisi2
+ 1369 0022 047D     		ldrb	r4, [r0, #20]	@ zero_extendqisi2
+ 1370 0024 E4B2     		uxtb	r4, r4
+ 1371 0026 2543     		orrs	r5, r5, r4
+ 1372 0028 A406     		lsls	r4, r4, #26
+ 1373 002a 5D73     		strb	r5, [r3, #13]
+ 1374 002c 0DD5     		bpl	.L293
+ 1375 002e 102A     		cmp	r2, #16
+ 1376 0030 28BF     		it	cs
+ 1377 0032 1022     		movcs	r2, #16
+ 1378 0034 8D18     		adds	r5, r1, r2
+ 1379 0036 00E0     		b	.L295
+ 1380              	.L309:
+ 1381 0038 1868     		ldr	r0, [r3]
+ 1382              	.L295:
+ 1383 003a 11F8014B 		ldrb	r4, [r1], #1	@ zero_extendqisi2
+ 1384 003e A942     		cmp	r1, r5
+ 1385 0040 0470     		strb	r4, [r0]
+ 1386 0042 F9D1     		bne	.L309
+ 1387              	.L292:
+ 1388 0044 1046     		mov	r0, r2
+ 1389 0046 30BC     		pop	{r4, r5}
+ 1390 0048 7047     		bx	lr
+ 1391              	.L293:
+ 1392 004a 0022     		movs	r2, #0
+ 1393 004c FAE7     		b	.L292
+ 1394              	.L311:
+ 1395 004e 00BF     		.align	2
+ 1396              	.L310:
+ 1397 0050 00000000 		.word	g_mss_uart0
+ 1398 0054 00000000 		.word	g_mss_uart1
+ 1400              		.section	.text.MSS_UART_get_rx_status,"ax",%progbits
+ 1401              		.align	2
+ 1402              		.global	MSS_UART_get_rx_status
+ 1403              		.thumb
+ 1404              		.thumb_func
+ 1406              	MSS_UART_get_rx_status:
+ 1407              		@ args = 0, pretend = 0, frame = 0
+ 1408              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1409              		@ link register save eliminated.
+ 1410 0000 084A     		ldr	r2, .L316
+ 1411 0002 0346     		mov	r3, r0
+ 1412 0004 9042     		cmp	r0, r2
+ 1413 0006 04D0     		beq	.L313
+ 1414 0008 074A     		ldr	r2, .L316+4
+ 1415 000a 9042     		cmp	r0, r2
+ 1416 000c 01D0     		beq	.L313
+ 1417 000e FF20     		movs	r0, #255
+ 1418 0010 7047     		bx	lr
+ 1419              	.L313:
+ 1420 0012 1968     		ldr	r1, [r3]
+ 1421 0014 5A7B     		ldrb	r2, [r3, #13]	@ zero_extendqisi2
+ 1422 0016 087D     		ldrb	r0, [r1, #20]	@ zero_extendqisi2
+ 1423 0018 0021     		movs	r1, #0
+ 1424 001a 1043     		orrs	r0, r0, r2
+ 1425 001c 00F09E00 		and	r0, r0, #158
+ 1426 0020 5973     		strb	r1, [r3, #13]
+ 1427 0022 7047     		bx	lr
+ 1428              	.L317:
+ 1429              		.align	2
+ 1430              	.L316:
+ 1431 0024 00000000 		.word	g_mss_uart0
+ 1432 0028 00000000 		.word	g_mss_uart1
+ 1434              		.section	.text.MSS_UART_get_modem_status,"ax",%progbits
+ 1435              		.align	2
+ 1436              		.global	MSS_UART_get_modem_status
+ 1437              		.thumb
+ 1438              		.thumb_func
+ 1440              	MSS_UART_get_modem_status:
+ 1441              		@ args = 0, pretend = 0, frame = 0
+ 1442              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1443              		@ link register save eliminated.
+ 1444 0000 054B     		ldr	r3, .L322
+ 1445 0002 9842     		cmp	r0, r3
+ 1446 0004 04D0     		beq	.L319
+ 1447 0006 054B     		ldr	r3, .L322+4
+ 1448 0008 9842     		cmp	r0, r3
+ 1449 000a 01D0     		beq	.L319
+ 1450 000c FF20     		movs	r0, #255
+ 1451 000e 7047     		bx	lr
+ 1452              	.L319:
+ 1453 0010 0368     		ldr	r3, [r0]
+ 1454 0012 187E     		ldrb	r0, [r3, #24]	@ zero_extendqisi2
+ 1455 0014 C0B2     		uxtb	r0, r0
+ 1456 0016 7047     		bx	lr
+ 1457              	.L323:
+ 1458              		.align	2
+ 1459              	.L322:
+ 1460 0018 00000000 		.word	g_mss_uart0
+ 1461 001c 00000000 		.word	g_mss_uart1
+ 1463              		.section	.text.MSS_UART_get_tx_status,"ax",%progbits
+ 1464              		.align	2
+ 1465              		.global	MSS_UART_get_tx_status
+ 1466              		.thumb
+ 1467              		.thumb_func
+ 1469              	MSS_UART_get_tx_status:
+ 1470              		@ args = 0, pretend = 0, frame = 0
+ 1471              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1472              		@ link register save eliminated.
+ 1473 0000 084B     		ldr	r3, .L328
+ 1474 0002 9842     		cmp	r0, r3
+ 1475 0004 04D0     		beq	.L325
+ 1476 0006 084B     		ldr	r3, .L328+4
+ 1477 0008 9842     		cmp	r0, r3
+ 1478 000a 01D0     		beq	.L325
+ 1479 000c 0020     		movs	r0, #0
+ 1480 000e 7047     		bx	lr
+ 1481              	.L325:
+ 1482 0010 0368     		ldr	r3, [r0]
+ 1483 0012 427B     		ldrb	r2, [r0, #13]	@ zero_extendqisi2
+ 1484 0014 1B7D     		ldrb	r3, [r3, #20]	@ zero_extendqisi2
+ 1485 0016 DBB2     		uxtb	r3, r3
+ 1486 0018 1A43     		orrs	r2, r2, r3
+ 1487 001a 4273     		strb	r2, [r0, #13]
+ 1488 001c 03F06000 		and	r0, r3, #96
+ 1489 0020 7047     		bx	lr
+ 1490              	.L329:
+ 1491 0022 00BF     		.align	2
+ 1492              	.L328:
+ 1493 0024 00000000 		.word	g_mss_uart0
+ 1494 0028 00000000 		.word	g_mss_uart1
+ 1496              		.section	.text.MSS_UART_set_break,"ax",%progbits
+ 1497              		.align	2
+ 1498              		.global	MSS_UART_set_break
+ 1499              		.thumb
+ 1500              		.thumb_func
+ 1502              	MSS_UART_set_break:
+ 1503              		@ args = 0, pretend = 0, frame = 0
+ 1504              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1505              		@ link register save eliminated.
+ 1506 0000 094B     		ldr	r3, .L333
+ 1507 0002 9842     		cmp	r0, r3
+ 1508 0004 03D0     		beq	.L331
+ 1509 0006 094B     		ldr	r3, .L333+4
+ 1510 0008 9842     		cmp	r0, r3
+ 1511 000a 00D0     		beq	.L331
+ 1512 000c 7047     		bx	lr
+ 1513              	.L331:
+ 1514 000e 0368     		ldr	r3, [r0]
+ 1515 0010 0121     		movs	r1, #1
+ 1516 0012 0C33     		adds	r3, r3, #12
+ 1517 0014 03F07042 		and	r2, r3, #-268435456
+ 1518 0018 02F10072 		add	r2, r2, #33554432
+ 1519 001c C3F31303 		ubfx	r3, r3, #0, #20
+ 1520 0020 1832     		adds	r2, r2, #24
+ 1521 0022 5B01     		lsls	r3, r3, #5
+ 1522 0024 D150     		str	r1, [r2, r3]
+ 1523 0026 7047     		bx	lr
+ 1524              	.L334:
+ 1525              		.align	2
+ 1526              	.L333:
+ 1527 0028 00000000 		.word	g_mss_uart0
+ 1528 002c 00000000 		.word	g_mss_uart1
+ 1530              		.section	.text.MSS_UART_clear_break,"ax",%progbits
+ 1531              		.align	2
+ 1532              		.global	MSS_UART_clear_break
+ 1533              		.thumb
+ 1534              		.thumb_func
+ 1536              	MSS_UART_clear_break:
+ 1537              		@ args = 0, pretend = 0, frame = 0
+ 1538              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1539              		@ link register save eliminated.
+ 1540 0000 094B     		ldr	r3, .L338
+ 1541 0002 9842     		cmp	r0, r3
+ 1542 0004 03D0     		beq	.L336
+ 1543 0006 094B     		ldr	r3, .L338+4
+ 1544 0008 9842     		cmp	r0, r3
+ 1545 000a 00D0     		beq	.L336
+ 1546 000c 7047     		bx	lr
+ 1547              	.L336:
+ 1548 000e 0368     		ldr	r3, [r0]
+ 1549 0010 0021     		movs	r1, #0
+ 1550 0012 0C33     		adds	r3, r3, #12
+ 1551 0014 03F07042 		and	r2, r3, #-268435456
+ 1552 0018 02F10072 		add	r2, r2, #33554432
+ 1553 001c C3F31303 		ubfx	r3, r3, #0, #20
+ 1554 0020 1832     		adds	r2, r2, #24
+ 1555 0022 5B01     		lsls	r3, r3, #5
+ 1556 0024 D150     		str	r1, [r2, r3]
+ 1557 0026 7047     		bx	lr
+ 1558              	.L339:
+ 1559              		.align	2
+ 1560              	.L338:
+ 1561 0028 00000000 		.word	g_mss_uart0
+ 1562 002c 00000000 		.word	g_mss_uart1
+ 1564              		.section	.text.MSS_UART_set_pidpei_handler,"ax",%progbits
+ 1565              		.align	2
+ 1566              		.global	MSS_UART_set_pidpei_handler
+ 1567              		.thumb
+ 1568              		.thumb_func
+ 1570              	MSS_UART_set_pidpei_handler:
+ 1571              		@ args = 0, pretend = 0, frame = 0
+ 1572              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1573              		@ link register save eliminated.
+ 1574 0000 154B     		ldr	r3, .L349
+ 1575 0002 9842     		cmp	r0, r3
+ 1576 0004 03D0     		beq	.L341
+ 1577 0006 154B     		ldr	r3, .L349+4
+ 1578 0008 9842     		cmp	r0, r3
+ 1579 000a 00D0     		beq	.L341
+ 1580              	.L348:
+ 1581 000c 7047     		bx	lr
+ 1582              	.L341:
+ 1583 000e 0029     		cmp	r1, #0
+ 1584 0010 FCD0     		beq	.L348
+ 1585 0012 0279     		ldrb	r2, [r0, #4]	@ zero_extendqisi2
+ 1586 0014 30B4     		push	{r4, r5}
+ 1587 0016 42F3C403 		sbfx	r3, r2, #3, #5
+ 1588 001a 23F06043 		bic	r3, r3, #-536870912
+ 1589 001e 23F00303 		bic	r3, r3, #3
+ 1590 0022 0124     		movs	r4, #1
+ 1591 0024 02F01F02 		and	r2, r2, #31
+ 1592 0028 03F16043 		add	r3, r3, #-536870912
+ 1593 002c 04FA02F5 		lsl	r5, r4, r2
+ 1594 0030 03F56143 		add	r3, r3, #57600
+ 1595 0034 4163     		str	r1, [r0, #52]
+ 1596 0036 C3F88051 		str	r5, [r3, #384]
+ 1597 003a 0268     		ldr	r2, [r0]
+ 1598 003c 2432     		adds	r2, r2, #36
+ 1599 003e 02F07041 		and	r1, r2, #-268435456
+ 1600 0042 01F10071 		add	r1, r1, #33554432
+ 1601 0046 C2F31302 		ubfx	r2, r2, #0, #20
+ 1602 004a 0831     		adds	r1, r1, #8
+ 1603 004c 5201     		lsls	r2, r2, #5
+ 1604 004e 8C50     		str	r4, [r1, r2]
+ 1605 0050 1D60     		str	r5, [r3]
+ 1606 0052 30BC     		pop	{r4, r5}
+ 1607 0054 7047     		bx	lr
+ 1608              	.L350:
+ 1609 0056 00BF     		.align	2
+ 1610              	.L349:
+ 1611 0058 00000000 		.word	g_mss_uart0
+ 1612 005c 00000000 		.word	g_mss_uart1
+ 1614              		.section	.text.MSS_UART_set_linbreak_handler,"ax",%progbits
+ 1615              		.align	2
+ 1616              		.global	MSS_UART_set_linbreak_handler
+ 1617              		.thumb
+ 1618              		.thumb_func
+ 1620              	MSS_UART_set_linbreak_handler:
+ 1621              		@ args = 0, pretend = 0, frame = 0
+ 1622              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1623              		@ link register save eliminated.
+ 1624 0000 154B     		ldr	r3, .L360
+ 1625 0002 9842     		cmp	r0, r3
+ 1626 0004 03D0     		beq	.L352
+ 1627 0006 154B     		ldr	r3, .L360+4
+ 1628 0008 9842     		cmp	r0, r3
+ 1629 000a 00D0     		beq	.L352
+ 1630              	.L359:
+ 1631 000c 7047     		bx	lr
+ 1632              	.L352:
+ 1633 000e 0029     		cmp	r1, #0
+ 1634 0010 FCD0     		beq	.L359
+ 1635 0012 0279     		ldrb	r2, [r0, #4]	@ zero_extendqisi2
+ 1636 0014 30B4     		push	{r4, r5}
+ 1637 0016 42F3C403 		sbfx	r3, r2, #3, #5
+ 1638 001a 23F06043 		bic	r3, r3, #-536870912
+ 1639 001e 23F00303 		bic	r3, r3, #3
+ 1640 0022 0124     		movs	r4, #1
+ 1641 0024 02F01F02 		and	r2, r2, #31
+ 1642 0028 03F16043 		add	r3, r3, #-536870912
+ 1643 002c 04FA02F5 		lsl	r5, r4, r2
+ 1644 0030 03F56143 		add	r3, r3, #57600
+ 1645 0034 8163     		str	r1, [r0, #56]
+ 1646 0036 C3F88051 		str	r5, [r3, #384]
+ 1647 003a 0268     		ldr	r2, [r0]
+ 1648 003c 2432     		adds	r2, r2, #36
+ 1649 003e 02F07041 		and	r1, r2, #-268435456
+ 1650 0042 01F10071 		add	r1, r1, #33554432
+ 1651 0046 C2F31302 		ubfx	r2, r2, #0, #20
+ 1652 004a 0C31     		adds	r1, r1, #12
+ 1653 004c 5201     		lsls	r2, r2, #5
+ 1654 004e 8C50     		str	r4, [r1, r2]
+ 1655 0050 1D60     		str	r5, [r3]
+ 1656 0052 30BC     		pop	{r4, r5}
+ 1657 0054 7047     		bx	lr
+ 1658              	.L361:
+ 1659 0056 00BF     		.align	2
+ 1660              	.L360:
+ 1661 0058 00000000 		.word	g_mss_uart0
+ 1662 005c 00000000 		.word	g_mss_uart1
+ 1664              		.section	.text.MSS_UART_set_linsync_handler,"ax",%progbits
+ 1665              		.align	2
+ 1666              		.global	MSS_UART_set_linsync_handler
+ 1667              		.thumb
+ 1668              		.thumb_func
+ 1670              	MSS_UART_set_linsync_handler:
+ 1671              		@ args = 0, pretend = 0, frame = 0
+ 1672              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1673              		@ link register save eliminated.
+ 1674 0000 154B     		ldr	r3, .L371
+ 1675 0002 9842     		cmp	r0, r3
+ 1676 0004 03D0     		beq	.L363
+ 1677 0006 154B     		ldr	r3, .L371+4
+ 1678 0008 9842     		cmp	r0, r3
+ 1679 000a 00D0     		beq	.L363
+ 1680              	.L370:
+ 1681 000c 7047     		bx	lr
+ 1682              	.L363:
+ 1683 000e 0029     		cmp	r1, #0
+ 1684 0010 FCD0     		beq	.L370
+ 1685 0012 0279     		ldrb	r2, [r0, #4]	@ zero_extendqisi2
+ 1686 0014 30B4     		push	{r4, r5}
+ 1687 0016 42F3C403 		sbfx	r3, r2, #3, #5
+ 1688 001a 23F06043 		bic	r3, r3, #-536870912
+ 1689 001e 23F00303 		bic	r3, r3, #3
+ 1690 0022 0124     		movs	r4, #1
+ 1691 0024 02F01F02 		and	r2, r2, #31
+ 1692 0028 03F16043 		add	r3, r3, #-536870912
+ 1693 002c 04FA02F5 		lsl	r5, r4, r2
+ 1694 0030 03F56143 		add	r3, r3, #57600
+ 1695 0034 C163     		str	r1, [r0, #60]
+ 1696 0036 C3F88051 		str	r5, [r3, #384]
+ 1697 003a 0268     		ldr	r2, [r0]
+ 1698 003c 2432     		adds	r2, r2, #36
+ 1699 003e 02F07041 		and	r1, r2, #-268435456
+ 1700 0042 01F10071 		add	r1, r1, #33554432
+ 1701 0046 C2F31302 		ubfx	r2, r2, #0, #20
+ 1702 004a 1031     		adds	r1, r1, #16
+ 1703 004c 5201     		lsls	r2, r2, #5
+ 1704 004e 8C50     		str	r4, [r1, r2]
+ 1705 0050 1D60     		str	r5, [r3]
+ 1706 0052 30BC     		pop	{r4, r5}
+ 1707 0054 7047     		bx	lr
+ 1708              	.L372:
+ 1709 0056 00BF     		.align	2
+ 1710              	.L371:
+ 1711 0058 00000000 		.word	g_mss_uart0
+ 1712 005c 00000000 		.word	g_mss_uart1
+ 1714              		.section	.text.MSS_UART_set_nack_handler,"ax",%progbits
+ 1715              		.align	2
+ 1716              		.global	MSS_UART_set_nack_handler
+ 1717              		.thumb
+ 1718              		.thumb_func
+ 1720              	MSS_UART_set_nack_handler:
+ 1721              		@ args = 0, pretend = 0, frame = 0
+ 1722              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1723              		@ link register save eliminated.
+ 1724 0000 154B     		ldr	r3, .L382
+ 1725 0002 9842     		cmp	r0, r3
+ 1726 0004 03D0     		beq	.L374
+ 1727 0006 154B     		ldr	r3, .L382+4
+ 1728 0008 9842     		cmp	r0, r3
+ 1729 000a 00D0     		beq	.L374
+ 1730              	.L381:
+ 1731 000c 7047     		bx	lr
+ 1732              	.L374:
+ 1733 000e 0029     		cmp	r1, #0
+ 1734 0010 FCD0     		beq	.L381
+ 1735 0012 0279     		ldrb	r2, [r0, #4]	@ zero_extendqisi2
+ 1736 0014 30B4     		push	{r4, r5}
+ 1737 0016 42F3C403 		sbfx	r3, r2, #3, #5
+ 1738 001a 23F06043 		bic	r3, r3, #-536870912
+ 1739 001e 23F00303 		bic	r3, r3, #3
+ 1740 0022 0124     		movs	r4, #1
+ 1741 0024 02F01F02 		and	r2, r2, #31
+ 1742 0028 03F16043 		add	r3, r3, #-536870912
+ 1743 002c 04FA02F5 		lsl	r5, r4, r2
+ 1744 0030 03F56143 		add	r3, r3, #57600
+ 1745 0034 0163     		str	r1, [r0, #48]
+ 1746 0036 C3F88051 		str	r5, [r3, #384]
+ 1747 003a 0268     		ldr	r2, [r0]
+ 1748 003c 2432     		adds	r2, r2, #36
+ 1749 003e 02F07041 		and	r1, r2, #-268435456
+ 1750 0042 01F10071 		add	r1, r1, #33554432
+ 1751 0046 C2F31302 		ubfx	r2, r2, #0, #20
+ 1752 004a 0431     		adds	r1, r1, #4
+ 1753 004c 5201     		lsls	r2, r2, #5
+ 1754 004e 8C50     		str	r4, [r1, r2]
+ 1755 0050 1D60     		str	r5, [r3]
+ 1756 0052 30BC     		pop	{r4, r5}
+ 1757 0054 7047     		bx	lr
+ 1758              	.L383:
+ 1759 0056 00BF     		.align	2
+ 1760              	.L382:
+ 1761 0058 00000000 		.word	g_mss_uart0
+ 1762 005c 00000000 		.word	g_mss_uart1
+ 1764              		.section	.text.MSS_UART_set_rx_timeout_handler,"ax",%progbits
+ 1765              		.align	2
+ 1766              		.global	MSS_UART_set_rx_timeout_handler
+ 1767              		.thumb
+ 1768              		.thumb_func
+ 1770              	MSS_UART_set_rx_timeout_handler:
+ 1771              		@ args = 0, pretend = 0, frame = 0
+ 1772              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1773              		@ link register save eliminated.
+ 1774 0000 144B     		ldr	r3, .L393
+ 1775 0002 9842     		cmp	r0, r3
+ 1776 0004 03D0     		beq	.L385
+ 1777 0006 144B     		ldr	r3, .L393+4
+ 1778 0008 9842     		cmp	r0, r3
+ 1779 000a 00D0     		beq	.L385
+ 1780              	.L392:
+ 1781 000c 7047     		bx	lr
+ 1782              	.L385:
+ 1783 000e 0029     		cmp	r1, #0
+ 1784 0010 FCD0     		beq	.L392
+ 1785 0012 0279     		ldrb	r2, [r0, #4]	@ zero_extendqisi2
+ 1786 0014 30B4     		push	{r4, r5}
+ 1787 0016 42F3C403 		sbfx	r3, r2, #3, #5
+ 1788 001a 23F06043 		bic	r3, r3, #-536870912
+ 1789 001e 23F00303 		bic	r3, r3, #3
+ 1790 0022 0124     		movs	r4, #1
+ 1791 0024 02F01F02 		and	r2, r2, #31
+ 1792 0028 03F16043 		add	r3, r3, #-536870912
+ 1793 002c 04FA02F5 		lsl	r5, r4, r2
+ 1794 0030 03F56143 		add	r3, r3, #57600
+ 1795 0034 C162     		str	r1, [r0, #44]
+ 1796 0036 C3F88051 		str	r5, [r3, #384]
+ 1797 003a 0268     		ldr	r2, [r0]
+ 1798 003c 2432     		adds	r2, r2, #36
+ 1799 003e 02F07041 		and	r1, r2, #-268435456
+ 1800 0042 C2F31302 		ubfx	r2, r2, #0, #20
+ 1801 0046 01F10071 		add	r1, r1, #33554432
+ 1802 004a 5201     		lsls	r2, r2, #5
+ 1803 004c 8C50     		str	r4, [r1, r2]
+ 1804 004e 1D60     		str	r5, [r3]
+ 1805 0050 30BC     		pop	{r4, r5}
+ 1806 0052 7047     		bx	lr
+ 1807              	.L394:
+ 1808              		.align	2
+ 1809              	.L393:
+ 1810 0054 00000000 		.word	g_mss_uart0
+ 1811 0058 00000000 		.word	g_mss_uart1
+ 1813              		.section	.text.MSS_UART_enable_half_duplex,"ax",%progbits
+ 1814              		.align	2
+ 1815              		.global	MSS_UART_enable_half_duplex
+ 1816              		.thumb
+ 1817              		.thumb_func
+ 1819              	MSS_UART_enable_half_duplex:
+ 1820              		@ args = 0, pretend = 0, frame = 0
+ 1821              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1822              		@ link register save eliminated.
+ 1823 0000 094B     		ldr	r3, .L398
+ 1824 0002 9842     		cmp	r0, r3
+ 1825 0004 03D0     		beq	.L396
+ 1826 0006 094B     		ldr	r3, .L398+4
+ 1827 0008 9842     		cmp	r0, r3
+ 1828 000a 00D0     		beq	.L396
+ 1829 000c 7047     		bx	lr
+ 1830              	.L396:
+ 1831 000e 0368     		ldr	r3, [r0]
+ 1832 0010 0121     		movs	r1, #1
+ 1833 0012 3833     		adds	r3, r3, #56
+ 1834 0014 03F07042 		and	r2, r3, #-268435456
+ 1835 0018 02F10072 		add	r2, r2, #33554432
+ 1836 001c C3F31303 		ubfx	r3, r3, #0, #20
+ 1837 0020 0C32     		adds	r2, r2, #12
+ 1838 0022 5B01     		lsls	r3, r3, #5
+ 1839 0024 D150     		str	r1, [r2, r3]
+ 1840 0026 7047     		bx	lr
+ 1841              	.L399:
+ 1842              		.align	2
+ 1843              	.L398:
+ 1844 0028 00000000 		.word	g_mss_uart0
+ 1845 002c 00000000 		.word	g_mss_uart1
+ 1847              		.section	.text.MSS_UART_disable_half_duplex,"ax",%progbits
+ 1848              		.align	2
+ 1849              		.global	MSS_UART_disable_half_duplex
+ 1850              		.thumb
+ 1851              		.thumb_func
+ 1853              	MSS_UART_disable_half_duplex:
+ 1854              		@ args = 0, pretend = 0, frame = 0
+ 1855              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1856              		@ link register save eliminated.
+ 1857 0000 094B     		ldr	r3, .L403
+ 1858 0002 9842     		cmp	r0, r3
+ 1859 0004 03D0     		beq	.L401
+ 1860 0006 094B     		ldr	r3, .L403+4
+ 1861 0008 9842     		cmp	r0, r3
+ 1862 000a 00D0     		beq	.L401
+ 1863 000c 7047     		bx	lr
+ 1864              	.L401:
+ 1865 000e 0368     		ldr	r3, [r0]
+ 1866 0010 0021     		movs	r1, #0
+ 1867 0012 3833     		adds	r3, r3, #56
+ 1868 0014 03F07042 		and	r2, r3, #-268435456
+ 1869 0018 02F10072 		add	r2, r2, #33554432
+ 1870 001c C3F31303 		ubfx	r3, r3, #0, #20
+ 1871 0020 0C32     		adds	r2, r2, #12
+ 1872 0022 5B01     		lsls	r3, r3, #5
+ 1873 0024 D150     		str	r1, [r2, r3]
+ 1874 0026 7047     		bx	lr
+ 1875              	.L404:
+ 1876              		.align	2
+ 1877              	.L403:
+ 1878 0028 00000000 		.word	g_mss_uart0
+ 1879 002c 00000000 		.word	g_mss_uart1
+ 1881              		.section	.text.MSS_UART_set_rx_endian,"ax",%progbits
+ 1882              		.align	2
+ 1883              		.global	MSS_UART_set_rx_endian
+ 1884              		.thumb
+ 1885              		.thumb_func
+ 1887              	MSS_UART_set_rx_endian:
+ 1888              		@ args = 0, pretend = 0, frame = 0
+ 1889              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1890              		@ link register save eliminated.
+ 1891 0000 0A4B     		ldr	r3, .L410
+ 1892 0002 9842     		cmp	r0, r3
+ 1893 0004 03D0     		beq	.L406
+ 1894 0006 0A4B     		ldr	r3, .L410+4
+ 1895 0008 9842     		cmp	r0, r3
+ 1896 000a 00D0     		beq	.L406
+ 1897              	.L405:
+ 1898 000c 7047     		bx	lr
+ 1899              	.L406:
+ 1900 000e 0129     		cmp	r1, #1
+ 1901 0010 FCD8     		bhi	.L405
+ 1902 0012 0368     		ldr	r3, [r0]
+ 1903 0014 01B1     		cbz	r1, .L409
+ 1904 0016 0121     		movs	r1, #1
+ 1905              	.L409:
+ 1906 0018 3433     		adds	r3, r3, #52
+ 1907 001a 03F07042 		and	r2, r3, #-268435456
+ 1908 001e C3F31303 		ubfx	r3, r3, #0, #20
+ 1909 0022 02F10072 		add	r2, r2, #33554432
+ 1910 0026 5B01     		lsls	r3, r3, #5
+ 1911 0028 D150     		str	r1, [r2, r3]
+ 1912 002a 7047     		bx	lr
+ 1913              	.L411:
+ 1914              		.align	2
+ 1915              	.L410:
+ 1916 002c 00000000 		.word	g_mss_uart0
+ 1917 0030 00000000 		.word	g_mss_uart1
+ 1919              		.section	.text.MSS_UART_set_tx_endian,"ax",%progbits
+ 1920              		.align	2
+ 1921              		.global	MSS_UART_set_tx_endian
+ 1922              		.thumb
+ 1923              		.thumb_func
+ 1925              	MSS_UART_set_tx_endian:
+ 1926              		@ args = 0, pretend = 0, frame = 0
+ 1927              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1928              		@ link register save eliminated.
+ 1929 0000 0B4B     		ldr	r3, .L417
+ 1930 0002 9842     		cmp	r0, r3
+ 1931 0004 03D0     		beq	.L413
+ 1932 0006 0B4B     		ldr	r3, .L417+4
+ 1933 0008 9842     		cmp	r0, r3
+ 1934 000a 00D0     		beq	.L413
+ 1935              	.L412:
+ 1936 000c 7047     		bx	lr
+ 1937              	.L413:
+ 1938 000e 0129     		cmp	r1, #1
+ 1939 0010 FCD8     		bhi	.L412
+ 1940 0012 0368     		ldr	r3, [r0]
+ 1941 0014 01B1     		cbz	r1, .L416
+ 1942 0016 0121     		movs	r1, #1
+ 1943              	.L416:
+ 1944 0018 3433     		adds	r3, r3, #52
+ 1945 001a 03F07042 		and	r2, r3, #-268435456
+ 1946 001e 02F10072 		add	r2, r2, #33554432
+ 1947 0022 C3F31303 		ubfx	r3, r3, #0, #20
+ 1948 0026 0432     		adds	r2, r2, #4
+ 1949 0028 5B01     		lsls	r3, r3, #5
+ 1950 002a D150     		str	r1, [r2, r3]
+ 1951 002c 7047     		bx	lr
+ 1952              	.L418:
+ 1953 002e 00BF     		.align	2
+ 1954              	.L417:
+ 1955 0030 00000000 		.word	g_mss_uart0
+ 1956 0034 00000000 		.word	g_mss_uart1
+ 1958              		.section	.text.MSS_UART_set_filter_length,"ax",%progbits
+ 1959              		.align	2
+ 1960              		.global	MSS_UART_set_filter_length
+ 1961              		.thumb
+ 1962              		.thumb_func
+ 1964              	MSS_UART_set_filter_length:
+ 1965              		@ args = 0, pretend = 0, frame = 0
+ 1966              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1967              		@ link register save eliminated.
+ 1968 0000 064B     		ldr	r3, .L422
+ 1969 0002 9842     		cmp	r0, r3
+ 1970 0004 03D0     		beq	.L420
+ 1971 0006 064B     		ldr	r3, .L422+4
+ 1972 0008 9842     		cmp	r0, r3
+ 1973 000a 00D0     		beq	.L420
+ 1974 000c 7047     		bx	lr
+ 1975              	.L420:
+ 1976 000e 0729     		cmp	r1, #7
+ 1977 0010 9CBF     		itt	ls
+ 1978 0012 0368     		ldrls	r3, [r0]
+ 1979 0014 83F84410 		strbls	r1, [r3, #68]
+ 1980 0018 7047     		bx	lr
+ 1981              	.L423:
+ 1982 001a 00BF     		.align	2
+ 1983              	.L422:
+ 1984 001c 00000000 		.word	g_mss_uart0
+ 1985 0020 00000000 		.word	g_mss_uart1
+ 1987              		.section	.text.MSS_UART_enable_afm,"ax",%progbits
+ 1988              		.align	2
+ 1989              		.global	MSS_UART_enable_afm
+ 1990              		.thumb
+ 1991              		.thumb_func
+ 1993              	MSS_UART_enable_afm:
+ 1994              		@ args = 0, pretend = 0, frame = 0
+ 1995              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1996              		@ link register save eliminated.
+ 1997 0000 094B     		ldr	r3, .L427
+ 1998 0002 9842     		cmp	r0, r3
+ 1999 0004 03D0     		beq	.L425
+ 2000 0006 094B     		ldr	r3, .L427+4
+ 2001 0008 9842     		cmp	r0, r3
+ 2002 000a 00D0     		beq	.L425
+ 2003 000c 7047     		bx	lr
+ 2004              	.L425:
+ 2005 000e 0368     		ldr	r3, [r0]
+ 2006 0010 0121     		movs	r1, #1
+ 2007 0012 3833     		adds	r3, r3, #56
+ 2008 0014 03F07042 		and	r2, r3, #-268435456
+ 2009 0018 02F10072 		add	r2, r2, #33554432
+ 2010 001c C3F31303 		ubfx	r3, r3, #0, #20
+ 2011 0020 0432     		adds	r2, r2, #4
+ 2012 0022 5B01     		lsls	r3, r3, #5
+ 2013 0024 D150     		str	r1, [r2, r3]
+ 2014 0026 7047     		bx	lr
+ 2015              	.L428:
+ 2016              		.align	2
+ 2017              	.L427:
+ 2018 0028 00000000 		.word	g_mss_uart0
+ 2019 002c 00000000 		.word	g_mss_uart1
+ 2021              		.section	.text.MSS_UART_disable_afm,"ax",%progbits
+ 2022              		.align	2
+ 2023              		.global	MSS_UART_disable_afm
+ 2024              		.thumb
+ 2025              		.thumb_func
+ 2027              	MSS_UART_disable_afm:
+ 2028              		@ args = 0, pretend = 0, frame = 0
+ 2029              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2030              		@ link register save eliminated.
+ 2031 0000 094B     		ldr	r3, .L432
+ 2032 0002 9842     		cmp	r0, r3
+ 2033 0004 03D0     		beq	.L430
+ 2034 0006 094B     		ldr	r3, .L432+4
+ 2035 0008 9842     		cmp	r0, r3
+ 2036 000a 00D0     		beq	.L430
+ 2037 000c 7047     		bx	lr
+ 2038              	.L430:
+ 2039 000e 0368     		ldr	r3, [r0]
+ 2040 0010 0021     		movs	r1, #0
+ 2041 0012 3833     		adds	r3, r3, #56
+ 2042 0014 03F07042 		and	r2, r3, #-268435456
+ 2043 0018 02F10072 		add	r2, r2, #33554432
+ 2044 001c C3F31303 		ubfx	r3, r3, #0, #20
+ 2045 0020 0432     		adds	r2, r2, #4
+ 2046 0022 5B01     		lsls	r3, r3, #5
+ 2047 0024 D150     		str	r1, [r2, r3]
+ 2048 0026 7047     		bx	lr
+ 2049              	.L433:
+ 2050              		.align	2
+ 2051              	.L432:
+ 2052 0028 00000000 		.word	g_mss_uart0
+ 2053 002c 00000000 		.word	g_mss_uart1
+ 2055              		.section	.text.MSS_UART_enable_afclear,"ax",%progbits
+ 2056              		.align	2
+ 2057              		.global	MSS_UART_enable_afclear
+ 2058              		.thumb
+ 2059              		.thumb_func
+ 2061              	MSS_UART_enable_afclear:
+ 2062              		@ args = 0, pretend = 0, frame = 0
+ 2063              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2064              		@ link register save eliminated.
+ 2065 0000 094B     		ldr	r3, .L437
+ 2066 0002 9842     		cmp	r0, r3
+ 2067 0004 03D0     		beq	.L435
+ 2068 0006 094B     		ldr	r3, .L437+4
+ 2069 0008 9842     		cmp	r0, r3
+ 2070 000a 00D0     		beq	.L435
+ 2071 000c 7047     		bx	lr
+ 2072              	.L435:
+ 2073 000e 0368     		ldr	r3, [r0]
+ 2074 0010 0121     		movs	r1, #1
+ 2075 0012 3833     		adds	r3, r3, #56
+ 2076 0014 03F07042 		and	r2, r3, #-268435456
+ 2077 0018 02F10072 		add	r2, r2, #33554432
+ 2078 001c C3F31303 		ubfx	r3, r3, #0, #20
+ 2079 0020 0832     		adds	r2, r2, #8
+ 2080 0022 5B01     		lsls	r3, r3, #5
+ 2081 0024 D150     		str	r1, [r2, r3]
+ 2082 0026 7047     		bx	lr
+ 2083              	.L438:
+ 2084              		.align	2
+ 2085              	.L437:
+ 2086 0028 00000000 		.word	g_mss_uart0
+ 2087 002c 00000000 		.word	g_mss_uart1
+ 2089              		.section	.text.MSS_UART_disable_afclear,"ax",%progbits
+ 2090              		.align	2
+ 2091              		.global	MSS_UART_disable_afclear
+ 2092              		.thumb
+ 2093              		.thumb_func
+ 2095              	MSS_UART_disable_afclear:
+ 2096              		@ args = 0, pretend = 0, frame = 0
+ 2097              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2098              		@ link register save eliminated.
+ 2099 0000 094B     		ldr	r3, .L442
+ 2100 0002 9842     		cmp	r0, r3
+ 2101 0004 03D0     		beq	.L440
+ 2102 0006 094B     		ldr	r3, .L442+4
+ 2103 0008 9842     		cmp	r0, r3
+ 2104 000a 00D0     		beq	.L440
+ 2105 000c 7047     		bx	lr
+ 2106              	.L440:
+ 2107 000e 0368     		ldr	r3, [r0]
+ 2108 0010 0021     		movs	r1, #0
+ 2109 0012 3833     		adds	r3, r3, #56
+ 2110 0014 03F07042 		and	r2, r3, #-268435456
+ 2111 0018 02F10072 		add	r2, r2, #33554432
+ 2112 001c C3F31303 		ubfx	r3, r3, #0, #20
+ 2113 0020 0832     		adds	r2, r2, #8
+ 2114 0022 5B01     		lsls	r3, r3, #5
+ 2115 0024 D150     		str	r1, [r2, r3]
+ 2116 0026 7047     		bx	lr
+ 2117              	.L443:
+ 2118              		.align	2
+ 2119              	.L442:
+ 2120 0028 00000000 		.word	g_mss_uart0
+ 2121 002c 00000000 		.word	g_mss_uart1
+ 2123              		.section	.text.MSS_UART_enable_rx_timeout,"ax",%progbits
+ 2124              		.align	2
+ 2125              		.global	MSS_UART_enable_rx_timeout
+ 2126              		.thumb
+ 2127              		.thumb_func
+ 2129              	MSS_UART_enable_rx_timeout:
+ 2130              		@ args = 0, pretend = 0, frame = 0
+ 2131              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2132              		@ link register save eliminated.
+ 2133 0000 0D4B     		ldr	r3, .L448
+ 2134 0002 10B4     		push	{r4}
+ 2135 0004 9842     		cmp	r0, r3
+ 2136 0006 05D0     		beq	.L445
+ 2137 0008 0C4B     		ldr	r3, .L448+4
+ 2138 000a 9842     		cmp	r0, r3
+ 2139 000c 02D0     		beq	.L445
+ 2140 000e 5DF8044B 		ldr	r4, [sp], #4
+ 2141 0012 7047     		bx	lr
+ 2142              	.L445:
+ 2143 0014 0368     		ldr	r3, [r0]
+ 2144 0016 0124     		movs	r4, #1
+ 2145 0018 83F84C10 		strb	r1, [r3, #76]
+ 2146 001c 0368     		ldr	r3, [r0]
+ 2147 001e 3033     		adds	r3, r3, #48
+ 2148 0020 03F07042 		and	r2, r3, #-268435456
+ 2149 0024 02F10072 		add	r2, r2, #33554432
+ 2150 0028 C3F31303 		ubfx	r3, r3, #0, #20
+ 2151 002c 1832     		adds	r2, r2, #24
+ 2152 002e 5B01     		lsls	r3, r3, #5
+ 2153 0030 D450     		str	r4, [r2, r3]
+ 2154 0032 5DF8044B 		ldr	r4, [sp], #4
+ 2155 0036 7047     		bx	lr
+ 2156              	.L449:
+ 2157              		.align	2
+ 2158              	.L448:
+ 2159 0038 00000000 		.word	g_mss_uart0
+ 2160 003c 00000000 		.word	g_mss_uart1
+ 2162              		.section	.text.MSS_UART_disable_rx_timeout,"ax",%progbits
+ 2163              		.align	2
+ 2164              		.global	MSS_UART_disable_rx_timeout
+ 2165              		.thumb
+ 2166              		.thumb_func
+ 2168              	MSS_UART_disable_rx_timeout:
+ 2169              		@ args = 0, pretend = 0, frame = 0
+ 2170              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2171              		@ link register save eliminated.
+ 2172 0000 094B     		ldr	r3, .L453
+ 2173 0002 9842     		cmp	r0, r3
+ 2174 0004 03D0     		beq	.L451
+ 2175 0006 094B     		ldr	r3, .L453+4
+ 2176 0008 9842     		cmp	r0, r3
+ 2177 000a 00D0     		beq	.L451
+ 2178 000c 7047     		bx	lr
+ 2179              	.L451:
+ 2180 000e 0368     		ldr	r3, [r0]
+ 2181 0010 0021     		movs	r1, #0
+ 2182 0012 3033     		adds	r3, r3, #48
+ 2183 0014 03F07042 		and	r2, r3, #-268435456
+ 2184 0018 02F10072 		add	r2, r2, #33554432
+ 2185 001c C3F31303 		ubfx	r3, r3, #0, #20
+ 2186 0020 1832     		adds	r2, r2, #24
+ 2187 0022 5B01     		lsls	r3, r3, #5
+ 2188 0024 D150     		str	r1, [r2, r3]
+ 2189 0026 7047     		bx	lr
+ 2190              	.L454:
+ 2191              		.align	2
+ 2192              	.L453:
+ 2193 0028 00000000 		.word	g_mss_uart0
+ 2194 002c 00000000 		.word	g_mss_uart1
+ 2196              		.section	.text.MSS_UART_enable_tx_time_guard,"ax",%progbits
+ 2197              		.align	2
+ 2198              		.global	MSS_UART_enable_tx_time_guard
+ 2199              		.thumb
+ 2200              		.thumb_func
+ 2202              	MSS_UART_enable_tx_time_guard:
+ 2203              		@ args = 0, pretend = 0, frame = 0
+ 2204              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2205              		@ link register save eliminated.
+ 2206 0000 0D4B     		ldr	r3, .L459
+ 2207 0002 10B4     		push	{r4}
+ 2208 0004 9842     		cmp	r0, r3
+ 2209 0006 05D0     		beq	.L456
+ 2210 0008 0C4B     		ldr	r3, .L459+4
+ 2211 000a 9842     		cmp	r0, r3
+ 2212 000c 02D0     		beq	.L456
+ 2213 000e 5DF8044B 		ldr	r4, [sp], #4
+ 2214 0012 7047     		bx	lr
+ 2215              	.L456:
+ 2216 0014 0368     		ldr	r3, [r0]
+ 2217 0016 0124     		movs	r4, #1
+ 2218 0018 83F84810 		strb	r1, [r3, #72]
+ 2219 001c 0368     		ldr	r3, [r0]
+ 2220 001e 3033     		adds	r3, r3, #48
+ 2221 0020 03F07042 		and	r2, r3, #-268435456
+ 2222 0024 02F10072 		add	r2, r2, #33554432
+ 2223 0028 C3F31303 		ubfx	r3, r3, #0, #20
+ 2224 002c 1432     		adds	r2, r2, #20
+ 2225 002e 5B01     		lsls	r3, r3, #5
+ 2226 0030 D450     		str	r4, [r2, r3]
+ 2227 0032 5DF8044B 		ldr	r4, [sp], #4
+ 2228 0036 7047     		bx	lr
+ 2229              	.L460:
+ 2230              		.align	2
+ 2231              	.L459:
+ 2232 0038 00000000 		.word	g_mss_uart0
+ 2233 003c 00000000 		.word	g_mss_uart1
+ 2235              		.section	.text.MSS_UART_disable_tx_time_guard,"ax",%progbits
+ 2236              		.align	2
+ 2237              		.global	MSS_UART_disable_tx_time_guard
+ 2238              		.thumb
+ 2239              		.thumb_func
+ 2241              	MSS_UART_disable_tx_time_guard:
+ 2242              		@ args = 0, pretend = 0, frame = 0
+ 2243              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2244              		@ link register save eliminated.
+ 2245 0000 094B     		ldr	r3, .L464
+ 2246 0002 9842     		cmp	r0, r3
+ 2247 0004 03D0     		beq	.L462
+ 2248 0006 094B     		ldr	r3, .L464+4
+ 2249 0008 9842     		cmp	r0, r3
+ 2250 000a 00D0     		beq	.L462
+ 2251 000c 7047     		bx	lr
+ 2252              	.L462:
+ 2253 000e 0368     		ldr	r3, [r0]
+ 2254 0010 0021     		movs	r1, #0
+ 2255 0012 3033     		adds	r3, r3, #48
+ 2256 0014 03F07042 		and	r2, r3, #-268435456
+ 2257 0018 02F10072 		add	r2, r2, #33554432
+ 2258 001c C3F31303 		ubfx	r3, r3, #0, #20
+ 2259 0020 1432     		adds	r2, r2, #20
+ 2260 0022 5B01     		lsls	r3, r3, #5
+ 2261 0024 D150     		str	r1, [r2, r3]
+ 2262 0026 7047     		bx	lr
+ 2263              	.L465:
+ 2264              		.align	2
+ 2265              	.L464:
+ 2266 0028 00000000 		.word	g_mss_uart0
+ 2267 002c 00000000 		.word	g_mss_uart1
+ 2269              		.section	.text.MSS_UART_set_address,"ax",%progbits
+ 2270              		.align	2
+ 2271              		.global	MSS_UART_set_address
+ 2272              		.thumb
+ 2273              		.thumb_func
+ 2275              	MSS_UART_set_address:
+ 2276              		@ args = 0, pretend = 0, frame = 0
+ 2277              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2278              		@ link register save eliminated.
+ 2279 0000 054B     		ldr	r3, .L469
+ 2280 0002 9842     		cmp	r0, r3
+ 2281 0004 03D0     		beq	.L467
+ 2282 0006 054B     		ldr	r3, .L469+4
+ 2283 0008 9842     		cmp	r0, r3
+ 2284 000a 00D0     		beq	.L467
+ 2285 000c 7047     		bx	lr
+ 2286              	.L467:
+ 2287 000e 0368     		ldr	r3, [r0]
+ 2288 0010 83F85010 		strb	r1, [r3, #80]
+ 2289 0014 7047     		bx	lr
+ 2290              	.L470:
+ 2291 0016 00BF     		.align	2
+ 2292              	.L469:
+ 2293 0018 00000000 		.word	g_mss_uart0
+ 2294 001c 00000000 		.word	g_mss_uart1
+ 2296              		.section	.text.MSS_UART_set_ready_mode,"ax",%progbits
+ 2297              		.align	2
+ 2298              		.global	MSS_UART_set_ready_mode
+ 2299              		.thumb
+ 2300              		.thumb_func
+ 2302              	MSS_UART_set_ready_mode:
+ 2303              		@ args = 0, pretend = 0, frame = 0
+ 2304              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2305              		@ link register save eliminated.
+ 2306 0000 0B4B     		ldr	r3, .L476
+ 2307 0002 9842     		cmp	r0, r3
+ 2308 0004 03D0     		beq	.L472
+ 2309 0006 0B4B     		ldr	r3, .L476+4
+ 2310 0008 9842     		cmp	r0, r3
+ 2311 000a 00D0     		beq	.L472
+ 2312              	.L471:
+ 2313 000c 7047     		bx	lr
+ 2314              	.L472:
+ 2315 000e 0129     		cmp	r1, #1
+ 2316 0010 FCD8     		bhi	.L471
+ 2317 0012 0368     		ldr	r3, [r0]
+ 2318 0014 01B1     		cbz	r1, .L475
+ 2319 0016 0121     		movs	r1, #1
+ 2320              	.L475:
+ 2321 0018 0833     		adds	r3, r3, #8
+ 2322 001a 03F07042 		and	r2, r3, #-268435456
+ 2323 001e 02F10072 		add	r2, r2, #33554432
+ 2324 0022 C3F31303 		ubfx	r3, r3, #0, #20
+ 2325 0026 0C32     		adds	r2, r2, #12
+ 2326 0028 5B01     		lsls	r3, r3, #5
+ 2327 002a D150     		str	r1, [r2, r3]
+ 2328 002c 7047     		bx	lr
+ 2329              	.L477:
+ 2330 002e 00BF     		.align	2
+ 2331              	.L476:
+ 2332 0030 00000000 		.word	g_mss_uart0
+ 2333 0034 00000000 		.word	g_mss_uart1
+ 2335              		.section	.text.MSS_UART_set_usart_mode,"ax",%progbits
+ 2336              		.align	2
+ 2337              		.global	MSS_UART_set_usart_mode
+ 2338              		.thumb
+ 2339              		.thumb_func
+ 2341              	MSS_UART_set_usart_mode:
+ 2342              		@ args = 0, pretend = 0, frame = 0
+ 2343              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2344              		@ link register save eliminated.
+ 2345 0000 0B4B     		ldr	r3, .L481
+ 2346 0002 9842     		cmp	r0, r3
+ 2347 0004 03D0     		beq	.L479
+ 2348 0006 0B4B     		ldr	r3, .L481+4
+ 2349 0008 9842     		cmp	r0, r3
+ 2350 000a 00D0     		beq	.L479
+ 2351              	.L478:
+ 2352 000c 7047     		bx	lr
+ 2353              	.L479:
+ 2354 000e 0429     		cmp	r1, #4
+ 2355 0010 FCD8     		bhi	.L478
+ 2356 0012 0268     		ldr	r2, [r0]
+ 2357 0014 92F83030 		ldrb	r3, [r2, #48]	@ zero_extendqisi2
+ 2358 0018 03F0F803 		and	r3, r3, #248
+ 2359 001c 82F83030 		strb	r3, [r2, #48]
+ 2360 0020 0268     		ldr	r2, [r0]
+ 2361 0022 92F83030 		ldrb	r3, [r2, #48]	@ zero_extendqisi2
+ 2362 0026 1943     		orrs	r1, r1, r3
+ 2363 0028 82F83010 		strb	r1, [r2, #48]
+ 2364 002c 7047     		bx	lr
+ 2365              	.L482:
+ 2366 002e 00BF     		.align	2
+ 2367              	.L481:
+ 2368 0030 00000000 		.word	g_mss_uart0
+ 2369 0034 00000000 		.word	g_mss_uart1
+ 2371              		.comm	g_mss_uart1,64,4
+ 2372              		.comm	g_mss_uart0,64,4
+ 2373              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150529 (release) [ARM/embedded-4_9-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 mss_uart.c
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:16     .text.global_init:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:20     .text.global_init:00000000 global_init
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:234    .text.global_init:00000244 $d
+                            *COM*:00000040 g_mss_uart1
+                            *COM*:00000040 g_mss_uart0
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:243    .text.MSS_UART_isr.part.0:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:247    .text.MSS_UART_isr.part.0:00000000 MSS_UART_isr.part.0
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:257    .text.MSS_UART_isr.part.0:00000010 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:368    .text.default_tx_handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:372    .text.default_tx_handler:00000000 default_tx_handler
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:444    .text.default_tx_handler:0000007c $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:448    .text.MSS_UART_init:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:453    .text.MSS_UART_init:00000000 MSS_UART_init
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:487    .text.MSS_UART_init:00000058 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:490    .text.MSS_UART_lin_init:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:495    .text.MSS_UART_lin_init:00000000 MSS_UART_lin_init
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:527    .text.MSS_UART_irda_init:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:532    .text.MSS_UART_irda_init:00000000 MSS_UART_irda_init
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:588    .text.MSS_UART_smartcard_init:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:593    .text.MSS_UART_smartcard_init:00000000 MSS_UART_smartcard_init
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:631    .text.MSS_UART_polled_tx:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:636    .text.MSS_UART_polled_tx:00000000 MSS_UART_polled_tx
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:689    .text.MSS_UART_polled_tx:00000058 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:693    .text.MSS_UART_polled_tx_string:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:698    .text.MSS_UART_polled_tx_string:00000000 MSS_UART_polled_tx_string
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:746    .text.MSS_UART_polled_tx_string:00000048 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:750    .text.MSS_UART_irq_tx:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:755    .text.MSS_UART_irq_tx:00000000 MSS_UART_irq_tx
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:802    .text.MSS_UART_irq_tx:00000064 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:807    .text.MSS_UART_tx_complete:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:812    .text.MSS_UART_tx_complete:00000000 MSS_UART_tx_complete
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:840    .text.MSS_UART_tx_complete:00000028 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:844    .text.MSS_UART_get_rx:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:849    .text.MSS_UART_get_rx:00000000 MSS_UART_get_rx
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:901    .text.MSS_UART_get_rx:00000054 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:905    .text.MSS_UART_enable_irq:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:910    .text.MSS_UART_enable_irq:00000000 MSS_UART_enable_irq
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:957    .text.MSS_UART_enable_irq:00000060 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:962    .text.MSS_UART_disable_irq:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:967    .text.MSS_UART_disable_irq:00000000 MSS_UART_disable_irq
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1009   .text.MSS_UART_disable_irq:00000060 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1013   .text.MSS_UART_set_rx_handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1018   .text.MSS_UART_set_rx_handler:00000000 MSS_UART_set_rx_handler
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1065   .text.MSS_UART_set_rx_handler:00000068 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1069   .text.MSS_UART_set_loopback:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1074   .text.MSS_UART_set_loopback:00000000 MSS_UART_set_loopback
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1091   .text.MSS_UART_set_loopback:00000018 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1097   .text.MSS_UART_set_loopback:0000001e $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1136   .text.MSS_UART_set_loopback:00000064 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1140   .text.UART0_IRQHandler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1145   .text.UART0_IRQHandler:00000000 UART0_IRQHandler
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1161   .text.UART0_IRQHandler:00000018 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1164   .text.UART1_IRQHandler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1169   .text.UART1_IRQHandler:00000000 UART1_IRQHandler
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1185   .text.UART1_IRQHandler:00000018 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1188   .text.MSS_UART_set_rxstatus_handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1193   .text.MSS_UART_set_rxstatus_handler:00000000 MSS_UART_set_rxstatus_handler
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1234   .text.MSS_UART_set_rxstatus_handler:00000058 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1238   .text.MSS_UART_set_tx_handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1243   .text.MSS_UART_set_tx_handler:00000000 MSS_UART_set_tx_handler
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1287   .text.MSS_UART_set_tx_handler:0000005c $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1291   .text.MSS_UART_set_modemstatus_handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1296   .text.MSS_UART_set_modemstatus_handler:00000000 MSS_UART_set_modemstatus_handler
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1337   .text.MSS_UART_set_modemstatus_handler:00000058 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1341   .text.MSS_UART_fill_tx_fifo:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1346   .text.MSS_UART_fill_tx_fifo:00000000 MSS_UART_fill_tx_fifo
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1397   .text.MSS_UART_fill_tx_fifo:00000050 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1401   .text.MSS_UART_get_rx_status:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1406   .text.MSS_UART_get_rx_status:00000000 MSS_UART_get_rx_status
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1431   .text.MSS_UART_get_rx_status:00000024 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1435   .text.MSS_UART_get_modem_status:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1440   .text.MSS_UART_get_modem_status:00000000 MSS_UART_get_modem_status
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1460   .text.MSS_UART_get_modem_status:00000018 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1464   .text.MSS_UART_get_tx_status:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1469   .text.MSS_UART_get_tx_status:00000000 MSS_UART_get_tx_status
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1493   .text.MSS_UART_get_tx_status:00000024 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1497   .text.MSS_UART_set_break:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1502   .text.MSS_UART_set_break:00000000 MSS_UART_set_break
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1527   .text.MSS_UART_set_break:00000028 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1531   .text.MSS_UART_clear_break:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1536   .text.MSS_UART_clear_break:00000000 MSS_UART_clear_break
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1561   .text.MSS_UART_clear_break:00000028 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1565   .text.MSS_UART_set_pidpei_handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1570   .text.MSS_UART_set_pidpei_handler:00000000 MSS_UART_set_pidpei_handler
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1611   .text.MSS_UART_set_pidpei_handler:00000058 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1615   .text.MSS_UART_set_linbreak_handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1620   .text.MSS_UART_set_linbreak_handler:00000000 MSS_UART_set_linbreak_handler
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1661   .text.MSS_UART_set_linbreak_handler:00000058 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1665   .text.MSS_UART_set_linsync_handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1670   .text.MSS_UART_set_linsync_handler:00000000 MSS_UART_set_linsync_handler
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1711   .text.MSS_UART_set_linsync_handler:00000058 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1715   .text.MSS_UART_set_nack_handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1720   .text.MSS_UART_set_nack_handler:00000000 MSS_UART_set_nack_handler
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1761   .text.MSS_UART_set_nack_handler:00000058 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1765   .text.MSS_UART_set_rx_timeout_handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1770   .text.MSS_UART_set_rx_timeout_handler:00000000 MSS_UART_set_rx_timeout_handler
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1810   .text.MSS_UART_set_rx_timeout_handler:00000054 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1814   .text.MSS_UART_enable_half_duplex:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1819   .text.MSS_UART_enable_half_duplex:00000000 MSS_UART_enable_half_duplex
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1844   .text.MSS_UART_enable_half_duplex:00000028 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1848   .text.MSS_UART_disable_half_duplex:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1853   .text.MSS_UART_disable_half_duplex:00000000 MSS_UART_disable_half_duplex
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1878   .text.MSS_UART_disable_half_duplex:00000028 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1882   .text.MSS_UART_set_rx_endian:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1887   .text.MSS_UART_set_rx_endian:00000000 MSS_UART_set_rx_endian
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1916   .text.MSS_UART_set_rx_endian:0000002c $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1920   .text.MSS_UART_set_tx_endian:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1925   .text.MSS_UART_set_tx_endian:00000000 MSS_UART_set_tx_endian
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1955   .text.MSS_UART_set_tx_endian:00000030 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1959   .text.MSS_UART_set_filter_length:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1964   .text.MSS_UART_set_filter_length:00000000 MSS_UART_set_filter_length
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1984   .text.MSS_UART_set_filter_length:0000001c $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1988   .text.MSS_UART_enable_afm:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:1993   .text.MSS_UART_enable_afm:00000000 MSS_UART_enable_afm
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2018   .text.MSS_UART_enable_afm:00000028 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2022   .text.MSS_UART_disable_afm:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2027   .text.MSS_UART_disable_afm:00000000 MSS_UART_disable_afm
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2052   .text.MSS_UART_disable_afm:00000028 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2056   .text.MSS_UART_enable_afclear:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2061   .text.MSS_UART_enable_afclear:00000000 MSS_UART_enable_afclear
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2086   .text.MSS_UART_enable_afclear:00000028 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2090   .text.MSS_UART_disable_afclear:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2095   .text.MSS_UART_disable_afclear:00000000 MSS_UART_disable_afclear
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2120   .text.MSS_UART_disable_afclear:00000028 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2124   .text.MSS_UART_enable_rx_timeout:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2129   .text.MSS_UART_enable_rx_timeout:00000000 MSS_UART_enable_rx_timeout
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2159   .text.MSS_UART_enable_rx_timeout:00000038 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2163   .text.MSS_UART_disable_rx_timeout:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2168   .text.MSS_UART_disable_rx_timeout:00000000 MSS_UART_disable_rx_timeout
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2193   .text.MSS_UART_disable_rx_timeout:00000028 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2197   .text.MSS_UART_enable_tx_time_guard:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2202   .text.MSS_UART_enable_tx_time_guard:00000000 MSS_UART_enable_tx_time_guard
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2232   .text.MSS_UART_enable_tx_time_guard:00000038 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2236   .text.MSS_UART_disable_tx_time_guard:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2241   .text.MSS_UART_disable_tx_time_guard:00000000 MSS_UART_disable_tx_time_guard
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2266   .text.MSS_UART_disable_tx_time_guard:00000028 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2270   .text.MSS_UART_set_address:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2275   .text.MSS_UART_set_address:00000000 MSS_UART_set_address
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2293   .text.MSS_UART_set_address:00000018 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2297   .text.MSS_UART_set_ready_mode:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2302   .text.MSS_UART_set_ready_mode:00000000 MSS_UART_set_ready_mode
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2332   .text.MSS_UART_set_ready_mode:00000030 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2336   .text.MSS_UART_set_usart_mode:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2341   .text.MSS_UART_set_usart_mode:00000000 MSS_UART_set_usart_mode
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:2368   .text.MSS_UART_set_usart_mode:00000030 $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:270    .text.MSS_UART_isr.part.0:0000001d $d
+C:\Users\jiryu\AppData\Local\Temp\ccabW8D2.s:270    .text.MSS_UART_isr.part.0:0000001e $t
+
+UNDEFINED SYMBOLS
+SystemCoreClockUpdate
+g_FrequencyPCLK1
+g_FrequencyPCLK0

@@ -1,0 +1,941 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"storage.c"
+  15              		.section	.text.GetStorageInfo,"ax",%progbits
+  16              		.align	2
+  17              		.global	GetStorageInfo
+  18              		.thumb
+  19              		.thumb_func
+  21              	GetStorageInfo:
+  22              		@ args = 0, pretend = 0, frame = 0
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24              		@ link register save eliminated.
+  25 0000 0048     		ldr	r0, .L2
+  26 0002 7047     		bx	lr
+  27              	.L3:
+  28              		.align	2
+  29              	.L2:
+  30 0004 00000000 		.word	g_tStorageInfo
+  32              		.section	.text.LoadStorageInfo,"ax",%progbits
+  33              		.align	2
+  34              		.global	LoadStorageInfo
+  35              		.thumb
+  36              		.thumb_func
+  38              	LoadStorageInfo:
+  39              		@ args = 0, pretend = 0, frame = 8
+  40              		@ frame_needed = 0, uses_anonymous_args = 0
+  41 0000 00B5     		push	{lr}
+  42 0002 4FF47C33 		mov	r3, #258048
+  43 0006 83B0     		sub	sp, sp, #12
+  44 0008 0193     		str	r3, [sp, #4]
+  45 000a 0198     		ldr	r0, [sp, #4]
+  46 000c 0349     		ldr	r1, .L8
+  47 000e 4FF48072 		mov	r2, #256
+  48 0012 FFF7FEFF 		bl	MSS_NVM_read
+  49 0016 03B0     		add	sp, sp, #12
+  50              		@ sp needed
+  51 0018 5DF804FB 		ldr	pc, [sp], #4
+  52              	.L9:
+  53              		.align	2
+  54              	.L8:
+  55 001c 00000000 		.word	g_tStorageInfo
+  57              		.section	.text.InitStorageInfo,"ax",%progbits
+  58              		.align	2
+  59              		.global	InitStorageInfo
+  60              		.thumb
+  61              		.thumb_func
+  63              	InitStorageInfo:
+  64              		@ args = 0, pretend = 0, frame = 0
+  65              		@ frame_needed = 0, uses_anonymous_args = 0
+  66 0000 10B5     		push	{r4, lr}
+  67 0002 0648     		ldr	r0, .L19
+  68 0004 0021     		movs	r1, #0
+  69 0006 4FF48072 		mov	r2, #256
+  70 000a FFF7FEFF 		bl	memset
+  71 000e 0324     		movs	r4, #3
+  72              	.L12:
+  73 0010 FFF7FEFF 		bl	LoadStorageInfo
+  74 0014 08B1     		cbz	r0, .L11
+  75 0016 013C     		subs	r4, r4, #1
+  76 0018 FAD1     		bne	.L12
+  77              	.L11:
+  78 001a 10BD     		pop	{r4, pc}
+  79              	.L20:
+  80              		.align	2
+  81              	.L19:
+  82 001c 00000000 		.word	g_tStorageInfo
+  84              		.section	.text.SaveStorageInfo,"ax",%progbits
+  85              		.align	2
+  86              		.global	SaveStorageInfo
+  87              		.thumb
+  88              		.thumb_func
+  90              	SaveStorageInfo:
+  91              		@ args = 0, pretend = 0, frame = 16
+  92              		@ frame_needed = 0, uses_anonymous_args = 0
+  93 0000 70B5     		push	{r4, r5, r6, lr}
+  94 0002 1E4A     		ldr	r2, .L40
+  95 0004 84B0     		sub	sp, sp, #16
+  96 0006 0023     		movs	r3, #0
+  97 0008 0128     		cmp	r0, #1
+  98 000a 0193     		str	r3, [sp, #4]
+  99 000c 0292     		str	r2, [sp, #8]
+ 100 000e 0393     		str	r3, [sp, #12]
+ 101 0010 20D0     		beq	.L38
+ 102 0012 0228     		cmp	r0, #2
+ 103 0014 22D0     		beq	.L39
+ 104 0016 0328     		cmp	r0, #3
+ 105 0018 25D1     		bne	.L32
+ 106 001a C023     		movs	r3, #192
+ 107 001c 184E     		ldr	r6, .L40+4
+ 108 001e 0393     		str	r3, [sp, #12]
+ 109 0020 4025     		movs	r5, #64
+ 110              	.L23:
+ 111 0022 029B     		ldr	r3, [sp, #8]
+ 112 0024 039A     		ldr	r2, [sp, #12]
+ 113 0026 0324     		movs	r4, #3
+ 114 0028 1344     		add	r3, r3, r2
+ 115 002a 0193     		str	r3, [sp, #4]
+ 116              	.L30:
+ 117 002c 0198     		ldr	r0, [sp, #4]
+ 118 002e 3146     		mov	r1, r6
+ 119 0030 2A46     		mov	r2, r5
+ 120 0032 0023     		movs	r3, #0
+ 121 0034 FFF7FEFF 		bl	NVM_write
+ 122 0038 C0B1     		cbz	r0, .L26
+ 123 003a 0528     		cmp	r0, #5
+ 124 003c 16D0     		beq	.L26
+ 125 003e 0328     		cmp	r0, #3
+ 126 0040 06D1     		bne	.L25
+ 127 0042 0198     		ldr	r0, [sp, #4]
+ 128 0044 2946     		mov	r1, r5
+ 129 0046 FFF7FEFF 		bl	NVM_unlock
+ 130 004a 013C     		subs	r4, r4, #1
+ 131 004c EED1     		bne	.L30
+ 132              	.L31:
+ 133 004e 0020     		movs	r0, #0
+ 134              	.L25:
+ 135 0050 04B0     		add	sp, sp, #16
+ 136              		@ sp needed
+ 137 0052 70BD     		pop	{r4, r5, r6, pc}
+ 138              	.L38:
+ 139 0054 0393     		str	r3, [sp, #12]
+ 140 0056 8025     		movs	r5, #128
+ 141 0058 0A4E     		ldr	r6, .L40+8
+ 142 005a E2E7     		b	.L23
+ 143              	.L39:
+ 144 005c 8023     		movs	r3, #128
+ 145 005e 0393     		str	r3, [sp, #12]
+ 146 0060 4025     		movs	r5, #64
+ 147 0062 094E     		ldr	r6, .L40+12
+ 148 0064 DDE7     		b	.L23
+ 149              	.L32:
+ 150 0066 4FF0FF30 		mov	r0, #-1
+ 151 006a F1E7     		b	.L25
+ 152              	.L26:
+ 153 006c 0198     		ldr	r0, [sp, #4]
+ 154 006e 2A46     		mov	r2, r5
+ 155 0070 0449     		ldr	r1, .L40+8
+ 156 0072 FFF7FEFF 		bl	NVM_verify
+ 157 0076 0028     		cmp	r0, #0
+ 158 0078 EAD1     		bne	.L25
+ 159 007a E8E7     		b	.L31
+ 160              	.L41:
+ 161              		.align	2
+ 162              	.L40:
+ 163 007c 00F00360 		.word	1610870784
+ 164 0080 C0000000 		.word	g_tStorageInfo+192
+ 165 0084 00000000 		.word	g_tStorageInfo
+ 166 0088 80000000 		.word	g_tStorageInfo+128
+ 168              		.section	.text.SaveStorageInfoALL,"ax",%progbits
+ 169              		.align	2
+ 170              		.global	SaveStorageInfoALL
+ 171              		.thumb
+ 172              		.thumb_func
+ 174              	SaveStorageInfoALL:
+ 175              		@ args = 0, pretend = 0, frame = 8
+ 176              		@ frame_needed = 0, uses_anonymous_args = 0
+ 177 0000 10B5     		push	{r4, lr}
+ 178 0002 114B     		ldr	r3, .L55
+ 179 0004 82B0     		sub	sp, sp, #8
+ 180 0006 0324     		movs	r4, #3
+ 181 0008 0193     		str	r3, [sp, #4]
+ 182              	.L48:
+ 183 000a 1049     		ldr	r1, .L55+4
+ 184 000c 0198     		ldr	r0, [sp, #4]
+ 185 000e 4FF48072 		mov	r2, #256
+ 186 0012 0023     		movs	r3, #0
+ 187 0014 FFF7FEFF 		bl	NVM_write
+ 188 0018 4FF48071 		mov	r1, #256
+ 189 001c 58B1     		cbz	r0, .L43
+ 190 001e 0528     		cmp	r0, #5
+ 191 0020 09D0     		beq	.L43
+ 192 0022 0328     		cmp	r0, #3
+ 193 0024 05D1     		bne	.L46
+ 194 0026 0198     		ldr	r0, [sp, #4]
+ 195 0028 FFF7FEFF 		bl	NVM_unlock
+ 196 002c 013C     		subs	r4, r4, #1
+ 197 002e ECD1     		bne	.L48
+ 198              	.L49:
+ 199 0030 0020     		movs	r0, #0
+ 200              	.L46:
+ 201 0032 02B0     		add	sp, sp, #8
+ 202              		@ sp needed
+ 203 0034 10BD     		pop	{r4, pc}
+ 204              	.L43:
+ 205 0036 0198     		ldr	r0, [sp, #4]
+ 206 0038 0449     		ldr	r1, .L55+4
+ 207 003a 4FF48072 		mov	r2, #256
+ 208 003e FFF7FEFF 		bl	NVM_verify
+ 209 0042 0028     		cmp	r0, #0
+ 210 0044 F5D1     		bne	.L46
+ 211 0046 F3E7     		b	.L49
+ 212              	.L56:
+ 213              		.align	2
+ 214              	.L55:
+ 215 0048 00F00360 		.word	1610870784
+ 216 004c 00000000 		.word	g_tStorageInfo
+ 218              		.section	.text.SaveStorageInfoALL_Param,"ax",%progbits
+ 219              		.align	2
+ 220              		.global	SaveStorageInfoALL_Param
+ 221              		.thumb
+ 222              		.thumb_func
+ 224              	SaveStorageInfoALL_Param:
+ 225              		@ args = 0, pretend = 0, frame = 8
+ 226              		@ frame_needed = 0, uses_anonymous_args = 0
+ 227 0000 30B5     		push	{r4, r5, lr}
+ 228 0002 0546     		mov	r5, r0
+ 229 0004 114B     		ldr	r3, .L70
+ 230 0006 83B0     		sub	sp, sp, #12
+ 231 0008 0324     		movs	r4, #3
+ 232 000a 0193     		str	r3, [sp, #4]
+ 233              	.L63:
+ 234 000c 2946     		mov	r1, r5
+ 235 000e 0198     		ldr	r0, [sp, #4]
+ 236 0010 4FF48072 		mov	r2, #256
+ 237 0014 0023     		movs	r3, #0
+ 238 0016 FFF7FEFF 		bl	NVM_write
+ 239 001a 4FF48071 		mov	r1, #256
+ 240 001e 58B1     		cbz	r0, .L58
+ 241 0020 0528     		cmp	r0, #5
+ 242 0022 09D0     		beq	.L58
+ 243 0024 0328     		cmp	r0, #3
+ 244 0026 05D1     		bne	.L61
+ 245 0028 0198     		ldr	r0, [sp, #4]
+ 246 002a FFF7FEFF 		bl	NVM_unlock
+ 247 002e 013C     		subs	r4, r4, #1
+ 248 0030 ECD1     		bne	.L63
+ 249              	.L64:
+ 250 0032 0020     		movs	r0, #0
+ 251              	.L61:
+ 252 0034 03B0     		add	sp, sp, #12
+ 253              		@ sp needed
+ 254 0036 30BD     		pop	{r4, r5, pc}
+ 255              	.L58:
+ 256 0038 0198     		ldr	r0, [sp, #4]
+ 257 003a 2946     		mov	r1, r5
+ 258 003c 4FF48072 		mov	r2, #256
+ 259 0040 FFF7FEFF 		bl	NVM_verify
+ 260 0044 0028     		cmp	r0, #0
+ 261 0046 F5D1     		bne	.L61
+ 262 0048 F3E7     		b	.L64
+ 263              	.L71:
+ 264 004a 00BF     		.align	2
+ 265              	.L70:
+ 266 004c 00F00360 		.word	1610870784
+ 268              		.section	.text.GetBLVer,"ax",%progbits
+ 269              		.align	2
+ 270              		.global	GetBLVer
+ 271              		.thumb
+ 272              		.thumb_func
+ 274              	GetBLVer:
+ 275              		@ args = 0, pretend = 0, frame = 0
+ 276              		@ frame_needed = 0, uses_anonymous_args = 0
+ 277              		@ link register save eliminated.
+ 278 0000 014B     		ldr	r3, .L73
+ 279 0002 1868     		ldr	r0, [r3]	@ unaligned
+ 280 0004 7047     		bx	lr
+ 281              	.L74:
+ 282 0006 00BF     		.align	2
+ 283              	.L73:
+ 284 0008 00000000 		.word	g_tStorageInfo
+ 286              		.section	.text.SetBLVer,"ax",%progbits
+ 287              		.align	2
+ 288              		.global	SetBLVer
+ 289              		.thumb
+ 290              		.thumb_func
+ 292              	SetBLVer:
+ 293              		@ args = 0, pretend = 0, frame = 0
+ 294              		@ frame_needed = 0, uses_anonymous_args = 0
+ 295              		@ link register save eliminated.
+ 296 0000 014B     		ldr	r3, .L76
+ 297 0002 1860     		str	r0, [r3]	@ unaligned
+ 298 0004 7047     		bx	lr
+ 299              	.L77:
+ 300 0006 00BF     		.align	2
+ 301              	.L76:
+ 302 0008 00000000 		.word	g_tStorageInfo
+ 304              		.section	.text.GetIAPVer,"ax",%progbits
+ 305              		.align	2
+ 306              		.global	GetIAPVer
+ 307              		.thumb
+ 308              		.thumb_func
+ 310              	GetIAPVer:
+ 311              		@ args = 0, pretend = 0, frame = 0
+ 312              		@ frame_needed = 0, uses_anonymous_args = 0
+ 313              		@ link register save eliminated.
+ 314 0000 014B     		ldr	r3, .L79
+ 315 0002 5868     		ldr	r0, [r3, #4]	@ unaligned
+ 316 0004 7047     		bx	lr
+ 317              	.L80:
+ 318 0006 00BF     		.align	2
+ 319              	.L79:
+ 320 0008 00000000 		.word	g_tStorageInfo
+ 322              		.section	.text.SetIAPVer,"ax",%progbits
+ 323              		.align	2
+ 324              		.global	SetIAPVer
+ 325              		.thumb
+ 326              		.thumb_func
+ 328              	SetIAPVer:
+ 329              		@ args = 0, pretend = 0, frame = 0
+ 330              		@ frame_needed = 0, uses_anonymous_args = 0
+ 331              		@ link register save eliminated.
+ 332 0000 014B     		ldr	r3, .L82
+ 333 0002 5860     		str	r0, [r3, #4]	@ unaligned
+ 334 0004 7047     		bx	lr
+ 335              	.L83:
+ 336 0006 00BF     		.align	2
+ 337              	.L82:
+ 338 0008 00000000 		.word	g_tStorageInfo
+ 340              		.section	.text.GetAPPVer,"ax",%progbits
+ 341              		.align	2
+ 342              		.global	GetAPPVer
+ 343              		.thumb
+ 344              		.thumb_func
+ 346              	GetAPPVer:
+ 347              		@ args = 0, pretend = 0, frame = 0
+ 348              		@ frame_needed = 0, uses_anonymous_args = 0
+ 349              		@ link register save eliminated.
+ 350 0000 014B     		ldr	r3, .L85
+ 351 0002 9868     		ldr	r0, [r3, #8]	@ unaligned
+ 352 0004 7047     		bx	lr
+ 353              	.L86:
+ 354 0006 00BF     		.align	2
+ 355              	.L85:
+ 356 0008 00000000 		.word	g_tStorageInfo
+ 358              		.section	.text.SetAPPVer,"ax",%progbits
+ 359              		.align	2
+ 360              		.global	SetAPPVer
+ 361              		.thumb
+ 362              		.thumb_func
+ 364              	SetAPPVer:
+ 365              		@ args = 0, pretend = 0, frame = 0
+ 366              		@ frame_needed = 0, uses_anonymous_args = 0
+ 367              		@ link register save eliminated.
+ 368 0000 014B     		ldr	r3, .L88
+ 369 0002 9860     		str	r0, [r3, #8]	@ unaligned
+ 370 0004 7047     		bx	lr
+ 371              	.L89:
+ 372 0006 00BF     		.align	2
+ 373              	.L88:
+ 374 0008 00000000 		.word	g_tStorageInfo
+ 376              		.section	.text.GetFPGAVer,"ax",%progbits
+ 377              		.align	2
+ 378              		.global	GetFPGAVer
+ 379              		.thumb
+ 380              		.thumb_func
+ 382              	GetFPGAVer:
+ 383              		@ args = 0, pretend = 0, frame = 0
+ 384              		@ frame_needed = 0, uses_anonymous_args = 0
+ 385              		@ link register save eliminated.
+ 386 0000 014B     		ldr	r3, .L91
+ 387 0002 D868     		ldr	r0, [r3, #12]	@ unaligned
+ 388 0004 7047     		bx	lr
+ 389              	.L92:
+ 390 0006 00BF     		.align	2
+ 391              	.L91:
+ 392 0008 00000000 		.word	g_tStorageInfo
+ 394              		.section	.text.SetFPGAVer,"ax",%progbits
+ 395              		.align	2
+ 396              		.global	SetFPGAVer
+ 397              		.thumb
+ 398              		.thumb_func
+ 400              	SetFPGAVer:
+ 401              		@ args = 0, pretend = 0, frame = 0
+ 402              		@ frame_needed = 0, uses_anonymous_args = 0
+ 403              		@ link register save eliminated.
+ 404 0000 014B     		ldr	r3, .L94
+ 405 0002 D860     		str	r0, [r3, #12]	@ unaligned
+ 406 0004 7047     		bx	lr
+ 407              	.L95:
+ 408 0006 00BF     		.align	2
+ 409              	.L94:
+ 410 0008 00000000 		.word	g_tStorageInfo
+ 412              		.section	.text.GetSerialNo,"ax",%progbits
+ 413              		.align	2
+ 414              		.global	GetSerialNo
+ 415              		.thumb
+ 416              		.thumb_func
+ 418              	GetSerialNo:
+ 419              		@ args = 0, pretend = 0, frame = 0
+ 420              		@ frame_needed = 0, uses_anonymous_args = 0
+ 421              		@ link register save eliminated.
+ 422 0000 0246     		mov	r2, r0
+ 423 0002 70B4     		push	{r4, r5, r6}
+ 424 0004 0A4B     		ldr	r3, .L98
+ 425 0006 2020     		movs	r0, #32
+ 426 0008 53F8106F 		ldr	r6, [r3, #16]!	@ unaligned
+ 427 000c 5D68     		ldr	r5, [r3, #4]	@ unaligned
+ 428 000e 9C68     		ldr	r4, [r3, #8]	@ unaligned
+ 429 0010 D968     		ldr	r1, [r3, #12]	@ unaligned
+ 430 0012 1660     		str	r6, [r2]	@ unaligned
+ 431 0014 5560     		str	r5, [r2, #4]	@ unaligned
+ 432 0016 9460     		str	r4, [r2, #8]	@ unaligned
+ 433 0018 D160     		str	r1, [r2, #12]	@ unaligned
+ 434 001a 1E69     		ldr	r6, [r3, #16]	@ unaligned
+ 435 001c 5D69     		ldr	r5, [r3, #20]	@ unaligned
+ 436 001e 9C69     		ldr	r4, [r3, #24]	@ unaligned
+ 437 0020 D969     		ldr	r1, [r3, #28]	@ unaligned
+ 438 0022 1661     		str	r6, [r2, #16]	@ unaligned
+ 439 0024 5561     		str	r5, [r2, #20]	@ unaligned
+ 440 0026 9461     		str	r4, [r2, #24]	@ unaligned
+ 441 0028 D161     		str	r1, [r2, #28]	@ unaligned
+ 442 002a 70BC     		pop	{r4, r5, r6}
+ 443 002c 7047     		bx	lr
+ 444              	.L99:
+ 445 002e 00BF     		.align	2
+ 446              	.L98:
+ 447 0030 00000000 		.word	g_tStorageInfo
+ 449              		.section	.text.SetSerialNo,"ax",%progbits
+ 450              		.align	2
+ 451              		.global	SetSerialNo
+ 452              		.thumb
+ 453              		.thumb_func
+ 455              	SetSerialNo:
+ 456              		@ args = 0, pretend = 0, frame = 0
+ 457              		@ frame_needed = 0, uses_anonymous_args = 0
+ 458              		@ link register save eliminated.
+ 459 0000 0346     		mov	r3, r0
+ 460 0002 0A46     		mov	r2, r1
+ 461 0004 0148     		ldr	r0, .L101
+ 462 0006 1946     		mov	r1, r3
+ 463 0008 FFF7FEBF 		b	memcpy
+ 464              	.L102:
+ 465              		.align	2
+ 466              	.L101:
+ 467 000c 10000000 		.word	g_tStorageInfo+16
+ 469              		.section	.text.GetIPAddress,"ax",%progbits
+ 470              		.align	2
+ 471              		.global	GetIPAddress
+ 472              		.thumb
+ 473              		.thumb_func
+ 475              	GetIPAddress:
+ 476              		@ args = 0, pretend = 0, frame = 0
+ 477              		@ frame_needed = 0, uses_anonymous_args = 0
+ 478              		@ link register save eliminated.
+ 479 0000 024B     		ldr	r3, .L104
+ 480 0002 1B68     		ldr	r3, [r3]	@ unaligned
+ 481 0004 0360     		str	r3, [r0]	@ unaligned
+ 482 0006 0420     		movs	r0, #4
+ 483 0008 7047     		bx	lr
+ 484              	.L105:
+ 485 000a 00BF     		.align	2
+ 486              	.L104:
+ 487 000c 30000000 		.word	g_tStorageInfo+48
+ 489              		.section	.text.SetIPAddress,"ax",%progbits
+ 490              		.align	2
+ 491              		.global	SetIPAddress
+ 492              		.thumb
+ 493              		.thumb_func
+ 495              	SetIPAddress:
+ 496              		@ args = 0, pretend = 0, frame = 0
+ 497              		@ frame_needed = 0, uses_anonymous_args = 0
+ 498              		@ link register save eliminated.
+ 499 0000 0346     		mov	r3, r0
+ 500 0002 0A46     		mov	r2, r1
+ 501 0004 0148     		ldr	r0, .L107
+ 502 0006 1946     		mov	r1, r3
+ 503 0008 FFF7FEBF 		b	memcpy
+ 504              	.L108:
+ 505              		.align	2
+ 506              	.L107:
+ 507 000c 30000000 		.word	g_tStorageInfo+48
+ 509              		.section	.text.GetGateway,"ax",%progbits
+ 510              		.align	2
+ 511              		.global	GetGateway
+ 512              		.thumb
+ 513              		.thumb_func
+ 515              	GetGateway:
+ 516              		@ args = 0, pretend = 0, frame = 0
+ 517              		@ frame_needed = 0, uses_anonymous_args = 0
+ 518              		@ link register save eliminated.
+ 519 0000 024B     		ldr	r3, .L110
+ 520 0002 1B68     		ldr	r3, [r3]	@ unaligned
+ 521 0004 0360     		str	r3, [r0]	@ unaligned
+ 522 0006 0420     		movs	r0, #4
+ 523 0008 7047     		bx	lr
+ 524              	.L111:
+ 525 000a 00BF     		.align	2
+ 526              	.L110:
+ 527 000c 34000000 		.word	g_tStorageInfo+52
+ 529              		.section	.text.SetGateway,"ax",%progbits
+ 530              		.align	2
+ 531              		.global	SetGateway
+ 532              		.thumb
+ 533              		.thumb_func
+ 535              	SetGateway:
+ 536              		@ args = 0, pretend = 0, frame = 0
+ 537              		@ frame_needed = 0, uses_anonymous_args = 0
+ 538              		@ link register save eliminated.
+ 539 0000 0346     		mov	r3, r0
+ 540 0002 0A46     		mov	r2, r1
+ 541 0004 0148     		ldr	r0, .L113
+ 542 0006 1946     		mov	r1, r3
+ 543 0008 FFF7FEBF 		b	memcpy
+ 544              	.L114:
+ 545              		.align	2
+ 546              	.L113:
+ 547 000c 34000000 		.word	g_tStorageInfo+52
+ 549              		.section	.text.GetMacAddress,"ax",%progbits
+ 550              		.align	2
+ 551              		.global	GetMacAddress
+ 552              		.thumb
+ 553              		.thumb_func
+ 555              	GetMacAddress:
+ 556              		@ args = 0, pretend = 0, frame = 0
+ 557              		@ frame_needed = 0, uses_anonymous_args = 0
+ 558              		@ link register save eliminated.
+ 559 0000 0246     		mov	r2, r0
+ 560 0002 044B     		ldr	r3, .L116
+ 561 0004 0620     		movs	r0, #6
+ 562 0006 53F8381F 		ldr	r1, [r3, #56]!	@ unaligned
+ 563 000a 1160     		str	r1, [r2]	@ unaligned
+ 564 000c 9B88     		ldrh	r3, [r3, #4]	@ unaligned
+ 565 000e 9380     		strh	r3, [r2, #4]	@ unaligned
+ 566 0010 7047     		bx	lr
+ 567              	.L117:
+ 568 0012 00BF     		.align	2
+ 569              	.L116:
+ 570 0014 00000000 		.word	g_tStorageInfo
+ 572              		.section	.text.SetMacAddress,"ax",%progbits
+ 573              		.align	2
+ 574              		.global	SetMacAddress
+ 575              		.thumb
+ 576              		.thumb_func
+ 578              	SetMacAddress:
+ 579              		@ args = 0, pretend = 0, frame = 0
+ 580              		@ frame_needed = 0, uses_anonymous_args = 0
+ 581              		@ link register save eliminated.
+ 582 0000 0346     		mov	r3, r0
+ 583 0002 0A46     		mov	r2, r1
+ 584 0004 0148     		ldr	r0, .L119
+ 585 0006 1946     		mov	r1, r3
+ 586 0008 FFF7FEBF 		b	memcpy
+ 587              	.L120:
+ 588              		.align	2
+ 589              	.L119:
+ 590 000c 38000000 		.word	g_tStorageInfo+56
+ 592              		.section	.text.GetModelName,"ax",%progbits
+ 593              		.align	2
+ 594              		.global	GetModelName
+ 595              		.thumb
+ 596              		.thumb_func
+ 598              	GetModelName:
+ 599              		@ args = 0, pretend = 0, frame = 0
+ 600              		@ frame_needed = 0, uses_anonymous_args = 0
+ 601              		@ link register save eliminated.
+ 602 0000 0246     		mov	r2, r0
+ 603 0002 10B4     		push	{r4}
+ 604 0004 054B     		ldr	r3, .L123
+ 605 0006 0C20     		movs	r0, #12
+ 606 0008 53F83E4F 		ldr	r4, [r3, #62]!	@ unaligned
+ 607 000c 5968     		ldr	r1, [r3, #4]	@ unaligned
+ 608 000e 9B68     		ldr	r3, [r3, #8]	@ unaligned
+ 609 0010 1460     		str	r4, [r2]	@ unaligned
+ 610 0012 5160     		str	r1, [r2, #4]	@ unaligned
+ 611 0014 9360     		str	r3, [r2, #8]	@ unaligned
+ 612 0016 5DF8044B 		ldr	r4, [sp], #4
+ 613 001a 7047     		bx	lr
+ 614              	.L124:
+ 615              		.align	2
+ 616              	.L123:
+ 617 001c 00000000 		.word	g_tStorageInfo
+ 619              		.section	.text.SetModelName,"ax",%progbits
+ 620              		.align	2
+ 621              		.global	SetModelName
+ 622              		.thumb
+ 623              		.thumb_func
+ 625              	SetModelName:
+ 626              		@ args = 0, pretend = 0, frame = 0
+ 627              		@ frame_needed = 0, uses_anonymous_args = 0
+ 628              		@ link register save eliminated.
+ 629 0000 0346     		mov	r3, r0
+ 630 0002 0A46     		mov	r2, r1
+ 631 0004 0148     		ldr	r0, .L126
+ 632 0006 1946     		mov	r1, r3
+ 633 0008 FFF7FEBF 		b	memcpy
+ 634              	.L127:
+ 635              		.align	2
+ 636              	.L126:
+ 637 000c 3E000000 		.word	g_tStorageInfo+62
+ 639              		.section	.text.GetD2LampTime,"ax",%progbits
+ 640              		.align	2
+ 641              		.global	GetD2LampTime
+ 642              		.thumb
+ 643              		.thumb_func
+ 645              	GetD2LampTime:
+ 646              		@ args = 0, pretend = 0, frame = 0
+ 647              		@ frame_needed = 0, uses_anonymous_args = 0
+ 648              		@ link register save eliminated.
+ 649 0000 014B     		ldr	r3, .L129
+ 650 0002 D3F88000 		ldr	r0, [r3, #128]	@ unaligned
+ 651 0006 7047     		bx	lr
+ 652              	.L130:
+ 653              		.align	2
+ 654              	.L129:
+ 655 0008 00000000 		.word	g_tStorageInfo
+ 657              		.section	.text.SetD2LampTime,"ax",%progbits
+ 658              		.align	2
+ 659              		.global	SetD2LampTime
+ 660              		.thumb
+ 661              		.thumb_func
+ 663              	SetD2LampTime:
+ 664              		@ args = 0, pretend = 0, frame = 0
+ 665              		@ frame_needed = 0, uses_anonymous_args = 0
+ 666              		@ link register save eliminated.
+ 667 0000 014B     		ldr	r3, .L132
+ 668 0002 C3F88000 		str	r0, [r3, #128]	@ unaligned
+ 669 0006 7047     		bx	lr
+ 670              	.L133:
+ 671              		.align	2
+ 672              	.L132:
+ 673 0008 00000000 		.word	g_tStorageInfo
+ 675              		.section	.text.GetWLampTime,"ax",%progbits
+ 676              		.align	2
+ 677              		.global	GetWLampTime
+ 678              		.thumb
+ 679              		.thumb_func
+ 681              	GetWLampTime:
+ 682              		@ args = 0, pretend = 0, frame = 0
+ 683              		@ frame_needed = 0, uses_anonymous_args = 0
+ 684              		@ link register save eliminated.
+ 685 0000 014B     		ldr	r3, .L135
+ 686 0002 D3F88400 		ldr	r0, [r3, #132]	@ unaligned
+ 687 0006 7047     		bx	lr
+ 688              	.L136:
+ 689              		.align	2
+ 690              	.L135:
+ 691 0008 00000000 		.word	g_tStorageInfo
+ 693              		.section	.text.SetWLampTime,"ax",%progbits
+ 694              		.align	2
+ 695              		.global	SetWLampTime
+ 696              		.thumb
+ 697              		.thumb_func
+ 699              	SetWLampTime:
+ 700              		@ args = 0, pretend = 0, frame = 0
+ 701              		@ frame_needed = 0, uses_anonymous_args = 0
+ 702              		@ link register save eliminated.
+ 703 0000 014B     		ldr	r3, .L138
+ 704 0002 C3F88400 		str	r0, [r3, #132]	@ unaligned
+ 705 0006 7047     		bx	lr
+ 706              	.L139:
+ 707              		.align	2
+ 708              	.L138:
+ 709 0008 00000000 		.word	g_tStorageInfo
+ 711              		.section	.text.GetLampTime,"ax",%progbits
+ 712              		.align	2
+ 713              		.global	GetLampTime
+ 714              		.thumb
+ 715              		.thumb_func
+ 717              	GetLampTime:
+ 718              		@ args = 0, pretend = 0, frame = 0
+ 719              		@ frame_needed = 0, uses_anonymous_args = 0
+ 720              		@ link register save eliminated.
+ 721 0000 70B4     		push	{r4, r5, r6}
+ 722 0002 094B     		ldr	r3, .L144
+ 723 0004 03F14002 		add	r2, r3, #64
+ 724              	.L141:
+ 725 0008 1E68     		ldr	r6, [r3]	@ unaligned
+ 726 000a 5D68     		ldr	r5, [r3, #4]	@ unaligned
+ 727 000c 9C68     		ldr	r4, [r3, #8]	@ unaligned
+ 728 000e D968     		ldr	r1, [r3, #12]	@ unaligned
+ 729 0010 1033     		adds	r3, r3, #16
+ 730 0012 9342     		cmp	r3, r2
+ 731 0014 0660     		str	r6, [r0]	@ unaligned
+ 732 0016 4560     		str	r5, [r0, #4]	@ unaligned
+ 733 0018 8460     		str	r4, [r0, #8]	@ unaligned
+ 734 001a C160     		str	r1, [r0, #12]	@ unaligned
+ 735 001c 00F11000 		add	r0, r0, #16
+ 736 0020 F2D1     		bne	.L141
+ 737 0022 70BC     		pop	{r4, r5, r6}
+ 738 0024 4020     		movs	r0, #64
+ 739 0026 7047     		bx	lr
+ 740              	.L145:
+ 741              		.align	2
+ 742              	.L144:
+ 743 0028 80000000 		.word	g_tStorageInfo+128
+ 745              		.section	.text.SetLampTime,"ax",%progbits
+ 746              		.align	2
+ 747              		.global	SetLampTime
+ 748              		.thumb
+ 749              		.thumb_func
+ 751              	SetLampTime:
+ 752              		@ args = 0, pretend = 0, frame = 0
+ 753              		@ frame_needed = 0, uses_anonymous_args = 0
+ 754              		@ link register save eliminated.
+ 755 0000 0346     		mov	r3, r0
+ 756 0002 0A46     		mov	r2, r1
+ 757 0004 0148     		ldr	r0, .L147
+ 758 0006 1946     		mov	r1, r3
+ 759 0008 FFF7FEBF 		b	memcpy
+ 760              	.L148:
+ 761              		.align	2
+ 762              	.L147:
+ 763 000c 80000000 		.word	g_tStorageInfo+128
+ 765              		.section	.text.ClearLampTime,"ax",%progbits
+ 766              		.align	2
+ 767              		.global	ClearLampTime
+ 768              		.thumb
+ 769              		.thumb_func
+ 771              	ClearLampTime:
+ 772              		@ args = 0, pretend = 0, frame = 0
+ 773              		@ frame_needed = 0, uses_anonymous_args = 0
+ 774              		@ link register save eliminated.
+ 775 0000 0248     		ldr	r0, .L150
+ 776 0002 0021     		movs	r1, #0
+ 777 0004 4022     		movs	r2, #64
+ 778 0006 FFF7FEBF 		b	memset
+ 779              	.L151:
+ 780 000a 00BF     		.align	2
+ 781              	.L150:
+ 782 000c 80000000 		.word	g_tStorageInfo+128
+ 784              		.section	.text.GetWaveInfo,"ax",%progbits
+ 785              		.align	2
+ 786              		.global	GetWaveInfo
+ 787              		.thumb
+ 788              		.thumb_func
+ 790              	GetWaveInfo:
+ 791              		@ args = 0, pretend = 0, frame = 0
+ 792              		@ frame_needed = 0, uses_anonymous_args = 0
+ 793              		@ link register save eliminated.
+ 794 0000 70B4     		push	{r4, r5, r6}
+ 795 0002 094B     		ldr	r3, .L156
+ 796 0004 03F14002 		add	r2, r3, #64
+ 797              	.L153:
+ 798 0008 1E68     		ldr	r6, [r3]	@ unaligned
+ 799 000a 5D68     		ldr	r5, [r3, #4]	@ unaligned
+ 800 000c 9C68     		ldr	r4, [r3, #8]	@ unaligned
+ 801 000e D968     		ldr	r1, [r3, #12]	@ unaligned
+ 802 0010 1033     		adds	r3, r3, #16
+ 803 0012 9342     		cmp	r3, r2
+ 804 0014 0660     		str	r6, [r0]	@ unaligned
+ 805 0016 4560     		str	r5, [r0, #4]	@ unaligned
+ 806 0018 8460     		str	r4, [r0, #8]	@ unaligned
+ 807 001a C160     		str	r1, [r0, #12]	@ unaligned
+ 808 001c 00F11000 		add	r0, r0, #16
+ 809 0020 F2D1     		bne	.L153
+ 810 0022 70BC     		pop	{r4, r5, r6}
+ 811 0024 4020     		movs	r0, #64
+ 812 0026 7047     		bx	lr
+ 813              	.L157:
+ 814              		.align	2
+ 815              	.L156:
+ 816 0028 C0000000 		.word	g_tStorageInfo+192
+ 818              		.section	.text.SetWaveInfo,"ax",%progbits
+ 819              		.align	2
+ 820              		.global	SetWaveInfo
+ 821              		.thumb
+ 822              		.thumb_func
+ 824              	SetWaveInfo:
+ 825              		@ args = 0, pretend = 0, frame = 0
+ 826              		@ frame_needed = 0, uses_anonymous_args = 0
+ 827              		@ link register save eliminated.
+ 828 0000 0346     		mov	r3, r0
+ 829 0002 0A46     		mov	r2, r1
+ 830 0004 0148     		ldr	r0, .L159
+ 831 0006 1946     		mov	r1, r3
+ 832 0008 FFF7FEBF 		b	memcpy
+ 833              	.L160:
+ 834              		.align	2
+ 835              	.L159:
+ 836 000c C0000000 		.word	g_tStorageInfo+192
+ 838              		.section	.text.ClearWaveInfo,"ax",%progbits
+ 839              		.align	2
+ 840              		.global	ClearWaveInfo
+ 841              		.thumb
+ 842              		.thumb_func
+ 844              	ClearWaveInfo:
+ 845              		@ args = 0, pretend = 0, frame = 0
+ 846              		@ frame_needed = 0, uses_anonymous_args = 0
+ 847              		@ link register save eliminated.
+ 848 0000 0248     		ldr	r0, .L162
+ 849 0002 0021     		movs	r1, #0
+ 850 0004 4022     		movs	r2, #64
+ 851 0006 FFF7FEBF 		b	memset
+ 852              	.L163:
+ 853 000a 00BF     		.align	2
+ 854              	.L162:
+ 855 000c C0000000 		.word	g_tStorageInfo+192
+ 857              		.section	.text.GetUseStorageENVM,"ax",%progbits
+ 858              		.align	2
+ 859              		.global	GetUseStorageENVM
+ 860              		.thumb
+ 861              		.thumb_func
+ 863              	GetUseStorageENVM:
+ 864              		@ args = 0, pretend = 0, frame = 0
+ 865              		@ frame_needed = 0, uses_anonymous_args = 0
+ 866              		@ link register save eliminated.
+ 867 0000 014B     		ldr	r3, .L165
+ 868 0002 D86F     		ldr	r0, [r3, #124]	@ unaligned
+ 869 0004 7047     		bx	lr
+ 870              	.L166:
+ 871 0006 00BF     		.align	2
+ 872              	.L165:
+ 873 0008 00000000 		.word	g_tStorageInfo
+ 875              		.section	.text.SetUseStorageENVM,"ax",%progbits
+ 876              		.align	2
+ 877              		.global	SetUseStorageENVM
+ 878              		.thumb
+ 879              		.thumb_func
+ 881              	SetUseStorageENVM:
+ 882              		@ args = 0, pretend = 0, frame = 0
+ 883              		@ frame_needed = 0, uses_anonymous_args = 0
+ 884              		@ link register save eliminated.
+ 885 0000 014B     		ldr	r3, .L168
+ 886 0002 D867     		str	r0, [r3, #124]	@ unaligned
+ 887 0004 7047     		bx	lr
+ 888              	.L169:
+ 889 0006 00BF     		.align	2
+ 890              	.L168:
+ 891 0008 00000000 		.word	g_tStorageInfo
+ 893              		.comm	g_tStorageInfo,256,4
+ 894              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150529 (release) [ARM/embedded-4_9-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 storage.c
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:16     .text.GetStorageInfo:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:21     .text.GetStorageInfo:00000000 GetStorageInfo
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:30     .text.GetStorageInfo:00000004 $d
+                            *COM*:00000100 g_tStorageInfo
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:33     .text.LoadStorageInfo:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:38     .text.LoadStorageInfo:00000000 LoadStorageInfo
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:55     .text.LoadStorageInfo:0000001c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:58     .text.InitStorageInfo:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:63     .text.InitStorageInfo:00000000 InitStorageInfo
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:82     .text.InitStorageInfo:0000001c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:85     .text.SaveStorageInfo:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:90     .text.SaveStorageInfo:00000000 SaveStorageInfo
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:163    .text.SaveStorageInfo:0000007c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:169    .text.SaveStorageInfoALL:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:174    .text.SaveStorageInfoALL:00000000 SaveStorageInfoALL
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:215    .text.SaveStorageInfoALL:00000048 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:219    .text.SaveStorageInfoALL_Param:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:224    .text.SaveStorageInfoALL_Param:00000000 SaveStorageInfoALL_Param
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:266    .text.SaveStorageInfoALL_Param:0000004c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:269    .text.GetBLVer:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:274    .text.GetBLVer:00000000 GetBLVer
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:284    .text.GetBLVer:00000008 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:287    .text.SetBLVer:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:292    .text.SetBLVer:00000000 SetBLVer
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:302    .text.SetBLVer:00000008 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:305    .text.GetIAPVer:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:310    .text.GetIAPVer:00000000 GetIAPVer
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:320    .text.GetIAPVer:00000008 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:323    .text.SetIAPVer:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:328    .text.SetIAPVer:00000000 SetIAPVer
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:338    .text.SetIAPVer:00000008 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:341    .text.GetAPPVer:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:346    .text.GetAPPVer:00000000 GetAPPVer
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:356    .text.GetAPPVer:00000008 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:359    .text.SetAPPVer:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:364    .text.SetAPPVer:00000000 SetAPPVer
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:374    .text.SetAPPVer:00000008 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:377    .text.GetFPGAVer:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:382    .text.GetFPGAVer:00000000 GetFPGAVer
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:392    .text.GetFPGAVer:00000008 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:395    .text.SetFPGAVer:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:400    .text.SetFPGAVer:00000000 SetFPGAVer
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:410    .text.SetFPGAVer:00000008 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:413    .text.GetSerialNo:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:418    .text.GetSerialNo:00000000 GetSerialNo
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:447    .text.GetSerialNo:00000030 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:450    .text.SetSerialNo:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:455    .text.SetSerialNo:00000000 SetSerialNo
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:467    .text.SetSerialNo:0000000c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:470    .text.GetIPAddress:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:475    .text.GetIPAddress:00000000 GetIPAddress
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:487    .text.GetIPAddress:0000000c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:490    .text.SetIPAddress:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:495    .text.SetIPAddress:00000000 SetIPAddress
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:507    .text.SetIPAddress:0000000c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:510    .text.GetGateway:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:515    .text.GetGateway:00000000 GetGateway
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:527    .text.GetGateway:0000000c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:530    .text.SetGateway:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:535    .text.SetGateway:00000000 SetGateway
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:547    .text.SetGateway:0000000c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:550    .text.GetMacAddress:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:555    .text.GetMacAddress:00000000 GetMacAddress
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:570    .text.GetMacAddress:00000014 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:573    .text.SetMacAddress:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:578    .text.SetMacAddress:00000000 SetMacAddress
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:590    .text.SetMacAddress:0000000c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:593    .text.GetModelName:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:598    .text.GetModelName:00000000 GetModelName
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:617    .text.GetModelName:0000001c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:620    .text.SetModelName:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:625    .text.SetModelName:00000000 SetModelName
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:637    .text.SetModelName:0000000c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:640    .text.GetD2LampTime:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:645    .text.GetD2LampTime:00000000 GetD2LampTime
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:655    .text.GetD2LampTime:00000008 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:658    .text.SetD2LampTime:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:663    .text.SetD2LampTime:00000000 SetD2LampTime
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:673    .text.SetD2LampTime:00000008 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:676    .text.GetWLampTime:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:681    .text.GetWLampTime:00000000 GetWLampTime
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:691    .text.GetWLampTime:00000008 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:694    .text.SetWLampTime:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:699    .text.SetWLampTime:00000000 SetWLampTime
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:709    .text.SetWLampTime:00000008 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:712    .text.GetLampTime:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:717    .text.GetLampTime:00000000 GetLampTime
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:743    .text.GetLampTime:00000028 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:746    .text.SetLampTime:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:751    .text.SetLampTime:00000000 SetLampTime
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:763    .text.SetLampTime:0000000c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:766    .text.ClearLampTime:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:771    .text.ClearLampTime:00000000 ClearLampTime
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:782    .text.ClearLampTime:0000000c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:785    .text.GetWaveInfo:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:790    .text.GetWaveInfo:00000000 GetWaveInfo
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:816    .text.GetWaveInfo:00000028 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:819    .text.SetWaveInfo:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:824    .text.SetWaveInfo:00000000 SetWaveInfo
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:836    .text.SetWaveInfo:0000000c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:839    .text.ClearWaveInfo:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:844    .text.ClearWaveInfo:00000000 ClearWaveInfo
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:855    .text.ClearWaveInfo:0000000c $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:858    .text.GetUseStorageENVM:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:863    .text.GetUseStorageENVM:00000000 GetUseStorageENVM
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:873    .text.GetUseStorageENVM:00000008 $d
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:876    .text.SetUseStorageENVM:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:881    .text.SetUseStorageENVM:00000000 SetUseStorageENVM
+C:\Users\jiryu\AppData\Local\Temp\cc9Rug8H.s:891    .text.SetUseStorageENVM:00000008 $d
+
+UNDEFINED SYMBOLS
+MSS_NVM_read
+memset
+NVM_write
+NVM_unlock
+NVM_verify
+memcpy

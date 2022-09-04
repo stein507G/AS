@@ -1,0 +1,11 @@
+#ifndef _ENVM_FN_H__
+#define _ENVM_FN_H__
+
+
+#define ENVM_INFORMATION_START_ADDR			0x6003F000		// SF 0x6003F880 ~ 0x6003FFFF : 사용불가 영역
+#define ENVM_INFORMATION_START_OFFSET		0x3F000
+
+
+
+
+#endif	//_ENVM_FN_H__

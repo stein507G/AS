@@ -1,0 +1,1084 @@
+Archive member included because of file (symbol)
+
+D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                              ./src/system.o (g_mss_uart0)
+D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                              ./src/procotol.o (NVM_write)
+D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                              D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o (SystemInit)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
+                              ./src/util.o (__ctype_ptr__)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-errno.o)
+                              D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o (__errno)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-exit.o)
+                              c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/crt0.o (exit)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
+                              c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-exit.o) (_global_impure_ptr)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-init.o)
+                              c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/crt0.o (__libc_init_array)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-malloc.o)
+                              ./src/queue.o (malloc)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o)
+                              c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-malloc.o) (_malloc_r)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memcpy.o)
+                              ./src/procotol.o (memcpy)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memset.o)
+                              c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/crt0.o (memset)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mlock.o)
+                              c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o) (__malloc_lock)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-sbrkr.o)
+                              c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o) (_sbrk_r)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o)
+                              c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-exit.o) (__call_exitprocs)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atexit.o)
+                              c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o) (atexit)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-fini.o)
+                              c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o) (__libc_fini_array)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-freer.o)
+                              c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-malloc.o) (_free_r)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-reent.o)
+                              c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-sbrkr.o) (errno)
+c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__atexit.o)
+                              c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atexit.o) (__register_exitproc)
+
+Allocating common symbols
+Common symbol       size              file
+
+g_tStorageInfo      0x100             ./src/storage.o
+errno               0x4               c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-reent.o)
+g_mss_uart1         0x40              D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+g_mss_uart0         0x40              D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+
+Discarded input sections
+
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crti.o
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crti.o
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crti.o
+ .data          0x00000000        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtbegin.o
+ .text          0x00000000       0x74 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/crt0.o
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/crt0.o
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/crt0.o
+ .ARM.extab     0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/crt0.o
+ .ARM.exidx     0x00000000        0x8 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/crt0.o
+ .text          0x00000000        0x0 ./src/Interrupt.o
+ .data          0x00000000        0x0 ./src/Interrupt.o
+ .bss           0x00000000        0x0 ./src/Interrupt.o
+ .text          0x00000000        0x0 ./src/main.o
+ .data          0x00000000        0x0 ./src/main.o
+ .bss           0x00000000        0x0 ./src/main.o
+ .text          0x00000000        0x0 ./src/procotol.o
+ .data          0x00000000        0x0 ./src/procotol.o
+ .bss           0x00000000        0x0 ./src/procotol.o
+ .text.GenHeaderPacket
+                0x00000000       0x30 ./src/procotol.o
+ .text.RecvData
+                0x00000000       0x1c ./src/procotol.o
+ .text.CalcChkSum
+                0x00000000       0x20 ./src/procotol.o
+ .text.CheckPacket
+                0x00000000       0x10 ./src/procotol.o
+ .text.post_prog_run
+                0x00000000       0x40 ./src/procotol.o
+ .rodata.str1.4
+                0x00000000        0x5 ./src/procotol.o
+ .text          0x00000000        0x0 ./src/queue.o
+ .data          0x00000000        0x0 ./src/queue.o
+ .bss           0x00000000        0x0 ./src/queue.o
+ .text.deinit_queue
+                0x00000000       0x14 ./src/queue.o
+ .text.clear_queue
+                0x00000000       0x20 ./src/queue.o
+ .text.get_buffer_size
+                0x00000000        0x8 ./src/queue.o
+ .text.get_data_size
+                0x00000000       0x24 ./src/queue.o
+ .text.get_free_size
+                0x00000000       0x18 ./src/queue.o
+ .text.get_head
+                0x00000000       0x18 ./src/queue.o
+ .text.set_head
+                0x00000000       0x3c ./src/queue.o
+ .text.get_tail
+                0x00000000       0x18 ./src/queue.o
+ .text          0x00000000        0x0 ./src/storage.o
+ .data          0x00000000        0x0 ./src/storage.o
+ .bss           0x00000000        0x0 ./src/storage.o
+ .text.SaveStorageInfoALL_Param
+                0x00000000       0x50 ./src/storage.o
+ .text.SetBLVer
+                0x00000000        0xc ./src/storage.o
+ .text.SetAPPVer
+                0x00000000        0xc ./src/storage.o
+ .text.SetFPGAVer
+                0x00000000        0xc ./src/storage.o
+ .text.GetIPAddress
+                0x00000000       0x10 ./src/storage.o
+ .text.SetIPAddress
+                0x00000000       0x10 ./src/storage.o
+ .text.GetGateway
+                0x00000000       0x10 ./src/storage.o
+ .text.SetGateway
+                0x00000000       0x10 ./src/storage.o
+ .text.GetMacAddress
+                0x00000000       0x18 ./src/storage.o
+ .text.SetMacAddress
+                0x00000000       0x10 ./src/storage.o
+ .text.GetD2LampTime
+                0x00000000        0xc ./src/storage.o
+ .text.SetD2LampTime
+                0x00000000        0xc ./src/storage.o
+ .text.GetWLampTime
+                0x00000000        0xc ./src/storage.o
+ .text.SetWLampTime
+                0x00000000        0xc ./src/storage.o
+ .text.GetLampTime
+                0x00000000       0x2c ./src/storage.o
+ .text.SetLampTime
+                0x00000000       0x10 ./src/storage.o
+ .text.ClearLampTime
+                0x00000000       0x10 ./src/storage.o
+ .text.GetWaveInfo
+                0x00000000       0x2c ./src/storage.o
+ .text.SetWaveInfo
+                0x00000000       0x10 ./src/storage.o
+ .text.ClearWaveInfo
+                0x00000000       0x10 ./src/storage.o
+ .text.GetUseStorageENVM
+                0x00000000        0xc ./src/storage.o
+ .text.SetUseStorageENVM
+                0x00000000        0xc ./src/storage.o
+ .text          0x00000000        0x0 ./src/system.o
+ .data          0x00000000        0x0 ./src/system.o
+ .bss           0x00000000        0x0 ./src/system.o
+ .text.intro    0x00000000       0x84 ./src/system.o
+ .rodata.str1.4
+                0x00000000       0x79 ./src/system.o
+ .text          0x00000000        0x0 ./src/timer.o
+ .data          0x00000000        0x0 ./src/timer.o
+ .bss           0x00000000        0x0 ./src/timer.o
+ .text          0x00000000        0x0 ./src/util.o
+ .data          0x00000000        0x0 ./src/util.o
+ .bss           0x00000000        0x0 ./src/util.o
+ .text.delay_us
+                0x00000000       0x10 ./src/util.o
+ .text.AsciiToHex
+                0x00000000       0x30 ./src/util.o
+ .text.HexStringToByte
+                0x00000000       0x1c ./src/util.o
+ .text.HexStringToShort
+                0x00000000       0x1c ./src/util.o
+ .text          0x00000000        0x0 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .data          0x00000000        0x0 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .bss           0x00000000        0x0 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._close   0x00000000        0x8 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._execve  0x00000000       0x10 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._exit    0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._fork    0x00000000       0x10 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._fstat   0x00000000        0xc D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._getpid  0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._isatty  0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._kill    0x00000000       0x10 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._link    0x00000000       0x10 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._lseek   0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._open    0x00000000        0x8 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._read    0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._write_r
+                0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._stat    0x00000000        0xc D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._times   0x00000000        0x8 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._unlink  0x00000000       0x10 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text._wait    0x00000000       0x10 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .data.environ  0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .bss.__env     0x00000000        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .text          0x00000000        0x0 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
+ .data          0x00000000        0x0 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
+ .bss           0x00000000        0x0 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
+ .text          0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .data          0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .bss           0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_lin_init
+                0x00000000       0x50 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_irda_init
+                0x00000000       0x7c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_smartcard_init
+                0x00000000       0x5c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_polled_tx_string
+                0x00000000       0x50 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_irq_tx
+                0x00000000       0x70 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_tx_complete
+                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_enable_irq
+                0x00000000       0x6c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_disable_irq
+                0x00000000       0x68 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_loopback
+                0x00000000       0x6c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_rxstatus_handler
+                0x00000000       0x60 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_tx_handler
+                0x00000000       0x64 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_modemstatus_handler
+                0x00000000       0x60 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_fill_tx_fifo
+                0x00000000       0x58 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_get_rx_status
+                0x00000000       0x2c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_get_modem_status
+                0x00000000       0x20 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_get_tx_status
+                0x00000000       0x2c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_break
+                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_clear_break
+                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_pidpei_handler
+                0x00000000       0x60 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_linbreak_handler
+                0x00000000       0x60 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_linsync_handler
+                0x00000000       0x60 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_nack_handler
+                0x00000000       0x60 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_rx_timeout_handler
+                0x00000000       0x5c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_enable_half_duplex
+                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_disable_half_duplex
+                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_rx_endian
+                0x00000000       0x34 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_tx_endian
+                0x00000000       0x38 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_filter_length
+                0x00000000       0x24 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_enable_afm
+                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_disable_afm
+                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_enable_afclear
+                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_disable_afclear
+                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_enable_rx_timeout
+                0x00000000       0x40 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_disable_rx_timeout
+                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_enable_tx_time_guard
+                0x00000000       0x40 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_disable_tx_time_guard
+                0x00000000       0x30 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_address
+                0x00000000       0x20 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_ready_mode
+                0x00000000       0x38 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_usart_mode
+                0x00000000       0x38 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text          0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .data          0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .bss           0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .text.NVM_read_page_write_count
+                0x00000000       0xc0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .text          0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+ .data          0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+ .bss           0x00000000        0x0 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
+ .data.__ctype_ptr__
+                0x00000000        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
+ .rodata._ctype_
+                0x00000000      0x101 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-errno.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-errno.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-errno.o)
+ .text.__errno  0x00000000        0xc c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-errno.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-exit.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-exit.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-exit.o)
+ .text.exit     0x00000000       0x20 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-exit.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-init.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-init.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-init.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-malloc.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-malloc.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-malloc.o)
+ .text.free     0x00000000       0x10 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-malloc.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memcpy.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memcpy.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memset.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memset.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memset.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mlock.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mlock.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mlock.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-sbrkr.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-sbrkr.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-sbrkr.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o)
+ .text.__call_exitprocs
+                0x00000000       0xd4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atexit.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atexit.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atexit.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-fini.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-fini.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-fini.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-freer.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-freer.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-freer.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-reent.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-reent.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-reent.o)
+ .text.cleanup_glue
+                0x00000000       0x1c c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-reent.o)
+ .text._reclaim_reent
+                0x00000000       0x88 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-reent.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__atexit.o)
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__atexit.o)
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__atexit.o)
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtend.o
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtend.o
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtend.o
+ .eh_frame      0x00000000        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtend.o
+ .text          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtn.o
+ .data          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtn.o
+ .bss           0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtn.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+ram              0x00000000         0x00006000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crti.o
+LOAD c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtbegin.o
+LOAD c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/crt0.o
+LOAD ./src/Interrupt.o
+LOAD ./src/main.o
+LOAD ./src/procotol.o
+LOAD ./src/queue.o
+LOAD ./src/storage.o
+LOAD ./src/system.o
+LOAD ./src/timer.o
+LOAD ./src/util.o
+LOAD D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+LOAD D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
+LOAD D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a
+START GROUP
+LOAD c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m\libgcc.a
+LOAD c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a
+END GROUP
+LOAD c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtend.o
+LOAD c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtn.o
+START GROUP
+LOAD c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a
+LOAD c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m\libgcc.a
+LOAD c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libm.a
+END GROUP
+                0x00000000                __DYNAMIC = 0x0
+                0x00000000                RAM_START_ADDRESS = 0x0
+                0x00006000                RAM_SIZE = 0x6000
+                0x00002000                MAIN_STACK_SIZE = 0x2000
+                0x00000800                MIN_SIZE_HEAP = 0x800
+                0x00006000                PROVIDE (__main_stack_start, (RAM_START_ADDRESS + RAM_SIZE))
+                0x00004000                PROVIDE (__process_stack_start, (__main_stack_start - MAIN_STACK_SIZE))
+                0x00006000                PROVIDE (_estack, __main_stack_start)
+                0x00000000                PROVIDE (__mirrored_nvm, 0x0)
+                0x00000000                PROVIDE (__smartfusion2_memory_remap, 0x0)
+
+.vector_table   0x00000000      0x2e4
+                0x00000000                __vector_table_load = LOADADDR (.vector_table)
+                0x00000000                __vector_table_start = .
+                0x00000000                __vector_table_vma_base_address = .
+ *(.isr_vector)
+ .isr_vector    0x00000000      0x2e4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
+                0x00000000                g_pfnVectors
+                0x00000188                Reset_Handler
+                0x00000202                SVC_Handler
+                0x00000204                DebugMon_Handler
+                0x00000206                PendSV_Handler
+                0x00000208                SysTick_Handler
+                0x0000020c                RTC_Wakeup_IRQHandler
+                0x0000020e                SPI0_IRQHandler
+                0x00000210                SPI1_IRQHandler
+                0x00000212                I2C0_IRQHandler
+                0x00000214                I2C0_SMBAlert_IRQHandler
+                0x00000216                I2C0_SMBus_IRQHandler
+                0x00000218                I2C1_IRQHandler
+                0x0000021a                I2C1_SMBAlert_IRQHandler
+                0x0000021c                I2C1_SMBus_IRQHandler
+                0x00000222                EthernetMAC_IRQHandler
+                0x00000224                DMA_IRQHandler
+                0x00000228                Timer2_IRQHandler
+                0x0000022a                CAN_IRQHandler
+                0x0000022c                ENVM0_IRQHandler
+                0x0000022e                ENVM1_IRQHandler
+                0x00000230                ComBlk_IRQHandler
+                0x00000232                USB_IRQHandler
+                0x00000234                USB_DMA_IRQHandler
+                0x00000236                PLL_Lock_IRQHandler
+                0x00000238                PLL_LockLost_IRQHandler
+                0x0000023e                DDR_IRQHandler
+                0x00000240                HPDMA_Complete_IRQHandler
+                0x00000242                HPDMA_Error_IRQHandler
+                0x00000246                MDDR_IOCalib_IRQHandler
+                0x00000248                FAB_PLL_Lock_IRQHandler
+                0x0000024a                FAB_PLL_LockLost_IRQHandler
+                0x0000024c                FIC64_IRQHandler
+                0x0000024e                FabricIrq0_IRQHandler
+                0x00000250                FabricIrq1_IRQHandler
+                0x00000252                FabricIrq2_IRQHandler
+                0x00000254                FabricIrq3_IRQHandler
+                0x00000256                FabricIrq4_IRQHandler
+                0x00000258                FabricIrq5_IRQHandler
+                0x0000025a                FabricIrq6_IRQHandler
+                0x0000025c                FabricIrq7_IRQHandler
+                0x0000025e                FabricIrq8_IRQHandler
+                0x00000260                FabricIrq9_IRQHandler
+                0x00000262                FabricIrq10_IRQHandler
+                0x00000264                FabricIrq11_IRQHandler
+                0x00000266                FabricIrq12_IRQHandler
+                0x00000268                FabricIrq13_IRQHandler
+                0x0000026a                FabricIrq14_IRQHandler
+                0x0000026c                FabricIrq15_IRQHandler
+                0x0000026e                GPIO0_IRQHandler
+                0x00000270                GPIO1_IRQHandler
+                0x00000272                GPIO2_IRQHandler
+                0x00000274                GPIO3_IRQHandler
+                0x00000276                GPIO4_IRQHandler
+                0x00000278                GPIO5_IRQHandler
+                0x0000027a                GPIO6_IRQHandler
+                0x0000027c                GPIO7_IRQHandler
+                0x0000027e                GPIO8_IRQHandler
+                0x00000280                GPIO9_IRQHandler
+                0x00000282                GPIO10_IRQHandler
+                0x00000284                GPIO11_IRQHandler
+                0x00000286                GPIO12_IRQHandler
+                0x00000288                GPIO13_IRQHandler
+                0x0000028a                GPIO14_IRQHandler
+                0x0000028c                GPIO15_IRQHandler
+                0x0000028e                GPIO16_IRQHandler
+                0x00000290                GPIO17_IRQHandler
+                0x00000292                GPIO18_IRQHandler
+                0x00000294                GPIO19_IRQHandler
+                0x00000296                GPIO20_IRQHandler
+                0x00000298                GPIO21_IRQHandler
+                0x0000029a                GPIO22_IRQHandler
+                0x0000029c                GPIO23_IRQHandler
+                0x0000029e                GPIO24_IRQHandler
+                0x000002a0                GPIO25_IRQHandler
+                0x000002a2                GPIO26_IRQHandler
+                0x000002a4                GPIO27_IRQHandler
+                0x000002a6                GPIO28_IRQHandler
+                0x000002a8                GPIO29_IRQHandler
+                0x000002aa                GPIO30_IRQHandler
+                0x000002ac                GPIO31_IRQHandler
+                0x000002ae                mscc_post_hw_cfg_init
+                0x000002e4                . = ALIGN (0x4)
+                0x000002e4                _evector_table = .
+
+.boot_code      0x000002e4        0x0
+ *(.boot_code)
+                0x000002e4                . = ALIGN (0x4)
+
+.text           0x000002e4     0x2514
+ CREATE_OBJECT_SYMBOLS
+                0x000002e4                __text_load = LOADADDR (.text)
+                0x000002e4                __text_start = .
+ *(.text .text.* .gnu.linkonce.t.*)
+ .text          0x000002e4       0x5c c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtbegin.o
+ .text.prvGetRegistersFromStack
+                0x00000340       0x2c ./src/Interrupt.o
+                0x00000340                prvGetRegistersFromStack
+ .text.NMI_Handler
+                0x0000036c        0xc ./src/Interrupt.o
+                0x0000036c                NMI_Handler
+ .text.HardFault_Handler
+                0x00000378       0x1c ./src/Interrupt.o
+                0x00000378                HardFault_Handler
+ .text.MemManage_Handler
+                0x00000394        0xc ./src/Interrupt.o
+                0x00000394                MemManage_Handler
+ .text.BusFault_Handler
+                0x000003a0        0xc ./src/Interrupt.o
+                0x000003a0                BusFault_Handler
+ .text.UsageFault_Handler
+                0x000003ac        0xc ./src/Interrupt.o
+                0x000003ac                UsageFault_Handler
+ .text.WdogWakeup_IRQHandler
+                0x000003b8        0xc ./src/Interrupt.o
+                0x000003b8                WdogWakeup_IRQHandler
+ .text.CommSwitchError_IRQHandler
+                0x000003c4        0xc ./src/Interrupt.o
+                0x000003c4                CommSwitchError_IRQHandler
+ .text.CacheError_IRQHandler
+                0x000003d0        0xc ./src/Interrupt.o
+                0x000003d0                CacheError_IRQHandler
+ .text.ECC_Error_IRQHandler
+                0x000003dc        0xc ./src/Interrupt.o
+                0x000003dc                ECC_Error_IRQHandler
+ .text.startup.main
+                0x000003e8       0x10 ./src/main.o
+                0x000003e8                main
+ .text.RecvData.part.0
+                0x000003f8       0x34 ./src/procotol.o
+ .text.CheckPacket.part.1
+                0x0000042c       0x34 ./src/procotol.o
+ .text.uart0_rx_handler
+                0x00000460       0x3c ./src/procotol.o
+                0x00000460                uart0_rx_handler
+ .text.GenPacket
+                0x0000049c       0x58 ./src/procotol.o
+                0x0000049c                GenPacket
+ .text.ParseUpdateData
+                0x000004f4      0x2d0 ./src/procotol.o
+                0x000004f4                ParseUpdateData
+ .text.processFwUpdate
+                0x000007c4       0x60 ./src/procotol.o
+                0x000007c4                processFwUpdate
+ .text.post_update_ready
+                0x00000824       0x28 ./src/procotol.o
+                0x00000824                post_update_ready
+ .text.init_queue
+                0x0000084c       0x28 ./src/queue.o
+                0x0000084c                init_queue
+ .text.get_available
+                0x00000874       0x24 ./src/queue.o
+                0x00000874                get_available
+ .text.enqueue  0x00000898       0x8c ./src/queue.o
+                0x00000898                enqueue
+ .text.dequeue  0x00000924       0x94 ./src/queue.o
+                0x00000924                dequeue
+ .text.peek     0x000009b8       0x68 ./src/queue.o
+                0x000009b8                peek
+ .text.GetStorageInfo
+                0x00000a20        0x8 ./src/storage.o
+                0x00000a20                GetStorageInfo
+ .text.LoadStorageInfo
+                0x00000a28       0x20 ./src/storage.o
+                0x00000a28                LoadStorageInfo
+ .text.InitStorageInfo
+                0x00000a48       0x20 ./src/storage.o
+                0x00000a48                InitStorageInfo
+ .text.SaveStorageInfo
+                0x00000a68       0x8c ./src/storage.o
+                0x00000a68                SaveStorageInfo
+ .text.SaveStorageInfoALL
+                0x00000af4       0x50 ./src/storage.o
+                0x00000af4                SaveStorageInfoALL
+ .text.GetBLVer
+                0x00000b44        0xc ./src/storage.o
+                0x00000b44                GetBLVer
+ .text.GetIAPVer
+                0x00000b50        0xc ./src/storage.o
+                0x00000b50                GetIAPVer
+ .text.SetIAPVer
+                0x00000b5c        0xc ./src/storage.o
+                0x00000b5c                SetIAPVer
+ .text.GetAPPVer
+                0x00000b68        0xc ./src/storage.o
+                0x00000b68                GetAPPVer
+ .text.GetFPGAVer
+                0x00000b74        0xc ./src/storage.o
+                0x00000b74                GetFPGAVer
+ .text.GetSerialNo
+                0x00000b80       0x34 ./src/storage.o
+                0x00000b80                GetSerialNo
+ .text.SetSerialNo
+                0x00000bb4       0x10 ./src/storage.o
+                0x00000bb4                SetSerialNo
+ .text.GetModelName
+                0x00000bc4       0x20 ./src/storage.o
+                0x00000bc4                GetModelName
+ .text.SetModelName
+                0x00000be4       0x10 ./src/storage.o
+                0x00000be4                SetModelName
+ .text.get_uart
+                0x00000bf4        0x8 ./src/system.o
+                0x00000bf4                get_uart
+ .text.MSS_UART0_enable_intr
+                0x00000bfc       0x10 ./src/system.o
+                0x00000bfc                MSS_UART0_enable_intr
+ .text.MSS_UART0_disable_intr
+                0x00000c0c       0x10 ./src/system.o
+                0x00000c0c                MSS_UART0_disable_intr
+ .text.init_system
+                0x00000c1c       0x5c ./src/system.o
+                0x00000c1c                init_system
+ .text.reset_system
+                0x00000c78       0x24 ./src/system.o
+                0x00000c78                reset_system
+ .text.Timer1_IRQHandler
+                0x00000c9c       0x2c ./src/timer.o
+                0x00000c9c                Timer1_IRQHandler
+ .text.init_timer_1
+                0x00000cc8       0x58 ./src/timer.o
+                0x00000cc8                init_timer_1
+ .text.get_mili_time
+                0x00000d20        0xc ./src/timer.o
+                0x00000d20                get_mili_time
+ .text.diff_mili_time
+                0x00000d2c       0x1c ./src/timer.o
+                0x00000d2c                diff_mili_time
+ .text.delay_ms
+                0x00000d48       0x1c ./src/util.o
+                0x00000d48                delay_ms
+ .text._sbrk    0x00000d64       0x2c D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+                0x00000d64                _sbrk
+ .text.global_init
+                0x00000d90      0x260 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_isr.part.0
+                0x00000ff0       0xf4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.default_tx_handler
+                0x000010e4       0x84 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_init
+                0x00001168       0x5c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00001168                MSS_UART_init
+ .text.MSS_UART_polled_tx
+                0x000011c4       0x60 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x000011c4                MSS_UART_polled_tx
+ .text.MSS_UART_get_rx
+                0x00001224       0x5c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00001224                MSS_UART_get_rx
+ .text.MSS_UART_set_rx_handler
+                0x00001280       0x70 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x00001280                MSS_UART_set_rx_handler
+ .text.UART0_IRQHandler
+                0x000012f0       0x1c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x000012f0                UART0_IRQHandler
+ .text.UART1_IRQHandler
+                0x0000130c       0x1c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x0000130c                UART1_IRQHandler
+ .text.request_nvm_access
+                0x00001328       0x58 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .text.release_ctrl_access
+                0x00001380       0x38 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .text.fill_wd_buffer
+                0x000013b8       0xbc D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .text.check_protection_reserved_nvm
+                0x00001474      0x2d4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .text.get_error_code
+                0x00001748       0x28 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .text.get_ctrl_access
+                0x00001770       0x48 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .text.NVM_write
+                0x000017b8      0x228 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x000017b8                NVM_write
+ .text.NVM_unlock
+                0x000019e0      0x12c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x000019e0                NVM_unlock
+ .text.MSS_NVM_read
+                0x00001b0c       0x3c D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x00001b0c                MSS_NVM_read
+ .text.NVM_verify
+                0x00001b48       0xd8 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+                0x00001b48                NVM_verify
+ .text.SystemInit
+                0x00001c20       0x40 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00001c20                SystemInit
+ .text.SystemCoreClockUpdate
+                0x00001c60       0xf8 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00001c60                SystemCoreClockUpdate
+ .text.__libc_init_array
+                0x00001d58       0x50 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-init.o)
+                0x00001d58                __libc_init_array
+ .text.malloc   0x00001da8       0x10 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-malloc.o)
+                0x00001da8                malloc
+ .text._malloc_r
+                0x00001db8      0x50c c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o)
+                0x00001db8                _malloc_r
+ .text          0x000022c4       0xec c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memcpy.o)
+                0x000022c4                memcpy
+ .text.memset   0x000023b0       0x9c c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memset.o)
+                0x000023b0                memset
+ .text.__malloc_lock
+                0x0000244c        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mlock.o)
+                0x0000244c                __malloc_lock
+ .text.__malloc_unlock
+                0x00002450        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mlock.o)
+                0x00002450                __malloc_unlock
+ .text._sbrk_r  0x00002454       0x24 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-sbrkr.o)
+                0x00002454                _sbrk_r
+ .text.startup.register_fini
+                0x00002478       0x14 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o)
+ .text.atexit   0x0000248c        0xc c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atexit.o)
+                0x0000248c                atexit
+ .text.__libc_fini_array
+                0x00002498       0x2c c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-fini.o)
+                0x00002498                __libc_fini_array
+ .text._malloc_trim_r
+                0x000024c4       0x9c c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-freer.o)
+                0x000024c4                _malloc_trim_r
+ .text._free_r  0x00002560      0x1b0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-freer.o)
+                0x00002560                _free_r
+ .text.__register_exitproc
+                0x00002710       0xa4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__atexit.o)
+                0x00002710                __register_exitproc
+ *(.plt)
+ *(.gnu.warning)
+ *(.glue_7t)
+ .glue_7t       0x00000000        0x0 linker stubs
+ *(.glue_7)
+ .glue_7        0x00000000        0x0 linker stubs
+ *(.vfp11_veneer)
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+                0x000027b4                . = ALIGN (0x4)
+ *crtbegin.o(.ctors)
+ *(EXCLUDE_FILE(*crtend.o) .ctors)
+ *(SORT(.ctors.*))
+ *crtend.o(.ctors)
+ *crtbegin.o(.dtors)
+ *(EXCLUDE_FILE(*crtend.o) .dtors)
+ *(SORT(.dtors.*))
+ *crtend.o(.dtors)
+ *(.rodata .rodata.* .gnu.linkonce.r.*)
+ .rodata.g_nvm  0x000027b4        0x8 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .rodata.g_nvm32
+                0x000027bc        0x8 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .rodata        0x000027c4        0x8 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+ .rodata.str1.4
+                0x000027cc        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
+                                  0x2 (size before relaxing)
+ .rodata._global_impure_ptr
+                0x000027d0        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
+                0x000027d0                _global_impure_ptr
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+ *(.gcc_except_table)
+ *(.eh_frame_hdr)
+ *(.eh_frame)
+ .eh_frame      0x000027d4        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtbegin.o
+ *(.vector_table)
+ *(.init)
+ .init          0x000027d4        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crti.o
+                0x000027d4                _init
+ .init          0x000027d8        0x8 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtn.o
+ *(.fini)
+ .fini          0x000027e0        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crti.o
+                0x000027e0                _fini
+ .fini          0x000027e4        0x8 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtn.o
+                0x000027ec                PROVIDE (__preinit_array_start, .)
+ *(.preinit_array)
+                0x000027ec                PROVIDE (__preinit_array_end, .)
+                0x000027ec                PROVIDE (__init_array_start, .)
+ *(SORT(.init_array.*))
+ .init_array.00000
+                0x000027ec        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o)
+ *(.init_array)
+ .init_array    0x000027f0        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtbegin.o
+                0x000027f4                PROVIDE (__init_array_end, .)
+                0x000027f4                PROVIDE (__fini_array_start, .)
+ *(.fini_array)
+ .fini_array    0x000027f4        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtbegin.o
+ *(SORT(.fini_array.*))
+                0x000027f8                PROVIDE (__fini_array_end, .)
+                0x000027f8                . = ALIGN (0x4)
+                0x000027f8                __exidx_start = .
+
+.v4_bx          0x000027f8        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x000027f8        0x0
+ .iplt          0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtbegin.o
+
+.rel.dyn        0x000027f8        0x0
+ .rel.iplt      0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtbegin.o
+
+.ARM.exidx
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+                0x000027f8                __exidx_end = .
+                0x000027f8                _etext = .
+
+.data           0x000027f8      0x864
+                0x000027f8                __data_load = LOADADDR (.data)
+                0x000027f8                _sidata = LOADADDR (.data)
+                0x000027f8                __data_start = .
+                0x000027f8                _sdata = .
+ *(.jcr)
+ .jcr           0x000027f8        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtbegin.o
+ .jcr           0x000027f8        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtend.o
+ *(.got.plt)
+ *(.got)
+ *(.shdata)
+ *(.data .data.* .gnu.linkonce.d.*)
+ .data.baseAddress.8433
+                0x000027fc        0x4 ./src/procotol.o
+ .data.g_FrequencyFIC64
+                0x00002800        0x4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00002800                g_FrequencyFIC64
+ .data.g_FrequencyPCLK2
+                0x00002804        0x4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00002804                g_FrequencyPCLK2
+ .data.g_FrequencyFIC0
+                0x00002808        0x4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00002808                g_FrequencyFIC0
+ .data.g_FrequencyFIC1
+                0x0000280c        0x4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x0000280c                g_FrequencyFIC1
+ .data.g_FrequencyPCLK0
+                0x00002810        0x4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00002810                g_FrequencyPCLK0
+ .data.g_FrequencyPCLK1
+                0x00002814        0x4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00002814                g_FrequencyPCLK1
+ .data.SystemCoreClock
+                0x00002818        0x4 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+                0x00002818                SystemCoreClock
+ *fill*         0x0000281c        0x4 
+ .data.impure_data
+                0x00002820      0x428 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
+ .data._impure_ptr
+                0x00002c48        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
+                0x00002c48                _impure_ptr
+ .data.__malloc_av_
+                0x00002c4c      0x408 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o)
+                0x00002c4c                __malloc_av_
+ .data.__malloc_trim_threshold
+                0x00003054        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o)
+                0x00003054                __malloc_trim_threshold
+ .data.__malloc_sbrk_base
+                0x00003058        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o)
+                0x00003058                __malloc_sbrk_base
+                0x0000305c                . = ALIGN (0x4)
+                0x0000305c                _edata = .
+
+.igot.plt       0x0000305c        0x0
+ .igot.plt      0x00000000        0x0 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtbegin.o
+
+.bss            0x0000305c      0x1f4
+                0x0000305c                __bss_start__ = .
+                0x0000305c                _sbss = .
+ *(.shbss)
+ *(.bss .bss.* .gnu.linkonce.b.*)
+ .bss           0x0000305c       0x1c c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtbegin.o
+ .bss.offset.8434
+                0x00003078        0x4 ./src/procotol.o
+ .bss.address.8432
+                0x0000307c        0x4 ./src/procotol.o
+ .bss.g_tQueue  0x00003080        0xc ./src/queue.o
+ .bss.Time1mS   0x0000308c        0x4 ./src/timer.o
+                0x0000308c                Time1mS
+ .bss.heap_end.5162
+                0x00003090        0x4 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .bss.g_do_not_lock_page
+                0x00003094        0x1 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .bss.g_envm_ctrl_locks
+                0x00003095        0x1 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ *fill*         0x00003096        0x2 
+ .bss.__malloc_max_total_mem
+                0x00003098        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o)
+                0x00003098                __malloc_max_total_mem
+ .bss.__malloc_max_sbrked_mem
+                0x0000309c        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o)
+                0x0000309c                __malloc_max_sbrked_mem
+ .bss.__malloc_top_pad
+                0x000030a0        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o)
+                0x000030a0                __malloc_top_pad
+ .bss.__malloc_current_mallinfo
+                0x000030a4       0x28 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o)
+                0x000030a4                __malloc_current_mallinfo
+ *(COMMON)
+ COMMON         0x000030cc      0x100 ./src/storage.o
+                0x000030cc                g_tStorageInfo
+ COMMON         0x000031cc       0x80 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+                0x000031cc                g_mss_uart1
+                0x0000320c                g_mss_uart0
+ COMMON         0x0000324c        0x4 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-reent.o)
+                0x0000324c                errno
+                0x00003250                . = ALIGN (0x4)
+                0x00003250                __bss_end__ = .
+                0x00003250                _end = .
+                0x00003250                __end = _end
+                0x00003250                _ebss = .
+                0x00003250                PROVIDE (end, .)
+
+.heap           0x00003250      0xdb0
+                0x00003250                __heap_start__ = .
+                0x00003a50                . = (. + MIN_SIZE_HEAP)
+ *fill*         0x00003250      0x800 
+                0x00004000                . = (. + (((ABSOLUTE (RAM_START_ADDRESS) + RAM_SIZE) - MAIN_STACK_SIZE) - .))
+ *fill*         0x00003a50      0x5b0 
+                0x00004000                _eheap = .
+
+.stack          0x00004000     0x2000
+                0x00004000                __stack_start__ = .
+                0x00006000                . = (. + MAIN_STACK_SIZE)
+ *fill*         0x00004000     0x2000 
+                0x00006000                _estack = .
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges
+ *(.debug_aranges)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info
+ *(.debug_info .gnu.linkonce.wi.*)
+
+.debug_abbrev
+ *(.debug_abbrev)
+
+.debug_line
+ *(.debug_line)
+
+.debug_frame    0x00000000      0x32c
+ *(.debug_frame)
+ .debug_frame   0x00000000       0x20 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-errno.o)
+ .debug_frame   0x00000020       0x28 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-exit.o)
+ .debug_frame   0x00000048       0x2c c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-init.o)
+ .debug_frame   0x00000074       0x30 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-malloc.o)
+ .debug_frame   0x000000a4       0x54 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o)
+ .debug_frame   0x000000f8       0x34 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memset.o)
+ .debug_frame   0x0000012c       0x30 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mlock.o)
+ .debug_frame   0x0000015c       0x2c c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-sbrkr.o)
+ .debug_frame   0x00000188       0x50 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o)
+ .debug_frame   0x000001d8       0x20 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atexit.o)
+ .debug_frame   0x000001f8       0x34 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-fini.o)
+ .debug_frame   0x0000022c       0x74 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-freer.o)
+ .debug_frame   0x000002a0       0x58 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-reent.o)
+ .debug_frame   0x000002f8       0x34 c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__atexit.o)
+
+.comment        0x00000000       0x70
+ .comment       0x00000000       0x70 ./src/Interrupt.o
+                                 0x71 (size before relaxing)
+ .comment       0x00000000       0x71 ./src/main.o
+ .comment       0x00000000       0x71 ./src/procotol.o
+ .comment       0x00000000       0x71 ./src/queue.o
+ .comment       0x00000000       0x71 ./src/storage.o
+ .comment       0x00000000       0x71 ./src/system.o
+ .comment       0x00000000       0x71 ./src/timer.o
+ .comment       0x00000000       0x71 ./src/util.o
+ .comment       0x00000000       0x71 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .comment       0x00000000       0x71 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .comment       0x00000000       0x71 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .comment       0x00000000       0x71 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+
+.debug_str
+ *(.debug_str)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.note.gnu.arm.ident
+ *(.note.gnu.arm.ident)
+
+.ARM.attributes
+                0x00000000       0x29
+ *(.ARM.attributes)
+ .ARM.attributes
+                0x00000000       0x1d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crti.o
+ .ARM.attributes
+                0x0000001d       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtbegin.o
+ .ARM.attributes
+                0x0000004a       0x1b c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/crt0.o
+ .ARM.attributes
+                0x00000065       0x33 ./src/Interrupt.o
+ .ARM.attributes
+                0x00000098       0x33 ./src/main.o
+ .ARM.attributes
+                0x000000cb       0x33 ./src/procotol.o
+ .ARM.attributes
+                0x000000fe       0x33 ./src/queue.o
+ .ARM.attributes
+                0x00000131       0x33 ./src/storage.o
+ .ARM.attributes
+                0x00000164       0x33 ./src/system.o
+ .ARM.attributes
+                0x00000197       0x33 ./src/timer.o
+ .ARM.attributes
+                0x000001ca       0x33 ./src/util.o
+ .ARM.attributes
+                0x000001fd       0x33 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/newlib_stubs.o
+ .ARM.attributes
+                0x00000230       0x21 D:/Home2021/ChroZen-LC/LC_AS/SoC/Ch_AS_SF2_FW/ChAS-git/SF2_hw_platform/Release/src/CMSIS/startup_gcc/startup_m2sxxx.o
+ .ARM.attributes
+                0x00000251       0x33 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_uart.o)
+ .ARM.attributes
+                0x00000284       0x33 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(mss_nvm.o)
+ .ARM.attributes
+                0x000002b7       0x33 D:\Home2021\ChroZen-LC\LC_AS\SoC\Ch_AS_SF2_FW\ChAS-git\SF2_hw_platform\Release\libSF2_hw_platform.a(system_m2sxxx.o)
+ .ARM.attributes
+                0x000002ea       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
+ .ARM.attributes
+                0x00000317       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-errno.o)
+ .ARM.attributes
+                0x00000344       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-exit.o)
+ .ARM.attributes
+                0x00000371       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
+ .ARM.attributes
+                0x0000039e       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-init.o)
+ .ARM.attributes
+                0x000003cb       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-malloc.o)
+ .ARM.attributes
+                0x000003f8       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mallocr.o)
+ .ARM.attributes
+                0x00000425       0x1b c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memcpy.o)
+ .ARM.attributes
+                0x00000440       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memset.o)
+ .ARM.attributes
+                0x0000046d       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-mlock.o)
+ .ARM.attributes
+                0x0000049a       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-sbrkr.o)
+ .ARM.attributes
+                0x000004c7       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o)
+ .ARM.attributes
+                0x000004f4       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atexit.o)
+ .ARM.attributes
+                0x00000521       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-fini.o)
+ .ARM.attributes
+                0x0000054e       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-freer.o)
+ .ARM.attributes
+                0x0000057b       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-reent.o)
+ .ARM.attributes
+                0x000005a8       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__atexit.o)
+ .ARM.attributes
+                0x000005d5       0x2d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtend.o
+ .ARM.attributes
+                0x00000602       0x1d c:/microsemi/softconsole_v4.0/arm-none-eabi-gcc/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtn.o
+
+/DISCARD/
+ *(.note.GNU-stack)
+OUTPUT(SF2_IAP.elf elf32-littlearm)

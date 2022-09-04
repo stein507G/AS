@@ -1,0 +1,1018 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"mss_comblk.c"
+  15              		.section	.text.fill_tx_fifo,"ax",%progbits
+  16              		.align	2
+  17              		.thumb
+  18              		.thumb_func
+  20              	fill_tx_fifo:
+  21              		@ args = 0, pretend = 0, frame = 8
+  22              		@ frame_needed = 0, uses_anonymous_args = 0
+  23              		@ link register save eliminated.
+  24 0000 30B4     		push	{r4, r5}
+  25 0002 124C     		ldr	r4, .L13
+  26 0004 82B0     		sub	sp, sp, #8
+  27 0006 2368     		ldr	r3, [r4]
+  28 0008 23F00403 		bic	r3, r3, #4
+  29 000c 2360     		str	r3, [r4]
+  30 000e 6368     		ldr	r3, [r4, #4]
+  31 0010 03F00103 		and	r3, r3, #1
+  32 0014 0193     		str	r3, [sp, #4]
+  33 0016 019B     		ldr	r3, [sp, #4]
+  34 0018 ABB1     		cbz	r3, .L4
+  35 001a 81B1     		cbz	r1, .L2
+  36 001c 451E     		subs	r5, r0, #1
+  37 001e 0022     		movs	r2, #0
+  38 0020 01E0     		b	.L3
+  39              	.L12:
+  40 0022 8A42     		cmp	r2, r1
+  41 0024 0BD0     		beq	.L2
+  42              	.L3:
+  43 0026 15F8013F 		ldrb	r3, [r5, #1]!	@ zero_extendqisi2
+  44 002a 0132     		adds	r2, r2, #1
+  45 002c 2361     		str	r3, [r4, #16]
+  46 002e 6368     		ldr	r3, [r4, #4]
+  47 0030 03F00103 		and	r3, r3, #1
+  48 0034 0193     		str	r3, [sp, #4]
+  49 0036 019B     		ldr	r3, [sp, #4]
+  50 0038 002B     		cmp	r3, #0
+  51 003a F2D1     		bne	.L12
+  52 003c 1146     		mov	r1, r2
+  53              	.L2:
+  54 003e 0846     		mov	r0, r1
+  55 0040 02B0     		add	sp, sp, #8
+  56              		@ sp needed
+  57 0042 30BC     		pop	{r4, r5}
+  58 0044 7047     		bx	lr
+  59              	.L4:
+  60 0046 1946     		mov	r1, r3
+  61 0048 F9E7     		b	.L2
+  62              	.L14:
+  63 004a 00BF     		.align	2
+  64              	.L13:
+  65 004c 00600140 		.word	1073831936
+  67              		.section	.text.abort_current_cmd.part.0,"ax",%progbits
+  68              		.align	2
+  69              		.thumb
+  70              		.thumb_func
+  72              	abort_current_cmd.part.0:
+  73              		@ args = 0, pretend = 0, frame = 0
+  74              		@ frame_needed = 0, uses_anonymous_args = 0
+  75 0000 0B4B     		ldr	r3, .L23
+  76 0002 10B5     		push	{r4, lr}
+  77 0004 0B4C     		ldr	r4, .L23+4
+  78 0006 1988     		ldrh	r1, [r3]
+  79 0008 2368     		ldr	r3, [r4]
+  80 000a 89B2     		uxth	r1, r1
+  81 000c 33B1     		cbz	r3, .L16
+  82 000e 0A4A     		ldr	r2, .L23+8
+  83 0010 1068     		ldr	r0, [r2]
+  84 0012 9847     		blx	r3
+  85 0014 094A     		ldr	r2, .L23+12
+  86 0016 0023     		movs	r3, #0
+  87 0018 1370     		strb	r3, [r2]
+  88 001a 2360     		str	r3, [r4]
+  89              	.L16:
+  90 001c 084B     		ldr	r3, .L23+16
+  91 001e 1A46     		mov	r2, r3
+  92 0020 1968     		ldr	r1, [r3]
+  93 0022 41F00101 		orr	r1, r1, #1
+  94 0026 1960     		str	r1, [r3]
+  95              	.L17:
+  96 0028 1368     		ldr	r3, [r2]
+  97 002a DB07     		lsls	r3, r3, #31
+  98 002c FCD4     		bmi	.L17
+  99 002e 10BD     		pop	{r4, pc}
+ 100              	.L24:
+ 101              		.align	2
+ 102              	.L23:
+ 103 0030 00000000 		.word	.LANCHOR0
+ 104 0034 00000000 		.word	.LANCHOR1
+ 105 0038 00000000 		.word	.LANCHOR2
+ 106 003c 00000000 		.word	.LANCHOR3
+ 107 0040 00600140 		.word	1073831936
+ 109              		.section	.text.MSS_COMBLK_init,"ax",%progbits
+ 110              		.align	2
+ 111              		.global	MSS_COMBLK_init
+ 112              		.thumb
+ 113              		.thumb_func
+ 115              	MSS_COMBLK_init:
+ 116              		@ args = 0, pretend = 0, frame = 0
+ 117              		@ frame_needed = 0, uses_anonymous_args = 0
+ 118 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 119 0004 224A     		ldr	r2, .L27
+ 120 0006 234C     		ldr	r4, .L27+4
+ 121 0008 DFF89CA0 		ldr	r10, .L27+24
+ 122 000c 224E     		ldr	r6, .L27+8
+ 123 000e DFF89CB0 		ldr	fp, .L27+28
+ 124 0012 0023     		movs	r3, #0
+ 125 0014 4FF40025 		mov	r5, #524288
+ 126 0018 C4F88050 		str	r5, [r4, #128]
+ 127 001c DFF89090 		ldr	r9, .L27+32
+ 128 0020 9360     		str	r3, [r2, #8]
+ 129 0022 DFF89080 		ldr	r8, .L27+36
+ 130 0026 C4F88051 		str	r5, [r4, #384]
+ 131 002a DFF88CE0 		ldr	lr, .L27+40
+ 132 002e CBF80000 		str	r0, [fp]
+ 133 0032 3380     		strh	r3, [r6]	@ movhi
+ 134 0034 8AF80030 		strb	r3, [r10]
+ 135 0038 184E     		ldr	r6, .L27+12
+ 136 003a DFF880A0 		ldr	r10, .L27+44
+ 137 003e DFF880C0 		ldr	ip, .L27+48
+ 138 0042 174F     		ldr	r7, .L27+16
+ 139 0044 1748     		ldr	r0, .L27+20
+ 140 0046 89F80030 		strb	r3, [r9]
+ 141 004a 8AF80030 		strb	r3, [r10]
+ 142 004e A8F80030 		strh	r3, [r8]	@ movhi
+ 143 0052 CEF80030 		str	r3, [lr]
+ 144 0056 3380     		strh	r3, [r6]	@ movhi
+ 145 0058 CCF80030 		str	r3, [ip]
+ 146 005c 3B60     		str	r3, [r7]
+ 147 005e 0360     		str	r3, [r0]
+ 148 0060 1368     		ldr	r3, [r2]
+ 149 0062 DFF86090 		ldr	r9, .L27+52
+ 150 0066 23F02003 		bic	r3, r3, #32
+ 151 006a C9F80010 		str	r1, [r9]
+ 152 006e 1360     		str	r3, [r2]
+ 153 0070 1368     		ldr	r3, [r2]
+ 154 0072 43F01003 		orr	r3, r3, #16
+ 155 0076 1360     		str	r3, [r2]
+ 156 0078 9368     		ldr	r3, [r2, #8]
+ 157 007a 23F00103 		bic	r3, r3, #1
+ 158 007e 9360     		str	r3, [r2, #8]
+ 159 0080 9368     		ldr	r3, [r2, #8]
+ 160 0082 43F00203 		orr	r3, r3, #2
+ 161 0086 9360     		str	r3, [r2, #8]
+ 162 0088 2560     		str	r5, [r4]
+ 163 008a BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 164              	.L28:
+ 165 008e 00BF     		.align	2
+ 166              	.L27:
+ 167 0090 00600140 		.word	1073831936
+ 168 0094 00E100E0 		.word	-536813312
+ 169 0098 00000000 		.word	.LANCHOR10
+ 170 009c 00000000 		.word	.LANCHOR0
+ 171 00a0 00000000 		.word	.LANCHOR8
+ 172 00a4 00000000 		.word	.LANCHOR1
+ 173 00a8 00000000 		.word	.LANCHOR3
+ 174 00ac 00000000 		.word	.LANCHOR4
+ 175 00b0 00000000 		.word	.LANCHOR5
+ 176 00b4 00000000 		.word	.LANCHOR7
+ 177 00b8 00000000 		.word	.LANCHOR9
+ 178 00bc 00000000 		.word	.LANCHOR11
+ 179 00c0 00000000 		.word	.LANCHOR6
+ 180 00c4 00000000 		.word	.LANCHOR2
+ 182              		.section	.text.MSS_COMBLK_send_cmd_with_ptr,"ax",%progbits
+ 183              		.align	2
+ 184              		.global	MSS_COMBLK_send_cmd_with_ptr
+ 185              		.thumb
+ 186              		.thumb_func
+ 188              	MSS_COMBLK_send_cmd_with_ptr:
+ 189              		@ args = 4, pretend = 0, frame = 8
+ 190              		@ frame_needed = 0, uses_anonymous_args = 0
+ 191 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 192 0004 344C     		ldr	r4, .L42
+ 193 0006 354E     		ldr	r6, .L42+4
+ 194 0008 4FF40025 		mov	r5, #524288
+ 195 000c 0027     		movs	r7, #0
+ 196 000e DFF8E880 		ldr	r8, .L42+32
+ 197 0012 C4F88050 		str	r5, [r4, #128]
+ 198 0016 B760     		str	r7, [r6, #8]
+ 199 0018 C4F88051 		str	r5, [r4, #384]
+ 200 001c 98F80040 		ldrb	r4, [r8]	@ zero_extendqisi2
+ 201 0020 83B0     		sub	sp, sp, #12
+ 202 0022 8246     		mov	r10, r0
+ 203 0024 0F46     		mov	r7, r1
+ 204 0026 9946     		mov	r9, r3
+ 205 0028 002C     		cmp	r4, #0
+ 206 002a 50D1     		bne	.L41
+ 207              	.L30:
+ 208 002c 2B4D     		ldr	r5, .L42+4
+ 209 002e 2C4E     		ldr	r6, .L42+8
+ 210 0030 2C46     		mov	r4, r5
+ 211 0032 0123     		movs	r3, #1
+ 212 0034 88F80030 		strb	r3, [r8]
+ 213 0038 DFF8C0B0 		ldr	fp, .L42+36
+ 214 003c DFF8C0C0 		ldr	ip, .L42+40
+ 215 0040 2849     		ldr	r1, .L42+12
+ 216 0042 294B     		ldr	r3, .L42+16
+ 217 0044 86F800A0 		strb	r10, [r6]
+ 218 0048 4FF0000A 		mov	r10, #0
+ 219 004c ABF800A0 		strh	r10, [fp]	@ movhi
+ 220 0050 C3F800A0 		str	r10, [r3]
+ 221 0054 CCF800A0 		str	r10, [ip]
+ 222 0058 0C9B     		ldr	r3, [sp, #48]
+ 223 005a A1F800A0 		strh	r10, [r1]	@ movhi
+ 224 005e 2349     		ldr	r1, .L42+20
+ 225 0060 3678     		ldrb	r6, [r6]	@ zero_extendqisi2
+ 226 0062 0B60     		str	r3, [r1]
+ 227 0064 2B68     		ldr	r3, [r5]
+ 228 0066 2248     		ldr	r0, .L42+24
+ 229 0068 DFF89880 		ldr	r8, .L42+44
+ 230 006c DFF898B0 		ldr	fp, .L42+48
+ 231 0070 DFF898C0 		ldr	ip, .L42+52
+ 232 0074 23F00403 		bic	r3, r3, #4
+ 233 0078 C0F800A0 		str	r10, [r0]
+ 234 007c C8F800A0 		str	r10, [r8]
+ 235 0080 CBF80020 		str	r2, [fp]
+ 236 0084 ACF80090 		strh	r9, [ip]	@ movhi
+ 237 0088 F6B2     		uxtb	r6, r6
+ 238 008a 2B60     		str	r3, [r5]
+ 239              	.L31:
+ 240 008c 6368     		ldr	r3, [r4, #4]
+ 241 008e 134A     		ldr	r2, .L42+4
+ 242 0090 D907     		lsls	r1, r3, #31
+ 243 0092 FBD5     		bpl	.L31
+ 244 0094 1046     		mov	r0, r2
+ 245 0096 9661     		str	r6, [r2, #24]
+ 246 0098 1368     		ldr	r3, [r2]
+ 247 009a 43F00403 		orr	r3, r3, #4
+ 248 009e 1360     		str	r3, [r2]
+ 249              	.L32:
+ 250 00a0 4368     		ldr	r3, [r0, #4]
+ 251 00a2 0E4A     		ldr	r2, .L42+4
+ 252 00a4 DB07     		lsls	r3, r3, #31
+ 253 00a6 FBD5     		bpl	.L32
+ 254 00a8 5761     		str	r7, [r2, #20]
+ 255 00aa 1368     		ldr	r3, [r2]
+ 256 00ac 1149     		ldr	r1, .L42+28
+ 257 00ae 23F00403 		bic	r3, r3, #4
+ 258 00b2 0320     		movs	r0, #3
+ 259 00b4 1360     		str	r3, [r2]
+ 260 00b6 0870     		strb	r0, [r1]
+ 261 00b8 9368     		ldr	r3, [r2, #8]
+ 262 00ba 0749     		ldr	r1, .L42
+ 263 00bc 43F00203 		orr	r3, r3, #2
+ 264 00c0 4FF40020 		mov	r0, #524288
+ 265 00c4 9360     		str	r3, [r2, #8]
+ 266 00c6 0860     		str	r0, [r1]
+ 267 00c8 03B0     		add	sp, sp, #12
+ 268              		@ sp needed
+ 269 00ca BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 270              	.L41:
+ 271 00ce 0192     		str	r2, [sp, #4]
+ 272 00d0 FFF7FEFF 		bl	abort_current_cmd.part.0
+ 273 00d4 019A     		ldr	r2, [sp, #4]
+ 274 00d6 A9E7     		b	.L30
+ 275              	.L43:
+ 276              		.align	2
+ 277              	.L42:
+ 278 00d8 00E100E0 		.word	-536813312
+ 279 00dc 00600140 		.word	1073831936
+ 280 00e0 00000000 		.word	.LANCHOR5
+ 281 00e4 00000000 		.word	.LANCHOR0
+ 282 00e8 00000000 		.word	.LANCHOR12
+ 283 00ec 00000000 		.word	.LANCHOR1
+ 284 00f0 00000000 		.word	.LANCHOR6
+ 285 00f4 00000000 		.word	.LANCHOR11
+ 286 00f8 00000000 		.word	.LANCHOR3
+ 287 00fc 00000000 		.word	.LANCHOR7
+ 288 0100 00000000 		.word	.LANCHOR9
+ 289 0104 00000000 		.word	.LANCHOR8
+ 290 0108 00000000 		.word	.LANCHOR2
+ 291 010c 00000000 		.word	.LANCHOR10
+ 293              		.section	.text.MSS_COMBLK_send_cmd,"ax",%progbits
+ 294              		.align	2
+ 295              		.global	MSS_COMBLK_send_cmd
+ 296              		.thumb
+ 297              		.thumb_func
+ 299              	MSS_COMBLK_send_cmd:
+ 300              		@ args = 12, pretend = 0, frame = 8
+ 301              		@ frame_needed = 0, uses_anonymous_args = 0
+ 302 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 303 0004 3E4C     		ldr	r4, .L59
+ 304 0006 3F4F     		ldr	r7, .L59+4
+ 305 0008 4FF40026 		mov	r6, #524288
+ 306 000c 83B0     		sub	sp, sp, #12
+ 307 000e 4FF0000E 		mov	lr, #0
+ 308 0012 3D4D     		ldr	r5, .L59+8
+ 309 0014 BDF83490 		ldrh	r9, [sp, #52]
+ 310 0018 C4F88060 		str	r6, [r4, #128]
+ 311 001c C7F808E0 		str	lr, [r7, #8]
+ 312 0020 C4F88061 		str	r6, [r4, #384]
+ 313 0024 2F78     		ldrb	r7, [r5]	@ zero_extendqisi2
+ 314 0026 0446     		mov	r4, r0
+ 315 0028 0E46     		mov	r6, r1
+ 316 002a 002F     		cmp	r7, #0
+ 317 002c 60D1     		bne	.L56
+ 318              	.L45:
+ 319 002e 3548     		ldr	r0, .L59+4
+ 320 0030 94F800C0 		ldrb	ip, [r4]	@ zero_extendqisi2
+ 321 0034 0146     		mov	r1, r0
+ 322 0036 DFF8E8E0 		ldr	lr, .L59+32
+ 323 003a DFF8E8B0 		ldr	fp, .L59+36
+ 324 003e 334F     		ldr	r7, .L59+12
+ 325 0040 DFF8E480 		ldr	r8, .L59+40
+ 326 0044 4FF0010A 		mov	r10, #1
+ 327 0048 85F800A0 		strb	r10, [r5]
+ 328 004c CBF80020 		str	r2, [fp]
+ 329 0050 8EF800C0 		strb	ip, [lr]
+ 330 0054 2E4D     		ldr	r5, .L59+16
+ 331 0056 3E80     		strh	r6, [r7]	@ movhi
+ 332 0058 2E4A     		ldr	r2, .L59+20
+ 333 005a C8F80030 		str	r3, [r8]
+ 334 005e 0C9B     		ldr	r3, [sp, #48]
+ 335 0060 DFF8C8B0 		ldr	fp, .L59+44
+ 336 0064 2B60     		str	r3, [r5]
+ 337 0066 A2F80090 		strh	r9, [r2]	@ movhi
+ 338 006a 0E9B     		ldr	r3, [sp, #56]
+ 339 006c 2A4D     		ldr	r5, .L59+24
+ 340 006e 0022     		movs	r2, #0
+ 341 0070 ABF80020 		strh	r2, [fp]	@ movhi
+ 342 0074 2B60     		str	r3, [r5]
+ 343 0076 8368     		ldr	r3, [r0, #8]
+ 344 0078 DFF8B4A0 		ldr	r10, .L59+48
+ 345 007c DFF8B4C0 		ldr	ip, .L59+52
+ 346 0080 43F00203 		orr	r3, r3, #2
+ 347 0084 CAF80040 		str	r4, [r10]
+ 348 0088 CCF80020 		str	r2, [ip]
+ 349 008c 8360     		str	r3, [r0, #8]
+ 350 008e 9EF80050 		ldrb	r5, [lr]	@ zero_extendqisi2
+ 351 0092 0368     		ldr	r3, [r0]
+ 352 0094 EDB2     		uxtb	r5, r5
+ 353 0096 23F00403 		bic	r3, r3, #4
+ 354 009a 0360     		str	r3, [r0]
+ 355              	.L46:
+ 356 009c 4B68     		ldr	r3, [r1, #4]
+ 357 009e 194A     		ldr	r2, .L59+4
+ 358 00a0 DB07     		lsls	r3, r3, #31
+ 359 00a2 FBD5     		bpl	.L46
+ 360 00a4 9561     		str	r5, [r2, #24]
+ 361 00a6 601C     		adds	r0, r4, #1
+ 362 00a8 711E     		subs	r1, r6, #1
+ 363 00aa FFF7FEFF 		bl	fill_tx_fifo
+ 364 00ae 0130     		adds	r0, r0, #1
+ 365 00b0 8642     		cmp	r6, r0
+ 366 00b2 12D8     		bhi	.L57
+ 367 00b4 0023     		movs	r3, #0
+ 368 00b6 3B80     		strh	r3, [r7]	@ movhi
+ 369 00b8 D8F80030 		ldr	r3, [r8]
+ 370 00bc 4BB9     		cbnz	r3, .L58
+ 371 00be 174B     		ldr	r3, .L59+28
+ 372 00c0 0322     		movs	r2, #3
+ 373 00c2 1A70     		strb	r2, [r3]
+ 374              	.L48:
+ 375 00c4 0E4B     		ldr	r3, .L59
+ 376 00c6 4FF40022 		mov	r2, #524288
+ 377 00ca 1A60     		str	r2, [r3]
+ 378 00cc 03B0     		add	sp, sp, #12
+ 379              		@ sp needed
+ 380 00ce BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 381              	.L58:
+ 382 00d2 124B     		ldr	r3, .L59+28
+ 383 00d4 0222     		movs	r2, #2
+ 384 00d6 1A70     		strb	r2, [r3]
+ 385 00d8 F4E7     		b	.L48
+ 386              	.L57:
+ 387 00da 3B88     		ldrh	r3, [r7]
+ 388 00dc 0F4A     		ldr	r2, .L59+28
+ 389 00de 1B1A     		subs	r3, r3, r0
+ 390 00e0 9BB2     		uxth	r3, r3
+ 391 00e2 2044     		add	r0, r0, r4
+ 392 00e4 0121     		movs	r1, #1
+ 393 00e6 CAF80000 		str	r0, [r10]
+ 394 00ea 3B80     		strh	r3, [r7]	@ movhi
+ 395 00ec 1170     		strb	r1, [r2]
+ 396 00ee E9E7     		b	.L48
+ 397              	.L56:
+ 398 00f0 8DE80C00 		stmia	sp, {r2, r3}
+ 399 00f4 FFF7FEFF 		bl	abort_current_cmd.part.0
+ 400 00f8 9DE80C00 		ldmia	sp, {r2, r3}
+ 401 00fc 97E7     		b	.L45
+ 402              	.L60:
+ 403 00fe 00BF     		.align	2
+ 404              	.L59:
+ 405 0100 00E100E0 		.word	-536813312
+ 406 0104 00600140 		.word	1073831936
+ 407 0108 00000000 		.word	.LANCHOR3
+ 408 010c 00000000 		.word	.LANCHOR7
+ 409 0110 00000000 		.word	.LANCHOR2
+ 410 0114 00000000 		.word	.LANCHOR10
+ 411 0118 00000000 		.word	.LANCHOR1
+ 412 011c 00000000 		.word	.LANCHOR11
+ 413 0120 00000000 		.word	.LANCHOR5
+ 414 0124 00000000 		.word	.LANCHOR8
+ 415 0128 00000000 		.word	.LANCHOR9
+ 416 012c 00000000 		.word	.LANCHOR0
+ 417 0130 00000000 		.word	.LANCHOR6
+ 418 0134 00000000 		.word	.LANCHOR12
+ 420              		.section	.text.MSS_COMBLK_send_paged_cmd,"ax",%progbits
+ 421              		.align	2
+ 422              		.global	MSS_COMBLK_send_paged_cmd
+ 423              		.thumb
+ 424              		.thumb_func
+ 426              	MSS_COMBLK_send_paged_cmd:
+ 427              		@ args = 8, pretend = 0, frame = 8
+ 428              		@ frame_needed = 0, uses_anonymous_args = 0
+ 429 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 430 0004 394C     		ldr	r4, .L74
+ 431 0006 3A4E     		ldr	r6, .L74+4
+ 432 0008 4FF40025 		mov	r5, #524288
+ 433 000c 4FF0000C 		mov	ip, #0
+ 434 0010 384F     		ldr	r7, .L74+8
+ 435 0012 C4F88050 		str	r5, [r4, #128]
+ 436 0016 C6F808C0 		str	ip, [r6, #8]
+ 437 001a C4F88051 		str	r5, [r4, #384]
+ 438 001e 3E78     		ldrb	r6, [r7]	@ zero_extendqisi2
+ 439 0020 83B0     		sub	sp, sp, #12
+ 440 0022 0446     		mov	r4, r0
+ 441 0024 0D46     		mov	r5, r1
+ 442 0026 9A46     		mov	r10, r3
+ 443 0028 002E     		cmp	r6, #0
+ 444 002a 59D1     		bne	.L72
+ 445              	.L62:
+ 446 002c 3048     		ldr	r0, .L74+4
+ 447 002e 0123     		movs	r3, #1
+ 448 0030 0146     		mov	r1, r0
+ 449 0032 3B70     		strb	r3, [r7]
+ 450 0034 94F800B0 		ldrb	fp, [r4]	@ zero_extendqisi2
+ 451 0038 2F4E     		ldr	r6, .L74+12
+ 452 003a DFF8D4C0 		ldr	ip, .L74+36
+ 453 003e 2F4B     		ldr	r3, .L74+16
+ 454 0040 DFF8D090 		ldr	r9, .L74+40
+ 455 0044 DFF8D080 		ldr	r8, .L74+44
+ 456 0048 0027     		movs	r7, #0
+ 457 004a 86F800B0 		strb	fp, [r6]
+ 458 004e C9F80070 		str	r7, [r9]
+ 459 0052 A8F80050 		strh	r5, [r8]	@ movhi
+ 460 0056 CCF80070 		str	r7, [ip]
+ 461 005a 1F80     		strh	r7, [r3]	@ movhi
+ 462 005c 284F     		ldr	r7, .L74+20
+ 463 005e 294B     		ldr	r3, .L74+24
+ 464 0060 A7F800A0 		strh	r10, [r7]	@ movhi
+ 465 0064 DFF8B4C0 		ldr	ip, .L74+48
+ 466 0068 0C9F     		ldr	r7, [sp, #48]
+ 467 006a CCF80020 		str	r2, [ip]
+ 468 006e 1F60     		str	r7, [r3]
+ 469 0070 254A     		ldr	r2, .L74+28
+ 470 0072 0D9B     		ldr	r3, [sp, #52]
+ 471 0074 3678     		ldrb	r6, [r6]	@ zero_extendqisi2
+ 472 0076 1360     		str	r3, [r2]
+ 473 0078 0368     		ldr	r3, [r0]
+ 474 007a DFF8A490 		ldr	r9, .L74+52
+ 475 007e 23F00403 		bic	r3, r3, #4
+ 476 0082 C9F80040 		str	r4, [r9]
+ 477 0086 F6B2     		uxtb	r6, r6
+ 478 0088 0360     		str	r3, [r0]
+ 479              	.L63:
+ 480 008a 4B68     		ldr	r3, [r1, #4]
+ 481 008c 184A     		ldr	r2, .L74+4
+ 482 008e DB07     		lsls	r3, r3, #31
+ 483 0090 FBD5     		bpl	.L63
+ 484 0092 9661     		str	r6, [r2, #24]
+ 485 0094 601C     		adds	r0, r4, #1
+ 486 0096 691E     		subs	r1, r5, #1
+ 487 0098 FFF7FEFF 		bl	fill_tx_fifo
+ 488 009c 0130     		adds	r0, r0, #1
+ 489 009e 8542     		cmp	r5, r0
+ 490 00a0 11D8     		bhi	.L73
+ 491 00a2 1A4A     		ldr	r2, .L74+32
+ 492 00a4 0521     		movs	r1, #5
+ 493 00a6 0023     		movs	r3, #0
+ 494 00a8 1170     		strb	r1, [r2]
+ 495 00aa A8F80030 		strh	r3, [r8]	@ movhi
+ 496              	.L65:
+ 497 00ae 104A     		ldr	r2, .L74+4
+ 498 00b0 0E49     		ldr	r1, .L74
+ 499 00b2 9368     		ldr	r3, [r2, #8]
+ 500 00b4 4FF40020 		mov	r0, #524288
+ 501 00b8 43F00303 		orr	r3, r3, #3
+ 502 00bc 9360     		str	r3, [r2, #8]
+ 503 00be 0860     		str	r0, [r1]
+ 504 00c0 03B0     		add	sp, sp, #12
+ 505              		@ sp needed
+ 506 00c2 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 507              	.L73:
+ 508 00c6 B8F80030 		ldrh	r3, [r8]
+ 509 00ca 104A     		ldr	r2, .L74+32
+ 510 00cc 1B1A     		subs	r3, r3, r0
+ 511 00ce 9BB2     		uxth	r3, r3
+ 512 00d0 2044     		add	r0, r0, r4
+ 513 00d2 0121     		movs	r1, #1
+ 514 00d4 C9F80000 		str	r0, [r9]
+ 515 00d8 A8F80030 		strh	r3, [r8]	@ movhi
+ 516 00dc 1170     		strb	r1, [r2]
+ 517 00de E6E7     		b	.L65
+ 518              	.L72:
+ 519 00e0 0192     		str	r2, [sp, #4]
+ 520 00e2 FFF7FEFF 		bl	abort_current_cmd.part.0
+ 521 00e6 019A     		ldr	r2, [sp, #4]
+ 522 00e8 A0E7     		b	.L62
+ 523              	.L75:
+ 524 00ea 00BF     		.align	2
+ 525              	.L74:
+ 526 00ec 00E100E0 		.word	-536813312
+ 527 00f0 00600140 		.word	1073831936
+ 528 00f4 00000000 		.word	.LANCHOR3
+ 529 00f8 00000000 		.word	.LANCHOR5
+ 530 00fc 00000000 		.word	.LANCHOR0
+ 531 0100 00000000 		.word	.LANCHOR10
+ 532 0104 00000000 		.word	.LANCHOR12
+ 533 0108 00000000 		.word	.LANCHOR1
+ 534 010c 00000000 		.word	.LANCHOR11
+ 535 0110 00000000 		.word	.LANCHOR9
+ 536 0114 00000000 		.word	.LANCHOR8
+ 537 0118 00000000 		.word	.LANCHOR7
+ 538 011c 00000000 		.word	.LANCHOR2
+ 539 0120 00000000 		.word	.LANCHOR6
+ 541              		.section	.text.ComBlk_IRQHandler,"ax",%progbits
+ 542              		.align	2
+ 543              		.global	ComBlk_IRQHandler
+ 544              		.thumb
+ 545              		.thumb_func
+ 547              	ComBlk_IRQHandler:
+ 548              		@ args = 0, pretend = 0, frame = 0
+ 549              		@ frame_needed = 0, uses_anonymous_args = 0
+ 550 0000 944A     		ldr	r2, .L176
+ 551 0002 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 552 0004 5368     		ldr	r3, [r2, #4]
+ 553 0006 9468     		ldr	r4, [r2, #8]
+ 554 0008 DBB2     		uxtb	r3, r3
+ 555 000a 1C40     		ands	r4, r4, r3
+ 556 000c A007     		lsls	r0, r4, #30
+ 557 000e 1DD4     		bmi	.L169
+ 558              	.L87:
+ 559 0010 E107     		lsls	r1, r4, #31
+ 560 0012 00D4     		bmi	.L170
+ 561              	.L76:
+ 562 0014 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 563              	.L170:
+ 564 0016 904E     		ldr	r6, .L176+4
+ 565 0018 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 566 001a 022B     		cmp	r3, #2
+ 567 001c 60D0     		beq	.L100
+ 568 001e 052B     		cmp	r3, #5
+ 569 0020 2FD0     		beq	.L101
+ 570 0022 012B     		cmp	r3, #1
+ 571 0024 4ED0     		beq	.L171
+ 572              	.L99:
+ 573 0026 8B4A     		ldr	r2, .L176
+ 574 0028 8C4C     		ldr	r4, .L176+8
+ 575 002a 9368     		ldr	r3, [r2, #8]
+ 576 002c 23F00103 		bic	r3, r3, #1
+ 577 0030 9360     		str	r3, [r2, #8]
+ 578 0032 2368     		ldr	r3, [r4]
+ 579 0034 3BB1     		cbz	r3, .L115
+ 580 0036 8A4A     		ldr	r2, .L176+12
+ 581 0038 0021     		movs	r1, #0
+ 582 003a 1068     		ldr	r0, [r2]
+ 583 003c 9847     		blx	r3
+ 584 003e 894A     		ldr	r2, .L176+16
+ 585 0040 0023     		movs	r3, #0
+ 586 0042 1370     		strb	r3, [r2]
+ 587 0044 2360     		str	r3, [r4]
+ 588              	.L115:
+ 589 0046 0023     		movs	r3, #0
+ 590 0048 3370     		strb	r3, [r6]
+ 591 004a F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 592              	.L169:
+ 593 004c 1069     		ldr	r0, [r2, #16]
+ 594 004e 824E     		ldr	r6, .L176+4
+ 595 0050 20F4FF43 		bic	r3, r0, #32640
+ 596 0054 3278     		ldrb	r2, [r6]	@ zero_extendqisi2
+ 597 0056 23F07F03 		bic	r3, r3, #127
+ 598 005a 9DB2     		uxth	r5, r3
+ 599 005c C0B2     		uxtb	r0, r0
+ 600 005e 052A     		cmp	r2, #5
+ 601 0060 00F2BB80 		bhi	.L78
+ 602 0064 DFE812F0 		tbh	[pc, r2, lsl #1]
+ 603              	.L80:
+ 604 0068 9000     		.2byte	(.L79-.L80)/2
+ 605 006a 9C00     		.2byte	(.L81-.L80)/2
+ 606 006c 9C00     		.2byte	(.L81-.L80)/2
+ 607 006e A400     		.2byte	(.L82-.L80)/2
+ 608 0070 6300     		.2byte	(.L83-.L80)/2
+ 609 0072 4F00     		.2byte	(.L84-.L80)/2
+ 610              		.p2align 1
+ 611              	.L95:
+ 612 0074 7C4B     		ldr	r3, .L176+20
+ 613 0076 1A68     		ldr	r2, [r3]
+ 614 0078 002A     		cmp	r2, #0
+ 615 007a 40F08E80 		bne	.L163
+ 616 007e E307     		lsls	r3, r4, #31
+ 617 0080 C8D5     		bpl	.L76
+ 618              	.L101:
+ 619 0082 7A4C     		ldr	r4, .L176+24
+ 620 0084 2368     		ldr	r3, [r4]
+ 621 0086 83B9     		cbnz	r3, .L111
+ 622 0088 794B     		ldr	r3, .L176+28
+ 623 008a 1B68     		ldr	r3, [r3]
+ 624 008c 002B     		cmp	r3, #0
+ 625 008e 00F0D180 		beq	.L112
+ 626 0092 7848     		ldr	r0, .L176+32
+ 627 0094 9847     		blx	r3
+ 628 0096 2060     		str	r0, [r4]
+ 629 0098 2368     		ldr	r3, [r4]
+ 630 009a 33B9     		cbnz	r3, .L111
+ 631 009c 6D4A     		ldr	r2, .L176
+ 632 009e 0321     		movs	r1, #3
+ 633 00a0 9368     		ldr	r3, [r2, #8]
+ 634 00a2 23F00103 		bic	r3, r3, #1
+ 635 00a6 9360     		str	r3, [r2, #8]
+ 636 00a8 3170     		strb	r1, [r6]
+ 637              	.L111:
+ 638 00aa 2368     		ldr	r3, [r4]
+ 639 00ac 6F4C     		ldr	r4, .L176+24
+ 640 00ae 002B     		cmp	r3, #0
+ 641 00b0 40F0B480 		bne	.L114
+ 642              	.L165:
+ 643 00b4 674A     		ldr	r2, .L176
+ 644 00b6 0321     		movs	r1, #3
+ 645 00b8 9368     		ldr	r3, [r2, #8]
+ 646 00ba 23F00103 		bic	r3, r3, #1
+ 647 00be 9360     		str	r3, [r2, #8]
+ 648 00c0 3170     		strb	r1, [r6]
+ 649 00c2 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 650              	.L171:
+ 651 00c4 6C4C     		ldr	r4, .L176+36
+ 652 00c6 2388     		ldrh	r3, [r4]
+ 653 00c8 9BB2     		uxth	r3, r3
+ 654 00ca 002B     		cmp	r3, #0
+ 655 00cc 40F09280 		bne	.L172
+ 656              	.L103:
+ 657 00d0 644B     		ldr	r3, .L176+16
+ 658 00d2 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 659 00d4 002B     		cmp	r3, #0
+ 660 00d6 9DD0     		beq	.L76
+ 661 00d8 BDE8F840 		pop	{r3, r4, r5, r6, r7, lr}
+ 662 00dc FFF7FEBF 		b	abort_current_cmd.part.0
+ 663              	.L100:
+ 664 00e0 624C     		ldr	r4, .L176+24
+ 665 00e2 2368     		ldr	r3, [r4]
+ 666 00e4 002B     		cmp	r3, #0
+ 667 00e6 F3D0     		beq	.L103
+ 668 00e8 624D     		ldr	r5, .L176+32
+ 669 00ea 2168     		ldr	r1, [r4]
+ 670 00ec 2868     		ldr	r0, [r5]
+ 671 00ee FFF7FEFF 		bl	fill_tx_fifo
+ 672 00f2 2368     		ldr	r3, [r4]
+ 673 00f4 9842     		cmp	r0, r3
+ 674 00f6 DDD2     		bcs	.L165
+ 675 00f8 2368     		ldr	r3, [r4]
+ 676 00fa 2A68     		ldr	r2, [r5]
+ 677 00fc 1B1A     		subs	r3, r3, r0
+ 678 00fe 1044     		add	r0, r0, r2
+ 679 0100 2360     		str	r3, [r4]
+ 680 0102 2860     		str	r0, [r5]
+ 681 0104 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 682              	.L84:
+ 683 0106 002D     		cmp	r5, #0
+ 684 0108 B4D1     		bne	.L95
+ 685 010a 554B     		ldr	r3, .L176+12
+ 686 010c 534F     		ldr	r7, .L176+8
+ 687 010e 1A68     		ldr	r2, [r3]
+ 688 0110 3B68     		ldr	r3, [r7]
+ 689 0112 5070     		strb	r0, [r2, #1]
+ 690 0114 2BB1     		cbz	r3, .L92
+ 691 0116 1046     		mov	r0, r2
+ 692 0118 0221     		movs	r1, #2
+ 693 011a 9847     		blx	r3
+ 694 011c 514B     		ldr	r3, .L176+16
+ 695 011e 3D60     		str	r5, [r7]
+ 696 0120 1D70     		strb	r5, [r3]
+ 697              	.L92:
+ 698 0122 0023     		movs	r3, #0
+ 699 0124 3370     		strb	r3, [r6]
+ 700              	.L85:
+ 701 0126 E207     		lsls	r2, r4, #31
+ 702 0128 7FF574AF 		bpl	.L76
+ 703 012c 7BE7     		b	.L99
+ 704              	.L83:
+ 705 012e 002D     		cmp	r5, #0
+ 706 0130 2FD1     		bne	.L167
+ 707 0132 524A     		ldr	r2, .L176+40
+ 708 0134 4A49     		ldr	r1, .L176+12
+ 709 0136 1388     		ldrh	r3, [r2]
+ 710 0138 0D68     		ldr	r5, [r1]
+ 711 013a 9BB2     		uxth	r3, r3
+ 712 013c 2B44     		add	r3, r3, r5
+ 713 013e 13F8013C 		ldrb	r3, [r3, #-1]	@ zero_extendqisi2
+ 714 0142 F12B     		cmp	r3, #241
+ 715 0144 00F0A580 		beq	.L173
+ 716 0148 4D49     		ldr	r1, .L176+44
+ 717 014a 1388     		ldrh	r3, [r2]
+ 718 014c 0988     		ldrh	r1, [r1]
+ 719 014e 9BB2     		uxth	r3, r3
+ 720 0150 8B42     		cmp	r3, r1
+ 721 0152 06D2     		bcs	.L93
+ 722 0154 1788     		ldrh	r7, [r2]
+ 723 0156 1388     		ldrh	r3, [r2]
+ 724 0158 BFB2     		uxth	r7, r7
+ 725 015a 0133     		adds	r3, r3, #1
+ 726 015c 9BB2     		uxth	r3, r3
+ 727 015e E855     		strb	r0, [r5, r7]
+ 728 0160 1380     		strh	r3, [r2]	@ movhi
+ 729              	.L93:
+ 730 0162 1388     		ldrh	r3, [r2]
+ 731 0164 454A     		ldr	r2, .L176+40
+ 732 0166 9BB2     		uxth	r3, r3
+ 733 0168 9942     		cmp	r1, r3
+ 734 016a 7FF451AF 		bne	.L87
+ 735 016e 3B4F     		ldr	r7, .L176+8
+ 736 0170 1388     		ldrh	r3, [r2]
+ 737 0172 3A68     		ldr	r2, [r7]
+ 738 0174 99B2     		uxth	r1, r3
+ 739 0176 002A     		cmp	r2, #0
+ 740 0178 D3D0     		beq	.L92
+ 741 017a 2846     		mov	r0, r5
+ 742 017c 9047     		blx	r2
+ 743 017e 394A     		ldr	r2, .L176+16
+ 744 0180 0023     		movs	r3, #0
+ 745 0182 1370     		strb	r3, [r2]
+ 746 0184 3B60     		str	r3, [r7]
+ 747 0186 CCE7     		b	.L92
+ 748              	.L79:
+ 749 0188 002D     		cmp	r5, #0
+ 750 018a CCD0     		beq	.L85
+ 751 018c F128     		cmp	r0, #241
+ 752 018e 00F09080 		beq	.L174
+ 753              	.L167:
+ 754 0192 354B     		ldr	r3, .L176+20
+ 755 0194 1A68     		ldr	r2, [r3]
+ 756 0196 002A     		cmp	r2, #0
+ 757 0198 C5D0     		beq	.L85
+ 758              	.L163:
+ 759 019a 1B68     		ldr	r3, [r3]
+ 760 019c 9847     		blx	r3
+ 761 019e 37E7     		b	.L87
+ 762              	.L81:
+ 763 01a0 002D     		cmp	r5, #0
+ 764 01a2 3FF435AF 		beq	.L87
+ 765 01a6 304B     		ldr	r3, .L176+20
+ 766 01a8 1A68     		ldr	r2, [r3]
+ 767 01aa 002A     		cmp	r2, #0
+ 768 01ac F5D1     		bne	.L163
+ 769 01ae 2FE7     		b	.L87
+ 770              	.L82:
+ 771 01b0 002D     		cmp	r5, #0
+ 772 01b2 B8D0     		beq	.L85
+ 773 01b4 334B     		ldr	r3, .L176+48
+ 774 01b6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 775 01b8 9842     		cmp	r0, r3
+ 776 01ba EAD1     		bne	.L167
+ 777 01bc 2F4A     		ldr	r2, .L176+40
+ 778 01be 0023     		movs	r3, #0
+ 779 01c0 1380     		strh	r3, [r2]	@ movhi
+ 780 01c2 1188     		ldrh	r1, [r2]
+ 781 01c4 264D     		ldr	r5, .L176+12
+ 782 01c6 1388     		ldrh	r3, [r2]
+ 783 01c8 2F68     		ldr	r7, [r5]
+ 784 01ca 0133     		adds	r3, r3, #1
+ 785 01cc 89B2     		uxth	r1, r1
+ 786 01ce 9BB2     		uxth	r3, r3
+ 787 01d0 0425     		movs	r5, #4
+ 788 01d2 1380     		strh	r3, [r2]	@ movhi
+ 789 01d4 7854     		strb	r0, [r7, r1]
+ 790 01d6 3570     		strb	r5, [r6]
+ 791 01d8 A5E7     		b	.L85
+ 792              	.L78:
+ 793 01da 204D     		ldr	r5, .L176+8
+ 794 01dc 2B68     		ldr	r3, [r5]
+ 795 01de 002B     		cmp	r3, #0
+ 796 01e0 9FD0     		beq	.L92
+ 797 01e2 1F4A     		ldr	r2, .L176+12
+ 798 01e4 0021     		movs	r1, #0
+ 799 01e6 1068     		ldr	r0, [r2]
+ 800 01e8 9847     		blx	r3
+ 801 01ea 1E4A     		ldr	r2, .L176+16
+ 802 01ec 0023     		movs	r3, #0
+ 803 01ee 1370     		strb	r3, [r2]
+ 804 01f0 2B60     		str	r3, [r5]
+ 805 01f2 96E7     		b	.L92
+ 806              	.L172:
+ 807 01f4 244F     		ldr	r7, .L176+52
+ 808 01f6 2188     		ldrh	r1, [r4]
+ 809 01f8 3D68     		ldr	r5, [r7]
+ 810 01fa 89B2     		uxth	r1, r1
+ 811 01fc 2846     		mov	r0, r5
+ 812 01fe FFF7FEFF 		bl	fill_tx_fifo
+ 813 0202 2388     		ldrh	r3, [r4]
+ 814 0204 9BB2     		uxth	r3, r3
+ 815 0206 9842     		cmp	r0, r3
+ 816 0208 1CD3     		bcc	.L175
+ 817 020a 0022     		movs	r2, #0
+ 818 020c 174B     		ldr	r3, .L176+24
+ 819 020e 2280     		strh	r2, [r4]	@ movhi
+ 820 0210 1B68     		ldr	r3, [r3]
+ 821 0212 002B     		cmp	r3, #0
+ 822 0214 3AD0     		beq	.L105
+ 823 0216 0223     		movs	r3, #2
+ 824 0218 3370     		strb	r3, [r6]
+ 825 021a F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 826              	.L114:
+ 827 021c 154D     		ldr	r5, .L176+32
+ 828 021e 2168     		ldr	r1, [r4]
+ 829 0220 2868     		ldr	r0, [r5]
+ 830 0222 FFF7FEFF 		bl	fill_tx_fifo
+ 831 0226 2A68     		ldr	r2, [r5]
+ 832 0228 2368     		ldr	r3, [r4]
+ 833 022a 0244     		add	r2, r2, r0
+ 834 022c 181A     		subs	r0, r3, r0
+ 835 022e 2A60     		str	r2, [r5]
+ 836 0230 2060     		str	r0, [r4]
+ 837 0232 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 838              	.L112:
+ 839 0234 0B4B     		ldr	r3, .L176+16
+ 840 0236 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 841 0238 002B     		cmp	r3, #0
+ 842 023a 3FF436AF 		beq	.L111
+ 843 023e FFF7FEFF 		bl	abort_current_cmd.part.0
+ 844 0242 32E7     		b	.L111
+ 845              	.L175:
+ 846 0244 2388     		ldrh	r3, [r4]
+ 847 0246 0544     		add	r5, r5, r0
+ 848 0248 1B1A     		subs	r3, r3, r0
+ 849 024a 9BB2     		uxth	r3, r3
+ 850 024c 3D60     		str	r5, [r7]
+ 851 024e 2380     		strh	r3, [r4]	@ movhi
+ 852 0250 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 853              	.L177:
+ 854 0252 00BF     		.align	2
+ 855              	.L176:
+ 856 0254 00600140 		.word	1073831936
+ 857 0258 00000000 		.word	.LANCHOR11
+ 858 025c 00000000 		.word	.LANCHOR1
+ 859 0260 00000000 		.word	.LANCHOR2
+ 860 0264 00000000 		.word	.LANCHOR3
+ 861 0268 00000000 		.word	.LANCHOR4
+ 862 026c 00000000 		.word	.LANCHOR9
+ 863 0270 00000000 		.word	.LANCHOR12
+ 864 0274 00000000 		.word	.LANCHOR8
+ 865 0278 00000000 		.word	.LANCHOR7
+ 866 027c 00000000 		.word	.LANCHOR0
+ 867 0280 00000000 		.word	.LANCHOR10
+ 868 0284 00000000 		.word	.LANCHOR5
+ 869 0288 00000000 		.word	.LANCHOR6
+ 870              	.L105:
+ 871 028c 0323     		movs	r3, #3
+ 872 028e 3370     		strb	r3, [r6]
+ 873 0290 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 874              	.L173:
+ 875 0292 1188     		ldrh	r1, [r2]
+ 876 0294 104F     		ldr	r7, .L178
+ 877 0296 1388     		ldrh	r3, [r2]
+ 878 0298 8AB2     		uxth	r2, r1
+ 879 029a 9BB2     		uxth	r3, r3
+ 880 029c 3968     		ldr	r1, [r7]
+ 881 029e A854     		strb	r0, [r5, r2]
+ 882 02a0 1D44     		add	r5, r5, r3
+ 883 02a2 15F8010C 		ldrb	r0, [r5, #-1]	@ zero_extendqisi2
+ 884 02a6 0029     		cmp	r1, #0
+ 885 02a8 3FF43BAF 		beq	.L92
+ 886 02ac 3B68     		ldr	r3, [r7]
+ 887 02ae 9847     		blx	r3
+ 888 02b0 37E7     		b	.L92
+ 889              	.L174:
+ 890 02b2 0A4B     		ldr	r3, .L178+4
+ 891 02b4 0027     		movs	r7, #0
+ 892 02b6 1F80     		strh	r7, [r3]	@ movhi
+ 893 02b8 1988     		ldrh	r1, [r3]
+ 894 02ba 1A88     		ldrh	r2, [r3]
+ 895 02bc 084D     		ldr	r5, .L178+8
+ 896 02be 0132     		adds	r2, r2, #1
+ 897 02c0 92B2     		uxth	r2, r2
+ 898 02c2 1A80     		strh	r2, [r3]	@ movhi
+ 899 02c4 1B88     		ldrh	r3, [r3]
+ 900 02c6 2D68     		ldr	r5, [r5]
+ 901 02c8 8AB2     		uxth	r2, r1
+ 902 02ca 9BB2     		uxth	r3, r3
+ 903 02cc 0421     		movs	r1, #4
+ 904 02ce A854     		strb	r0, [r5, r2]
+ 905 02d0 3170     		strb	r1, [r6]
+ 906 02d2 EF54     		strb	r7, [r5, r3]
+ 907 02d4 27E7     		b	.L85
+ 908              	.L179:
+ 909 02d6 00BF     		.align	2
+ 910              	.L178:
+ 911 02d8 00000000 		.word	.LANCHOR4
+ 912 02dc 00000000 		.word	.LANCHOR0
+ 913 02e0 00000000 		.word	.LANCHOR2
+ 915              		.section	.bss.g_comblk_response_size,"aw",%nobits
+ 916              		.align	1
+ 917              		.set	.LANCHOR10,. + 0
+ 920              	g_comblk_response_size:
+ 921 0000 0000     		.space	2
+ 922              		.section	.bss.g_comblk_page_handler,"aw",%nobits
+ 923              		.align	2
+ 924              		.set	.LANCHOR12,. + 0
+ 927              	g_comblk_page_handler:
+ 928 0000 00000000 		.space	4
+ 929              		.section	.bss.g_comblk_p_cmd,"aw",%nobits
+ 930              		.align	2
+ 931              		.set	.LANCHOR6,. + 0
+ 934              	g_comblk_p_cmd:
+ 935 0000 00000000 		.space	4
+ 936              		.section	.bss.g_request_in_progress,"aw",%nobits
+ 937              		.set	.LANCHOR3,. + 0
+ 940              	g_request_in_progress:
+ 941 0000 00       		.space	1
+ 942              		.section	.bss.g_async_event_handler,"aw",%nobits
+ 943              		.align	2
+ 944              		.set	.LANCHOR4,. + 0
+ 947              	g_async_event_handler:
+ 948 0000 00000000 		.space	4
+ 949              		.section	.bss.g_comblk_cmd_size,"aw",%nobits
+ 950              		.align	1
+ 951              		.set	.LANCHOR7,. + 0
+ 954              	g_comblk_cmd_size:
+ 955 0000 0000     		.space	2
+ 956              		.section	.bss.g_comblk_p_data,"aw",%nobits
+ 957              		.align	2
+ 958              		.set	.LANCHOR8,. + 0
+ 961              	g_comblk_p_data:
+ 962 0000 00000000 		.space	4
+ 963              		.section	.bss.g_comblk_completion_handler,"aw",%nobits
+ 964              		.align	2
+ 965              		.set	.LANCHOR1,. + 0
+ 968              	g_comblk_completion_handler:
+ 969 0000 00000000 		.space	4
+ 970              		.section	.bss.g_comblk_response_idx,"aw",%nobits
+ 971              		.align	1
+ 972              		.set	.LANCHOR0,. + 0
+ 975              	g_comblk_response_idx:
+ 976 0000 0000     		.space	2
+ 977              		.section	.bss.g_comblk_data_size,"aw",%nobits
+ 978              		.align	2
+ 979              		.set	.LANCHOR9,. + 0
+ 982              	g_comblk_data_size:
+ 983 0000 00000000 		.space	4
+ 984              		.section	.bss.g_comblk_p_response,"aw",%nobits
+ 985              		.align	2
+ 986              		.set	.LANCHOR2,. + 0
+ 989              	g_comblk_p_response:
+ 990 0000 00000000 		.space	4
+ 991              		.section	.bss.g_comblk_state,"aw",%nobits
+ 992              		.set	.LANCHOR11,. + 0
+ 995              	g_comblk_state:
+ 996 0000 00       		.space	1
+ 997              		.section	.bss.g_comblk_cmd_opcode,"aw",%nobits
+ 998              		.set	.LANCHOR5,. + 0
+ 1001              	g_comblk_cmd_opcode:
+ 1002 0000 00       		.space	1
+ 1003              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150529 (release) [ARM/embedded-4_9-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 mss_comblk.c
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:16     .text.fill_tx_fifo:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:20     .text.fill_tx_fifo:00000000 fill_tx_fifo
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:65     .text.fill_tx_fifo:0000004c $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:68     .text.abort_current_cmd.part.0:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:72     .text.abort_current_cmd.part.0:00000000 abort_current_cmd.part.0
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:103    .text.abort_current_cmd.part.0:00000030 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:110    .text.MSS_COMBLK_init:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:115    .text.MSS_COMBLK_init:00000000 MSS_COMBLK_init
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:167    .text.MSS_COMBLK_init:00000090 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:183    .text.MSS_COMBLK_send_cmd_with_ptr:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:188    .text.MSS_COMBLK_send_cmd_with_ptr:00000000 MSS_COMBLK_send_cmd_with_ptr
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:278    .text.MSS_COMBLK_send_cmd_with_ptr:000000d8 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:294    .text.MSS_COMBLK_send_cmd:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:299    .text.MSS_COMBLK_send_cmd:00000000 MSS_COMBLK_send_cmd
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:405    .text.MSS_COMBLK_send_cmd:00000100 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:421    .text.MSS_COMBLK_send_paged_cmd:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:426    .text.MSS_COMBLK_send_paged_cmd:00000000 MSS_COMBLK_send_paged_cmd
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:526    .text.MSS_COMBLK_send_paged_cmd:000000ec $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:542    .text.ComBlk_IRQHandler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:547    .text.ComBlk_IRQHandler:00000000 ComBlk_IRQHandler
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:604    .text.ComBlk_IRQHandler:00000068 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:610    .text.ComBlk_IRQHandler:00000074 $t
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:856    .text.ComBlk_IRQHandler:00000254 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:871    .text.ComBlk_IRQHandler:0000028c $t
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:911    .text.ComBlk_IRQHandler:000002d8 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:916    .bss.g_comblk_response_size:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:920    .bss.g_comblk_response_size:00000000 g_comblk_response_size
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:923    .bss.g_comblk_page_handler:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:927    .bss.g_comblk_page_handler:00000000 g_comblk_page_handler
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:930    .bss.g_comblk_p_cmd:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:934    .bss.g_comblk_p_cmd:00000000 g_comblk_p_cmd
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:940    .bss.g_request_in_progress:00000000 g_request_in_progress
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:941    .bss.g_request_in_progress:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:943    .bss.g_async_event_handler:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:947    .bss.g_async_event_handler:00000000 g_async_event_handler
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:950    .bss.g_comblk_cmd_size:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:954    .bss.g_comblk_cmd_size:00000000 g_comblk_cmd_size
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:957    .bss.g_comblk_p_data:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:961    .bss.g_comblk_p_data:00000000 g_comblk_p_data
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:964    .bss.g_comblk_completion_handler:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:968    .bss.g_comblk_completion_handler:00000000 g_comblk_completion_handler
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:971    .bss.g_comblk_response_idx:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:975    .bss.g_comblk_response_idx:00000000 g_comblk_response_idx
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:978    .bss.g_comblk_data_size:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:982    .bss.g_comblk_data_size:00000000 g_comblk_data_size
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:985    .bss.g_comblk_p_response:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:989    .bss.g_comblk_p_response:00000000 g_comblk_p_response
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:995    .bss.g_comblk_state:00000000 g_comblk_state
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:996    .bss.g_comblk_state:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:1001   .bss.g_comblk_cmd_opcode:00000000 g_comblk_cmd_opcode
+C:\Users\jiryu\AppData\Local\Temp\ccLXYyzw.s:1002   .bss.g_comblk_cmd_opcode:00000000 $d
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete 3 resources" deleteContents="false" description="Delete 3 resources" element1="/Ch_AS4/apps_layer/netconf.c.bak" element2="/Ch_AS4/apps_layer/rs422_if.c.bak" element3="/Ch_AS4/apps_layer/tcp_server.c.bak" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="3" stamp="1636424421523"/>
+</session>

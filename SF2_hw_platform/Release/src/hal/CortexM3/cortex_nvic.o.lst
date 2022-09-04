@@ -1,0 +1,91 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"cortex_nvic.c"
+  15              		.section	.text.NVIC_init,"ax",%progbits
+  16              		.align	2
+  17              		.global	NVIC_init
+  18              		.thumb
+  19              		.thumb_func
+  21              	NVIC_init:
+  22              		@ args = 0, pretend = 0, frame = 0
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24              		@ link register save eliminated.
+  25 0000 7047     		bx	lr
+  27 0002 00BF     		.section	.text.NVIC_set_handler,"ax",%progbits
+  28              		.align	2
+  29              		.global	NVIC_set_handler
+  30              		.thumb
+  31              		.thumb_func
+  33              	NVIC_set_handler:
+  34              		@ args = 0, pretend = 0, frame = 0
+  35              		@ frame_needed = 0, uses_anonymous_args = 0
+  36              		@ link register save eliminated.
+  37 0000 7047     		bx	lr
+  39 0002 00BF     		.section	.text.NVIC_set_priority,"ax",%progbits
+  40              		.align	2
+  41              		.global	NVIC_set_priority
+  42              		.thumb
+  43              		.thumb_func
+  45              	NVIC_set_priority:
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49 0000 7047     		bx	lr
+  51 0002 00BF     		.section	.text.NVIC_enable_interrupt,"ax",%progbits
+  52              		.align	2
+  53              		.global	NVIC_enable_interrupt
+  54              		.thumb
+  55              		.thumb_func
+  57              	NVIC_enable_interrupt:
+  58              		@ args = 0, pretend = 0, frame = 0
+  59              		@ frame_needed = 0, uses_anonymous_args = 0
+  60              		@ link register save eliminated.
+  61 0000 7047     		bx	lr
+  63 0002 00BF     		.section	.text.NVIC_disable_interrupt,"ax",%progbits
+  64              		.align	2
+  65              		.global	NVIC_disable_interrupt
+  66              		.thumb
+  67              		.thumb_func
+  69              	NVIC_disable_interrupt:
+  70              		@ args = 0, pretend = 0, frame = 0
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72              		@ link register save eliminated.
+  73 0000 7047     		bx	lr
+  75 0002 00BF     		.section	.text.NVIC_clear_interrupt,"ax",%progbits
+  76              		.align	2
+  77              		.global	NVIC_clear_interrupt
+  78              		.thumb
+  79              		.thumb_func
+  81              	NVIC_clear_interrupt:
+  82              		@ args = 0, pretend = 0, frame = 0
+  83              		@ frame_needed = 0, uses_anonymous_args = 0
+  84              		@ link register save eliminated.
+  85 0000 7047     		bx	lr
+  87 0002 00BF     		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150529 (release) [ARM/embedded-4_9-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 cortex_nvic.c
+C:\Users\jiryu\AppData\Local\Temp\ccI0NS5i.s:16     .text.NVIC_init:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccI0NS5i.s:21     .text.NVIC_init:00000000 NVIC_init
+C:\Users\jiryu\AppData\Local\Temp\ccI0NS5i.s:28     .text.NVIC_set_handler:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccI0NS5i.s:33     .text.NVIC_set_handler:00000000 NVIC_set_handler
+C:\Users\jiryu\AppData\Local\Temp\ccI0NS5i.s:40     .text.NVIC_set_priority:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccI0NS5i.s:45     .text.NVIC_set_priority:00000000 NVIC_set_priority
+C:\Users\jiryu\AppData\Local\Temp\ccI0NS5i.s:52     .text.NVIC_enable_interrupt:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccI0NS5i.s:57     .text.NVIC_enable_interrupt:00000000 NVIC_enable_interrupt
+C:\Users\jiryu\AppData\Local\Temp\ccI0NS5i.s:64     .text.NVIC_disable_interrupt:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccI0NS5i.s:69     .text.NVIC_disable_interrupt:00000000 NVIC_disable_interrupt
+C:\Users\jiryu\AppData\Local\Temp\ccI0NS5i.s:76     .text.NVIC_clear_interrupt:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccI0NS5i.s:81     .text.NVIC_clear_interrupt:00000000 NVIC_clear_interrupt
+
+NO UNDEFINED SYMBOLS

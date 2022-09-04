@@ -1,0 +1,238 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"system_m2sxxx.c"
+  15              		.section	.text.SystemInit,"ax",%progbits
+  16              		.align	2
+  17              		.global	SystemInit
+  18              		.thumb
+  19              		.thumb_func
+  21              	SystemInit:
+  22              		@ args = 0, pretend = 0, frame = 0
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24              		@ link register save eliminated.
+  25 0000 4FF60202 		movw	r2, #63490
+  26 0004 0C4B     		ldr	r3, .L5
+  27 0006 D3F84C11 		ldr	r1, [r3, #332]
+  28 000a 9142     		cmp	r1, r2
+  29 000c 06D0     		beq	.L3
+  30              	.L2:
+  31 000e 0B4A     		ldr	r2, .L5+4
+  32 0010 5369     		ldr	r3, [r2, #20]
+  33 0012 43F40073 		orr	r3, r3, #512
+  34 0016 5361     		str	r3, [r2, #20]
+  35 0018 FFF7FEBF 		b	mscc_post_hw_cfg_init
+  36              	.L3:
+  37 001c D3F89820 		ldr	r2, [r3, #152]
+  38 0020 42F48072 		orr	r2, r2, #256
+  39 0024 C3F89820 		str	r2, [r3, #152]
+  40 0028 D3F89820 		ldr	r2, [r3, #152]
+  41 002c 22F08062 		bic	r2, r2, #67108864
+  42 0030 C3F89820 		str	r2, [r3, #152]
+  43 0034 EBE7     		b	.L2
+  44              	.L6:
+  45 0036 00BF     		.align	2
+  46              	.L5:
+  47 0038 00800340 		.word	1073971200
+  48 003c 00ED00E0 		.word	-536810240
+  50              		.section	.text.SystemCoreClockUpdate,"ax",%progbits
+  51              		.align	2
+  52              		.global	SystemCoreClockUpdate
+  53              		.thumb
+  54              		.thumb_func
+  56              	SystemCoreClockUpdate:
+  57              		@ args = 0, pretend = 0, frame = 8
+  58              		@ frame_needed = 0, uses_anonymous_args = 0
+  59 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  60 0002 2E4B     		ldr	r3, .L26
+  61 0004 83B0     		sub	sp, sp, #12
+  62 0006 D3F89820 		ldr	r2, [r3, #152]
+  63 000a 5101     		lsls	r1, r2, #5
+  64 000c 17D4     		bmi	.L8
+  65 000e D3F89820 		ldr	r2, [r3, #152]
+  66 0012 D204     		lsls	r2, r2, #19
+  67 0014 2ED5     		bpl	.L25
+  68 0016 6A46     		mov	r2, sp
+  69 0018 2949     		ldr	r1, .L26+4
+  70 001a 0868     		ldr	r0, [r1]	@ unaligned
+  71 001c 4968     		ldr	r1, [r1, #4]	@ unaligned
+  72 001e 03C2     		stmia	r2!, {r0, r1}
+  73 0020 D3F89C20 		ldr	r2, [r3, #156]
+  74 0024 02A9     		add	r1, sp, #8
+  75 0026 C2F38212 		ubfx	r2, r2, #6, #3
+  76 002a 0A44     		add	r2, r2, r1
+  77 002c 12F8082C 		ldrb	r2, [r2, #-8]	@ zero_extendqisi2
+  78 0030 012A     		cmp	r2, #1
+  79 0032 36D0     		beq	.L12
+  80 0034 03D3     		bcc	.L8
+  81 0036 DFF8BCE0 		ldr	lr, .L26+56
+  82 003a 224B     		ldr	r3, .L26+8
+  83 003c 09E0     		b	.L22
+  84              	.L8:
+  85 003e D3F85011 		ldr	r1, [r3, #336]
+  86 0042 214A     		ldr	r2, .L26+12
+  87 0044 11F0040F 		tst	r1, #4
+  88 0048 204B     		ldr	r3, .L26+16
+  89 004a 18BF     		it	ne
+  90 004c 1346     		movne	r3, r2
+  91 004e DFF8A4E0 		ldr	lr, .L26+56
+  92              	.L22:
+  93 0052 1F4F     		ldr	r7, .L26+20
+  94 0054 1F4E     		ldr	r6, .L26+24
+  95 0056 204D     		ldr	r5, .L26+28
+  96 0058 204C     		ldr	r4, .L26+32
+  97 005a 2148     		ldr	r0, .L26+36
+  98 005c 214A     		ldr	r2, .L26+40
+  99 005e 2249     		ldr	r1, .L26+44
+ 100              	.L23:
+ 101 0060 CEF80030 		str	r3, [lr]
+ 102 0064 3B60     		str	r3, [r7]
+ 103 0066 3360     		str	r3, [r6]
+ 104 0068 2B60     		str	r3, [r5]
+ 105 006a 2360     		str	r3, [r4]
+ 106 006c 0360     		str	r3, [r0]
+ 107 006e 1160     		str	r1, [r2]
+ 108 0070 03B0     		add	sp, sp, #12
+ 109              		@ sp needed
+ 110 0072 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 111              	.L25:
+ 112 0074 1D4B     		ldr	r3, .L26+48
+ 113 0076 DFF87CC0 		ldr	ip, .L26+56
+ 114 007a DFF854E0 		ldr	lr, .L26+20
+ 115 007e 154F     		ldr	r7, .L26+24
+ 116 0080 164E     		ldr	r6, .L26+32
+ 117 0082 174D     		ldr	r5, .L26+36
+ 118 0084 1748     		ldr	r0, .L26+40
+ 119 0086 184C     		ldr	r4, .L26+44
+ 120 0088 134A     		ldr	r2, .L26+28
+ 121 008a 1949     		ldr	r1, .L26+52
+ 122 008c CCF80030 		str	r3, [ip]
+ 123 0090 CEF80030 		str	r3, [lr]
+ 124 0094 3B60     		str	r3, [r7]
+ 125 0096 3360     		str	r3, [r6]
+ 126 0098 2B60     		str	r3, [r5]
+ 127 009a 0460     		str	r4, [r0]
+ 128 009c 1160     		str	r1, [r2]
+ 129 009e 03B0     		add	sp, sp, #12
+ 130              		@ sp needed
+ 131 00a0 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 132              	.L12:
+ 133 00a2 DFF850E0 		ldr	lr, .L26+56
+ 134 00a6 0A4F     		ldr	r7, .L26+20
+ 135 00a8 0A4E     		ldr	r6, .L26+24
+ 136 00aa 0B4D     		ldr	r5, .L26+28
+ 137 00ac 0B4C     		ldr	r4, .L26+32
+ 138 00ae 0C48     		ldr	r0, .L26+36
+ 139 00b0 0C4A     		ldr	r2, .L26+40
+ 140 00b2 0D49     		ldr	r1, .L26+44
+ 141 00b4 4FF40043 		mov	r3, #32768
+ 142 00b8 D2E7     		b	.L23
+ 143              	.L27:
+ 144 00ba 00BF     		.align	2
+ 145              	.L26:
+ 146 00bc 00800340 		.word	1073971200
+ 147 00c0 00000000 		.word	.LANCHOR7
+ 148 00c4 40420F00 		.word	1000000
+ 149 00c8 80F0FA02 		.word	50000000
+ 150 00cc 40787D01 		.word	25000000
+ 151 00d0 00000000 		.word	.LANCHOR1
+ 152 00d4 00000000 		.word	.LANCHOR2
+ 153 00d8 00000000 		.word	.LANCHOR4
+ 154 00dc 00000000 		.word	.LANCHOR5
+ 155 00e0 00000000 		.word	.LANCHOR6
+ 156 00e4 00000000 		.word	.LANCHOR3
+ 157 00e8 C00E1602 		.word	35000000
+ 158 00ec 003B5808 		.word	140000000
+ 159 00f0 801D2C04 		.word	70000000
+ 160 00f4 00000000 		.word	.LANCHOR0
+ 162              		.global	g_FrequencyFIC64
+ 163              		.global	g_FrequencyFIC1
+ 164              		.global	g_FrequencyFIC0
+ 165              		.global	g_FrequencyPCLK2
+ 166              		.global	g_FrequencyPCLK1
+ 167              		.global	g_FrequencyPCLK0
+ 168              		.global	SystemCoreClock
+ 169              		.section	.rodata
+ 170              		.align	2
+ 171              		.set	.LANCHOR7,. + 0
+ 172              	.LC0:
+ 173 0000 00       		.byte	0
+ 174 0001 01       		.byte	1
+ 175 0002 00       		.byte	0
+ 176 0003 01       		.byte	1
+ 177 0004 02       		.byte	2
+ 178 0005 02       		.byte	2
+ 179 0006 03       		.byte	3
+ 180 0007 03       		.byte	3
+ 181              		.section	.data.g_FrequencyFIC64,"aw",%progbits
+ 182              		.align	2
+ 183              		.set	.LANCHOR6,. + 0
+ 186              	g_FrequencyFIC64:
+ 187 0000 003B5808 		.word	140000000
+ 188              		.section	.data.g_FrequencyPCLK2,"aw",%progbits
+ 189              		.align	2
+ 190              		.set	.LANCHOR3,. + 0
+ 193              	g_FrequencyPCLK2:
+ 194 0000 C00E1602 		.word	35000000
+ 195              		.section	.data.g_FrequencyFIC0,"aw",%progbits
+ 196              		.align	2
+ 197              		.set	.LANCHOR4,. + 0
+ 200              	g_FrequencyFIC0:
+ 201 0000 801D2C04 		.word	70000000
+ 202              		.section	.data.g_FrequencyFIC1,"aw",%progbits
+ 203              		.align	2
+ 204              		.set	.LANCHOR5,. + 0
+ 207              	g_FrequencyFIC1:
+ 208 0000 003B5808 		.word	140000000
+ 209              		.section	.data.g_FrequencyPCLK0,"aw",%progbits
+ 210              		.align	2
+ 211              		.set	.LANCHOR1,. + 0
+ 214              	g_FrequencyPCLK0:
+ 215 0000 003B5808 		.word	140000000
+ 216              		.section	.data.g_FrequencyPCLK1,"aw",%progbits
+ 217              		.align	2
+ 218              		.set	.LANCHOR2,. + 0
+ 221              	g_FrequencyPCLK1:
+ 222 0000 003B5808 		.word	140000000
+ 223              		.section	.data.SystemCoreClock,"aw",%progbits
+ 224              		.align	2
+ 225              		.set	.LANCHOR0,. + 0
+ 228              	SystemCoreClock:
+ 229 0000 003B5808 		.word	140000000
+ 230              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150529 (release) [ARM/embedded-4_9-br
+DEFINED SYMBOLS
+                            *ABS*:00000000 system_m2sxxx.c
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:16     .text.SystemInit:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:21     .text.SystemInit:00000000 SystemInit
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:47     .text.SystemInit:00000038 $d
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:51     .text.SystemCoreClockUpdate:00000000 $t
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:56     .text.SystemCoreClockUpdate:00000000 SystemCoreClockUpdate
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:146    .text.SystemCoreClockUpdate:000000bc $d
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:186    .data.g_FrequencyFIC64:00000000 g_FrequencyFIC64
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:207    .data.g_FrequencyFIC1:00000000 g_FrequencyFIC1
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:200    .data.g_FrequencyFIC0:00000000 g_FrequencyFIC0
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:193    .data.g_FrequencyPCLK2:00000000 g_FrequencyPCLK2
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:221    .data.g_FrequencyPCLK1:00000000 g_FrequencyPCLK1
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:214    .data.g_FrequencyPCLK0:00000000 g_FrequencyPCLK0
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:228    .data.SystemCoreClock:00000000 SystemCoreClock
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:170    .rodata:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:182    .data.g_FrequencyFIC64:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:189    .data.g_FrequencyPCLK2:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:196    .data.g_FrequencyFIC0:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:203    .data.g_FrequencyFIC1:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:210    .data.g_FrequencyPCLK0:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:217    .data.g_FrequencyPCLK1:00000000 $d
+C:\Users\jiryu\AppData\Local\Temp\ccRX4xry.s:224    .data.SystemCoreClock:00000000 $d
+
+UNDEFINED SYMBOLS
+mscc_post_hw_cfg_init
